@@ -17,7 +17,7 @@ const LikertScale = ({ questionId, onResponseChange }) => {
         setUnableToRate(!unableToRate);
         if (!unableToRate) {
             setSelectedRating(null);
-            onResponseChange(questionId, null);
+            onResponseChange(questionId, 0);
         }
     };
 

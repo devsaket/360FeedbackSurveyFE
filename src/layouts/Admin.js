@@ -30,6 +30,8 @@ import SurveyShareByEmail from "views/SurveyManagement/SurveyShareByEmail";
 import SurveyResultManagement from "views/SurveyManagement/SurveyResultManagement";
 import CategoryManagement from "views/CategoryManagement/CategoryManagement";
 import EmailTemplateManagement from "views/EmailTemplateManagement/EmailTemplateManagement";
+import SurveySubjectResultManagement from './../views/SurveyManagement/SurveySubjectResultManagement';
+import SurveyAnalysis from "views/SurveyManagement/SurveyAnalysis";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
@@ -91,6 +93,8 @@ const Admin = (props) => {
           <Route path="/survey-details/:id" element={<SurveyDetails />} />
           <Route path="/survey-share-email/:id" element={<SurveyShareByEmail />} />
           <Route path="/survey-result/:surveyId" element={<SurveyResultManagement />} />
+          <Route path="/survey-result-by-subject/:surveyId/:subjectId" element={<SurveySubjectResultManagement />} />
+          <Route exact path= "/survey/analysis/:id/:subjectId" element={<SurveyAnalysis />} />
           <Route path="*" element={<Navigate to="/admin/index" replace />} />
         </Routes>
         <Container fluid>

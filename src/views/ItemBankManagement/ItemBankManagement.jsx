@@ -37,13 +37,7 @@ import {
     CardBody,
     Container,
     Row,
-    Col,
-    UncontrolledTooltip, Modal, ModalHeader, ModalBody, ModalFooter, Button,
-
-    Accordion,
-    AccordionBody,
-    AccordionHeader,
-    AccordionItem,
+    Col, Button, Collapse
 } from 'reactstrap';
 // core components
 import Header from "components/Headers/Header.js";
@@ -54,6 +48,11 @@ const ItemBankManagement = () => {
     const [Trait, setTrait] = useState([])
     const [Questions, setQuestions] = useState([])
     const [btnActive, setBtnActive] = useState(true)
+
+    const [openId, setOpenId] = useState(null);
+    const toggle = (id) => {
+        setOpenId(openId === id ? null : id);
+    };
 
     useEffect(() => {
         // fetch Traits & Questions from backend
@@ -91,25 +90,25 @@ const ItemBankManagement = () => {
                                 </div>
                             </CardHeader>
                             <CardBody>
-                                {Trait.map(trait => (
-                                    <div key={trait._id} className='col-12 p-3'>
-                                        <div className="card">
-                                            <div className="card-header">
-                                                <h3 className='fw-bolder card-title'>{trait.traitName}</h3>
-                                            </div>
-                                            <div className="card-body">
-                                                <p className='ps-4 card-text'>{trait.traitDescription}</p>
-                                                <p className='my-2 ps-4 fw-bold'> Questions Available in {trait.traitName} Trait</p>
-                                                <ul className='ms-4'>
-                                                    {
-                                                        Questions.filter(question => question.trait._id === trait._id)
+                                {Trait.map((trait) => (
+                                    <div key={trait._id}>
+                                        <Button color="link" className="border w-100 text-left d-flex justify-content-between my-2" onClick={() => toggle(trait._id)}>
+                                            {trait.traitName} <i className="fa-solid fa-chevron-down"></i>
+                                        </Button>
+                                        <Collapse isOpen={openId === trait._id}>
+                                            <Card>
+                                                <CardBody>
+                                                    <p className='ps-4 card-text'>{trait.traitDescription}</p>
+                                                    <p className='my-2 ps-4 fw-bold'> Questions Available in {trait.traitName} Trait</p>
+                                                    <ul className='ms-4'>
+                                                        {Questions.filter(question => question.trait._id === trait._id)
                                                             .map(question => (
                                                                 <li key={question._id}>{btnActive ? question.question : question.questionOthers}</li>
-                                                            ))
-                                                    }
-                                                </ul>
-                                            </div>
-                                        </div>
+                                                            ))}
+                                                    </ul>
+                                                </CardBody>
+                                            </Card>
+                                        </Collapse>
                                     </div>
                                 ))}
                             </CardBody>

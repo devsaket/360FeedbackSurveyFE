@@ -19,7 +19,7 @@ import { useState, useEffect, useRef } from "react";
 // react component that copies the given text inside your clipboard
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import axios from 'axios';
-
+import * as XLSX from 'xlsx';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { toast, ToastContainer } from 'react-toastify';
@@ -44,36 +44,10 @@ import {
 import Header from "components/Headers/Header.js";
 
 
-export const useDetectOutsideClick = (el, initialState) => {
-    const [isActive, setIsActive] = useState(initialState);
-
-    useEffect(() => {
-        const onClick = e => {
-            // If the active element exists and is clicked outside of
-            if (el.current !== null && !el.current.contains(e.target)) {
-                setIsActive(!isActive);
-            }
-        };
-
-        // If the item is active (ie open) then listen for clicks outside
-        if (isActive) {
-            window.addEventListener("click", onClick);
-        }
-
-        return () => {
-            window.removeEventListener("click", onClick);
-        };
-    }, [isActive, el]);
-
-    return [isActive, setIsActive];
-};
-
-
 const QuestionBankSchema = Joi.object({
     question: Joi.string().required(),
     questionOthers: Joi.string().required(),
     trait: Joi.string().required(),
-    questionCode: Joi.string().required(),
 });
 
 const QuestionManagement = () => {
@@ -88,14 +62,24 @@ const QuestionManagement = () => {
     const [Questions, setQuestions] = useState([]);
 
     const dropdownRef = useRef(null);
-    const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
-    const onClick = () => setIsActive(!isActive);
 
     const [btnActive, setBtnActive] = useState(true)
     const [updateMode, setUpdateMode] = useState(false);
     const [updateQuestion, setSelectedQuestion] = useState({});
+    const [nextQuestionCode, setNextQuestionCode] = useState("");
 
-    const toggle = () => setModal(!modal);
+    const [data, setData] = useState(null);
+    const [fileJsonData, setFileJsonData] = useState([])
+
+    const toggle = () => {
+        if (!modal) {
+            // Fetch next question code
+            axios.get('http://localhost:5454/api/v1/questions/next-code')
+                .then(res => setNextQuestionCode(res.data.lastQuestion))
+                .catch(err => console.log(err));
+        }
+        setModal(!modal);
+    }
     const uploadToggle = () => setUploadModal(!uploadModal);
 
     const {
@@ -109,7 +93,6 @@ const QuestionManagement = () => {
             question: "",
             questionOthers: "",
             trait: "",
-            questionCode: ""
         }
     });
 
@@ -142,7 +125,7 @@ const QuestionManagement = () => {
             axios.put(`http://localhost:5454/api/v1/question/${updateQuestion._id}`, postData)
                 .then((res) => {
                     if (res.data.status) {
-                        reset({ question: "", questionOthers: "", trait: "", questionCode: "" });
+                        reset({ question: "", questionOthers: "", trait: "" });
                         toast.success(res.data.message);
                         toggle();
                         getQuestions();
@@ -156,7 +139,7 @@ const QuestionManagement = () => {
             axios.post('http://localhost:5454/api/v1/question', data)
             .then((res) => {
                 if (res.status === 200) {
-                    reset({ question: "", questionOthers: "", trait: "", questionCode: "" });
+                    reset({ question: "", questionOthers: "", trait: ""});
                     toast.success("Question Inserted Successfully!");
                     toggle();
                     getQuestions();
@@ -174,9 +157,8 @@ const QuestionManagement = () => {
 
     const selectedQuestion = (data) => {
         setUpdateMode(true);
-        reset({ question: data.question, questionOthers: data.questionOthers, trait: data.trait._id, questionCode: data.questionCode });
+        reset({ question: data.question, questionOthers: data.questionOthers, trait: data.trait._id});
         setSelectedQuestion(data);
-
     };
 
     const getQuestions = () => {
@@ -201,6 +183,69 @@ const QuestionManagement = () => {
         ).catch(err => console.log(err))
     };
 
+    const handleFileUpload = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+            const workbook = XLSX.read(event.target.result, { type: 'binary' });
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+            const sheetData = XLSX.utils.sheet_to_json(sheet);
+
+            setData(sheetData);
+            setFileJsonData(sheetData);
+        }
+        reader.readAsBinaryString(file);
+    };
+
+    // Step 1: Create a mapping of trait names to their respective _id values
+    const traitMapping = Trait.reduce((map, trait) => {
+        const trimmedTraitName = trait.traitName.trim();
+        map[trimmedTraitName] = trait._id;
+        return map;
+    }, { });
+
+    // Step 2: Replace the trait value in each question object with the corresponding _id and add a question code
+    const updatedQuestions = fileJsonData.map((question, index) => {
+        const trimmedTrait = question.trait.trim();
+        return {
+            ...question,
+            trait: traitMapping[trimmedTrait],
+            questionCode: `Q-${index + 1}`
+        };
+    });
+
+
+    const handleFileSubmit = (e) => {
+        e.preventDefault();
+
+        console.log("File Data ", data);
+        console.log("JSON Data", fileJsonData);
+        console.log("Fetched Data", updatedQuestions);
+
+        let questionData =[]
+        updatedQuestions.map((questionItem,index)=>{
+            questionData = [...questionData, {question: questionItem.question, questionOthers: questionItem.questionOthers, trait: questionItem.trait}];
+            
+        })
+
+        axios.post('http://localhost:5454/api/v1/questions/upload', questionData)
+            .then((res) => {
+                if (res.status === 200) {
+                    toast.success("Questions Inserted Successfully!");
+                    getQuestions();
+                } else {
+                    toast.warn("Something Went Wrong!");
+                }
+            })
+            .catch((err) => {
+                console.log(err?.message)
+                toast.warn("Duplicate Question Code");
+            });
+    }
+
+
     return (
         <>
             <Header />
@@ -217,16 +262,25 @@ const QuestionManagement = () => {
                                     <button className='btn btn-primary' onClick={()=> setBtnActive(true) } disabled={btnActive}>Subject</button>
                                     <button className='btn btn-primary' onClick={()=> setBtnActive(false) } disabled={!btnActive}>Respondents</button>
                                 
-                                    {/*<Button onClick={uploadToggle}><i className="fa-solid fa-upload"></i> Upload Questions</Button>*/}
+                                    <Button onClick={uploadToggle}><i className="fa-solid fa-upload"></i> Upload Questions</Button>
                                     <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Question</Button>
                                 </div>
-                                <Modal>
-                                    <ModalHeader>
-                                        <h3 className="mb-0"> Upload Questions</h3>
-                                    </ModalHeader>
-                                    
+                                <Modal isOpen={uploadModal} toggle={uploadToggle} >
+                                    <form onSubmit={handleFileSubmit}>
+                                        <ModalHeader toggle={uploadToggle}>
+                                            <h3 className="mb-0"> Upload Questions</h3>
+                                        </ModalHeader>
+                                        <ModalBody>
+                                            <input type="file" onChange={handleFileUpload} />
+                                        </ModalBody>
+                                        <ModalFooter>
+                                            <Button color="primary" className='px-5 my-2' type="submit"> Upload </Button>
+                                            <Button color="secondary" onClick={uploadToggle}> Cancel </Button>
+                                        </ModalFooter>
+                                    </form>
                                 </Modal>
-                                <Modal isOpen={modal} toggle={toggle}   >
+
+                                <Modal isOpen={modal} toggle={toggle} >
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <ModalHeader toggle={toggle}>
                                             <h3 className="mb-0">{updateMode ? 'Update' : 'Add'} Question</h3>
@@ -257,20 +311,15 @@ const QuestionManagement = () => {
                                                 </select>
                                                 {errors.trait && <p className='form-error'>Trait is Required!</p>}
                                             </div>
-                                            <div className="col-12 py-lg-2">
+                                            {/* <div className="col-12 py-lg-2">
                                                 <label htmlFor="" className="form-label">Enter Question Code</label>
-                                                <input {...register("questionCode")} className="form-control" type="text" placeholder='Enter Question Code' />
+                                                <input {...register("questionCode")} className="form-control" type="text" value={nextQuestionCode} />
                                                 {errors.questionCode && <p className='form-error'>Question Code is Required!</p>}
-                                            </div>
-
-
+                                            </div> */}
                                         </ModalBody>
                                         <ModalFooter>
                                             <Button color="primary" className='px-5 my-2' type="submit"> Submit </Button>
-
-                                            <Button color="secondary" onClick={toggle}>
-                                                Cancel
-                                            </Button>
+                                            <Button color="secondary" onClick={toggle}> Cancel </Button>
                                         </ModalFooter>
                                     </form>
                                 </Modal>

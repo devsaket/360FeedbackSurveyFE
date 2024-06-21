@@ -31,9 +31,9 @@ import {
 import Header from "components/Headers/Header.js";
 import { exportToExcel } from './excelUtils';
 
-const SurveyResultManagement = () => {
+const SurveySubjectResultManagement = () => {
 
-    const { surveyId } = useParams();
+    const { surveyId, subjectId } = useParams();
 
     const [questions, setQuestions] = useState([]);
     const [traits, setTraits] = useState([]);
@@ -61,7 +61,7 @@ const SurveyResultManagement = () => {
             .catch(error => {
                 console.error('Error fetching surveys:', error);
             });
-    }, [surveyId]);
+    }, [surveyId, subjectId]);
 
     const getSurveys = () => {
         // Fetch surveys from the backend
@@ -128,10 +128,10 @@ const SurveyResultManagement = () => {
                                     <div key={survey._id}>
                                         <h2>Survey Name: {survey.surveyId} {surveys.find(s=> s._id===survey.surveyId)?.surveyName}</h2>
                                         <p>{survey.surveyId} {surveys.find(s=> s._id===survey.surveyId)?.surveyDescription}</p>
-                                        {survey.subject.map((subject,m) => (
+                                        {survey.subject.filter(sub=> sub._id === subjectId)?.map(subject => (
                                             <Card key={subject._id} style={{ marginBottom: '20px' }}>
-                                                <h3>Subject {m+1}: {subject.subjectName} ({subject.subjectEmail})  {subject.isFilled? 'Filled': 'Not Filled'}  <Link to={`/admin/survey-result-by-subject/${surveyId}/${subject._id}`}>See Results</Link></h3>
-                                                {/* <h4>Responses:</h4>
+                                                <h3>Subject: {subject.subjectName} ({subject.subjectEmail})</h3>
+                                                <h4>Responses:</h4>
                                                 <ul>
                                                     {subject.responses.map(response => (
                                                         <li key={response._id}>
@@ -152,14 +152,14 @@ const SurveyResultManagement = () => {
                                                             ))}
                                                         </ul>
                                                     </div>
-                                                ))} */}
+                                                ))}
                                             </Card>
                                         ))}
                                     </div>
                                 ))}
                             </CardBody>
                         </Card>
-                        <Link to={`/admin/survey/analysis/${surveyId}`}><i class="fa-solid fa-square-poll-vertical"></i></Link>
+                        <Link to={`/admin/survey/analysis/${surveyId}/${subjectId}`}><i class="fa-solid fa-square-poll-vertical"></i> Analysis</Link>
                     </div>
                 </Row>
 
@@ -168,4 +168,4 @@ const SurveyResultManagement = () => {
     );
 };
 
-export default SurveyResultManagement;
+export default SurveySubjectResultManagement;

@@ -34,7 +34,7 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route exact path="/survey-self/:id/:subjectId" element={<SurveyPreview />}/>
-      <Route exact path="/survey-respondent/:id/:respondentId" element={<SurveyPreviewRespondents />}/>
+      <Route exact path="/survey-respondent/:id/:subjectId/:respondentId" element={<SurveyPreviewRespondents />}/>
       <Route exact path="/admin/*" element={<AdminLayout />} />
       <Route exact path="/auth/*" element={<AuthLayout />} />
       <Route path="*" element={<Navigate to="/admin/index" replace />} />

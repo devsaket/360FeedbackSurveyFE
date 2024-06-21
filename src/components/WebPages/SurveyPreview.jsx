@@ -49,7 +49,7 @@ const SurveyPreview = () => {
         console.log('Survey Responses:', responses);
         // Add logic to send responses to the server or handle them as needed
 
-        const subjectResponseData = {surveyId:id, subjectResponses:responses}
+        const subjectResponseData = {surveyId:id, subjectId:subjectId, subjectResponses:responses}
 
         axios.put('http://localhost:5454/api/v1/update-subject-response', subjectResponseData)
         .then(res =>{

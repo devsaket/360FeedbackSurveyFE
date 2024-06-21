@@ -57,20 +57,13 @@ const EmailTemplateManagement = () => {
 
     const toggle = () => setModal(!modal);
     const [EmailTemplatesData, setEmailTemplatesData] = useState([]);
+    
+    const [updateMode, setUpdateMode] = useState(false);
+    const [updateEmailTemplate, setSelectedEmailTemplate] = useState({});
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors }
-    } = useForm({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: joiResolver(EmailTemplateSchema),
-        defaultValues: {
-            templateName: "",
-            templateSubject: "",
-            templateMessage: "",
-            templateForSubject: false,
-        }
+        defaultValues: { templateName: "", templateSubject: "", templateMessage: "", templateForSubject: false }
     });
 
     // Fetch trait Data
@@ -86,8 +79,30 @@ const EmailTemplateManagement = () => {
             .catch(err => console.log(err));
     };
 
+    const selectedEmailTemplate = (data) => {
+        setUpdateMode(true);
+        reset({ templateName: data.templateName, templateSubject: data.templateSubject, templateMessage:data.templateMessage, templateForSubject:data.templateForSubject });
+        setSelectedEmailTemplate(data);
+    };
+
     const onSubmit = (data) => {
-        axios.post('http://localhost:5454/api/v1/emailtemplate', data)
+        if(updateMode){
+            const postData = {...data, _id:updateEmailTemplate._id}
+            axios.put(`http://localhost:5454/api/v1/emailtemplate/${updateEmailTemplate._id}`, postData)
+                .then((res) => {
+                    if (res.data.status) {
+                        reset({ templateName: "", templateSubject: "", templateMessage: "", templateForSubject: false, });
+                        toast.success(res.data.message);
+                        toggle();
+                        getEmailTemplates();
+                        setUpdateMode(false);
+                        setSelectedEmailTemplate({})
+                    } else {
+                        toast.warn(res.data.message);
+                    }
+                })
+        }else{
+            axios.post('http://localhost:5454/api/v1/emailtemplate', data)
             .then((res) => {
                 if (res.data.status) {
                     reset({ templateName: "", templateSubject: "", templateMessage: "", templateForSubject: false, });
@@ -99,6 +114,7 @@ const EmailTemplateManagement = () => {
                 }
             })
             .catch((err) => console.log(err?.message));
+        }
     };
 
 
@@ -133,7 +149,7 @@ const EmailTemplateManagement = () => {
                                 <Modal isOpen={modal} toggle={toggle}   >
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <ModalHeader toggle={toggle}>
-                                            <h3 className="mb-0">Add Email Templates</h3>
+                                            <h3 className="mb-0">{updateMode ? 'Update' : 'Add'} Email Templates</h3>
                                         </ModalHeader>
                                         <ModalBody>
                                             <label className="form-label">Email Template Name</label>
@@ -148,15 +164,15 @@ const EmailTemplateManagement = () => {
                                             <TextareaAutosize  {...register("templateMessage")} className="form-control" placeholder="Enter Email Template Message" minRows={5} maxRows={10}></TextareaAutosize>
                                             {errors.templateMessage && <p className='form-error'>Email Template Message is Required!</p>}
 
-                                            <div className='form-check ps-0'>
-                                                <label className="form-label">Email Template For Whom </label>
+                                            {/* <div className='form-check ms-0 ps-0 d-flex align-items-center'> */}
+                                                <label className="form-label pt-2 ms-0">For Whom </label>
                                                 <label htmlFor="field-subject" className='form-check-label mx-5'>
-                                                    <input {...register("templateForSubject")} type="radio" value="true" id="field-subject" className="form-check-input" /> For Subject
+                                                    <input {...register("templateForSubject")} type="radio" value="true" id="field-subject" className="form-check-input" />Subject
                                                 </label>
                                                 <label htmlFor="field-respondents" className='form-check-label'>
-                                                    <input {...register("templateForSubject")} type="radio" value="false" id="field-respondents" className="form-check-input" defaultChecked={true} /> For Respondents
+                                                    <input {...register("templateForSubject")} type="radio" value="false" id="field-respondents" className="form-check-input" defaultChecked={true} />Respondents
                                                 </label>
-                                            </div>
+                                            {/* </div> */}
 
                                         </ModalBody>
                                         <ModalFooter>
@@ -187,9 +203,7 @@ const EmailTemplateManagement = () => {
                                                             <td className='text-start ps-1 align-start'>{el.templateSubject}</td>
                                                             <td className='text-center ps-1 align-start'>{new Date(el.createdOn).toLocaleDateString()}</td>
                                                             <td className='text-center ps-1 '>
-                                                                {/* <button className='p-2 bg-transparent border border-0'>
-                                                                        <FaEdit className='text-success fs-4' type='button' onClick={() => selectedTrait(el)} />
-                                                                </button> */}
+                                                                <button className='btn p-2 text-success fs-4' type='button' onClick={() => { selectedEmailTemplate(el); toggle(); }} > <i className="fa-solid fa-pencil"></i></button>
 
                                                                 <Popup trigger={<button className=' p-2 bg-transparent border border-0'><i className="fa-solid fa-trash text-danger"></i></button>} position="top right">
                                                                     <div className='py-1 p-2'>Are you sure you want to delete <span className='text-danger fs-5 fw-bold'>{el.templateName}</span>?</div>

@@ -6,7 +6,7 @@ import LikertScale from './../LikertScale/LikertScale';
 
 
 const SurveyPreviewRespondents = () => {
-    const { id, respondentId } = useParams();
+    const { id, subjectId, respondentId } = useParams();
     let count = 0;
     
     const [surveyDe, setSurveyDe] = useState([]);
@@ -44,18 +44,18 @@ const SurveyPreviewRespondents = () => {
         });
     };
 
-    const handleSubjectResponseSubmit = (e) => {
+    const handleRespondentResponseSubmit = (e) => {
         e.preventDefault();
         console.log('Survey Responses:', responses);
         // Add logic to send responses to the server or handle them as needed
 
-        const respondentResponseData = {responses:responses}
+        const respondentResponseData = {surveyId:id, subjectId:subjectId, respondentId: respondentId ,responses:responses}
 
-        axios.put(`http://localhost:5454/api/v1/survey/${id}/respondent/${respondentId}`, respondentResponseData)
+        axios.put(`http://localhost:5454/api/v1/update-respondent-response`, respondentResponseData)
         .then(res =>{
             toast.success('Respondent Response Data Stored successfully!');
         }).catch (error => {
-            toast.warn('Failed to Store Subject Response Data!');
+            toast.warn('Failed to Store Respondent Response Data!');
         })
     };
 
@@ -75,7 +75,7 @@ const SurveyPreviewRespondents = () => {
                                     <p className='ps-3'>{survey.surveyDescription}</p>
                                 </div>
 
-                                <form onSubmit={handleSubjectResponseSubmit}>
+                                <form onSubmit={handleRespondentResponseSubmit}>
                                     <div className="col-12">
                                         {survey.traits.map(traitId => {
                                             const trait = Trait.find(t => t._id === traitId);

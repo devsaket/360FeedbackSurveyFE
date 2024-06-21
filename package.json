@@ -70,6 +70,7 @@
     "react-toastify": "^10.0.5",
     "reactjs-popup": "^2.0.6",
     "reactstrap": "8.10.0",
+    "recharts": "^2.12.7",
     "sass": "1.69.5",
     "xlsx": "^0.18.5"
   },

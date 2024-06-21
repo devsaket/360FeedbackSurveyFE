@@ -46,17 +46,15 @@ import Header from "components/Headers/Header.js";
 const CategorySchema = Joi.object({
     categoryName: Joi.string().required(),
     categoryLabel: Joi.string().required(),
-    scoreWeightage: Joi.string().required()
 });
 
 
 const CategoryManagement = () => {
     const [copiedText, setCopiedText] = useState();
-
-
     const [modal, setModal] = useState(false);
-
     const [Categories, setCategories] = useState([]);
+    const [updateMode, setUpdateMode] = useState(false);
+    const [updateCategory, setSelectedCategory] = useState({});
 
     const toggle = () => setModal(!modal);
 
@@ -67,32 +65,39 @@ const CategoryManagement = () => {
 
     const getCategory = () => {
         axios.get('http://localhost:5454/api/v1/categoryRoles/')
-            .then(res => {
-                setCategories(res.data);
-            })
-            .catch(err => console.log(err));
+        .then(res => {
+            setCategories(res.data);
+        })
+        .catch(err => console.log(err));
     }
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors }
-    } = useForm({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: joiResolver(CategorySchema),
-        defaultValues: {
-            categoryName: "",
-            categoryLabel: "",
-            scoreWeightage: ""
-        }
+        defaultValues: { categoryName: "", categoryLabel: "" }
     });
 
     const onSubmit = (data) => {
-        axios.post('http://localhost:5454/api/v1/categoryRoles', data)
+        if(updateMode){
+            const postData = {...data, _id:updateCategory._id}
+            axios.put(`http://localhost:5454/api/v1/categoryRoles/${updateCategory._id}`, postData)
+                .then((res) => {
+                    if (res.data.status) {
+                        reset({ categoryName: "", categoryLabel: "" });
+                        toast.success(res.data.message);
+                        toggle();
+                        getCategory();
+                        setUpdateMode(false);
+                        setSelectedCategory({})
+                    } else {
+                        toast.warn(res.data.message);
+                    }
+                })
+        }else{
+            axios.post('http://localhost:5454/api/v1/categoryRoles', data)
             .then((res) => {
                 if (res.data.status) {
-                    reset({ categoryName: "", categoryLabel: "", scoreWeightage: "" });
-                    toast.success("Trait Inserted Successfully!");
+                    reset({ categoryName: "", categoryLabel: "" });
+                    toast.success("Category Inserted Successfully!");
                     toggle();
                     getCategory();
                 } else {
@@ -100,8 +105,15 @@ const CategoryManagement = () => {
                 }
             })
             .catch((err) => console.log(err?.message));
+        }
+        
     }
 
+    const selectedCategory = (data) => {
+        setUpdateMode(true);
+        reset({ categoryName: data.categoryName, categoryLabel: data.categoryLabel });
+        setSelectedCategory(data);
+    };
 
     const deleteCategory = (id) => {
         axios.delete(`http://localhost:5454/api/v1/categoryRoles/${id}`).then((res) => {
@@ -113,8 +125,7 @@ const CategoryManagement = () => {
             } else {
                 toast.warn(res.data.message);
             }
-        }
-        ).catch(err => console.log(err))
+        }).catch(err => console.log(err))
     };
 
     return (
@@ -133,7 +144,7 @@ const CategoryManagement = () => {
                                 <Modal isOpen={modal} toggle={toggle}   >
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <ModalHeader toggle={toggle}>
-                                            <h3 className="mb-0">Add Category</h3>
+                                            <h3 className="mb-0">{updateMode ? 'Update' : 'Add'} Category</h3>
                                         </ModalHeader>
                                         <ModalBody>
                                             <label className="form-label">Category Name</label>
@@ -143,11 +154,6 @@ const CategoryManagement = () => {
                                             <label className="form-label">Category Label</label>
                                             <input  {...register("categoryLabel")} className="form-control" placeholder="Enter Category Label" />
                                             {errors.categoryLabel && <p className='form-error'>Category Label is Required!</p>}
-
-                                            <label className="form-label">Score Weightage</label>
-                                            <input  {...register("scoreWeightage")} className="form-control" placeholder="Enter Score Weightage" />
-                                            {errors.scoreWeightage && <p className='form-error'>Score Weightage is Required!</p>}
-
                                         </ModalBody>
                                         <ModalFooter>
                                             <Button color="primary" className='px-5 my-2' type="submit"> Submit </Button>
@@ -163,7 +169,6 @@ const CategoryManagement = () => {
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Category Name</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Category Label</th>
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Score Weightage</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Created At</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
                                         </tr>
@@ -176,9 +181,9 @@ const CategoryManagement = () => {
                                                     <td className='text-center ps-1 align-middle' style={{ width: '8rem' }}>{index + 1}</td>
                                                     <td className='text-start ps-3 align-middle'>{el.categoryName}</td>
                                                     <td className='text-start ps-3 align-middle'>{el.categoryLabel}</td>
-                                                    <td className='text-center ps-1 align-middle'>{el.scoreWeightage}</td>
                                                     <td className='text-center ps-1 align-middle'>{new Date(el.createdOn).toLocaleDateString()}</td>
                                                     <td className='text-center ps-1 '>
+                                                        <button className='btn p-2 text-success fs-4' type='button' onClick={() => { selectedCategory(el); toggle(); }} > <i className="fa-solid fa-pencil"></i></button>
 
                                                         <Popup trigger={<button className=' p-2 bg-transparent border border-0'><i className="fa-solid fa-trash text-danger"></i></button>} position="top right">
                                                             <div className='py-1 p-2'>Are you sure you want to delete <span className='text-danger fs-5 fw-bold'>{el.categoryName}</span>?</div>

@@ -16,8 +16,6 @@
 
 */
 import { useState, useEffect } from "react";
-// react component that copies the given text inside your clipboard
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import axios from 'axios';
 
 import 'reactjs-popup/dist/index.css';
@@ -42,7 +40,6 @@ import {
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.js";
-import LikertScale from "components/LikertScale/LikertScale";
 
 var surveyQuestionData = [];
 var surveyRespondentQuestionData = [];
@@ -58,8 +55,11 @@ const SurveyShareByEmail = () => {
 
     const [name, setName] = useState("")
     const [recipientEmail, setRecipientEmail] = useState('');
+    const [respondentName, setRespondentName] = useState("");
+    const [respondentEmail, setRespondentEmail] = useState("");
 
-    const [users, setUsers] = useState([{ respondentName: '', respondentEmail: '', category: '' }]);
+    // const [users, setUsers] = useState([{ respondentName: '', respondentEmail: '', category: '' }]);
+    const [users, setUsers] = useState([]);
     const [subject, setSubject] = useState("")
     const [message, setMessage] = useState("")
     const [respondentSubject, setRespondentSubject] = useState("")
@@ -75,88 +75,38 @@ const SurveyShareByEmail = () => {
     const [fileJsonData, setFileJsonData] = useState([])
 
     const [btnActive, setBtnActive] = useState(false);
-
-    const handleInputChange = (index, event) => {
-        const { name, value } = event.target || event; // Handle both regular input and select input
-        const newUsers = [...users];
-        newUsers[index][name] = value;
-        setUsers(newUsers);
-    };
-
-    const handleAddUser = () => {
-        setUsers([...users, { respondentName: '', respondentEmail: '', category: '' }]);
-    };
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Handle form submission logic here
-        console.log(users);
-
-        users.map((respondentData, index) => {
-            const surveyShareData = { surveyId: id, name: respondentData.respondentName, email: respondentData.respondentEmail, category: respondentData.category, subject: respondentSubject, message: respondentMessage };
-
-            console.log(surveyShareData);
-
-            axios.post('http://localhost:5454/api/v1/share-survey-respondent-by-email', surveyShareData)
-                .then(res => {
-                    toast.success('Email sent successfully!');
-                }).catch(error => {
-                    toast.warn('Failed to send email');
-                })
-        })
-    };
-
-
-    const handleSendEmail = (e) => {
-        e.preventDefault();
-
-        surveyDe.map(el => {
-            el.questions.map(item => {
-                let questionIdData = { questionId: item, answer: "" }
-                surveyQuestionData.push(questionIdData)
-            })
-        })
-
-        const surveyShareData = { surveyId: id, subject: { subjectName: name.trim(), subjectEmail: recipientEmail.trim(), responses: surveyQuestionData, isFilled: true } };
-        console.log(surveyShareData);
-
-        axios.put('http://localhost:5454/api/v1/survey-responses/subject', surveyShareData)
-            .then(res => {
-                toast.success('Subject Data Stored successfully!');
-                setIsDisabled(true);
-
-                // console.log("Subject Id = ", res.data.subject._id)
-
-                const emailData = { surveyId: id, subjectName: name.trim(), subjectEmail: recipientEmail.trim(), subject: subject.trim(), message: message.trim(), subjectId: res.data.subject._id }
-
-                axios.post('http://localhost:5454/api/v1/share-survey-by-email', emailData)
-                    .then(res => {
-                        toast.success('Email sent successfully!');
-                    }).catch(error => {
-                        toast.warn('Failed to send email');
-                    })
-            }).catch(error => {
-                toast.warn('Failed to Stored Subject Data');
-            })
-
-
-    };
+    const [respondentsData, setRespondentsData] = useState({});
+    const [receivedRespondentsData, setReceivedRespondentsData] = useState([]);
+    const [subjectId, setSubjectId] = useState([]);
 
     // Fetch Category Data
     useEffect(() => {
-
         getCategory();
         getEmailTemplate();
-
+    
         const fetchSurveyData = async () => {
             const surveyResponse = await axios.get(`http://localhost:5454/api/v1/survey?id=${id}`);
             setSurveyDe(surveyResponse.data)
+            initializeRespondents(surveyResponse.data);
         }
-
+    
         fetchSurveyData();
-
-
     }, [id]);
+
+    const initializeRespondents = (surveyData) => {
+        const initialRespondents = {};
+        surveyData.forEach(survey => {
+            survey.categories.forEach(category => {
+                initialRespondents[category.category] = Array(category.maxRespondents).fill({
+                    respondentName: '',
+                    respondentEmail: '',
+                    responses: survey.questions.map(question => ({ questionId: question, answer: "" })),
+                    isFilled: false
+                });
+            });
+        });
+        setRespondentsData(initialRespondents);
+    };
 
     const getCategory = () => {
         axios.get('http://localhost:5454/api/v1/categoryRoles/')
@@ -173,6 +123,149 @@ const SurveyShareByEmail = () => {
             })
             .catch(err => console.log(err));
     }
+    const handleInputChange = (category, index, field, value) => {
+        setRespondentsData(prevState => {
+            const updatedCategory = [...prevState[category]];
+            updatedCategory[index] = { ...updatedCategory[index], [field]: value };
+            return { ...prevState, [category]: updatedCategory };
+        });
+    };
+
+    const handleAddUser = (category) => {
+        setRespondentsData(prevState => {
+            if (prevState[category].length < surveyDe[0].categories.find(cat => cat.category === category).maxRespondents) {
+                const newRespondent = {
+                    respondentName: '',
+                    respondentEmail: '',
+                    responses: surveyDe[0].questions.map(question => ({ questionId: question, answer: "" })),
+                    isFilled: false
+                };
+                return { ...prevState, [category]: [...prevState[category], newRespondent] };
+            } else {
+                toast.warn(`Maximum respondents for category ${category} reached.`);
+                return prevState;
+            }
+        });
+    };
+
+    // const handleInputChange = (index, event) => {
+    //     const { name, value } = event.target || event; // Handle both regular input and select input
+    //     const newUsers = [...users];
+    //     newUsers[index][name] = value;
+    //     setUsers(newUsers);
+    // };
+
+    // const handleAddUser = (categoryIndex) => {
+    //     // const newUsers = [...users];
+    //     const category = surveyDe[0].categories[categoryIndex];
+
+    //     const categoryRespondents = users.filter(user => user.category === category.category);
+    //     if (categoryRespondents.length < category.maxRespondents) {
+    //         setUsers([...users,{ respondentName: '', respondentEmail: '', category: category.category }]);
+    //         // setUsers([...users,{ respondentName: '', respondentEmail: '', category: categoryIndex }]);
+    //         // setUsers(newUsers);
+    //     } else {
+    //         toast.warn(`Maximum respondents for category ${category.category} reached.`);
+    //     }
+    // };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        console.log(respondentsData);
+        // Handle form submission logic here
+        users.push(Object.entries(respondentsData) // Convert object to array of [key, value] pairs
+            .flatMap(([category, users]) => // For each [subject, users] pair, map users to new format
+                users.map(user => ({ ...user, category })) // Spread user object and add subject
+        ));
+
+        console.log(users);
+        
+        users.map((respondentData, index) => {
+            const respondentsArrayData = {surveyId: id, subjectId: subjectId, respondent: respondentData};
+            console.log(respondentsArrayData);
+            
+            axios.post('http://localhost:5454/api/v1/survey-responses/add-respondent', respondentsArrayData)
+            .then(res => {
+                toast.success('Respondent Data Stored successfully!');
+                setIsDisabled(true);
+                console.log(res.data);
+
+                res.data.subject.respondent.map((resdata)=>{
+                    const resEmailData = {surveyId: id,subjectId: res.data.subjectId, respondentId: resdata._id, name:resdata.respondentName, email: resdata.respondentEmail, subject: respondentSubject, message: respondentMessage }
+                    console.log(resEmailData);
+
+                    axios.post('http://localhost:5454/api/v1/share-survey-respondent-by-email', resEmailData)
+                    .then(res => {
+                        toast.success(`Email sent successfully to ${resEmailData.respondentName} !`);
+                    }).catch(error => {
+                        toast.warn('Failed to send email');
+                    })
+                })
+            })
+            .catch(error => {
+                toast.warn('Failed to store Respondent Data');
+                console.log(error)
+            })
+        })
+
+        // const respondentsArrayData = {surveyId: id, respondents: users};
+        // console.log(respondentsArrayData);
+        
+        // axios.put('http://localhost:5454/api/v1/survey-responses/respondents', respondentsArrayData)
+        // .then(res => {
+        //     toast.success('Subject Data Stored successfully!');
+        //     setIsDisabled(true);
+        //     console.log(respondentsArrayData);
+                        
+        //     users.map((respondentData, index) => {
+        //         const surveyShareData = { surveyId: id, name: respondentData.respondentName, email: respondentData.respondentEmail, category: respondentData.category };
+
+        //         axios.post('http://localhost:5454/api/v1/share-survey-respondent-by-email', surveyShareData)
+        //         .then(res => {
+        //             toast.success('Email sent successfully!');
+        //         }).catch(error => {
+        //             toast.warn('Failed to send email');
+        //         })
+
+        //     })
+        // })
+        // .catch(error => {
+        //     toast.warn('Failed to send email');
+        // })
+            
+    };
+
+
+    const handleSendEmail = (e) => {
+        e.preventDefault();
+        surveyDe.map(el => {
+            el.questions.map(item => {
+                let questionIdData = { questionId: item, answer: "" }
+                surveyQuestionData.push(questionIdData)
+            })
+        })
+
+        const surveyShareData = { surveyId: id, subject: { subjectName: name.trim(), subjectEmail: recipientEmail.trim(), responses: surveyQuestionData, isFilled: false } };
+
+        axios.post('http://localhost:5454/api/v1/survey-responses/add-subject', surveyShareData)
+            .then(res => {
+                toast.success('Subject Data Stored successfully!');
+                setSubjectId(res.data.subjectId)
+                setIsDisabled(true);
+
+                const emailData = { surveyId: id, subjectName: name.trim(), subjectEmail: recipientEmail.trim(), subject: subject.trim(), message: message.trim(), subjectId: res.data.subjectId }
+
+                axios.post('http://localhost:5454/api/v1/share-survey-by-email', emailData)
+                    .then(res => {
+                        toast.success('Email sent successfully!');
+                    }).catch(error => {
+                        toast.warn('Failed to send email');
+                    })
+            }).catch(error => {
+                toast.warn('Failed to Stored Subject Data');
+            })
+    };
 
     const handleSubjectSelectedEmailTemplate = (option) => {
         setchooseEmailTemplate(option);
@@ -200,11 +293,8 @@ const SurveyShareByEmail = () => {
         setRespondentMessage(SingleEmailTemplates.templateMessage)
     }
 
-    const usedCategoryIds = surveyDe.flatMap(survey => survey.categories);
-    const filteredCategories = Categories.filter(category =>
-        usedCategoryIds.includes(category._id)
-    );
-
+    const usedCategoryIds = surveyDe.flatMap(survey => survey.categories.map(category => category.category));
+    const filteredCategories = Categories.filter(category => usedCategoryIds.includes(category._id));
     const options = filteredCategories.map(category => ({
         value: category._id,
         label: category.categoryName
@@ -235,7 +325,6 @@ const SurveyShareByEmail = () => {
             setFileJsonData(sheetData)
             setUsers(sheetData)
             setBtnActive(true)
-
         };
 
         reader.readAsBinaryString(file);
@@ -260,13 +349,6 @@ const SurveyShareByEmail = () => {
 
     const handleFileRespondentSubmit = (e) => {
         e.preventDefault();
-        console.log("Filtered Categories = ", filteredCategories);
-        console.log("File Data ", data);
-        console.log("JSON Data", fileJsonData);
-        console.log("Fetched Data", updatedUsers);
-        // setUsers(updatedUsers);
-        console.log("Users = ", users);
-
         surveyDe.map(el => {
             el.questions.map(item => {
                 let questionIdData = { questionId: item, answer: "" }
@@ -274,25 +356,23 @@ const SurveyShareByEmail = () => {
             })
         })
 
-        updatedUsers.map(el => {
-            el.responses = surveyRespondentQuestionData
-        })
+        const updatedUsers = fileJsonData.map((respondent, index) => {
+            return {
+                ...respondent,
+                responses: surveyRespondentQuestionData
+            };
+        });
 
-        console.log("Fetched Data", updatedUsers);
-
-        const addRespondentsData = { surveyId: id, respondents: updatedUsers }
+        const addRespondentsData = { surveyId: id, respondents: updatedUsers };
 
         axios.put('http://localhost:5454/api/v1/survey-responses/respondents', addRespondentsData)
             .then(res => {
                 toast.success('Respondents Data Stored successfully!');
-                console.log(res.data);
                 res.data.respondent.map(respondentItem => {
-                    const surveyShareData = { surveyId: id, respondentId: respondentItem._id, name: respondentItem.respondentItem, email: respondentItem.respondentEmail, subject: respondentSubject, message: respondentMessage };
-
-                    console.log(surveyShareData);
+                    const surveyShareData = { surveyId: id, respondentId: respondentItem._id, name: respondentItem.respondentName, email: respondentItem.respondentEmail, subject: respondentSubject, message: respondentMessage };
                     axios.post('http://localhost:5454/api/v1/share-survey-respondent-by-email', surveyShareData)
                         .then(res => {
-                            toast.success('Email sent successfully to ' + respondentItem.name + '!');
+                            toast.success('Email sent successfully to ' + respondentItem.respondentName + '!');
                         }).catch(error => {
                             toast.warn('Failed to send email');
                         })
@@ -300,21 +380,7 @@ const SurveyShareByEmail = () => {
             }).catch(error => {
                 toast.warn('Failed to Store Respondents Data!');
             })
-
-        // updatedUsers.map((respondentData, index)=>{
-        // const surveyShareData = { surveyId: id, name: respondentData.name, email: respondentData.email, category: respondentData.category, subject: respondentSubject, message: respondentMessage };
-
-        // console.log(surveyShareData);
-
-        // axios.post('http://localhost:5454/api/v1/share-survey-respondent-by-email',surveyShareData )
-        // .then(res =>{
-        //     toast.success('Email sent successfully to '+respondentData.name+ '!');
-        // }).catch (error => {
-        //     toast.warn('Failed to send email');
-        // })
-        // })
-
-    }
+    };
 
 
     return (
@@ -344,7 +410,21 @@ const SurveyShareByEmail = () => {
                                     <div className="row">
                                         <div className="col-12">
                                             <label className='form-label'>Choose an Email Template</label>
-                                            <Select options={subjectEmailTemplateOptions} value={chooseEmailTemplate} onChange={(option) => { handleSubjectSelectedEmailTemplate(option) }} />
+                                            <Select
+                                        value={subjectEmailTemplateOptions.find(option => option.value === chooseEmailTemplate)}
+                                        onChange={e => {
+                                            setchooseEmailTemplate(e.value);
+                                            const selectedTemplate = EmailTemplates.find(template => template._id === e.value);
+                                            if (selectedTemplate) {
+                                                setSubject(selectedTemplate.templateSubject);
+                                                setMessage(selectedTemplate.templateMessage);
+                                            }
+                                        }}
+                                        options={subjectEmailTemplateOptions}
+                                        placeholder="Select Email Template"
+                                        isClearable
+                                        isSearchable
+                                    />
                                         </div>
                                         {
                                             chooseEmailTemplate !== "" ? <>
@@ -373,56 +453,42 @@ const SurveyShareByEmail = () => {
                                     </CardHeader>
                                     <CardBody>
                                         <form onSubmit={handleSubmit}>
-                                            {users.map((user, index) => (
-                                                <div key={index} className='col-12'>
-                                                    <h4 className='mt-3'>Respondent {index + 1}</h4>
-                                                    <div className="row">
-                                                        <div className="col-3">
-                                                            {/* <label className='form-label'>Name</label> */}
-                                                            <input className='form-control' type="text" name="name" placeholder="Respondent Name" value={user.respondentName} onChange={(e) => handleInputChange(index, e.target.value)} />
-                                                        </div>
-                                                        <div className="col-3">
-                                                            {/* <label className='form-label'>Email Address</label> */}
-                                                            <input className='form-control' type="email" name="email" placeholder="Respondent Email Address" value={user.respondentEmail} onChange={(e) => handleInputChange(index, e.target.value)} />
-                                                        </div>
-                                                        <div className="col-3">
-                                                            {/* <label className='form-label'>Category</label> */}
-                                                            <Select options={options} value={options.find(option => option.value === user.category) || user.category} onChange={(option) => handleInputChange(index, { target: { name: 'category', value: option.value } })} />
-                                                        </div>
-                                                        <div className="col">
-                                                            <button className='btn btn-info' type="button" onClick={handleAddUser}>Add Another Respondent</button>
-                                                        </div>
-                                                    </div>
-
-                                                    {/* <hr className='my-3' /> */}
+                                        {surveyDe[0]?.categories?.map((category, index) => (
+                                        <div key={index} className="mt-4">
+                                            <h5>{Categories.find(cat=> cat._id===category.category)?.categoryName} (Max: {category.maxRespondents})</h5>
+                                            {respondentsData[category.category]?.map((respondent, index) => (
+                                                <div key={index}>
+                                                    <label>Respondent Name</label>
+                                                    <input type="text" className="form-control" value={respondent.respondentName} onChange={e => handleInputChange(category.category, index, 'respondentName', e.target.value)} required />
+                                                    <label>Respondent Email</label>
+                                                    <input type="email" className="form-control" value={respondent.respondentEmail} onChange={e => handleInputChange(category.category, index, 'respondentEmail', e.target.value)} required />
                                                 </div>
                                             ))}
-
-                                            <div className="row mt-4">
-                                                <div className="col-9">
-                                                    <label className='form-label'>Choose an Email Template</label>
-                                                    <Select options={respondentEmailTemplateOptions} value={respondentChooseEmailTemplate} onChange={(option) => { handleRespondentSelectedEmailTemplate(option) }} />
-                                                </div>
-                                                {
-                                                    respondentChooseEmailTemplate !== "" ? <>
-                                                        <div className="col-9">
-                                                            <label className='form-label'>Email's Subject of Respondent</label>
-                                                            <input className='form-control' type="text" name="subject" placeholder="Respondent Email's Subject" value={respondentSubject} onChange={(e) => setRespondentSubject(e.target.value)} />
-                                                        </div>
-                                                        <div className="col-9">
-                                                            <label className='form-label'>Message for Respondent</label>
-                                                            <TextareaAutosize className='form-control' minRows="5" maxRows="10" name="message" placeholder="Message for Respondent" value={respondentMessage} onChange={(e) => setRespondentMessage(e.target.value)}></TextareaAutosize>
-                                                        </div>
-                                                    </> : <></>
-                                                }
-                                            </div>
-
-                                            <div className="row">
-                                                <div className="col-9 text-center">
-                                                    <button className='btn btn-primary my-2 px-5' type="submit">Send Email</button>
-                                                </div>
-                                            </div>
-                                        </form>
+                                            {/* <Button color="success" onClick={() => handleAddUser(category.category)}>Add Respondent</Button> */}
+                                        </div>
+                                    ))}
+                                    <label className='form-label mt-2'>Choose Email Template</label>
+                                    <Select
+                                        value={respondentEmailTemplateOptions.find(option => option.value === respondentChooseEmailTemplate)}
+                                        onChange={e => {
+                                            setchooseRespondentEmailTemplate(e.value);
+                                            const selectedTemplate = EmailTemplates.find(template => template._id === e.value);
+                                            if (selectedTemplate) {
+                                                setRespondentSubject(selectedTemplate.templateSubject);
+                                                setRespondentMessage(selectedTemplate.templateMessage);
+                                            }
+                                        }}
+                                        options={respondentEmailTemplateOptions}
+                                        placeholder="Select Email Template"
+                                        isClearable
+                                        isSearchable
+                                    />
+                                    <label className='form-label mt-2'>Email Subject</label>
+                                    <TextareaAutosize className="form-control" minRows={3} value={respondentSubject} onChange={e => setRespondentSubject(e.target.value)} placeholder='Enter Email Subject' required />
+                                    <label className='form-label mt-2'>Email Message</label>
+                                    <TextareaAutosize className="form-control" minRows={5} value={respondentMessage} onChange={e => setRespondentMessage(e.target.value)} placeholder='Enter Email Message' required />
+                                    <Button type='submit' color="primary" className="mt-4">Send Email</Button>
+                                </form>
                                     </CardBody></> : <></>
                             }
                         </Card>
