@@ -18,13 +18,13 @@ const SurveyPreviewRespondents = () => {
     useEffect(() => {
         const fetchSurveyData = async () => {
 
-            const TraitResponse = await axios.get('http://localhost:5454/api/v1/trait/')
+            const TraitResponse = await axios.get(process.env.REACT_APP_BACKEND_URL+'/api/v1/trait/')
             setTrait(TraitResponse.data)
 
-            const questionResponse = await axios.get('http://localhost:5454/api/v1/question/')
+            const questionResponse = await axios.get(process.env.REACT_APP_BACKEND_URL+'/api/v1/question/')
             setQuestions(questionResponse.data)
 
-            const surveyResponse = await axios.get(`http://localhost:5454/api/v1/survey?id=${id}`)
+            const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL+`/api/v1/survey?id=${id}`)
             setSurveyDe(surveyResponse.data)
         };
 
@@ -51,7 +51,7 @@ const SurveyPreviewRespondents = () => {
 
         const respondentResponseData = {surveyId:id, subjectId:subjectId, respondentId: respondentId ,responses:responses}
 
-        axios.put(`http://localhost:5454/api/v1/update-respondent-response`, respondentResponseData)
+        axios.put(process.env.REACT_APP_BACKEND_URL+`/api/v1/update-respondent-response`, respondentResponseData)
         .then(res =>{
             toast.success('Respondent Response Data Stored successfully!');
         }).catch (error => {

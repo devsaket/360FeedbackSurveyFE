@@ -72,7 +72,7 @@ const EmailTemplateManagement = () => {
     }, []);
 
     const getEmailTemplates = () => {
-        axios.get('http://localhost:5454/api/v1/emailTemplate/')
+        axios.get(process.env.REACT_APP_BACKEND_URL+'/api/v1/emailTemplate/')
             .then(res => {
                 setEmailTemplatesData(res.data);
             })
@@ -88,7 +88,7 @@ const EmailTemplateManagement = () => {
     const onSubmit = (data) => {
         if(updateMode){
             const postData = {...data, _id:updateEmailTemplate._id}
-            axios.put(`http://localhost:5454/api/v1/emailtemplate/${updateEmailTemplate._id}`, postData)
+            axios.put(process.env.REACT_APP_BACKEND_URL+`/api/v1/emailtemplate/${updateEmailTemplate._id}`, postData)
                 .then((res) => {
                     if (res.data.status) {
                         reset({ templateName: "", templateSubject: "", templateMessage: "", templateForSubject: false, });
@@ -102,7 +102,7 @@ const EmailTemplateManagement = () => {
                     }
                 })
         }else{
-            axios.post('http://localhost:5454/api/v1/emailtemplate', data)
+            axios.post(process.env.REACT_APP_BACKEND_URL+'/api/v1/emailtemplate', data)
             .then((res) => {
                 if (res.data.status) {
                     reset({ templateName: "", templateSubject: "", templateMessage: "", templateForSubject: false, });
@@ -119,7 +119,7 @@ const EmailTemplateManagement = () => {
 
 
     const deleteEmailTemplate = (id) => {
-        axios.delete(`http://localhost:5454/api/v1/emailTemplate/${id}`).then((res) => {
+        axios.delete(process.env.REACT_APP_BACKEND_URL+`/api/v1/emailTemplate/${id}`).then((res) => {
             console.log(res.data);
             if (res.data.status) {
                 // toast.success("Email Template Successfully Deleted!");

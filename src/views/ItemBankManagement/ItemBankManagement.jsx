@@ -58,10 +58,10 @@ const ItemBankManagement = () => {
         // fetch Traits & Questions from backend
         const fetchData = async () => {
             try {
-                const traitResponse = await axios.get('http://localhost:5454/api/v1/trait/')
+                const traitResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/trait/')
                 setTrait(traitResponse.data);
 
-                const questionsResponse = await axios.get('http://localhost:5454/api/v1/question/')
+                const questionsResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/question/')
                 setQuestions(questionsResponse.data);
 
             } catch (error) {

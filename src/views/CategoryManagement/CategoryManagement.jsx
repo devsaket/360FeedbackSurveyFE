@@ -64,7 +64,7 @@ const CategoryManagement = () => {
     }, []);
 
     const getCategory = () => {
-        axios.get('http://localhost:5454/api/v1/categoryRoles/')
+        axios.get(process.env.REACT_APP_BACKEND_URL+'/api/v1/categoryRoles/')
         .then(res => {
             setCategories(res.data);
         })
@@ -79,7 +79,7 @@ const CategoryManagement = () => {
     const onSubmit = (data) => {
         if(updateMode){
             const postData = {...data, _id:updateCategory._id}
-            axios.put(`http://localhost:5454/api/v1/categoryRoles/${updateCategory._id}`, postData)
+            axios.put(process.env.REACT_APP_BACKEND_URL+`/api/v1/categoryRoles/${updateCategory._id}`, postData)
                 .then((res) => {
                     if (res.data.status) {
                         reset({ categoryName: "", categoryLabel: "" });
@@ -93,7 +93,7 @@ const CategoryManagement = () => {
                     }
                 })
         }else{
-            axios.post('http://localhost:5454/api/v1/categoryRoles', data)
+            axios.post(process.env.REACT_APP_BACKEND_URL+'/api/v1/categoryRoles', data)
             .then((res) => {
                 if (res.data.status) {
                     reset({ categoryName: "", categoryLabel: "" });
@@ -116,7 +116,7 @@ const CategoryManagement = () => {
     };
 
     const deleteCategory = (id) => {
-        axios.delete(`http://localhost:5454/api/v1/categoryRoles/${id}`).then((res) => {
+        axios.delete(process.env.REACT_APP_BACKEND_URL+`/api/v1/categoryRoles/${id}`).then((res) => {
             console.log(res.data);
             if (res.data.status) {
                 // toast.success("Category Successfully Deleted!");

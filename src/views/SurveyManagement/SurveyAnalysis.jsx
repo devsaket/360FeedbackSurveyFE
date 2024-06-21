@@ -36,19 +36,19 @@ const SurveyAnalysis = () => {
     useEffect(() => {
         const fetchSurveyData = async () => {
             try {
-                const categoryResponse = await axios.get('http://localhost:5454/api/v1/categoryRoles/');
+                const categoryResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/categoryRoles/');
                 setCategoryRolesObject(categoryResponse.data);
 
-                const questionResponse = await axios.get('http://localhost:5454/api/v1/question/');
+                const questionResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/question/');
                 setQuestionObjects(questionResponse.data);
 
-                const surveyResponse = await axios.get(`http://localhost:5454/api/v1/survey?id=${id}`);
+                const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/api/v1/survey?id=${id}`);
                 setSurveyObject(surveyResponse.data);
 
-                const surveyResultResponse = await axios.get(`http://localhost:5454/api/v1/survey-response/${id}`);
+                const surveyResultResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/api/v1/survey-response/${id}`);
                 setSurveyResponseObject(surveyResultResponse.data);
 
-                const surveyResultSubjectDataResponse = await axios.get(`http://localhost:5454/api/v1/survey-response?surveyId=${id}&subjectId=${subjectId}`);
+                const surveyResultSubjectDataResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/api/v1/survey-response?surveyId=${id}&subjectId=${subjectId}`);
                 setSubjectObject(surveyResultSubjectDataResponse.data);
             } catch (err) {
                 setError(err);
