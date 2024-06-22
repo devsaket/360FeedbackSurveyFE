@@ -25,19 +25,19 @@ import "assets/scss/argon-dashboard-react.scss";
 
 import AdminLayout from "layouts/Admin.js";
 import AuthLayout from "layouts/Auth.js";
-import SurveyPreview from "components/WebPages/SurveyPreview";
-import SurveyPreviewRespondents from "components/WebPages/SurveyPreviewRespondents";
+import WebsiteLayout from "layouts/WebsiteLayout";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route exact path="/survey-self/:id/:subjectId" element={<SurveyPreview />}/>
-      <Route exact path="/survey-respondent/:id/:subjectId/:respondentId" element={<SurveyPreviewRespondents />}/>
+      
+      <Route exact path="/website/*" element={<WebsiteLayout />} />
       <Route exact path="/admin/*" element={<AdminLayout />} />
       <Route exact path="/auth/*" element={<AuthLayout />} />
-      <Route path="*" element={<Navigate to="/admin/index" replace />} />
+      {/* <Route path="*" element={<Navigate to="/admin/index" replace />} /> */}
     </Routes>
     
   </BrowserRouter>

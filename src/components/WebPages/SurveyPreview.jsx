@@ -21,12 +21,12 @@ const SurveyPreview = () => {
             const TraitResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/trait/')
             setTrait(TraitResponse.data)
 
-            const questionResponse = await axios.get(process.envREACT_APP_BACKEND_URL + '/question/')
+            const questionResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/question/')
             setQuestions(questionResponse.data)
 
             const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey?id=${id}`)
             setSurveyDe(surveyResponse.data)
-        };
+        }
 
         fetchSurveyData();
     }, [id])
