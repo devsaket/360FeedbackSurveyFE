@@ -63,7 +63,7 @@ const SurveyPreviewRespondents = () => {
         <>
             <ToastContainer />
             <div className="container my-3 justify-content-end bg-light-50">
-                {surveyDe?.map((survey) => {
+                { Array.isArray(surveyDe) && surveyDe?.map((survey) => {
                     return (
                         <>
                             <div className="row border-bottom" key={survey._id}>
@@ -77,7 +77,7 @@ const SurveyPreviewRespondents = () => {
 
                                 <form onSubmit={handleRespondentResponseSubmit}>
                                     <div className="col-12">
-                                        {survey.traits.map(traitId => {
+                                        {Array.isArray(survey.traits) && survey.traits.map(traitId => {
                                             const trait = Trait.find(t => t._id === traitId);
                                             if (trait) {
                                                 return (
@@ -85,7 +85,7 @@ const SurveyPreviewRespondents = () => {
                                                         <h4 className=''>{trait.traitName}</h4>
                                                         <p>{trait.traitDescription}</p>
 
-                                                        {survey.questions
+                                                        {Array.isArray(survey.questions) && survey.questions
                                                             .map((questionId) => {
                                                                 const question = Questions.find(question => question._id === questionId && question.trait._id === traitId);
                                                                 if (question) {

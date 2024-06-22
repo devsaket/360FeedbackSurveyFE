@@ -339,7 +339,7 @@ const SurveyAnalysis = () => {
                                     <thead className='thead-dark'>
                                         <tr>
                                             <th className='text-wrap align-top text-left'><b className='text-white'>Survey Submitted By</b></th>
-                                            {surveyObject[0].questions.map((questionId, index) => (
+                                            {Array.isArray(surveyObject[0].questions) && surveyObject[0].questions.map((questionId, index) => (
                                                 <th key={questionId} className='text-wrap align-top text-center'>
                                                     <b className="text-white">
                                                         Question{index + 1} - {questionObjects.find(s=> s._id===questionId)?.question}

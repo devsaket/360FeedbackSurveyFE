@@ -27,7 +27,7 @@ const LikertScale = ({ questionId, onResponseChange }) => {
             <p className='ps-2 fw-bold'>Your Rating</p>
             <div className='d-flex justify-content-around'>
                 <div className="likert-buttons">
-                    {[1, 2, 3, 4, 5, 6, 7].map((rating) => (
+                    {Array.isArray([1, 2, 3, 4, 5, 6, 7])&&[1, 2, 3, 4, 5, 6, 7].map((rating) => (
                         <Button key={rating} className={`likert-button ${selectedRating === rating ? 'selected' : ''} `} onClick={() => handleRatingSelect(rating)} disabled={unableToRate}>
                             {rating}
                             <span className="likert-label">

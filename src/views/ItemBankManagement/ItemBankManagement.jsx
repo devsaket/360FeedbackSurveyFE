@@ -90,7 +90,7 @@ const ItemBankManagement = () => {
                                 </div>
                             </CardHeader>
                             <CardBody>
-                                {Trait.map((trait) => (
+                                {Array.isArray(Trait) && Trait.map((trait) => (
                                     <div key={trait._id}>
                                         <Button color="link" className="border w-100 text-left d-flex justify-content-between my-2" onClick={() => toggle(trait._id)}>
                                             {trait.traitName} <i className="fa-solid fa-chevron-down"></i>
@@ -101,7 +101,7 @@ const ItemBankManagement = () => {
                                                     <p className='ps-4 card-text'>{trait.traitDescription}</p>
                                                     <p className='my-2 ps-4 fw-bold'> Questions Available in {trait.traitName} Trait</p>
                                                     <ul className='ms-4'>
-                                                        {Questions.filter(question => question.trait._id === trait._id)
+                                                        {Array.isArray(Questions) && Questions.filter(question => question.trait._id === trait._id)
                                                             .map(question => (
                                                                 <li key={question._id}>{btnActive ? question.question : question.questionOthers}</li>
                                                             ))}

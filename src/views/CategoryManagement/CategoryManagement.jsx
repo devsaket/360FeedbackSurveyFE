@@ -175,7 +175,7 @@ const CategoryManagement = () => {
                                     </thead>
 
                                     <tbody className=''>
-                                        {Categories.map((el, index) => {
+                                        {Array.isArray(Categories) && Categories.map((el, index) => {
                                             return (
                                                 <tr key={el._id}>
                                                     <td className='text-center ps-1 align-middle' style={{ width: '8rem' }}>{index + 1}</td>

@@ -195,7 +195,7 @@ const EmailTemplateManagement = () => {
                                     </thead>
 
                                     <tbody className=''>
-                                    {EmailTemplatesData.map((el, index) => {
+                                    {Array.isArray(EmailTemplatesData) && EmailTemplatesData.map((el, index) => {
                                                     return (
                                                         <tr key={el._id}>
                                                             <td className='text-center ps-1 align-start' style={{ width: '8rem' }}>{index + 1}</td>

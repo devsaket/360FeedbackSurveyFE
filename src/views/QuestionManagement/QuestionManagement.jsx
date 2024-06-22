@@ -300,7 +300,7 @@ const QuestionManagement = () => {
                                                 <label htmlFor="" className="form-label">Select A Trait</label>
                                                 <select  {...register("trait")} className="form-control" placeholder="Select a Trait">
                                                     <option selected={true}>Select a Trait</option>
-                                                    {
+                                                    {Array.isArray(Trait) && 
                                                         Trait.length >= 1 ? Trait.map((el, index) => {
                                                             return (<>
                                                                 <option value={el._id} className='text-dark'>{el.traitName}</option>
@@ -340,7 +340,7 @@ const QuestionManagement = () => {
 
                                     <tbody className=''>
                                         {/* {pageData.map((el, index) => { */}
-                                        {Questions.map((el, index) => {
+                                        {Array.isArray(Questions) && Questions.map((el, index) => {
                                             return (
                                                 <tr key={el._id}>
                                                     <td className='text-center ps-1 align-middle' style={{ width: '8rem' }}>{index + 1}</td>
