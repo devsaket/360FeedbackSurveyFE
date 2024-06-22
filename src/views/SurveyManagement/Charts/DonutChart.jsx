@@ -14,7 +14,7 @@ const DonutChart = ({ data, trait }) => {
             <ResponsiveContainer width={250} className='position-relative'>
                 <PieChart>
                     <Pie data={chartData} dataKey="value" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#8884d8" paddingAngle={0}>
-                        {chartData.map((entry, index) => (
+                        {Array.isArray(chartData) && chartData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
 

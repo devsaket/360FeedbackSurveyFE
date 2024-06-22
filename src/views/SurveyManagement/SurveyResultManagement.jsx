@@ -124,11 +124,11 @@ const SurveyResultManagement = () => {
                             </CardHeader>
                             <CardBody>
 
-                                {surveyResult.map((survey, index) => (
+                                {Array.isArray(surveyResult) && surveyResult.map((survey, index) => (
                                     <div key={survey._id}>
-                                        <h2>Survey Name: {survey.surveyId} {surveys.find(s=> s._id===survey.surveyId)?.surveyName}</h2>
-                                        <p>{survey.surveyId} {surveys.find(s=> s._id===survey.surveyId)?.surveyDescription}</p>
-                                        {survey.subject.map((subject,m) => (
+                                        <h2>Survey Name: {survey.surveyId} {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyName}</h2>
+                                        <p>{survey.surveyId} {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyDescription}</p>
+                                        {Array.isArray(survey.subject) && survey.subject.map((subject,m) => (
                                             <Card key={subject._id} style={{ marginBottom: '20px' }}>
                                                 <h3>Subject {m+1}: {subject.subjectName} ({subject.subjectEmail})  {subject.isFilled? 'Filled': 'Not Filled'}  <Link to={`/admin/survey-result-by-subject/${surveyId}/${subject._id}`}>See Results</Link></h3>
                                                 {/* <h4>Responses:</h4>

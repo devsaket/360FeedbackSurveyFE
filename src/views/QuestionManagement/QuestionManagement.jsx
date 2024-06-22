@@ -106,7 +106,7 @@ const QuestionManagement = () => {
         if (traitId) {
             axios.get(process.env.REACT_APP_BACKEND_URL+'/question/')
                 .then(res => {
-                    (res.data).filter(el => el.trait._id === traitId)
+                    Array.isArray(res.data) && (res.data).filter(el => el.trait._id === traitId)
                     setQuestions(res.data)
                 })
                 .catch(err => console.log(err));
@@ -200,7 +200,7 @@ const QuestionManagement = () => {
     };
 
     // Step 1: Create a mapping of trait names to their respective _id values
-    const traitMapping = Trait.reduce((map, trait) => {
+    const traitMapping = Array.isArray(Trait) && Trait.reduce((map, trait) => {
         const trimmedTraitName = trait.traitName.trim();
         map[trimmedTraitName] = trait._id;
         return map;

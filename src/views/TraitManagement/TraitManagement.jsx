@@ -203,7 +203,7 @@ const TraitManagement = () => {
 
                                     <tbody className=''>
                                         {/* {pageData.map((el, index) => { */}
-                                        {Trait.map((el, index) => {
+                                        {Array.isArray(Trait) && Trait.map((el, index) => {
                                             return (
                                                 <tr key={el._id}>
                                                     <td className='text-center ps-1 align-start' style={{ width: '8rem' }}>{index + 1}</td>

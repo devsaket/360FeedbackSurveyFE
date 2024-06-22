@@ -159,12 +159,12 @@
             }));
         };
 
-        const options = traits.map(trait => ({
+        const options = Array.isArray(traits) && traits.map(trait => ({
             value: trait._id,
             label: trait.traitName
         }));
 
-        const categoriesSelectOptions = Categories.map(category => ({
+        const categoriesSelectOptions = Array.isArray(Categories) && Categories.map(category => ({
             value: category._id,
             label: category.categoryName
         }));
@@ -194,7 +194,7 @@
             // }
 
 
-            selectedTrait.map((traititem) => {
+            Array.isArray(selectedTrait) && selectedTrait.map((traititem) => {
                 if (!surveyTraits.includes(traititem.value)) {
                     surveyTraits.push(traititem.value)
                 }
@@ -212,7 +212,7 @@
 
             // console.log(surveyCategories)
 
-            const surveyCategories = selectedCategories.map(category => ({
+            const surveyCategories = Array.isArray(selectedCategories) && selectedCategories.map(category => ({
                 categoryId: category.value,
                 scoreWeightage: categoryDetails[category.value].scoreWeightage,
                 maxRespondents: categoryDetails[category.value].maxRespondents
@@ -266,11 +266,11 @@
                                                 <label htmlFor="surveyTrait" className='form-label'>Survey Trait:</label>
                                                 <Select options={options} value={selectedTrait} onChange={handleTraitChange} isMulti={true} />
 
-                                                {selectedTrait?.map(dataitem => (
+                                                {Array.isArray(selectedTrait) && selectedTrait?.map(dataitem => (
                                                     <>
                                                         <p>Select Questions for <b>{dataitem.label}</b>:</p>
                                                         <ul className="list-unstyled">
-                                                            {
+                                                            {Array.isArray(questions) && 
                                                                 questions.filter((el) => el.trait._id === dataitem.value).length > 0 ?
                                                                     questions.filter((el) => el.trait._id === dataitem.value).map(question => (
                                                                         <li key={question._id} className="form-check">
@@ -289,7 +289,7 @@
                                                 <label htmlFor="surveyCategories" className='form-label'>Respondent Categories:</label>
                                                 <Select options={categoriesSelectOptions} value={selectedCategories} onChange={handleCategoriesChange} isMulti={true} required />
 
-                                                {selectedCategories.map(category => (
+                                                {Array.isArray(selectedCategories) && selectedCategories.map(category => (
                                                     <div key={category.value} className="mb-3">
                                                         <h5>{category.label}</h5>
                                                         <label htmlFor={`scoreWeightage-${category.value}`}>Score Weightage:</label>
@@ -325,7 +325,7 @@
                                         </thead>
 
                                         <tbody className=''>
-                                            {surveys.map((el, index) => {
+                                            {Array.isArray(surveys) && surveys.map((el, index) => {
                                                 return (
                                                     <>
                                                         <tr key={el._id}>

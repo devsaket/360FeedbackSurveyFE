@@ -5,9 +5,9 @@ const RadarGraph = ({ radarChartData, categoryTraitData }) => {
     const COLORS = ['#f1c40f', '#7f8c8d', "#8884d8"];
     console.log(radarChartData);
 
-    const radarChartData1 = radarChartData.map(({ trait, Self }) => ({ trait, Self }));
+    const radarChartData1 = Array.isArray(radarChartData) && radarChartData.map(({ trait, Self }) => ({ trait, Self }));
 
-    const radarChartData2 = radarChartData.map(({ trait, ...rest }) => rest);
+    const radarChartData2 = Array.isArray(radarChartData) && radarChartData.map(({ trait, ...rest }) => rest);
 
     return (
         <>
@@ -29,7 +29,7 @@ const RadarGraph = ({ radarChartData, categoryTraitData }) => {
                     <PolarGrid gridType="circle" />
                     <PolarAngleAxis dataKey="trait" />
                     <PolarRadiusAxis angle={30} domain={[0, 7]} />
-                    {categoryTraitData.map((item, index) => (
+                    {Array.isArray(categoryTraitData) && categoryTraitData.map((item, index) => (
                         item.category === "Self"?"":
                             <Radar key={index} name={item.category} dataKey={item.category} stroke={COLORS[index]} fill={COLORS[index]} fillOpacity={0.6} />
                         
@@ -43,7 +43,7 @@ const RadarGraph = ({ radarChartData, categoryTraitData }) => {
                     <PolarGrid gridType="circle" />
                     <PolarAngleAxis dataKey="trait" />
                     <PolarRadiusAxis angle={30} domain={[0, 7]} />
-                    {categoryTraitData.map((item, index) => (
+                    {Array.isArray(categoryTraitData) && categoryTraitData.map((item, index) => (
                         <Radar key={index} name={item.category} dataKey={item.category} stroke={COLORS[index]} fill={COLORS[index]} fillOpacity={0.6} />
                     ))}
                     <Legend />

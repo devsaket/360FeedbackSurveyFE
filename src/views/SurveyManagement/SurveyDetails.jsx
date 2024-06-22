@@ -81,7 +81,7 @@ const SurveyDetails = () => {
                 <Row className="mt--3">
                     <div className="col">
                         <Card className="shadow">
-                            {surveyDe?.map((survey) => {
+                            {Array.isArray(surveyDe) && surveyDe?.map((survey) => {
                                 return (
                                     <>
                                         <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
@@ -103,7 +103,7 @@ const SurveyDetails = () => {
                                                 </div>
 
                                                 <div className="col-12">
-                                                    {survey.traits.map(traitId => {
+                                                    {Array.isArray(survey.traits) && survey.traits.map(traitId => {
                                                         const trait = Trait.find(t => t._id === traitId);
                                                         if (trait) {
                                                             return (
@@ -111,7 +111,7 @@ const SurveyDetails = () => {
                                                                     <h4 className=''>{trait.traitName}</h4>
                                                                     <p>{trait.traitDescription}</p>
 
-                                                                    {survey.questions
+                                                                    {Array.isArray(survey.questions) && survey.questions
                                                                         .map((questionId) => {
                                                                             const question = Questions.find(question => question._id === questionId && question.trait._id === traitId);
                                                                             if (question) {

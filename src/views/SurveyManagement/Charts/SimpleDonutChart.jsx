@@ -14,7 +14,7 @@ const SimpleDonutChart = ({ data }) => {
             <ResponsiveContainer>
                 <PieChart>
                     <Pie data={chartData} dataKey="value" cx="50%" cy="50%" innerRadius={30} outerRadius={40} fill="#8884d8" paddingAngle={0}>
-                        {chartData.map((entry, index) => (
+                        {Array.isArray(chartData) && chartData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
 

@@ -100,7 +100,7 @@ const SurveyShareByEmail = () => {
                 initialRespondents[category.category] = Array(category.maxRespondents).fill({
                     respondentName: '',
                     respondentEmail: '',
-                    responses: survey.questions.map(question => ({ questionId: question, answer: "" })),
+                    responses: Array.isArray(survey.questions) && survey.questions.map(question => ({ questionId: question, answer: "" })),
                     isFilled: false
                 });
             });
@@ -137,7 +137,7 @@ const SurveyShareByEmail = () => {
                 const newRespondent = {
                     respondentName: '',
                     respondentEmail: '',
-                    responses: surveyDe[0].questions.map(question => ({ questionId: question, answer: "" })),
+                    responses: Array.isArray(surveyDe[0].questions) && surveyDe[0].questions.map(question => ({ questionId: question, answer: "" })),
                     isFilled: false
                 };
                 return { ...prevState, [category]: [...prevState[category], newRespondent] };
@@ -176,12 +176,12 @@ const SurveyShareByEmail = () => {
         // Handle form submission logic here
         users.push(Object.entries(respondentsData) // Convert object to array of [key, value] pairs
             .flatMap(([category, users]) => // For each [subject, users] pair, map users to new format
-                users.map(user => ({ ...user, category })) // Spread user object and add subject
+            Array.isArray(users) && users.map(user => ({ ...user, category })) // Spread user object and add subject
         ));
 
         console.log(users);
         
-        users.map((respondentData, index) => {
+        Array.isArray(users) && users.map((respondentData, index) => {
             const respondentsArrayData = {surveyId: id, subjectId: subjectId, respondent: respondentData};
             console.log(respondentsArrayData);
             
@@ -191,7 +191,7 @@ const SurveyShareByEmail = () => {
                 setIsDisabled(true);
                 console.log(res.data);
 
-                res.data.subject.respondent.map((resdata)=>{
+                Array.isArray(res.data.subject.respondent) && res.data.subject.respondent.map((resdata)=>{
                     const resEmailData = {surveyId: id,subjectId: res.data.subjectId, respondentId: resdata._id, name:resdata.respondentName, email: resdata.respondentEmail, subject: respondentSubject, message: respondentMessage }
                     console.log(resEmailData);
 
@@ -239,8 +239,8 @@ const SurveyShareByEmail = () => {
 
     const handleSendEmail = (e) => {
         e.preventDefault();
-        surveyDe.map(el => {
-            el.questions.map(item => {
+        Array.isArray(surveyDe) && surveyDe.map(el => {
+            Array.isArray(el.questions) && el.questions.map(item => {
                 let questionIdData = { questionId: item, answer: "" }
                 surveyQuestionData.push(questionIdData)
             })
@@ -293,19 +293,19 @@ const SurveyShareByEmail = () => {
         setRespondentMessage(SingleEmailTemplates.templateMessage)
     }
 
-    const usedCategoryIds = surveyDe.flatMap(survey => survey.categories.map(category => category.category));
-    const filteredCategories = Categories.filter(category => usedCategoryIds.includes(category._id));
-    const options = filteredCategories.map(category => ({
+    const usedCategoryIds = Array.isArray(surveyDe) && surveyDe.flatMap(survey => Array.isArray(survey.categories) && survey.categories.map(category => category.category));
+    const filteredCategories = Array.isArray(Categories) && Categories.filter(category => usedCategoryIds.includes(category._id));
+    const options = Array.isArray(filteredCategories) && filteredCategories.map(category => ({
         value: category._id,
         label: category.categoryName
     }));
 
-    const subjectEmailTemplateOptions = EmailTemplates.filter(el => el.templateForSubject === true)?.map(template => ({
+    const subjectEmailTemplateOptions = Array.isArray(EmailTemplates) && EmailTemplates.filter(el => el.templateForSubject === true)?.map(template => ({
         value: template._id,
         label: template.templateName
     }));
 
-    const respondentEmailTemplateOptions = EmailTemplates.filter(el => el.templateForSubject === false)?.map(template => ({
+    const respondentEmailTemplateOptions = Array.isArray(EmailTemplates) && EmailTemplates.filter(el => el.templateForSubject === false)?.map(template => ({
         value: template._id,
         label: template.templateName
     }));
@@ -331,14 +331,14 @@ const SurveyShareByEmail = () => {
     };
 
     // Step 1: Create a mapping of trait names to their respective _id values
-    const categoryMapping = filteredCategories.reduce((map, category) => {
+    const categoryMapping = Array.isArray(filteredCategories) && filteredCategories.reduce((map, category) => {
         const trimmedCategoryName = category.categoryName.trim();
         map[trimmedCategoryName] = category._id;
         return map;
     }, {});
 
     // Step 2: Replace the trait value in each question object with the corresponding _id and add a question code
-    const updatedUsers = fileJsonData.map((respondent, index) => {
+    const updatedUsers = Array.isArray(fileJsonData) && fileJsonData.map((respondent, index) => {
         const trimmedCategory = respondent.category.trim();
         return {
             ...respondent,
@@ -349,14 +349,14 @@ const SurveyShareByEmail = () => {
 
     const handleFileRespondentSubmit = (e) => {
         e.preventDefault();
-        surveyDe.map(el => {
-            el.questions.map(item => {
+        Array.isArray(surveyDe) && surveyDe.map(el => {
+            Array.isArray(el.questions) && el.questions.map(item => {
                 let questionIdData = { questionId: item, answer: "" }
                 surveyRespondentQuestionData.push(questionIdData)
             })
         })
 
-        const updatedUsers = fileJsonData.map((respondent, index) => {
+        const updatedUsers = Array.isArray(fileJsonData) && fileJsonData.map((respondent, index) => {
             return {
                 ...respondent,
                 responses: surveyRespondentQuestionData
@@ -368,7 +368,7 @@ const SurveyShareByEmail = () => {
         axios.put(process.env.REACT_APP_BACKEND_URL + '/survey-responses/respondents', addRespondentsData)
             .then(res => {
                 toast.success('Respondents Data Stored successfully!');
-                res.data.respondent.map(respondentItem => {
+                Array.isArray(res.data.respondent) && res.data.respondent.map(respondentItem => {
                     const surveyShareData = { surveyId: id, respondentId: respondentItem._id, name: respondentItem.respondentName, email: respondentItem.respondentEmail, subject: respondentSubject, message: respondentMessage };
                     axios.post(process.env.REACT_APP_BACKEND_URL + '/share-survey-respondent-by-email', surveyShareData)
                         .then(res => {
@@ -453,9 +453,9 @@ const SurveyShareByEmail = () => {
                                     </CardHeader>
                                     <CardBody>
                                         <form onSubmit={handleSubmit}>
-                                        {surveyDe[0]?.categories?.map((category, index) => (
+                                        {Array.isArray(surveyDe) && surveyDe[0]?.categories?.map((category, index) => (
                                         <div key={index} className="mt-4">
-                                            <h5>{Categories.find(cat=> cat._id===category.category)?.categoryName} (Max: {category.maxRespondents})</h5>
+                                            <h5>{Array.isArray(Categories) && Categories.find(cat=> cat._id===category.category)?.categoryName} (Max: {category.maxRespondents})</h5>
                                             {respondentsData[category.category]?.map((respondent, index) => (
                                                 <div key={index}>
                                                     <label>Respondent Name</label>
@@ -511,7 +511,7 @@ const SurveyShareByEmail = () => {
                                                     <pre>{JSON.stringify(data, null, 2)}</pre>
                                                 </div>
                                             )} */}
-                                            {btnActive ? updatedUsers.map((user, index) => (
+                                            {btnActive ? Array.isArray(updatedUsers) && updatedUsers.map((user, index) => (
                                                 <div key={index} className='col-12'>
                                                     <h4 className='mt-3'>Respondent {index + 1}</h4>
                                                     <div className="row">

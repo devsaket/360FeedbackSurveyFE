@@ -124,28 +124,28 @@ const SurveySubjectResultManagement = () => {
                             </CardHeader>
                             <CardBody>
 
-                                {surveyResult.map((survey, index) => (
+                                {Array.isArray(surveyResult) && surveyResult.map((survey, index) => (
                                     <div key={survey._id}>
-                                        <h2>Survey Name: {survey.surveyId} {surveys.find(s=> s._id===survey.surveyId)?.surveyName}</h2>
-                                        <p>{survey.surveyId} {surveys.find(s=> s._id===survey.surveyId)?.surveyDescription}</p>
-                                        {survey.subject.filter(sub=> sub._id === subjectId)?.map(subject => (
+                                        <h2>Survey Name: {survey.surveyId} {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyName}</h2>
+                                        <p>{survey.surveyId} {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyDescription}</p>
+                                        {Array.isArray(survey.subject) && survey.subject.filter(sub=> sub._id === subjectId)?.map(subject => (
                                             <Card key={subject._id} style={{ marginBottom: '20px' }}>
                                                 <h3>Subject: {subject.subjectName} ({subject.subjectEmail})</h3>
                                                 <h4>Responses:</h4>
                                                 <ul>
-                                                    {subject.responses.map(response => (
+                                                    {Array.isArray(subject.responses) && subject.responses.map(response => (
                                                         <li key={response._id}>
                                                             Question ID: {response.questionId} - {questions.find(s=> s._id===response.questionId)?.question}, Answer: {response.answer}
                                                         </li>
                                                     ))}
                                                 </ul>
                                                 <h4>Respondents:</h4>
-                                                {subject.respondent.map(respondent => (
+                                                {Array.isArray(subject.respondent) && subject.respondent.map(respondent => (
                                                     <div key={respondent._id} style={{ marginLeft: '20px', marginBottom: '10px' }}>
                                                         <h5>Respondent: {respondent.respondentName} ({respondent.respondentEmail})</h5>
                                                         <p>Category ID: {respondent.category} - {Categories.find(s=> s._id===respondent.category)?.categoryName}</p>
                                                         <ul>
-                                                            {respondent.responses.map(response => (
+                                                            {Array.isArray(respondent.responses) && respondent.responses.map(response => (
                                                                 <li key={response._id}>
                                                                     Question ID: {response.questionId} - {questions.find(s=> s._id===response.questionId)?.question}, Answer: {response.answer}
                                                                 </li>
