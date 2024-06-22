@@ -74,7 +74,7 @@ const QuestionManagement = () => {
     const toggle = () => {
         if (!modal) {
             // Fetch next question code
-            axios.get(process.env.REACT_APP_BACKEND_URL+'/api/v1/questions/next-code')
+            axios.get(process.env.REACT_APP_BACKEND_URL+'/questions/next-code')
                 .then(res => setNextQuestionCode(res.data.lastQuestion))
                 .catch(err => console.log(err));
         }
@@ -97,21 +97,21 @@ const QuestionManagement = () => {
     });
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BACKEND_URL+'/api/v1/trait/')
+        axios.get(process.env.REACT_APP_BACKEND_URL+'/trait/')
             .then(res => {
                 setTrait(res.data);
             })
             .catch(err => console.log(err));
 
         if (traitId) {
-            axios.get(process.env.REACT_APP_BACKEND_URL+'/api/v1/question/')
+            axios.get(process.env.REACT_APP_BACKEND_URL+'/question/')
                 .then(res => {
                     (res.data).filter(el => el.trait._id === traitId)
                     setQuestions(res.data)
                 })
                 .catch(err => console.log(err));
         } else {
-            axios.get(process.env.REACT_APP_BACKEND_URL+'/api/v1/question/')
+            axios.get(process.env.REACT_APP_BACKEND_URL+'/question/')
                 .then(res => {
                     setQuestions(res.data)
                 })
@@ -122,7 +122,7 @@ const QuestionManagement = () => {
     const onSubmit = (data) => {
         if(updateMode){
             const postData = {...data, _id:updateQuestion._id}
-            axios.put(process.env.REACT_APP_BACKEND_URL+`/api/v1/question/${updateQuestion._id}`, postData)
+            axios.put(process.env.REACT_APP_BACKEND_URL+`/question/${updateQuestion._id}`, postData)
                 .then((res) => {
                     if (res.data.status) {
                         reset({ question: "", questionOthers: "", trait: "" });
@@ -136,7 +136,7 @@ const QuestionManagement = () => {
                     }
                 })
         }else{
-            axios.post(process.env.REACT_APP_BACKEND_URL+'/api/v1/question', data)
+            axios.post(process.env.REACT_APP_BACKEND_URL+'/question', data)
             .then((res) => {
                 if (res.status === 200) {
                     reset({ question: "", questionOthers: "", trait: ""});
@@ -162,7 +162,7 @@ const QuestionManagement = () => {
     };
 
     const getQuestions = () => {
-        axios.get(process.env.REACT_APP_BACKEND_URL+'/api/v1/question/')
+        axios.get(process.env.REACT_APP_BACKEND_URL+'/question/')
             .then(res => {
                 setQuestions(res.data);
             })
@@ -170,7 +170,7 @@ const QuestionManagement = () => {
     };
 
     const deleteQuestion = (id) => {
-        axios.delete(process.env.REACT_APP_BACKEND_URL+`/api/v1/question/${id}`).then((res) => {
+        axios.delete(process.env.REACT_APP_BACKEND_URL+`/question/${id}`).then((res) => {
             console.log(res.data);
             if (res.data.status) {
                 // toast.success("Trait Successfully Deleted!");
@@ -230,7 +230,7 @@ const QuestionManagement = () => {
             
         })
 
-        axios.post(process.env.REACT_APP_BACKEND_URL+'/api/v1/questions/upload', questionData)
+        axios.post(process.env.REACT_APP_BACKEND_URL+'/questions/upload', questionData)
             .then((res) => {
                 if (res.status === 200) {
                     toast.success("Questions Inserted Successfully!");

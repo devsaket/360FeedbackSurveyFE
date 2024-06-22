@@ -53,7 +53,7 @@ const SurveyResultManagement = () => {
         //fetch surveys from the Backend
         getSurveys();
         // Fetch surveys from the backend
-        axios.get(process.env.REACT_APP_BACKEND_URL + `/api/v1/survey-response/${surveyId}`)
+        axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/${surveyId}`)
             .then(response => {
                 setSurveyResult(response.data);
                 console.log(response.data);
@@ -65,7 +65,7 @@ const SurveyResultManagement = () => {
 
     const getSurveys = () => {
         // Fetch surveys from the backend
-        axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/survey')
+        axios.get(process.env.REACT_APP_BACKEND_URL + '/survey')
             .then(response => {
                 setSurveys(response.data);
             })
@@ -75,7 +75,7 @@ const SurveyResultManagement = () => {
     }
 
     const getQuestions = () => {
-        axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/question')
+        axios.get(process.env.REACT_APP_BACKEND_URL + '/question')
             .then(response => {
                 setQuestions(response.data);
             })
@@ -85,7 +85,7 @@ const SurveyResultManagement = () => {
     }
 
     const getTraits = () => {
-        axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/trait')
+        axios.get(process.env.REACT_APP_BACKEND_URL + '/trait')
             .then(res => {
                 setTraits(res.data);
             })
@@ -95,7 +95,7 @@ const SurveyResultManagement = () => {
     }
 
     const getCategories = () => {
-        axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/categoryRoles')
+        axios.get(process.env.REACT_APP_BACKEND_URL + '/categoryRoles')
             .then(res => {
                 setCategories(res.data);
             })

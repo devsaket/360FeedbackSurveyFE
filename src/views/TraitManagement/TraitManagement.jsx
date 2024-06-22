@@ -76,7 +76,7 @@ const TraitManagement = () => {
 
     // Fetch trait Data
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/trait/')
+        axios.get(process.env.REACT_APP_BACKEND_URL + '/trait/')
             .then(res => {
                 setTrait(res.data);
             })
@@ -86,7 +86,7 @@ const TraitManagement = () => {
     const onSubmit = (data) => {
         if (updateMode) {
             const postData = { ...data, _id: updateTrait._id };
-            axios.put(process.env.REACT_APP_BACKEND_URL + `/api/v1/trait/${updateTrait._id}`, postData)
+            axios.put(process.env.REACT_APP_BACKEND_URL + `/trait/${updateTrait._id}`, postData)
                 .then((res) => {
                     if (res.data.status) {
                         reset({ traitName: "", traitDescription: "", status: true });
@@ -100,7 +100,7 @@ const TraitManagement = () => {
                     }
                 })
         } else {
-            axios.post(process.env.REACT_APP_BACKEND_URL + '/api/v1/trait', data)
+            axios.post(process.env.REACT_APP_BACKEND_URL + '/trait', data)
                 .then((res) => {
                     if (res.data.status) {
                         reset({ traitName: "", traitDescription: "", status: true });
@@ -118,7 +118,7 @@ const TraitManagement = () => {
     };
 
     const getTrait = () => {
-        axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/trait/')
+        axios.get(process.env.REACT_APP_BACKEND_URL + '/trait/')
             .then(res => {
                 setTrait(res.data);
             })
@@ -133,7 +133,7 @@ const TraitManagement = () => {
     };
 
     const deleteTrait = (id) => {
-        axios.delete(process.env.REACT_APP_BACKEND_URL + `/api/v1/trait/${id}`).then((res) => {
+        axios.delete(process.env.REACT_APP_BACKEND_URL + `/trait/${id}`).then((res) => {
             console.log(res.data);
             if (res.data.status) {
                 // toast.success("Trait Successfully Deleted!");

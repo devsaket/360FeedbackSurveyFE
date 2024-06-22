@@ -85,7 +85,7 @@ const SurveyShareByEmail = () => {
         getEmailTemplate();
     
         const fetchSurveyData = async () => {
-            const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/api/v1/survey?id=${id}`);
+            const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey?id=${id}`);
             setSurveyDe(surveyResponse.data)
             initializeRespondents(surveyResponse.data);
         }
@@ -109,7 +109,7 @@ const SurveyShareByEmail = () => {
     };
 
     const getCategory = () => {
-        axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/categoryRoles/')
+        axios.get(process.env.REACT_APP_BACKEND_URL + '/categoryRoles/')
             .then(res => {
                 setCategories(res.data);
             })
@@ -117,7 +117,7 @@ const SurveyShareByEmail = () => {
     }
 
     const getEmailTemplate = () => {
-        axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/emailTemplate/')
+        axios.get(process.env.REACT_APP_BACKEND_URL + '/emailTemplate/')
             .then(res => {
                 setEmailTemplates(res.data);
             })
@@ -185,7 +185,7 @@ const SurveyShareByEmail = () => {
             const respondentsArrayData = {surveyId: id, subjectId: subjectId, respondent: respondentData};
             console.log(respondentsArrayData);
             
-            axios.post(process.env.REACT_APP_BACKEND_URL + '/api/v1/survey-responses/add-respondent', respondentsArrayData)
+            axios.post(process.env.REACT_APP_BACKEND_URL + '/survey-responses/add-respondent', respondentsArrayData)
             .then(res => {
                 toast.success('Respondent Data Stored successfully!');
                 setIsDisabled(true);
@@ -195,7 +195,7 @@ const SurveyShareByEmail = () => {
                     const resEmailData = {surveyId: id,subjectId: res.data.subjectId, respondentId: resdata._id, name:resdata.respondentName, email: resdata.respondentEmail, subject: respondentSubject, message: respondentMessage }
                     console.log(resEmailData);
 
-                    axios.post(process.env.REACT_APP_BACKEND_URL + '/api/v1/share-survey-respondent-by-email', resEmailData)
+                    axios.post(process.env.REACT_APP_BACKEND_URL + '/share-survey-respondent-by-email', resEmailData)
                     .then(res => {
                         toast.success(`Email sent successfully to ${resEmailData.respondentName} !`);
                     }).catch(error => {
@@ -212,7 +212,7 @@ const SurveyShareByEmail = () => {
         // const respondentsArrayData = {surveyId: id, respondents: users};
         // console.log(respondentsArrayData);
         
-        // axios.put(process.env.REACT_APP_BACKEND_URL + '/api/v1/survey-responses/respondents', respondentsArrayData)
+        // axios.put(process.env.REACT_APP_BACKEND_URL + '/survey-responses/respondents', respondentsArrayData)
         // .then(res => {
         //     toast.success('Subject Data Stored successfully!');
         //     setIsDisabled(true);
@@ -221,7 +221,7 @@ const SurveyShareByEmail = () => {
         //     users.map((respondentData, index) => {
         //         const surveyShareData = { surveyId: id, name: respondentData.respondentName, email: respondentData.respondentEmail, category: respondentData.category };
 
-        //         axios.post(process.env.REACT_APP_BACKEND_URL + '/api/v1/share-survey-respondent-by-email', surveyShareData)
+        //         axios.post(process.env.REACT_APP_BACKEND_URL + '/share-survey-respondent-by-email', surveyShareData)
         //         .then(res => {
         //             toast.success('Email sent successfully!');
         //         }).catch(error => {
@@ -248,7 +248,7 @@ const SurveyShareByEmail = () => {
 
         const surveyShareData = { surveyId: id, subject: { subjectName: name.trim(), subjectEmail: recipientEmail.trim(), responses: surveyQuestionData, isFilled: false } };
 
-        axios.post(process.env.REACT_APP_BACKEND_URL + '/api/v1/survey-responses/add-subject', surveyShareData)
+        axios.post(process.env.REACT_APP_BACKEND_URL + '/survey-responses/add-subject', surveyShareData)
             .then(res => {
                 toast.success('Subject Data Stored successfully!');
                 setSubjectId(res.data.subjectId)
@@ -256,7 +256,7 @@ const SurveyShareByEmail = () => {
 
                 const emailData = { surveyId: id, subjectName: name.trim(), subjectEmail: recipientEmail.trim(), subject: subject.trim(), message: message.trim(), subjectId: res.data.subjectId }
 
-                axios.post(process.env.REACT_APP_BACKEND_URL + '/api/v1/share-survey-by-email', emailData)
+                axios.post(process.env.REACT_APP_BACKEND_URL + '/share-survey-by-email', emailData)
                     .then(res => {
                         toast.success('Email sent successfully!');
                     }).catch(error => {
@@ -270,7 +270,7 @@ const SurveyShareByEmail = () => {
     const handleSubjectSelectedEmailTemplate = (option) => {
         setchooseEmailTemplate(option);
 
-        axios.get(process.env.REACT_APP_BACKEND_URL + `/api/v1/emailTemplate?id=${option.value}`)
+        axios.get(process.env.REACT_APP_BACKEND_URL + `/emailTemplate?id=${option.value}`)
             .then(res => {
                 setSingleEmailTemplates(res.data);
             })
@@ -283,7 +283,7 @@ const SurveyShareByEmail = () => {
     const handleRespondentSelectedEmailTemplate = (option) => {
         setchooseRespondentEmailTemplate(option);
 
-        axios.get(process.env.REACT_APP_BACKEND_URL + `/api/v1/emailTemplate?id=${option.value}`)
+        axios.get(process.env.REACT_APP_BACKEND_URL + `/emailTemplate?id=${option.value}`)
             .then(res => {
                 setSingleEmailTemplates(res.data);
             })
@@ -365,12 +365,12 @@ const SurveyShareByEmail = () => {
 
         const addRespondentsData = { surveyId: id, respondents: updatedUsers };
 
-        axios.put(process.env.REACT_APP_BACKEND_URL + '/api/v1/survey-responses/respondents', addRespondentsData)
+        axios.put(process.env.REACT_APP_BACKEND_URL + '/survey-responses/respondents', addRespondentsData)
             .then(res => {
                 toast.success('Respondents Data Stored successfully!');
                 res.data.respondent.map(respondentItem => {
                     const surveyShareData = { surveyId: id, respondentId: respondentItem._id, name: respondentItem.respondentName, email: respondentItem.respondentEmail, subject: respondentSubject, message: respondentMessage };
-                    axios.post(process.env.REACT_APP_BACKEND_URL + '/api/v1/share-survey-respondent-by-email', surveyShareData)
+                    axios.post(process.env.REACT_APP_BACKEND_URL + '/share-survey-respondent-by-email', surveyShareData)
                         .then(res => {
                             toast.success('Email sent successfully to ' + respondentItem.respondentName + '!');
                         }).catch(error => {

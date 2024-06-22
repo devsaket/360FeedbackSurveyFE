@@ -66,7 +66,7 @@
 
         const handleDeleteSurvey = (id) => {
             // Send delete request to backend
-            axios.delete(process.env.REACT_APP_BACKEND_URL + `/api/v1/survey/${id}`)
+            axios.delete(process.env.REACT_APP_BACKEND_URL + `/survey/${id}`)
                 .then(response => {
                     console.log('Survey deleted successfully:', response.data.message);
                     // Remove the deleted survey from state
@@ -92,7 +92,7 @@
 
         const getSurveys = () =>{
             // Fetch surveys from the backend
-            axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/survey')
+            axios.get(process.env.REACT_APP_BACKEND_URL + '/survey')
                 .then(response => {
                     setSurveys(response.data);
                 })
@@ -102,7 +102,7 @@
         }
 
         const getQuestions = () => {
-            axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/question')
+            axios.get(process.env.REACT_APP_BACKEND_URL + '/question')
                 .then(response => {
                     setQuestions(response.data);
                 })
@@ -112,7 +112,7 @@
         }
 
         const getTraits = () => {
-            axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/trait')
+            axios.get(process.env.REACT_APP_BACKEND_URL + '/trait')
                 .then(res => {
                     setTraits(res.data);
                 })
@@ -122,7 +122,7 @@
         }
 
         const getCategories = () => {
-            axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/categoryRoles')
+            axios.get(process.env.REACT_APP_BACKEND_URL + '/categoryRoles')
                 .then(res => {
                     setCategories(res.data);
                 })
@@ -223,7 +223,7 @@
 
             console.log(surveyData, selectedTrait);
 
-            axios.post(process.env.REACT_APP_BACKEND_URL + '/api/v1/survey', surveyData)
+            axios.post(process.env.REACT_APP_BACKEND_URL + '/survey', surveyData)
             .then(response => {
                 console.log('Survey created successfully:', response.data.survey._id);
                 toast.success("Survey created Successfully!");

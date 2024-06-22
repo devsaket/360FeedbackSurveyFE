@@ -18,13 +18,13 @@ const SurveyPreview = () => {
     useEffect(() => {
         const fetchSurveyData = async () => {
 
-            const TraitResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/api/v1/trait/')
+            const TraitResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/trait/')
             setTrait(TraitResponse.data)
 
-            const questionResponse = await axios.get(process.envREACT_APP_BACKEND_URL + '/api/v1/question/')
+            const questionResponse = await axios.get(process.envREACT_APP_BACKEND_URL + '/question/')
             setQuestions(questionResponse.data)
 
-            const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/api/v1/survey?id=${id}`)
+            const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey?id=${id}`)
             setSurveyDe(surveyResponse.data)
         };
 
@@ -51,7 +51,7 @@ const SurveyPreview = () => {
 
         const subjectResponseData = {surveyId:id, subjectId:subjectId, subjectResponses:responses}
 
-        axios.put(process.env.REACT_APP_BACKEND_URL+'/api/v1/update-subject-response', subjectResponseData)
+        axios.put(process.env.REACT_APP_BACKEND_URL+'/update-subject-response', subjectResponseData)
         .then(res =>{
             toast.success('Subject Response Data Stored successfully!');
         }).catch (error => {

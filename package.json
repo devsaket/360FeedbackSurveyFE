@@ -84,5 +84,5 @@
     "fsevents": "2.3.2",
     "chokidar": "3.5.3"
   },
-  "proxy": "http://localhost:5454"
+  "proxy": "http://localhost:5454/api/v1"
 }
