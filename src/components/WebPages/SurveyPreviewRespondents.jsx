@@ -118,7 +118,9 @@ const SurveyPreviewRespondents = () => {
                     )
                 })
                 :<>
-                    <p className='display-2'>Submission is Successful and THank you for Participation</p>
+                    <div className='d-flex justify-content-center'>
+                        <p className='display-4 text-center w-50'>Submission is Successful and THank you for Participation</p>
+                    </div>
                 </>
             }
             </div>
