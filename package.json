@@ -1,11 +1,11 @@
 {
   "name": "argon-dashboard-react",
   "version": "1.2.4",
-  "description": "React version of Argon Dashboard by Creative Tim",
+  "description": "React SUrvey App",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creativetimofficial/argon-dashboard-react.git"
+    "url": "git+https://github.com/devsaket/SurveyFE1.git"
   },
   "keywords": [
     "react",
@@ -19,10 +19,7 @@
   ],
   "author": "Creative Tim",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/argon-dashboard-react/issues"
-  },
-  "homepage": "https://demos.creative-tim.com/argon-dashboard-react/",
+  "homepage": "/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
