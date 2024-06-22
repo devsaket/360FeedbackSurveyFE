@@ -14,6 +14,7 @@ const SurveyPreview = () => {
     const [Questions, setQuestions] = useState([]);
 
     const [responses, setResponses] = useState([]);
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     useEffect(() => {
         const fetchSurveyData = async () => {
@@ -54,15 +55,17 @@ const SurveyPreview = () => {
         axios.put(process.env.REACT_APP_BACKEND_URL+'/update-subject-response', subjectResponseData)
         .then(res =>{
             toast.success('Subject Response Data Stored successfully!');
+            setIsSubmitted(true);
         }).catch (error => {
             toast.warn('Failed to Store Subject Response Data!');
+            setIsSubmitted(false);
         })
     };
 
     return (
         <>
             <div className="container my-3 justify-content-end bg-light-50">
-                {Array.isArray(surveyDe) && surveyDe?.map((survey) => {
+                {isSubmitted===false?Array.isArray(surveyDe) && surveyDe?.map((survey) => {
                     return (
                         <>
                             <div className="row border-bottom" key={survey._id}>
@@ -112,7 +115,11 @@ const SurveyPreview = () => {
                             </div>
                         </>
                     )
-                })}
+                })
+                :<>
+                    <p className='display-2'>Submission is Successful and THank you for Participation</p>
+                </>
+            }
             </div>
         </>
     )
