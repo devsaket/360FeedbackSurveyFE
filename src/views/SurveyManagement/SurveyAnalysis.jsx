@@ -104,7 +104,7 @@ const SurveyAnalysis = () => {
                     // Subject row
                     const subjectRow = {
                         surveySubmittedBy: subject.subjectName,
-                        questionResponses: Array.isArray(surveyObject[0].questions) && surveyObject[0].questions.map(questionId => {
+                        questionResponses: surveyObject[0].questions.map(questionId => {
                             const response = subject.responses.find(res => res.questionId === questionId);
                             return response ? response.answer : '0';
                         }),
@@ -168,7 +168,7 @@ const SurveyAnalysis = () => {
                         const { categoryName, scoreWeightage } = getCategoryDetails(respondent.category);
                         const respondentRow = {
                             surveySubmittedBy: respondent.respondentName,
-                            questionResponses: Array.isArray(surveyObject[0].questions) && surveyObject[0].questions.map(questionId => {
+                            questionResponses: surveyObject[0].questions.map(questionId => {
                                 const response = respondent.responses.find(res => res.questionId === questionId);
                                 return response ? response.answer : '0';
                             }),
@@ -252,15 +252,15 @@ const SurveyAnalysis = () => {
         }
 
         // Calculate average score for each trait
-        const processedTraitData = Array.isArray(Object.keys(traitScores)) && Object.keys(traitScores).map(trait => ({
+        const processedTraitData = Object.keys(traitScores).map(trait => ({
             trait,
             totalScore: traitScores[trait].totalScore,
             averageScore: (traitScores[trait].totalScore / traitScores[trait].count).toFixed(1)
         }));
 
         // Calculate average score for each trait by category
-        const processedCategoryTraitData = Array.isArray(Object.keys(categoryTraitScores)) && Object.keys(categoryTraitScores).map(category => {
-            const traits = Array.isArray(Object.keys(categoryTraitScores[category])) && Object.keys(categoryTraitScores[category]).map(trait => ({
+        const processedCategoryTraitData = Object.keys(categoryTraitScores).map(category => {
+            const traits = Object.keys(categoryTraitScores[category]).map(trait => ({
                 trait,
                 averageScore: (categoryTraitScores[category][trait].totalScore / categoryTraitScores[category][trait].count).toFixed(1)
             }));
@@ -270,8 +270,8 @@ const SurveyAnalysis = () => {
         });
 
         // Calculate average score for each trait and category
-        const processedTraitCategoryData = Array.isArray(traitCategoryScores) && Object.keys(traitCategoryScores).map(trait => {
-            const categories = Array.isArray(traitCategoryScores[trait]) && Object.keys(traitCategoryScores[trait]).map(category => ({
+        const processedTraitCategoryData = Object.keys(traitCategoryScores).map(trait => {
+            const categories = Object.keys(traitCategoryScores[trait]).map(category => ({
                 category, averageScore: (traitCategoryScores[trait][category].totalScore / traitCategoryScores[trait][category].count).toFixed(1)
             }));
 
@@ -279,11 +279,11 @@ const SurveyAnalysis = () => {
         });
 
         const processTraitSelfOthersData = (data) => {
-            return Array.isArray(data) && data.map(item => {
-                const selfRating = Array.isArray(item.categories) && item.categories.find(cat => cat.category === "Self")?.averageScore || 0;
-                const otherRatings = Array.isArray(item.categories) && item.categories.filter(cat => cat.category !== "Self")?.map(cat => cat.averageScore);
+            return data.map(item => {
+                const selfRating = item.categories.find(cat => cat.category === "Self")?.averageScore || 0;
+                const otherRatings = item.categories.filter(cat => cat.category !== "Self")?.map(cat => cat.averageScore);
                 // console.log(otherRatings);
-                const averageOtherRating = Array.isArray(otherRatings) && otherRatings.length > 0 ? (Array.isArray(otherRatings) &&  otherRatings.reduce((acc, score) => acc + parseFloat(score), 0) / otherRatings.length).toFixed(1) : 0;
+                const averageOtherRating = otherRatings.length > 0 ? (otherRatings.reduce((acc, score) => acc + parseFloat(score), 0) / otherRatings.length).toFixed(1) : 0;
                 // console.log(averageOtherRating)
         
                 return {
@@ -311,7 +311,7 @@ const SurveyAnalysis = () => {
         return <div>Error: {error.message}</div>;
     }
 
-    const radarChartData = Array.isArray(categoryTraitData) && categoryTraitData.reduce((acc, item) => {
+    const radarChartData = categoryTraitData.reduce((acc, item) => {
         item.traits.forEach(trait => {
             let existingTrait = acc.find(tra => tra.trait === trait.trait);
             if (!existingTrait) {
@@ -527,7 +527,7 @@ const SurveyAnalysis = () => {
                                     <p key={index} className='d-flex justify-content-between'>
                                         <span>{row.trait}</span>
                                         <span className='d-flex align-items-center'>
-                                            <progress value={row.averageScore} max={7} className='w-100' />
+                                            {/* <progress value={row.averageScore} max={7} className='w-100' /> */}
                                             <span className='px-2'>{row.averageScore}</span>
                                             <ProgressBar bgcolor="#6a1b9a" completed={row.averageScore} max={7} />
                                         </span>
@@ -563,12 +563,14 @@ const SurveyAnalysis = () => {
                                         <p>This section will be used to rate the employee based on their {row.trait}</p>
                                         <div className='display-3'>
                                             <p className='display-3 font-weight-light d-flex align-items-baseline'>{row.averageScore} <span className='h3 font-weight-light'>/ 7</span></p>
-                                            {Array.isArray(traitCategoryData) && traitCategoryData.map((traitRow, index) => (
+                                            {traitCategoryData.map((traitRow, index) => (
                                                 <React.Fragment key={index}>
-                                                    {row.trait === traitRow.trait? Array.isArray(traitRow.categories) && traitRow.categories.map((category, idx) => (
+                                                    {row.trait === traitRow.trait? traitRow.categories.map((category, idx) => (
                                                         <div key={idx} className='d-flex justify-content-end'>
                                                             <p>{category.category} &nbsp;</p>
-                                                            <p className='d-flex align-items-center justify-content-center'><progress value={category.averageScore} max={7} className='w-100' /><span className='px-2'>{category.averageScore}</span>
+                                                            <p className='d-flex align-items-center justify-content-center'>
+                                                                {/* <progress value={category.averageScore} max={7} className='w-100' /> */}
+                                                                <ProgressBar bgcolor="#6a1b9a" completed={category.averageScore} max={7} /><span className='px-2'>{category.averageScore}</span>
                                                             </p>
                                                         </div>
                                                     )):''}
@@ -591,7 +593,7 @@ const SurveyAnalysis = () => {
                                 <h2 className="mt-4 mb-3 text-center display-2">Areas of Improvement</h2>
                                 <p className='text-center'>Below are the statements where you received the lowest ratings and are considered your areas of improvements.</p>
                                 <div className='d-flex flex-row' style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-                                    {Array.isArray(traitData) && traitData.map((traitObj, index) => (
+                                    { traitData.map((traitObj, index) => (
                                         traitObj.averageScore< (7/2)? <DonutChart key={index} data={traitObj.averageScore} trait={traitObj.trait} />:''
                                     ))}
                                 </div>
@@ -608,7 +610,7 @@ const SurveyAnalysis = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {Array.isArray(traitSelfOthersData) && traitSelfOthersData.map((item, index) => (
+                                        {traitSelfOthersData.map((item, index) => (
                                             item.selfRating <= 7/2 && item.averageOtherRating>= 7/2 ?
                                             <tr key={index}>
                                                 <td className='align-middle'>
@@ -635,7 +637,7 @@ const SurveyAnalysis = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {Array.isArray(traitSelfOthersData) && traitSelfOthersData.map((item, index) => (
+                                        {traitSelfOthersData.map((item, index) => (
                                             (parseFloat(item.selfRating) >= 3.5 && parseFloat(item.averageOtherRating)<= parseFloat(item.selfRating)) ?
                                             <tr key={index}>
                                                 <td className='align-middle'>
@@ -654,7 +656,7 @@ const SurveyAnalysis = () => {
                                 <hr />
                                 <h2 className="mt-4 mb-3 text-center display-2">Detailed Feedback</h2>
                                 <p className='text-center'>The detailed statement-wise rating provides your complete group-wise breakdown of your feedback on each statement.</p>
-                                {Array.isArray(Object.keys(traitQuestionData)) && Object.keys(traitQuestionData).map(trait => (
+                                { Object.keys(traitQuestionData).map(trait => (
                                     <div key={trait} className='mt-5'>
                                         <div className='d-flex justify-content-between align-items-center'>
                                             <h3 className='display-3'>{trait}</h3>
@@ -664,19 +666,18 @@ const SurveyAnalysis = () => {
                                             <thead>
                                                 <tr>
                                                     <th className='w-50'>Questions</th>
-                                                    {Array.isArray(Array.from(new Set(Object.keys(traitQuestionData[trait]).flatMap(questionId =>
-                                                        Object.keys(traitQuestionData[trait][questionId].responses))))) && Array.from(new Set(Object.keys(traitQuestionData[trait]).flatMap(questionId =>
+                                                    {Array.from(new Set(Object.keys(traitQuestionData[trait]).flatMap(questionId =>
                                                         Object.keys(traitQuestionData[trait][questionId].responses)))).map(category => (
                                                             <th key={category} className='text-center'>{category}</th>
                                                     ))}
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {Array.isArray(Object.keys(traitQuestionData[trait])) && Object.keys(traitQuestionData[trait]).map(questionId => (
+                                                {Object.keys(traitQuestionData[trait]).map(questionId => (
                                                     <tr key={questionId}>
                                                         <td className='w-50 align-middle'><h5>{traitQuestionData[trait][questionId].questionText}</h5></td>
-                                                        {Array.isArray(Object.keys(traitQuestionData[trait][questionId].responses)) && Object.keys(traitQuestionData[trait][questionId].responses).map((category,index) => (
-                                                            <td><SimpleDonutChart key={index} data={Array.isArray(traitQuestionData) && traitQuestionData[trait][questionId].responses[category].reduce((acc, score) => acc + parseFloat(score), 0)/traitQuestionData[trait][questionId].responses[category].length} /> </td>
+                                                        {Object.keys(traitQuestionData[trait][questionId].responses).map((category,index) => (
+                                                            <td><SimpleDonutChart key={index} data={traitQuestionData[trait][questionId].responses[category].reduce((acc, score) => acc + parseFloat(score), 0)/traitQuestionData[trait][questionId].responses[category].length} /> </td>
                                                         ))}
                                                     </tr>
                                                 ))}
