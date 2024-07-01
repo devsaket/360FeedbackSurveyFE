@@ -27,10 +27,13 @@ const SurveyPreview = () => {
 
             const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey?id=${id}`)
             setSurveyDe(surveyResponse.data)
+
+            const surveyResponseIsFilled = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/is-filled/${id}/${subjectId}`)
+            setIsSubmitted(surveyResponseIsFilled.data.isFilled)
         }
 
         fetchSurveyData();
-    }, [id])
+    }, [id, subjectId])
 
     const handleResponseChange = (questionId, answer) => {
         setResponses(prevResponses => {
@@ -65,7 +68,7 @@ const SurveyPreview = () => {
     return (
         <>
             <div className="container my-3 justify-content-end bg-light-50">
-                {isSubmitted===false?Array.isArray(surveyDe) && surveyDe?.map((survey) => {
+                {!isSubmitted?Array.isArray(surveyDe) && surveyDe?.map((survey) => {
                     return (
                         <>
                             <div className="row border-bottom" key={survey._id}>
@@ -87,8 +90,7 @@ const SurveyPreview = () => {
                                                         <h4 className=''>{trait.traitName}</h4>
                                                         <p>{trait.traitDescription}</p>
 
-                                                        {Array.isArray(survey.questions) && survey.questions
-                                                            .map((questionId) => {
+                                                        {Array.isArray(survey.questions) && survey.questions.map((questionId) => {
                                                                 const question = Questions.find(question => question._id === questionId && question.trait._id === traitId);
                                                                 if (question) {
                                                                     count++;

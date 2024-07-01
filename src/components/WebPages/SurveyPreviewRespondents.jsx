@@ -27,6 +27,9 @@ const SurveyPreviewRespondents = () => {
 
             const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL+`/survey?id=${id}`)
             setSurveyDe(surveyResponse.data)
+
+            const surveyResponseIsFilled = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/is-filled/${id}/${subjectId}/${respondentId}`)
+            setIsSubmitted(surveyResponseIsFilled.data.isFilled)
         };
 
         fetchSurveyData();
@@ -66,7 +69,7 @@ const SurveyPreviewRespondents = () => {
         <>
             <ToastContainer />
             <div className="container my-3 justify-content-end bg-light-50">
-                {isSubmitted===false? Array.isArray(surveyDe) && surveyDe?.map((survey) => {
+                {!isSubmitted ? Array.isArray(surveyDe) && surveyDe?.map((survey) => {
                     return (
                         <>
                             <div className="row border-bottom" key={survey._id}>
