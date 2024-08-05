@@ -357,7 +357,7 @@ const SurveyAnalysis = () => {
                                             <tr key={index}>
                                                 <td>{row.surveySubmittedBy}</td>
                                                 {Array.isArray(row.questionResponses) && row.questionResponses.map((response, idx) => (
-                                                    <td key={idx} className='text-center'>{response}</td>
+                                                    <td key={idx} className='text-center'>{response !== '0' ? response:''}</td>
                                                 ))}
                                                 <td className='text-wrap align-top text-center'>{row.categoryName}</td>
                                                 <td className='text-center'>{row.scoreWeightage}</td>

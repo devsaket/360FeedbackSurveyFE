@@ -21,7 +21,7 @@ import { Link, useParams } from 'react-router-dom';
 
 // reactstrap components
 import {
-    Card,
+    Card, Col,
     CardHeader,
     CardBody,
     Container,
@@ -159,8 +159,14 @@ const SurveySubjectResultManagement = () => {
                                 ))}
                             </CardBody>
                         </Card>
-                        <Link to={`/admin/survey/analysis/${surveyId}/${subjectId}`}><i class="fa-solid fa-square-poll-vertical"></i> Analysis</Link>
+                        
                     </div>
+                </Row>
+                <Row>
+                    <Col className="text-center">
+                        <Link to={`/admin/survey/analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Old Analysis</Link>
+                        <Link to={`/admin/survey/analysis-new/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> New Analysis</Link>
+                    </Col>
                 </Row>
 
             </Container>
