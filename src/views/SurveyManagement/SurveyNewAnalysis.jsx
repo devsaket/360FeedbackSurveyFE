@@ -20,6 +20,8 @@ import SurveyResponseRespondentList from './SurveyResponseRespondentList';
 import SurveyTraitsRespondentScore from './SurveyTraitsRespondentScore';
 import SurveyTraitsSelfScore from './SurveyTraitsSelfScore';
 import SurveyTraitWiseAnalysis from './SurveyTraitWiseAnalysis';
+import SurveyTopBottom5QuestionsForSelf from './SurveyTopBottom5QuestionsForSelf';
+import SurveyTopBottom5QuestionsForOthers from './SurveyTopBottom5QuestionsForOthers';
 
 const SurveyAnalysis = () => {
     const { id, subjectId } = useParams();
@@ -372,56 +374,6 @@ const SurveyAnalysis = () => {
         return { topQuestions, bottomQuestions };
     };
 
-
-    const getTopAndBottomSubjectQuestions = (subject) => {
-        const responses = subject.responses.filter(response => response.answer > 0); // Filter out responses with 0
-        const sortedResponses = responses.map(response => {
-            const question = questionObjects.find(q => q._id === response.questionId);
-            return {
-                questionText: question ? question.question : '',
-                response: parseInt(response.answer, 10)
-            };
-        }).sort((a, b) => b.response - a.response);
-
-        const topQuestions = sortedResponses.slice(0, 5);
-        const bottomQuestions = sortedResponses.reverse().slice(0, 5);
-
-        return { topQuestions, bottomQuestions };
-    };
-
-    const subject = subjectObject.length ? subjectObject[0] : null;
-    const subjectQuestions = subject ? getTopAndBottomSubjectQuestions(subject) : { topQuestions: [], bottomQuestions: [] };
-
-    const getTopAndBottomOthersQuestions = () => {
-        const allQuestions = [];
-
-        // Collect all responses excluding those with 0 response
-        for (const trait in traitQuestionData) {
-            for (const questionId in traitQuestionData[trait]) {
-                const questionData = traitQuestionData[trait][questionId];
-                const validResponses = questionData.responses.filter(response => response > 0);
-                if (validResponses.length > 0) {
-                    const averageResponse = validResponses.reduce((acc, score) => acc + score, 0) / validResponses.length;
-                    allQuestions.push({
-                        questionText: questionData.questionText,
-                        averageResponse
-                    });
-                }
-            }
-        }
-
-        // Sort questions by average response
-        const sortedQuestions = allQuestions.sort((a, b) => b.averageResponse - a.averageResponse);
-
-        // Get top 5 and bottom 5 questions
-        const topOtherQuestions = sortedQuestions.slice(0, 5);
-        const bottomOtherQuestions = sortedQuestions.slice(-5);
-
-        return { topOtherQuestions, bottomOtherQuestions };
-    }
-
-    const { topOtherQuestions, bottomOtherQuestions } = getTopAndBottomOthersQuestions();
-
     const getTopTraits = () => {
         const traitsWithComparison = traitSelfOthersData.map(item => {
             return {
@@ -583,50 +535,14 @@ const SurveyAnalysis = () => {
                         {/* Top 5 & Bottom 5 Questions from self */}
                         <Card>
                             <CardBody>
-                                <h2>Top 5 & Bottom 5 Questions from self</h2>
-                                {subject && (
-                                    <div>
-                                        <h2>Subject Specific Questions</h2>
-                                        <h4>Top 5 Questions</h4>
-                                        <ul>
-                                            {subjectQuestions.topQuestions.map((question, idx) => (
-                                                <li key={idx}>{question.questionText} - Response: {question.response}</li>
-                                            ))}
-                                        </ul>
-                                        <h4>Bottom 5 Questions</h4>
-                                        <ul>
-                                            {subjectQuestions.bottomQuestions.map((question, idx) => (
-                                                <li key={idx}>{question.questionText} - Response: {question.response}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
+                                <SurveyTopBottom5QuestionsForSelf subjectObject={subjectObject} questionObjects={questionObjects} />
                             </CardBody>
                         </Card>
 
                         {/* Top 5 & Bottom 5 Questions from others */}
                         <Card>
                             <CardBody>
-                                <h2>Top 5 & Bottom 5 Questions from Others</h2>
-                                <h4>Top 5 Questions (Highest Responses)</h4>
-                                <ul>
-                                    {topOtherQuestions.map((question, idx) => (
-                                        <>
-                                            {/* <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li> */}
-                                            <li key={idx}>{question.questionText}</li>
-                                        </>
-                                        
-                                    ))}
-                                </ul>
-                                <h4>Bottom 5 Questions (Lowest Responses)</h4>
-                                <ul>
-                                    {bottomOtherQuestions.map((question, idx) => (
-                                        <>
-                                            {/* <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li> */}
-                                            <li key={idx}>{question.questionText} </li>
-                                        </>
-                                    ))}
-                                </ul>
+                                <SurveyTopBottom5QuestionsForOthers traitQuestionData={traitQuestionData} />
                             </CardBody>
                         </Card>
 
