@@ -29,6 +29,7 @@ import SurveyDetails from "views/SurveyManagement/SurveyDetails";
 import ItemBankManagement from "views/ItemBankManagement/ItemBankManagement";
 import CategoryManagement from "views/CategoryManagement/CategoryManagement";
 import EmailTemplateManagement from "views/EmailTemplateManagement/EmailTemplateManagement";
+import WebsitePagesLayout from "views/WebsitePages/WebsitePagesLayout";
 
 var routes = [
   {
@@ -115,12 +116,12 @@ var routes = [
   //   component: <CategoryManagement />,
   //   layout: "/admin",
   // },
-  // {
-  //   path: "/email-templates",
-  //   name: "Email Templates",
-  //   icon: "fa-solid fa-envelope text-danger",
-  //   component: <EmailTemplateManagement />,
-  //   layout: "/admin",
-  // },
+  {
+    path: "/",
+    name: "Decision Support for Education Consulting",
+    icon: "fa-solid fa-home text-dark",
+    component: <WebsitePagesLayout />,
+    layout: "/website",
+  },
 ];
 export default routes;

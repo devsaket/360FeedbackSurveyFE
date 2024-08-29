@@ -1,4 +1,16 @@
 import React from 'react'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Treemap } from 'recharts';
+
+// Custom cell component for the Treemap
+const CustomTreemapCell = ({ x, y, width, height, name, value }) => {
+    const fillColor = value > 5 ? '#82ca9d' : '#ff6f61'; // Change colors based on value
+    return (
+        <g>
+            <rect x={x} y={y} width={width} height={height} fill={fillColor} />
+            <text x={x + 5} y={y + 20} fill="#fff">{name} ({value})</text>
+        </g>
+    );
+};
 
 const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) => {
 
@@ -21,6 +33,29 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
     const subject = subjectObject.length ? subjectObject[0] : null;
     const subjectQuestions = subject ? getTopAndBottomSelfQuestions(subject) : { topQuestions: [], bottomQuestions: [] };
 
+
+    const processQuestionsForTreemap = (topQuestions, bottomQuestions) => {
+        const data = [
+            {
+                name: 'Top Questions',
+                children: topQuestions.map(question => ({
+                    name: question.questionText,
+                    value: question.response,
+                })),
+            },
+            {
+                name: 'Bottom Questions',
+                children: bottomQuestions.map(question => ({
+                    name: question.questionText,
+                    value: question.response,
+                })),
+            },
+        ];
+        return data;
+    };
+
+    const treemapData = processQuestionsForTreemap(subjectQuestions.topQuestions, subjectQuestions.bottomQuestions);
+
     return (
         <>
             <h2>Top 5 & Bottom 5 Questions from self</h2>
@@ -33,12 +68,24 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
                             <li key={idx}>{question.questionText} - Response: {question.response}</li>
                         ))}
                     </ul>
+                    
                     <h4>Bottom 5 Questions</h4>
                     <ul>
                         {subjectQuestions.bottomQuestions.map((question, idx) => (
                             <li key={idx}>{question.questionText} - Response: {question.response}</li>
                         ))}
                     </ul>
+
+                    {/* <h4>Treemap of Responses</h4> */}
+                    <ResponsiveContainer width="100%" height={400}>
+                        <Treemap
+                            data={treemapData}
+                            dataKey="value"
+                            stroke="#fff"
+                            fill="#8884d8"
+                            content={<CustomTreemapCell />}
+                        />
+                    </ResponsiveContainer>
                 </div>
             )}
         </>

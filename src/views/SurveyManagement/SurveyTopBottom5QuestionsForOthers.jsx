@@ -1,4 +1,27 @@
 import React from 'react'
+import { ResponsiveContainer, Treemap, Tooltip, Cell } from 'recharts';
+
+// Customize Tooltip
+const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+        return (
+            <div className="custom-tooltip">
+                <p>{`${payload[0].name}`}</p>
+                <p>{`Average Response: ${payload[0].value.toFixed(1)}`}</p>
+            </div>
+        );
+    }
+    return null;
+};
+
+// Customize labels for Treemap
+const CustomizedLabel = ({ x, y, width, height, value }) => {
+    return (
+        <text x={x + width / 2} y={y + height / 2} textAnchor="middle" fill="#ff6f61">
+            {value}
+        </text>
+    );
+};
 
 const SurveyTopBottom5QuestionsForOthers = ({ traitQuestionData }) => {
     const getTopAndBottomOthersQuestions = () => {
@@ -31,6 +54,12 @@ const SurveyTopBottom5QuestionsForOthers = ({ traitQuestionData }) => {
 
     const { topOtherQuestions, bottomOtherQuestions } = getTopAndBottomOthersQuestions();
 
+    // Prepare data for the Treemap
+    const treemapData = [
+        { name: 'Top Questions', children: topOtherQuestions.map(q => ({ name: q.questionText, value: q.averageResponse, color: '#82ca9d' })) },
+        { name: 'Bottom Questions', children: bottomOtherQuestions.map(q => ({ name: q.questionText, value: q.averageResponse, color: '#ff6f61' })) }
+    ];
+
     return (
         <>
             <h2>Top 5 & Bottom 5 Questions from Others</h2>
@@ -53,6 +82,26 @@ const SurveyTopBottom5QuestionsForOthers = ({ traitQuestionData }) => {
                     </>
                 ))}
             </ul>
+
+            <h4>Treemap Representation</h4>
+            <ResponsiveContainer width="100%" height={400}>
+                <Treemap
+                    data={treemapData}
+                    dataKey="value"
+                    stroke="#000"
+                    // fill="#8884d8"
+                    label={<CustomizedLabel />} // Optional: Customize labels
+                >
+                   {
+                        treemapData.flatMap(group => 
+                            group.children.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.color} /> // Apply color from data
+                            ))
+                        )
+                    }
+                    <Tooltip content={<CustomTooltip />} />
+                </Treemap>
+            </ResponsiveContainer>
         </>
     )
 }

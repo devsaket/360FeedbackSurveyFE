@@ -22,6 +22,12 @@ import SurveyTraitsSelfScore from './SurveyTraitsSelfScore';
 import SurveyTraitWiseAnalysis from './SurveyTraitWiseAnalysis';
 import SurveyTopBottom5QuestionsForSelf from './SurveyTopBottom5QuestionsForSelf';
 import SurveyTopBottom5QuestionsForOthers from './SurveyTopBottom5QuestionsForOthers';
+import SurveyTop5TraitsComparedToSelf from './SurveyTop5TraitsComparedtoSelf';
+import SurveyTraitsForStrengths from './SurveyTraitsForStrengths';
+import SurveyTraitsUnknownDeficiencies from './SurveyTraitsUnknownDeficiencies';
+import SurveyTraitsOpenDeficiencies from './SurveyTraitsOpenDeficiencies';
+import SurveyTraitsUnknownStrengths from './SurveyTraitsUnknownStrengths';
+import SurveyTraitsHighPotential from './SurveyTraitsHighPotential';
 
 const SurveyAnalysis = () => {
     const { id, subjectId } = useParams();
@@ -333,7 +339,6 @@ const SurveyAnalysis = () => {
         setTraitSelfOthersData(processTraitSelfOthersData(processedTraitCategoryData));
         setTraitRespondentsData(processTraitRespondentsData(processedTraitCategoryData));
         setTraitQuestionData(traitQuestionData);
-        console.log(traitQuestionData);
     }, [loading, subjectId, subjectObject, surveyObject, surveyResponseObject, categoriesRolesObject, questionObjects]);
 
     if (loading) {
@@ -344,61 +349,7 @@ const SurveyAnalysis = () => {
         return <div>Error: {error.message}</div>;
     }
 
-    const radarChartData = categoryTraitData.reduce((acc, item) => {
-        item.traits.forEach(trait => {
-            let existingTrait = acc.find(tra => tra.trait === trait.trait);
-            if (!existingTrait) {
-                existingTrait = { trait: trait.trait };
-                acc.push(existingTrait);
-            }
-            existingTrait[item.category] = parseFloat(trait.averageScore);
-        });
-        // console.log("acc = ",acc);
-        return acc;
-    }, []);
-
-    const getTopAndBottomQuestions = (trait) => {
-        const questions = traitQuestionData[trait];
-        const sortedQuestions = Object.keys(questions).map(questionId => {
-            const details = questions[questionId];
-            const averageResponse = details.responses.reduce((acc, score) => acc + score, 0) / details.responses.length;
-            return {
-                questionText: details.questionText,
-                averageResponse
-            };
-        }).sort((a, b) => b.averageResponse - a.averageResponse);
-
-        const topQuestions = sortedQuestions.filter(q => q.averageResponse >= 6).slice(0, 5);
-        const bottomQuestions = sortedQuestions.filter(q => q.averageResponse < 4).slice(0, 5);
-
-        return { topQuestions, bottomQuestions };
-    };
-
-    const getTopTraits = () => {
-        const traitsWithComparison = traitSelfOthersData.map(item => {
-            return {
-                trait: item.trait,
-                selfRating: parseFloat(item.selfRating),
-                averageOtherRating: parseFloat(item.averageOtherRating),
-                difference: parseFloat(item.selfRating) - parseFloat(item.averageOtherRating)
-            };
-        });
-
-        const sortedTraits = traitsWithComparison.sort((a, b) => b.difference - a.difference);
-        return sortedTraits.slice(0, 5);
-    };
-
-    const topTraits = getTopTraits();
-
-    const filterTopTraits = () => {
-        return traitSelfOthersData.filter(item => {
-            const selfRating = parseFloat(item.selfRating);
-            const averageOtherRating = parseFloat(item.averageOtherRating);
-            return selfRating > 6 && averageOtherRating > 6;
-        });
-    };
-
-    const topTraitsOfStrength = filterTopTraits();
+    
 
     return (
         <>
@@ -546,31 +497,45 @@ const SurveyAnalysis = () => {
                             </CardBody>
                         </Card>
 
-                        {/* Top 5 & Bottom 5 Questions from others */}
+                        {/* Top 5 Traits Compared to Self */}
                         <Card>
                             <CardBody>
-                                <h4>Top 5 Traits Compared to Self</h4>
-                                <ul>
-                                    {topTraits.map((trait, idx) => (
-                                        <li key={idx}>
-                                            <strong>{trait.trait}</strong> - Self Rating: {trait.selfRating.toFixed(1)}, Average Other Rating: {trait.averageOtherRating.toFixed(1)}, Difference: {trait.difference.toFixed(1)}
-                                        </li>
-                                    ))}
-                                </ul>
+                                <SurveyTop5TraitsComparedToSelf traitSelfOthersData={traitSelfOthersData} />
                             </CardBody>
                         </Card>
 
-                        {/* Top Traits Average score greter than 6 */}
+                        {/* Top Traits Average score greter than 5 */}
                         <Card>
                             <CardBody>
-                                <h4>Traits denoting your strengths</h4>
-                                <ul>
-                                    {topTraits.map((trait, idx) => (
-                                        <li key={idx}>
-                                            <strong>{trait.trait}</strong> - Self Rating: {trait.selfRating.toFixed(1)}, Average Other Rating: {trait.averageOtherRating.toFixed(1)}
-                                        </li>
-                                    ))}
-                                </ul>
+                                <SurveyTraitsForStrengths traitSelfOthersData={traitSelfOthersData} />
+                            </CardBody>
+                        </Card>
+                        
+                        {/* Unknown Deficiency with difference of 1 in selfRating & averageOtherRating */}
+                        <Card>
+                            <CardBody>
+                                <SurveyTraitsUnknownDeficiencies traitSelfOthersData={traitSelfOthersData} />
+                            </CardBody>
+                        </Card>
+
+                        {/* Open Deficiency with selfRating & averageOtherRating is less than 4 */}
+                        <Card>
+                            <CardBody>
+                                <SurveyTraitsOpenDeficiencies traitSelfOthersData={traitSelfOthersData} />
+                            </CardBody>
+                        </Card>
+
+                        {/* Unknown Strengths with averageOtherRating is greater than 1 from the selfRating */}
+                        <Card>
+                            <CardBody>
+                                <SurveyTraitsUnknownStrengths traitSelfOthersData={traitSelfOthersData} />
+                            </CardBody>
+                        </Card>
+                        
+                        {/* High Potential Traits in between score of 4 to 5 */}
+                        <Card>
+                            <CardBody>
+                                <SurveyTraitsHighPotential traitSelfOthersData={traitSelfOthersData} />
                             </CardBody>
                         </Card>
 
