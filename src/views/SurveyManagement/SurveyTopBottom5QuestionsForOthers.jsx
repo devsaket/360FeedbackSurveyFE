@@ -64,33 +64,54 @@ const SurveyTopBottom5QuestionsForOthers = ({ traitQuestionData }) => {
         <>
             <h2>Top Rated Statements by Others </h2>
             {/* <h4>Top 5 Questions</h4> */}
-            <ul>
-                {topOtherQuestions.map((question, idx) => (
-                    <>
-                        {/* <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li> */}
-                        <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li>
-                    </>
 
-                ))}
-            </ul>
+            {topOtherQuestions.map((question, idx) => (
+                <>
+                    {/* <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li> */}
+
+                    <div className={`d-flex statement-main-box ${idx == 1 ? 'flex-row-reverse' : 'flex-row'}`}>
+                        <div className='statement-box bg-primary'>
+                            <h6 className='statement-head'>Statement</h6>
+                            <p className='statement-text'>{idx + 1}</p>
+                        </div>
+                        <div className='question-box'>
+                            <div className='question-text'>
+                                <p>{question.questionText}</p>
+                            </div>
+                            <hr />
+                        </div>
+                    </div>
+                </>
+
+            ))}
             {/* <h4>Bottom 5 Questions</h4> */}
             <h2>Bottom Rated Statements by Others </h2>
-            <ul>
+            
                 {bottomOtherQuestions.map((question, idx) => (
                     <>
                         {/* <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li> */}
-                        <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li>
+
+                        <div className={`d-flex statement-main-box ${idx == 1 ? 'flex-row-reverse' : 'flex-row'}`}>
+                                <div className='statement-box bg-danger'>
+                                    <h6 className='statement-head'>Statement</h6>
+                                    <p className='statement-text'>{idx + 1}</p>
+                                </div>
+                                <div className='question-box'>
+                                    <div className='question-text'>
+                                        <p>{question.questionText}</p>
+                                    </div>
+                                    <hr />
+                                </div>
+                            </div>
                     </>
                 ))}
-            </ul>
 
-            <h4>Treemap Representation</h4>
+            {/* <h4>Treemap Representation</h4>
             <ResponsiveContainer width="100%" height={400}>
                 <Treemap
                     data={treemapData}
                     dataKey="value"
                     stroke="#000"
-                    // fill="#8884d8"
                     label={<CustomizedLabel />} // Optional: Customize labels
                 >
                    {
@@ -102,7 +123,7 @@ const SurveyTopBottom5QuestionsForOthers = ({ traitQuestionData }) => {
                     }
                     <Tooltip content={<CustomTooltip />} />
                 </Treemap>
-            </ResponsiveContainer>
+            </ResponsiveContainer> */}
         </>
     )
 }

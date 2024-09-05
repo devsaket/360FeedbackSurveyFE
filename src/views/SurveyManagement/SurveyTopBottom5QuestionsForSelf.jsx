@@ -85,21 +85,55 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
                 <div>
                     {/* <h2>Subject Specific Questions</h2> */}
                     {/* <h4>Top 5 Questions</h4> */}
-                    <ul>
+
+                    {subjectQuestions.topQuestions.map((question, idx) => (
+                        <>
+                            <div className={`d-flex statement-main-box ${idx == 1 ? 'flex-row-reverse' : 'flex-row'}`}>
+                                <div className='statement-box bg-primary'>
+                                    <h6 className='statement-head'>Statement</h6>
+                                    <p className='statement-text'>{idx + 1}</p>
+                                </div>
+                                <div className='question-box'>
+                                    <div className='question-text'>
+                                        <p>{question.questionText}</p>
+                                    </div>
+                                    <hr />
+                                </div>
+                            </div>
+
+                            {/* <li key={idx}>{question.questionText} - Response: {question.response}</li> */}
+                        </>
+                    ))}
+
+
+                    {/* <ul>
                         {subjectQuestions.topQuestions.map((question, idx) => (
                             <li key={idx}>{question.questionText} - Response: {question.response}</li>
                         ))}
-                    </ul>
-                    
+                    </ul> */}
+
                     {/* <h4>Bottom 5 Questions</h4> */}
                     <h2>Bottom Rated Statements By Self</h2>
-                    <ul>
-                        {subjectQuestions.bottomQuestions.map((question, idx) => (
-                            <li key={idx}>{question.questionText} - Response: {question.response}</li>
-                        ))}
-                    </ul>
+                    {subjectQuestions.bottomQuestions.map((question, idx) => (
+                        <>
+                            {/* <li key={idx}>{question.questionText} - Response: {question.response}</li> */}
 
-                    <h4>Treemap Representation</h4>
+                            <div className={`d-flex statement-main-box ${idx == 1 ? 'flex-row-reverse' : 'flex-row'}`}>
+                                <div className='statement-box bg-danger'>
+                                    <h6 className='statement-head'>Statement</h6>
+                                    <p className='statement-text'>{idx + 1}</p>
+                                </div>
+                                <div className='question-box'>
+                                    <div className='question-text'>
+                                        <p>{question.questionText}</p>
+                                    </div>
+                                    <hr />
+                                </div>
+                            </div>
+                        </>
+                    ))}
+
+                    {/* <h4>Treemap Representation</h4>
                     <ResponsiveContainer width="100%" height={400}>
                         <Treemap data={treemapData} dataKey="value" stroke="#000" label={<CustomizedLabel />} >
                             {
@@ -111,7 +145,7 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
                             }
                             <Tooltip content={<CustomTooltip />} />
                         </Treemap>
-                    </ResponsiveContainer>
+                    </ResponsiveContainer> */}
                 </div>
             )}
         </>

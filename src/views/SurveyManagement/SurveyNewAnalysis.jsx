@@ -29,6 +29,9 @@ import SurveyTraitsOpenDeficiencies from './SurveyTraitsOpenDeficiencies';
 import SurveyTraitsUnknownStrengths from './SurveyTraitsUnknownStrengths';
 import SurveyTraitsHighPotential from './SurveyTraitsHighPotential';
 
+import './SurveyManagement.scss';
+import SurveyTraitMapping from './SurveyTraitMapping';
+
 const SurveyAnalysis = () => {
     const { id, subjectId } = useParams();
 
@@ -503,24 +506,21 @@ const SurveyAnalysis = () => {
                             </CardBody>
                         </Card>
 
-                        <div className="row">
-                            <div className="col-6">
-                                {/* Rank Traits based on average of Others rating */}
-                                <Card>
-                                    <CardBody>
-                                        <SurveyTraitsRespondentScore traitRespondentsData={traitRespondentsData} />
-                                    </CardBody>
-                                </Card>
-                            </div>
-                            <div className="col-6">
-                                {/* Rank Traits based on average of Self rating */}
-                                <Card>
-                                    <CardBody>
-                                        <SurveyTraitsSelfScore traitSelfData={traitSelfOthersData} />
-                                    </CardBody>
-                                </Card>
-                            </div>
-                        </div>
+                    
+                        {/* Rank Traits based on average of Others rating */}
+                        <Card>
+                            <CardBody>
+                                <SurveyTraitsRespondentScore traitRespondentsData={traitRespondentsData} />
+                            </CardBody>
+                        </Card>
+                            
+                        {/* Rank Traits based on average of Self rating */}
+                        <Card>
+                            <CardBody>
+                                <SurveyTraitsSelfScore traitSelfData={traitSelfOthersData} />
+                            </CardBody>
+                        </Card>
+                            
 
                         {/* Detailed Trait Analysis */}
                         <Card>
@@ -529,29 +529,21 @@ const SurveyAnalysis = () => {
                             </CardBody>
                         </Card>
 
-                        <div className="row">
-                            <div className="col-6">
-                                {/* Top 5 & Bottom 5 Questions from self */}
-                                <Card>
-                                    <CardBody>
-                                        <SurveyTopBottom5QuestionsForSelf subjectObject={subjectObject} questionObjects={questionObjects} />
-                                    </CardBody>
-                                </Card>
-                            </div>
-                            <div className="col-6">
-                                {/* Top 5 & Bottom 5 Questions from others */}
-                                <Card>
-                                    <CardBody>
-                                        <SurveyTopBottom5QuestionsForOthers traitQuestionData={traitQuestionData} />
-                                    </CardBody>
-                                </Card>
-                            </div>
-                        </div>
-
                         
-
+                        {/* Top 5 & Bottom 5 Questions from self */}
+                        <Card>
+                            <CardBody>
+                                <SurveyTopBottom5QuestionsForSelf subjectObject={subjectObject} questionObjects={questionObjects} />
+                            </CardBody>
+                        </Card>
+                    
+                        {/* Top 5 & Bottom 5 Questions from others */}
+                        <Card>
+                            <CardBody>
+                                <SurveyTopBottom5QuestionsForOthers traitQuestionData={traitQuestionData} />
+                            </CardBody>
+                        </Card>
                         
-
                         {/* Top 5 Traits Compared to Self | Hidden Traits with Developmental Needs */}
                         <Card>
                             <CardBody>
@@ -594,32 +586,13 @@ const SurveyAnalysis = () => {
                             </CardBody>
                         </Card>
 
-                        <div className="row">
-                            <div className="col-12">
-                                <h3>Mapping of Traits by Developmental Need</h3>
-                            </div>
-                            <div className="col-lg-4 col-md-6">
-                                <Card>
-                                    <CardBody>
-                                        <SurveyTraitsForStrengths traitSelfOthersData={traitSelfOthersData} />
-                                    </CardBody>
-                                </Card>
-                            </div>
-                            <div className="col-lg-4 col-md-6">
-                                <Card>
-                                    <CardBody>
-                                        <SurveyTraitsHighPotential traitSelfOthersData={traitSelfOthersData} />
-                                    </CardBody>
-                                </Card>
-                            </div>
-                            <div className="col-lg-4 col-md-6">
-                                <Card>
-                                    <CardBody>
-                                        <SurveyTraitsOpenDeficiencies traitSelfOthersData={traitSelfOthersData} />
-                                    </CardBody>
-                                </Card>
-                            </div>
-                        </div>
+                        {/* Mapping of Traits by Developmental Need */}
+                        <Card className='my-3'>
+                            <CardBody>
+                                <SurveyTraitMapping traitSelfOthersData={traitSelfOthersData} />
+                            </CardBody>
+                        </Card>
+
 
                         <Card>
                             <CardHeader>

@@ -64,11 +64,9 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
     return (
         <>
             <h2>Detailed Trait Analysis</h2>
-            <div className="row">
+            <div className="my-4">
                 {Array.isArray(traitData) && traitData.map((row, index) => (
-                    <React.Fragment key={index}>
-                        <div className="col-md-6 col-lg-4 ">
-                            
+                    <React.Fragment key={index}>                            
                             <Card className='shadow mb-4'>
                                 <CardHeader><h3>{row.trait}</h3></CardHeader>
                                 <CardBody>
@@ -77,7 +75,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
                                             {row.trait === traitRow.trait ?
                                                 <>
                                                     <p className='d-none'>{traitRow.categories.push({ category: "Average of Others", averageScore: calculateOverallAverageScore(traitRow.categories).toString() })}</p>
-                                                    <Table bordered>
+                                                    {/* <Table bordered>
                                                         <thead>
                                                             <th>Category</th>
                                                             <th>Average Score</th>
@@ -92,7 +90,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
                                                                 </>
                                                             ))}
                                                         </tbody>
-                                                    </Table>
+                                                    </Table> */}
                                                     {/* <p className='d-none'>{traitRow.categories.push({ category: "Maximum Score", averageScore: 7 })}</p> */}
                                                     {/* {traitRow.categories.map((category, idx) => (
                                                         <>
@@ -147,7 +145,6 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
                                     ))}
                                 </ul>
                             </div> */}
-                        </div>
                     </React.Fragment>
                 ))}
             </div>
