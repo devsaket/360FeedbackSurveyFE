@@ -46,8 +46,8 @@ const SurveyTopBottom5QuestionsForOthers = ({ traitQuestionData }) => {
         const sortedQuestions = allQuestions.sort((a, b) => b.averageResponse - a.averageResponse);
 
         // Get top 5 and bottom 5 questions
-        const topOtherQuestions = sortedQuestions.slice(0, 5);
-        const bottomOtherQuestions = sortedQuestions.slice(-5);
+        const topOtherQuestions = sortedQuestions.slice(0, 3);
+        const bottomOtherQuestions = sortedQuestions.slice(-3);
 
         return { topOtherQuestions, bottomOtherQuestions };
     }
@@ -62,23 +62,24 @@ const SurveyTopBottom5QuestionsForOthers = ({ traitQuestionData }) => {
 
     return (
         <>
-            <h2>Top 5 & Bottom 5 Questions from Others</h2>
-            <h4>Top 5 Questions (Highest Responses)</h4>
+            <h2>Top Rated Statements by Others </h2>
+            {/* <h4>Top 5 Questions</h4> */}
             <ul>
                 {topOtherQuestions.map((question, idx) => (
                     <>
                         {/* <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li> */}
-                        <li key={idx}>{question.questionText}</li>
+                        <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li>
                     </>
 
                 ))}
             </ul>
-            <h4>Bottom 5 Questions (Lowest Responses)</h4>
+            {/* <h4>Bottom 5 Questions</h4> */}
+            <h2>Bottom Rated Statements by Others </h2>
             <ul>
                 {bottomOtherQuestions.map((question, idx) => (
                     <>
                         {/* <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li> */}
-                        <li key={idx}>{question.questionText} </li>
+                        <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li>
                     </>
                 ))}
             </ul>

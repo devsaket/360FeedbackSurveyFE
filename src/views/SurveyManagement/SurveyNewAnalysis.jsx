@@ -267,7 +267,7 @@ const SurveyAnalysis = () => {
                             category,
                             nominated,
                             completed,
-                            completionRate: ((completed / nominated) * 100)
+                            completionRate: ((completed / nominated) * 100).toFixed(1)
                         });
                     }
                 }
@@ -332,7 +332,9 @@ const SurveyAnalysis = () => {
         };
 
         setTableData(processedTableData);
+        console.log(summaryData);
         setSummaryData(summaryData);
+
         setTraitData(processedTraitData);
         setCategoryTraitData(processedCategoryTraitData);
         setTraitCategoryData(processedTraitCategoryData);
@@ -349,7 +351,7 @@ const SurveyAnalysis = () => {
         return <div>Error: {error.message}</div>;
     }
 
-    
+
 
     return (
         <>
@@ -409,7 +411,7 @@ const SurveyAnalysis = () => {
                         </Card>
 
                         {/* The Company & Expertise */}
-                        <Card>
+                        {/* <Card>
                             <CardBody>
                                 <h3>Brief About Company</h3>
                                 <p></p>
@@ -429,14 +431,28 @@ const SurveyAnalysis = () => {
                                 <h3>Triangulated</h3>
                                 <p></p>
                             </CardBody>
-                        </Card>
+                        </Card> */}
 
-                        {/* About 360 Feedback */}
+                        {/* 360-Degree Assessment: An Introduction */}
                         <Card>
                             <CardBody>
-                                <h3>Introduction about 360 assessment</h3>
+                                <h3 className='display-4 fw-bold py-3'>360-Degree Assessment: An Introduction</h3>
                                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloremque, numquam! Voluptatem quae incidunt repellat natus, culpa, expedita iusto consequatur sequi fugit numquam ullam vitae eaque laudantium tempora facilis ad obcaecati!</p>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit velit reprehenderit doloribus voluptas at, ea consectetur eos? Minima sequi atque distinctio neque laboriosam quam ducimus fugit. Id repellendus repudiandae hic.</p>
+                            </CardBody>
+                        </Card>
+
+                        {/* About This Feedback Survey */}
+                        <Card>
+                            <CardBody>
+                                {
+                                    Array.isArray(subjectObject) && subjectObject.map(subjectItem => {
+                                        return <>
+                                            <h3 className='display-4 fw-bold py-3'>"About this Feedback Survey: {subjectItem.subjectName}"</h3>
+                                        </>
+                                    })
+                                }
+                                <p>The content of this section can include features of the platform and its uniqueness – Unbiased, Evidence based, Triangulated etc. and also about the rating scale that 1 to 7, etc.</p>
                             </CardBody>
                         </Card>
 
@@ -447,71 +463,110 @@ const SurveyAnalysis = () => {
                             </CardBody>
                         </Card>
 
-                        {/* Definition of Rating Scale */}
+                        {/* Survey Participation Data */}
                         <Card>
+                            <CardHeader>
+                                <h3>Survey Participation Data</h3>
+                            </CardHeader>
                             <CardBody>
-                                <h3>Rating Scale Details</h3>
+                                <p>The following is a summary of the group of respondents who were invited to participate and provide feedback for you.</p>
+                                <table className='table table-bordered'>
+                                    <thead className='thead-dark'>
+                                        <tr>
+                                            <th className='text-wrap align-top text-start'><b className='text-white'>Relationship</b></th>
+                                            <th className='text-wrap align-top text-center'><b className='text-white'>Nominated</b></th>
+                                            <th className='text-wrap align-top text-center'><b className='text-white'>Completed</b></th>
+                                            <th className='text-wrap align-top text-center'><b className='text-white'>Completion Rate</b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {Array.isArray(summaryData) && summaryData.map((row, index) => (
+                                            <tr key={index}>
+                                                <td>{row.category}</td>
+                                                <td className='text-wrap align-top text-center'>{row.nominated}</td>
+                                                <td className='text-wrap align-top text-center'>{row.completed}</td>
+                                                <td className='d-flex align-items-center justify-content-center'>
+                                                    {/* <progress value={row.completionRate}  max={100} className='w-100' /><span className='px-2'>{row.completionRate}%</span>  */}
+                                                    <ProgressBar bgcolor="#6a1b9a" completed={row.completionRate} max={100} /> 
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </CardBody>
                         </Card>
 
-                        {/* Overview of Respondents & Weightage */}
+                        {/* Overview of Respondents & Unable to Rate Weightage */}
                         <Card>
                             <CardBody>
-                                {/* <h3>Respondents List</h3> */}
                                 <SurveyResponseRespondentList surveyResponses={subjectObject} />
                             </CardBody>
                         </Card>
 
-                        {/* Rank Traits based on average of Others rating */}
-                        <Card>
-                            <CardBody>
-                                <SurveyTraitsRespondentScore traitRespondentsData={traitRespondentsData} />
-                            </CardBody>
-                        </Card>
+                        <div className="row">
+                            <div className="col-6">
+                                {/* Rank Traits based on average of Others rating */}
+                                <Card>
+                                    <CardBody>
+                                        <SurveyTraitsRespondentScore traitRespondentsData={traitRespondentsData} />
+                                    </CardBody>
+                                </Card>
+                            </div>
+                            <div className="col-6">
+                                {/* Rank Traits based on average of Self rating */}
+                                <Card>
+                                    <CardBody>
+                                        <SurveyTraitsSelfScore traitSelfData={traitSelfOthersData} />
+                                    </CardBody>
+                                </Card>
+                            </div>
+                        </div>
 
-                        {/* Rank Traits based on average of Self rating */}
-                        <Card>
-                            <CardBody>
-                                <SurveyTraitsSelfScore traitSelfData={traitSelfOthersData} />
-                            </CardBody>
-                        </Card>
-
-                        {/* Trait Wise Analysis */}
+                        {/* Detailed Trait Analysis */}
                         <Card>
                             <CardBody>
                                 <SurveyTraitWiseAnalysis traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} />
                             </CardBody>
                         </Card>
 
-                        {/* Top 5 & Bottom 5 Questions from self */}
-                        <Card>
-                            <CardBody>
-                                <SurveyTopBottom5QuestionsForSelf subjectObject={subjectObject} questionObjects={questionObjects} />
-                            </CardBody>
-                        </Card>
+                        <div className="row">
+                            <div className="col-6">
+                                {/* Top 5 & Bottom 5 Questions from self */}
+                                <Card>
+                                    <CardBody>
+                                        <SurveyTopBottom5QuestionsForSelf subjectObject={subjectObject} questionObjects={questionObjects} />
+                                    </CardBody>
+                                </Card>
+                            </div>
+                            <div className="col-6">
+                                {/* Top 5 & Bottom 5 Questions from others */}
+                                <Card>
+                                    <CardBody>
+                                        <SurveyTopBottom5QuestionsForOthers traitQuestionData={traitQuestionData} />
+                                    </CardBody>
+                                </Card>
+                            </div>
+                        </div>
 
-                        {/* Top 5 & Bottom 5 Questions from others */}
-                        <Card>
-                            <CardBody>
-                                <SurveyTopBottom5QuestionsForOthers traitQuestionData={traitQuestionData} />
-                            </CardBody>
-                        </Card>
+                        
 
-                        {/* Top 5 Traits Compared to Self */}
+                        
+
+                        {/* Top 5 Traits Compared to Self | Hidden Traits with Developmental Needs */}
                         <Card>
                             <CardBody>
                                 <SurveyTop5TraitsComparedToSelf traitSelfOthersData={traitSelfOthersData} />
                             </CardBody>
                         </Card>
 
-                        {/* Top Traits Average score greter than 5 */}
+                        {/* Top Traits Average score greter than 5 | Trait of Strengths */}
                         <Card>
                             <CardBody>
                                 <SurveyTraitsForStrengths traitSelfOthersData={traitSelfOthersData} />
                             </CardBody>
                         </Card>
-                        
-                        {/* Unknown Deficiency with difference of 1 in selfRating & averageOtherRating */}
+
+                        {/* Unknown Deficiency with difference of 1 in selfRating & averageOtherRating | Blind Traits with Developmental Needs */}
                         <Card>
                             <CardBody>
                                 <SurveyTraitsUnknownDeficiencies traitSelfOthersData={traitSelfOthersData} />
@@ -526,12 +581,12 @@ const SurveyAnalysis = () => {
                         </Card>
 
                         {/* Unknown Strengths with averageOtherRating is greater than 1 from the selfRating */}
-                        <Card>
+                        {/* <Card>
                             <CardBody>
                                 <SurveyTraitsUnknownStrengths traitSelfOthersData={traitSelfOthersData} />
                             </CardBody>
-                        </Card>
-                        
+                        </Card> */}
+
                         {/* High Potential Traits in between score of 4 to 5 */}
                         <Card>
                             <CardBody>
@@ -539,7 +594,43 @@ const SurveyAnalysis = () => {
                             </CardBody>
                         </Card>
 
-                        
+                        <div className="row">
+                            <div className="col-12">
+                                <h3>Mapping of Traits by Developmental Need</h3>
+                            </div>
+                            <div className="col-lg-4 col-md-6">
+                                <Card>
+                                    <CardBody>
+                                        <SurveyTraitsForStrengths traitSelfOthersData={traitSelfOthersData} />
+                                    </CardBody>
+                                </Card>
+                            </div>
+                            <div className="col-lg-4 col-md-6">
+                                <Card>
+                                    <CardBody>
+                                        <SurveyTraitsHighPotential traitSelfOthersData={traitSelfOthersData} />
+                                    </CardBody>
+                                </Card>
+                            </div>
+                            <div className="col-lg-4 col-md-6">
+                                <Card>
+                                    <CardBody>
+                                        <SurveyTraitsOpenDeficiencies traitSelfOthersData={traitSelfOthersData} />
+                                    </CardBody>
+                                </Card>
+                            </div>
+                        </div>
+
+                        <Card>
+                            <CardHeader>
+                                <h4>General Observation</h4>
+                            </CardHeader>
+                            <CardBody>
+                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis repudiandae ipsum, eveniet iusto quod quas qui iste quae necessitatibus quo reiciendis, accusamus autem sequi itaque ducimus sint laboriosam possimus. Earum.</p>
+                            </CardBody>
+                        </Card>
+
+
 
                     </Col>
                 </Row>

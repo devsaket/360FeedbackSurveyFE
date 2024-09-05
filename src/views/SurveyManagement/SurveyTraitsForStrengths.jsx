@@ -14,7 +14,8 @@ const SurveyTraitsForStrengths = ({ traitSelfOthersData }) => {
 
     return (
         <>
-            <h4>Traits denoting your strengths</h4>
+            {/* <h4>Traits denoting your strengths</h4> */}
+            <h4>Traits of Strength</h4>
             {topTraitsOfStrength.length > 0 ?
                 <>
                     <ul>

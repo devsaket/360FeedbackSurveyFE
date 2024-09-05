@@ -5,23 +5,23 @@ const SurveyTraitsSelfScore = ({ traitSelfData }) => {
   const traitSelfRating = traitSelfData.sort((a, b) => parseFloat(b.selfRating) - parseFloat(a.selfRating));
   return (
     <>
-      <h2>Rank Traits based on average of Self rating</h2>
-        {
+      <h2>Ranking of Traits Based on Self Rating</h2>
+        {/* {
           traitSelfRating.map((item,index)=>{
             return(
               <>
-                <div key={index}>
+                <div key={index} className='d-flex flex-row justify-content-between'>
                   <h3 className=''>{item.trait}</h3>
-                  {/* <p>{item.averageOtherRating}</p> */}
+                  <p>{item.averageOtherRating}</p>
                 </div>
               </>
             )
           })
-        }
+        } */}
 
       <ResponsiveContainer width="100%" height={400}>
         <BarChart data={traitSelfData} layout="horizontal">
-          <YAxis type="number" />
+          <YAxis type="number" domain={[0, 7]} tickCount={8} />
           <XAxis type="category" dataKey="trait" />
           <Tooltip />
           <Legend />

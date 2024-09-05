@@ -20,7 +20,8 @@ const SurveyTraitsUnknownDeficiencies = ({ traitSelfOthersData }) => {
 
     return (
         <>
-            <h4>Traits denoting your Unknown Deficiency</h4>
+            {/* <h4>Traits denoting your Unknown Deficiency</h4> */}
+            <h4>Blind Traits with Developmental Needs</h4>
             {unknownDeficiencyTraits.length > 0 ?
                 <>
                     <ul>

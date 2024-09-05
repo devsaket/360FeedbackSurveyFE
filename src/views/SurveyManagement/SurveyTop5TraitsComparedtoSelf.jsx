@@ -13,14 +13,16 @@ const SurveyTop5TraitsComparedToSelf = ({ traitSelfOthersData }) => {
         });
 
         const sortedTraits = traitsWithComparison.sort((a, b) => b.difference - a.difference);
-        return sortedTraits.slice(0, 5);
+        const filteredTraits = sortedTraits.filter(trait => trait.difference > 0);
+        
+        return filteredTraits.slice(0, 5);
     };
 
     const topTraits = getTopTraits();
 
     return (
         <>
-            <h4>Top 5 Traits Compared to Self</h4>
+            <h4>Hidden Traits with Developmental Needs</h4>
             <ul>
                 {topTraits.map((trait, idx) => (
                     <li key={idx}>
@@ -33,7 +35,7 @@ const SurveyTop5TraitsComparedToSelf = ({ traitSelfOthersData }) => {
                 <BarChart data={topTraits}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="trait" />
-                    <YAxis />
+                    <YAxis  type="number" domain={[0, 7]} tickCount={8}  />
                     <Tooltip />
                     <Legend />
                     <Bar dataKey="selfRating" fill="#8884d8" name="Self Rating" />

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
+import { Card, CardBody, CardHeader, Table } from 'react-bootstrap';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LabelList, Cell } from 'recharts';
 
 const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
@@ -51,7 +52,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="category" />
-            <YAxis domain={[0, 7]} />
+            <YAxis type="number" domain={[0, 7]} tickCount={8} />
             <Tooltip />
             <Legend />
             <Bar dataKey="averageScore" fill="#8884d8" minPointSize={5}>
@@ -62,68 +63,95 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
 
     return (
         <>
-            <h2>Trait Wise Analysis</h2>
-            {Array.isArray(traitData) && traitData.map((row, index) => (
-                <React.Fragment key={index}>
-                    <h3>{row.trait}</h3>
-                    <div className=''>
-                        {traitCategoryData.map((traitRow, index) => (
-                            <React.Fragment key={index}>
-                                {row.trait === traitRow.trait ? 
-                                    <>
-                                        <p className='d-none'>{traitRow.categories.unshift({ category: "Overall Average Score", averageScore: calculateOverallAverageScore(traitRow.categories).toString() })}</p>
-                                        <p className='d-none'>{traitRow.categories.push({ category: "Maximum Score", averageScore: 7 })}</p>
-                                        {/* {traitRow.categories.map((category, idx) => (
-                                            <div key={idx} className='d-flex justify-content-start'>
-                                                <p>{category.category} &nbsp;</p>
-                                                <p className='d-flex align-items-center justify-content-center'>
-                                                    <span className='px-2'>{category.averageScore}</span>
-                                                </p>
-                                            </div>
-                                        ))} */}
-                                        <ResponsiveContainer width="90%" height={400} className="mx-5">
-                                            <BarChart layout="vertical" data={traitRow.categories}>
-                                                <YAxis type='category' dataKey="category" />
-                                                <XAxis type='number' />
-                                                <Tooltip />
-                                                <Legend />
-                                                <Bar dataKey="averageScore" fill="#8884d8" label={{ position: 'right' }} >
-                                                    {
-                                                        traitRow.categories.map((entry, index) => (
-                                                            <Cell key={`cell-${index}`} fill={colors[index % 20]} />
-                                                        ))
-                                                    }
-                                                </Bar>
-                                            </BarChart>
-                                        </ResponsiveContainer>
-                                    </>
-                                    : ''
-                                }
-                            </React.Fragment>
-                        ))}
-                    </div>
-                    <div>
-                        <h4>Top Rated Questions (Average Responses ≥ 6)</h4>
-                        <ul>
-                            {getTopAndBottomQuestions(row.trait).topQuestions.map((question, idx) => (
-                                <>
-                                    {/* <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li> */}
-                                    <li key={idx}>{question.questionText}</li>
-                                </>
-                            ))}
-                        </ul>
-                        <h4>Bottom Rated Questions (Average Responses &lt; 4)</h4>
-                        <ul>
-                            {getTopAndBottomQuestions(row.trait).bottomQuestions.map((question, idx) => (
-                                <>
-                                    {/* <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li> */}
-                                    <li key={idx}>{question.questionText} </li>
-                                </>
-                            ))}
-                        </ul>
-                    </div>
-                </React.Fragment>
-            ))}
+            <h2>Detailed Trait Analysis</h2>
+            <div className="row">
+                {Array.isArray(traitData) && traitData.map((row, index) => (
+                    <React.Fragment key={index}>
+                        <div className="col-md-6 col-lg-4 ">
+                            
+                            <Card className='shadow mb-4'>
+                                <CardHeader><h3>{row.trait}</h3></CardHeader>
+                                <CardBody>
+                                    {traitCategoryData.map((traitRow, index) => (
+                                        <React.Fragment key={index}>
+                                            {row.trait === traitRow.trait ?
+                                                <>
+                                                    <p className='d-none'>{traitRow.categories.push({ category: "Average of Others", averageScore: calculateOverallAverageScore(traitRow.categories).toString() })}</p>
+                                                    <Table bordered>
+                                                        <thead>
+                                                            <th>Category</th>
+                                                            <th>Average Score</th>
+                                                        </thead>
+                                                        <tbody>
+                                                            {traitRow.categories.map((category, idx) => (
+                                                                <>
+                                                                    <tr key={idx}>
+                                                                        <td>{category.category} &nbsp;</td>
+                                                                        <td> <span className='px-2'>{category.averageScore}</span> </td>
+                                                                    </tr>
+                                                                </>
+                                                            ))}
+                                                        </tbody>
+                                                    </Table>
+                                                    {/* <p className='d-none'>{traitRow.categories.push({ category: "Maximum Score", averageScore: 7 })}</p> */}
+                                                    {/* {traitRow.categories.map((category, idx) => (
+                                                        <>
+                                                            <div key={idx} className='d-flex justify-content-start'>
+                                                                <p>{category.category} &nbsp;</p>
+                                                                <p className='d-flex align-items-center justify-content-center'>
+                                                                    <span className='px-2'>{category.averageScore}</span>
+                                                                </p>
+                                                            </div>
+
+                                                        </>
+                                                    ))} */}
+                                                    <ResponsiveContainer width="90%" height={400} className="mx-5">
+                                                        <BarChart layout="vertical" data={traitRow.categories}>
+                                                            <YAxis type='category' dataKey="category" />
+                                                            <XAxis type='number' domain={[0, 7]} tickCount={8} />
+                                                            <Tooltip />
+                                                            <Legend />
+                                                            <Bar dataKey="averageScore" fill="#8884d8" label={{ position: 'right' }} >
+                                                                {
+                                                                    traitRow.categories.map((entry, index) => (
+                                                                        <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+                                                                    ))
+                                                                }
+                                                            </Bar>
+                                                        </BarChart>
+                                                    </ResponsiveContainer>
+                                                </>
+                                                : ''
+                                            }
+                                        </React.Fragment>
+                                    ))}
+                                </CardBody>
+                            </Card>
+                            {/*<div>
+                                <h4>Top Rated Questions (Average Responses ≥ 6)</h4>
+                                <ul>
+                                    {getTopAndBottomQuestions(row.trait).topQuestions.map((question, idx) => (
+                                        <>
+                                            <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li>
+                                            <li key={idx}>{question.questionText}</li>
+                                        </>
+                                    ))}
+                                </ul>
+                                <h4>Bottom Rated Questions (Average Responses &lt; 4)</h4>
+                                <ul>
+                                    {getTopAndBottomQuestions(row.trait).bottomQuestions.map((question, idx) => (
+                                        <>
+                                            <li key={idx}>{question.questionText} - Average Response: {question.averageResponse.toFixed(1)}</li>
+                                            <li key={idx}>{question.questionText} </li>
+                                        </>
+                                    ))}
+                                </ul>
+                            </div> */}
+                        </div>
+                    </React.Fragment>
+                ))}
+            </div>
+
 
         </>
     )

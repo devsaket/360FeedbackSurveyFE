@@ -1,5 +1,5 @@
 import React from 'react'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Treemap } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Treemap, Cell } from 'recharts';
 
 // Custom cell component for the Treemap
 const CustomTreemapCell = ({ x, y, width, height, name, value }) => {
@@ -9,6 +9,28 @@ const CustomTreemapCell = ({ x, y, width, height, name, value }) => {
             <rect x={x} y={y} width={width} height={height} fill={fillColor} />
             <text x={x + 5} y={y + 20} fill="#fff">{name} ({value})</text>
         </g>
+    );
+};
+
+// Customize Tooltip
+const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+        return (
+            <div className="custom-tooltip">
+                <p>{`${payload[0].name}`}</p>
+                <p>{`Average Response: ${payload[0].value.toFixed(1)}`}</p>
+            </div>
+        );
+    }
+    return null;
+};
+
+// Customize labels for Treemap
+const CustomizedLabel = ({ x, y, width, height, value }) => {
+    return (
+        <text x={x + width / 2} y={y + height / 2} textAnchor="middle" fill="#ff6f61">
+            {value}
+        </text>
     );
 };
 
@@ -24,8 +46,8 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
             };
         }).sort((a, b) => b.response - a.response);
 
-        const topQuestions = sortedResponses.slice(0, 5);
-        const bottomQuestions = sortedResponses.reverse().slice(0, 5);
+        const topQuestions = sortedResponses.slice(0, 3);
+        const bottomQuestions = sortedResponses.reverse().slice(0, 3);
 
         return { topQuestions, bottomQuestions };
     };
@@ -58,33 +80,37 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
 
     return (
         <>
-            <h2>Top 5 & Bottom 5 Questions from self</h2>
+            <h2>Top Rated Statements By Self</h2>
             {subject && (
                 <div>
                     {/* <h2>Subject Specific Questions</h2> */}
-                    <h4>Top 5 Questions</h4>
+                    {/* <h4>Top 5 Questions</h4> */}
                     <ul>
                         {subjectQuestions.topQuestions.map((question, idx) => (
                             <li key={idx}>{question.questionText} - Response: {question.response}</li>
                         ))}
                     </ul>
                     
-                    <h4>Bottom 5 Questions</h4>
+                    {/* <h4>Bottom 5 Questions</h4> */}
+                    <h2>Bottom Rated Statements By Self</h2>
                     <ul>
                         {subjectQuestions.bottomQuestions.map((question, idx) => (
                             <li key={idx}>{question.questionText} - Response: {question.response}</li>
                         ))}
                     </ul>
 
-                    {/* <h4>Treemap of Responses</h4> */}
+                    <h4>Treemap Representation</h4>
                     <ResponsiveContainer width="100%" height={400}>
-                        <Treemap
-                            data={treemapData}
-                            dataKey="value"
-                            stroke="#fff"
-                            fill="#8884d8"
-                            content={<CustomTreemapCell />}
-                        />
+                        <Treemap data={treemapData} dataKey="value" stroke="#000" label={<CustomizedLabel />} >
+                            {
+                                treemapData.flatMap(group => 
+                                    group.children.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.color} /> // Apply color from data
+                                    ))
+                                )
+                            }
+                            <Tooltip content={<CustomTooltip />} />
+                        </Treemap>
                     </ResponsiveContainer>
                 </div>
             )}

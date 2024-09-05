@@ -20,7 +20,8 @@ const SurveyTraitsHighPotential = ({ traitSelfOthersData }) => {
 
     return (
         <>
-            <h4>High Potential Traits</h4>
+            {/* <h4>High Potential Traits</h4> */}
+            <h4>Traits of Potential Strengths</h4>
             {highPotentialTraits.length > 0 ? <>
                 <ul>
                     {highPotentialTraits.map((trait, idx) => (

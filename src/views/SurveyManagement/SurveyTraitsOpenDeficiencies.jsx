@@ -11,7 +11,8 @@ const SurveyTraitsOpenDeficiencies = ({ traitSelfOthersData }) => {
 
     return (
         <>
-            <h4>Traits denoting your Open Deficiencies</h4>
+            {/* <h4>Traits denoting your Open Deficiencies</h4> */}
+            <h4>Traits with High Developmental Need</h4>
             {openDeficiencyTraits.length > 0 ?
                 <>
                     <ul>
