@@ -8,7 +8,9 @@ const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
 const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionData }) => {
 
     const calculateOverallAverageScore = (categories) => {
-        const categoryAvg = categories.reduce((catAcc, category) => catAcc + parseFloat(category.averageScore), 0) / categories.length;
+        const avgCategory = [...categories];
+        avgCategory.shift();
+        const categoryAvg = avgCategory.reduce((catAcc, category) => catAcc + parseFloat(category.averageScore), 0) / avgCategory.length;
         return categoryAvg.toFixed(1);
     };
 

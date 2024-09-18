@@ -52,6 +52,8 @@ import {
   Col,
 } from "reactstrap";
 
+import  DecisionsSupportLogo  from '../../assets/img/brand/decision-support-logo.png'
+
 var ps;
 
 const Sidebar = (props) => {
@@ -119,9 +121,9 @@ const Sidebar = (props) => {
         {logo ? (
           <NavbarBrand className="pt-0" {...navbarBrandProps}>
             <img
-              alt={logo.imgAlt}
-              className="navbar-brand-img"
-              src={logo.imgSrc}
+              alt="Desicions Support Logo"
+              className="navbar-brand-img w-100 h-100"
+              src={DecisionsSupportLogo}
             />
           </NavbarBrand>
         ) : null}
@@ -247,12 +249,12 @@ const Sidebar = (props) => {
                 Email Templates
               </NavLink>
             </NavItem>
-            {/* <NavItem>
-              <NavLink href="https://demos.creative-tim.com/argon-dashboard-react/#/documentation/alerts?ref=adr-admin-sidebar">
-                <i className="ni ni-ui-04" />
-                Components
+            <NavItem>
+              <NavLink href="https://decisionssupport.org" target="_blank">
+                <i className="fa-solid fa-home text-dark" />
+                FrontEnd Website
               </NavLink>
-            </NavItem> */}
+            </NavItem>
           </Nav>
           {/* <Nav className="mb-md-3" navbar>
             <NavItem className="active-pro active">

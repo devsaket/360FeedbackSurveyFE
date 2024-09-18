@@ -116,12 +116,12 @@ var routes = [
   //   component: <CategoryManagement />,
   //   layout: "/admin",
   // },
-  {
-    path: "/",
-    name: "Decision Support for Education Consulting",
-    icon: "fa-solid fa-home text-dark",
-    component: <WebsitePagesLayout />,
-    layout: "/website",
-  },
+  // {
+  //   path: "",
+  //   name: "Decision Support for Education Consulting",
+  //   icon: "fa-solid fa-home text-dark",
+  //   component: <WebsitePagesLayout />,
+  //   layout: "/website",
+  // },
 ];
 export default routes;

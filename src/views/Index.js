@@ -63,7 +63,7 @@ const Index = (props) => {
   };
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       {/* Page content */}
       <Container className="mt--7" fluid>
         {/* <Row>
@@ -71,7 +71,7 @@ const Index = (props) => {
             Admin Dashboard
           </Col>
         </Row> */}
-        {/* <Row>
+        <Row>
           <Col className="mb-5 mb-xl-0" xl="8">
             <Card className="bg-gradient-default shadow">
               <CardHeader className="bg-transparent">
@@ -115,7 +115,7 @@ const Index = (props) => {
               </CardHeader>
               <CardBody>
                 {/* Chart */}
-                {/* <div className="chart">
+                 <div className="chart">
                   <Line
                     data={chartExample1[chartExample1Data]}
                     options={chartExample1.options}
@@ -139,7 +139,7 @@ const Index = (props) => {
               </CardHeader>
               <CardBody>
                 {/* Chart */}
-                {/* <div className="chart">
+                 <div className="chart">
                   <Bar
                     data={chartExample2.data}
                     options={chartExample2.options}
@@ -334,7 +334,7 @@ const Index = (props) => {
               </Table>
             </Card>
           </Col>
-        </Row> */}
+        </Row>
       </Container>
     </>
   );
