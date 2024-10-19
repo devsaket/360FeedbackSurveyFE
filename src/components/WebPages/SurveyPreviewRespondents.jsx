@@ -88,8 +88,8 @@ const SurveyPreviewRespondents = () => {
                                             if (trait) {
                                                 return (
                                                     <div key={trait._id}>
-                                                        <h4 className=''>{trait.traitName}</h4>
-                                                        <p>{trait.traitDescription}</p>
+                                                        {/* <h4 className=''>{trait.traitName}</h4> */}
+                                                        {/* <p>{trait.traitDescription}</p> */}
 
                                                         {Array.isArray(survey.questions) && survey.questions
                                                             .map((questionId) => {

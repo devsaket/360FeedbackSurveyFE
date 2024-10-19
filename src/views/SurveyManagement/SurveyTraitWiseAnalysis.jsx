@@ -110,7 +110,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
                                                             <YAxis type='category' dataKey="category" />
                                                             <XAxis type='number' domain={[0, 7]} tickCount={8} />
                                                             <Tooltip />
-                                                            <Legend />
+                                                            {/* <Legend /> */}
                                                             <Bar dataKey="averageScore" fill="#8884d8" label={{ position: 'right' }} >
                                                                 {
                                                                     traitRow.categories.map((entry, index) => (

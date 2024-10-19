@@ -79,9 +79,9 @@ const SurveyTraitMapping = ({ traitSelfOthersData }) => {
         <>
             <h3>Mapping of Traits by Developmental Need</h3>
 
-            <div className='d-flex flex-row'>
+            <div className='d-flex flex-lg-row flex-lg-nowrap flex-md-column flex-md-wrap'>
                 {/* Traits of Strengths */}
-                <div className="trapezoid" style={{borderColor:"#5356FF"}}>
+                <div className="trapezoid" style={{backgroundColor:"#5356FF"}}>
                     <div className='text-box'>
                         <h4 className='pt-3 text-white'>Traits of Strengths</h4>
                         {topTraitsOfStrength.length > 0 ? <>
@@ -99,7 +99,7 @@ const SurveyTraitMapping = ({ traitSelfOthersData }) => {
                 </div>
 
                 {/* Traits of Potential Strengths */}
-                <div className="trapezoid" style={{borderColor:"#4857dbe0"}}>
+                <div className="trapezoid" style={{backgroundColor:"#4857dbe0"}}>
                     <div className='text-box'>
                         <h4 className='pt-3 text-white'>Traits of Potential Strengths</h4>
                         {highPotentialTraits.length > 0 ? <>
@@ -117,7 +117,7 @@ const SurveyTraitMapping = ({ traitSelfOthersData }) => {
                 </div>
 
                 {/* Hidden Traits With Development Needs */} 
-                <div className="trapezoid" style={{borderColor:"#378CE7"}}>
+                <div className="trapezoid" style={{backgroundColor:"#378CE7"}}>
                     <div className='text-box'>
                         <h4 className='pt-3 text-white'>Hidden Traits With Development Needs</h4>
                         {topTraits.length > 0 ? <>
@@ -135,7 +135,7 @@ const SurveyTraitMapping = ({ traitSelfOthersData }) => {
                 </div>
 
                 {/* Blind Traits With Development Needs */}
-                <div className="trapezoid" style={{borderColor:"#67C6E3"}}>
+                <div className="trapezoid" style={{backgroundColor:"#67C6E3"}}>
                     <div className='text-box'>
                         <h4 className='pt-3 text-white'>Blind Traits With Development Needs</h4>
                         {unknownDeficiencyTraits.length > 0 ? <>
@@ -153,7 +153,7 @@ const SurveyTraitMapping = ({ traitSelfOthersData }) => {
                 </div>
 
                 {/* Traits With High Developmental Needs */}
-                <div className="trapezoid" style={{borderColor:"#1d458f"}}>
+                <div className="trapezoid" style={{backgroundColor:"#1d458f"}}>
                     <div className='text-box'>
                         <h4 className='pt-3 text-white'>Traits With High Developmental Needs</h4>
                         {openDeficiencyTraits.length > 0 ? <>
