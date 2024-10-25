@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Card, CardBody, CardHeader, Table } from 'react-bootstrap';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LabelList, Cell } from 'recharts';
 
-const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
+const predefinedColors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7f50', '#FFBB28', '#00C49F'];
 
 const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
 
@@ -23,11 +23,12 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
     };
 
     // Map over surveyCategory and add categoryName
-    const updatedSurveyCategory = surveyCategoryObject.map(survey => {
+    const updatedSurveyCategory = surveyCategoryObject.map((survey, index) => {
         const matchedCategory = categoriesRolesObject.find(category => category._id === survey.category);
         return {
             ...survey,
             categoryName: matchedCategory ? matchedCategory.categoryName : null,
+            color: predefinedColors[index % predefinedColors.length]
         };
     });
 
@@ -207,12 +208,15 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
         </BarChart>
     );
 
-    const colors = {
-        Self: '#8884d8',
-        Parent: '#82ca9d',
-        Peer: '#ffc658',
-        Teacher: '#ff7f50'
-    };
+    // const colors = {
+    //     Self: '#8884d8',
+    //     Parent: '#82ca9d',
+    //     Peer: '#ffc658',
+    //     Teacher: '#ff7f50'
+    // };
+
+    // Add a color for 'Self' to the start of colors array
+    const dynamicColors = [{ category: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
 
     return (
         <>
@@ -320,16 +324,19 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
                                     layout="vertical"
                                     margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
                                 >
-                                    <XAxis type="number" domain={[0, 7]} />
+                                    <XAxis type="number" domain={[0, 7]} tickCount={8} />
                                     <YAxis type="category" dataKey="category" />
                                     <Tooltip />
                                     <Bar dataKey="value" label={{ position: 'right' }}>
-                                        <Cell key={`cell-0`} fill={colors['Self']} />
-                                        {
+                                        {/* <Cell key={`cell-0`} fill={colors['Self']} /> */}
+                                        {/* {
                                             updatedSurveyCategory.map((category, idx) => (
                                                 <Cell key={`cell-${idx}`} fill={colors[category.categoryName]} />
                                             ))
-                                        }
+                                        } */}
+                                        {dynamicColors.map((item, idx) => (
+                                            <Cell key={`cell-${idx}`} fill={item.color} />
+                                        ))}
                                     </Bar>
                                 </BarChart>
                             </ResponsiveContainer>
