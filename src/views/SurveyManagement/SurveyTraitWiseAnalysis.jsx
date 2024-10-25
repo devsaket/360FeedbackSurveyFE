@@ -32,6 +32,9 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
         };
     });
 
+    // Add 'Self' to updatedSurveyCategory
+    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+
     // console.log("updatedSurveyCategory = ", updatedSurveyCategory);
 
     const calculateCategoryAverage = (responses) => {
@@ -97,20 +100,38 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
         // Step 1: Transform traitQuestionData
         const transformedData = Object.keys(traitQuestionData).map(trait => {
             const questions = traitQuestionData[trait];
-            const categoryAverages = { Self: [], Parent: [], Peer: [], Teacher: [] };
+            // const categoryAverages = { Self: [], Parent: [], Peer: [], Teacher: [] };
+
+            // Object.values(questions).forEach(question => {
+            //     Object.keys(categoryAverages).forEach(category => {
+            //         const avgScore = calculateAverage(question.responses[category] || []);
+            //         categoryAverages[category].push(avgScore);
+            //     });
+            // });
+
+            // // Step 2: Calculate the overall average for each category
+            // const overallAverages = {};
+            // Object.keys(categoryAverages).forEach(category => {
+            //     overallAverages[category] = calculateAverage(categoryAverages[category]);
+            // });
+
+
+            // Step 1: Transform traitQuestionData dynamically based on categoriesWithSelf
+
+            // Initialize categoryAverages dynamically
+            const categoryAverages = Object.fromEntries(categoriesWithSelf.map(cat => [cat.categoryName, []]));
 
             Object.values(questions).forEach(question => {
-                Object.keys(categoryAverages).forEach(category => {
-                    const avgScore = calculateAverage(question.responses[category] || []);
-                    categoryAverages[category].push(avgScore);
+                categoriesWithSelf.forEach(({ categoryName }) => {
+                    const avgScore = calculateAverage(question.responses[categoryName] || []);
+                    categoryAverages[categoryName].push(avgScore);
                 });
             });
 
-            // Step 2: Calculate the overall average for each category
-            const overallAverages = {};
-            Object.keys(categoryAverages).forEach(category => {
-                overallAverages[category] = calculateAverage(categoryAverages[category]);
-            });
+            // Calculate overall averages
+            const overallAverages = Object.fromEntries(
+                Object.entries(categoryAverages).map(([category, scores]) => [category, calculateAverage(scores)])
+            );
 
             return { trait, ...overallAverages };
         });
@@ -120,7 +141,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
             const totalWeightedScore = categoriesRolesObject.reduce((acc, role) => {
                 const avgScore = data[role.categoryName];
                 const weight = surveyCategoryObject.find(cat => cat.category === role._id)?.scoreWeightage || 0;
-                return ((acc + avgScore) * (weight / 100));
+                return acc + avgScore * weight;
             }, 0);
 
             const sumWeights = categoriesRolesObject.reduce((acc, role) => {
@@ -134,7 +155,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
 
         setProcessedData(finalData);
 
-    }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject]);
+    }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject, categoriesWithSelf]);
 
     // Function to reduce the data to the desired format
     const reduceResponses = (data) => {
@@ -222,18 +243,18 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
         <>
             {/* <h2>Detailed Trait Analysis</h2> */}
             {/* <div className="my-4"> */}
-                {/* {Array.isArray(traitData) && traitData.map((row, index) => (
+            {/* {Array.isArray(traitData) && traitData.map((row, index) => (
                     <React.Fragment key={index}>
                         <Card className='shadow mb-4'>
                             <CardHeader><h3>{row.trait}</h3></CardHeader>
                             <CardBody> */}
-                {/* { */}
-                {/* traitCategoryData.map((traitRow, index) => ( */}
-                {/* <React.Fragment key={index}> */}
-                {/* {row.trait === traitRow.trait ? */}
-                <>
-                    {/* <p className='d-none'>{traitRow.categories.push({ category: "Average of Others", averageScore: calculateOverallAverageScore(traitRow.categories).toString() })}</p> */}
-                    {/* <Table bordered>
+            {/* { */}
+            {/* traitCategoryData.map((traitRow, index) => ( */}
+            {/* <React.Fragment key={index}> */}
+            {/* {row.trait === traitRow.trait ? */}
+            <>
+                {/* <p className='d-none'>{traitRow.categories.push({ category: "Average of Others", averageScore: calculateOverallAverageScore(traitRow.categories).toString() })}</p> */}
+                {/* <Table bordered>
                                                         <thead>
                                                             <th>Category</th>
                                                             <th>Average Score</th>
@@ -249,8 +270,8 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
                                                             ))}
                                                         </tbody>
                                                     </Table> */}
-                    {/* <p className='d-none'>{traitRow.categories.push({ category: "Maximum Score", averageScore: 7 })}</p> */}
-                    {/* {traitRow.categories.map((category, idx) => (
+                {/* <p className='d-none'>{traitRow.categories.push({ category: "Maximum Score", averageScore: 7 })}</p> */}
+                {/* {traitRow.categories.map((category, idx) => (
                                                         <>
                                                             <div key={idx} className='d-flex justify-content-start'>
                                                                 <p>{category.category} &nbsp;</p>
@@ -261,7 +282,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
 
                                                         </>
                                                     ))} */}
-                    {/* <ResponsiveContainer width="90%" height={400} className="mx-5">
+                {/* <ResponsiveContainer width="90%" height={400} className="mx-5">
                                                     <BarChart layout="vertical" data={traitRow.categories}>
                                                         <YAxis type='category' dataKey="category" />
                                                         <XAxis type='number' domain={[0, 7]} tickCount={8} />
@@ -275,14 +296,14 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
                                                         </Bar>
                                                     </BarChart>
                                                 </ResponsiveContainer> */}
-                </>
-                {/* : '' */}
-                {/* } */}
-                {/* </React.Fragment> */}
-                {/* ))} */}
-                {/* </CardBody>
+            </>
+            {/* : '' */}
+            {/* } */}
+            {/* </React.Fragment> */}
+            {/* ))} */}
+            {/* </CardBody>
                         </Card> */}
-                {/*<div>
+            {/*<div>
                                 <h4>Top Rated Questions (Average Responses ≥ 6)</h4>
                                 <ul>
                                     {getTopAndBottomQuestions(row.trait).topQuestions.map((question, idx) => (
@@ -302,7 +323,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
                                     ))}
                                 </ul>
                             </div> */}
-                {/* </React.Fragment>
+            {/* </React.Fragment>
                 ))} */}
             {/* </div> */}
 
