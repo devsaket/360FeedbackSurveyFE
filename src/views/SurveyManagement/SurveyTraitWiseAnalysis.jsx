@@ -155,7 +155,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
 
         setProcessedData(finalData);
 
-    }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject, categoriesWithSelf]);
+    }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject]);
 
     // Function to reduce the data to the desired format
     const reduceResponses = (data) => {
