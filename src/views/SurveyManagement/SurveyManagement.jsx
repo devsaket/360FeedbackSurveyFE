@@ -64,6 +64,10 @@
         const [selectedCategories, setSelectedCategories] = useState([]);
         const [categoryDetails, setCategoryDetails] = useState({});
 
+        const [totalWeightage, setTotalWeightage] = useState(0); // Added for tracking total weightage
+        const [weightageError, setWeightageError] = useState(''); // For displaying error message
+    
+
         const handleDeleteSurvey = (id) => {
             // Send delete request to backend
             axios.delete(process.env.REACT_APP_BACKEND_URL + `/survey/${id}`)
@@ -149,6 +153,16 @@
             setCategoryDetails(updatedCategoryDetails);
         };
 
+        // const handleCategoryDetailChange = (categoryId, field, value) => {
+        //     setCategoryDetails(prevDetails => ({
+        //         ...prevDetails,
+        //         [categoryId]: {
+        //             ...prevDetails[categoryId],
+        //             [field]: value
+        //         }
+        //     }));
+        // };
+
         const handleCategoryDetailChange = (categoryId, field, value) => {
             setCategoryDetails(prevDetails => ({
                 ...prevDetails,
@@ -157,6 +171,29 @@
                     [field]: value
                 }
             }));
+    
+            if (field === 'scoreWeightage') {
+                // Recalculate the total weightage when score weightage changes
+                const updatedCategoryDetails = {
+                    ...categoryDetails,
+                    [categoryId]: {
+                        ...categoryDetails[categoryId],
+                        scoreWeightage: value
+                    }
+                };
+
+                const total = Object.values(updatedCategoryDetails).reduce((sum, detail) => sum + detail.scoreWeightage, 0);
+                setTotalWeightage(total);
+    
+                // Check if the total weightage exceeds 100
+                if (total > 100) {
+                    setWeightageError('Total score weightage cannot exceed 100.');
+                } else if (total < 100) {
+                    setWeightageError('Total score weightage must be exactly 100.');
+                } else {
+                    setWeightageError(''); // Clear the error if total weightage is 100
+                }
+            }
         };
 
         const options = Array.isArray(traits) && traits.map(trait => ({
@@ -211,6 +248,12 @@
             // })
 
             // console.log(surveyCategories)
+
+            if (totalWeightage !== 100) {
+                setWeightageError('Total score weightage must equal 100.');
+                toast.error('Total score weightage must equal 100.');
+                return;
+            }
 
             const surveyCategories = Array.isArray(selectedCategories) && selectedCategories.map(category => ({
                 categoryId: category.value,
@@ -299,6 +342,9 @@
                                                         <input type="number" id={`maxRespondents-${category.value}`} value={categoryDetails[category.value]?.maxRespondents || 0} onChange={(e) => handleCategoryDetailChange(category.value, 'maxRespondents', parseInt(e.target.value))} className='form-control' required />
                                                     </div>
                                                 ))}
+
+                                                {weightageError && <p className="text-danger">{weightageError}</p>}
+                                                <p>Total Score Weightage: {totalWeightage}</p>
 
                                             </ModalBody>
                                             <ModalFooter>

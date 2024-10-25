@@ -39,6 +39,7 @@ const SurveyAnalysis = () => {
     const [surveyObject, setSurveyObject] = useState([]);
     const [subjectObject, setSubjectObject] = useState([]);
     const [categoriesRolesObject, setCategoryRolesObject] = useState([]);
+    const [surveyCategoryObject, setSurveyCategoryObject] = useState([]);
     const [questionObjects, setQuestionObjects] = useState([]);
     const [tableData, setTableData] = useState([]);
     const [summaryData, setSummaryData] = useState([]);
@@ -57,21 +58,29 @@ const SurveyAnalysis = () => {
             try {
                 const categoryResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/categoryRoles/');
                 setCategoryRolesObject(categoryResponse.data);
+                // console.log("Category Roles response = ", categoryResponse.data);
 
                 const questionResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/question/');
                 setQuestionObjects(questionResponse.data);
+                // console.log("Question response = ", questionResponse.data);
 
                 const traitResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/trait/');
                 setTraitDetails(traitResponse.data);
+                // console.log("Trait response = ", traitResponse.data);
 
                 const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey?id=${id}`);
                 setSurveyObject(surveyResponse.data);
-
+                // console.log("Survey response = ", surveyResponse.data);
+                setSurveyCategoryObject(surveyResponse.data[0].categories)
+                // console.log("Survey Category response = ", surveyResponse.data[0].categories);
+                
                 const surveyResultResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/${id}`);
                 setSurveyResponseObject(surveyResultResponse.data);
+                // console.log("Survey Result response = ", surveyResultResponse.data);
 
                 const surveyResultSubjectDataResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response?surveyId=${id}&subjectId=${subjectId}`);
                 setSubjectObject(surveyResultSubjectDataResponse.data);
+                // console.log("Survey Subject Result response = ", surveyResultSubjectDataResponse.data);
             } catch (err) {
                 setError(err);
             } finally {
@@ -174,11 +183,11 @@ const SurveyAnalysis = () => {
                                     responses: []
                                 };
                             }
-                            // if (!traitQuestionData[trait][response.questionId].responses[categoryName]) {
-                            //     traitQuestionData[trait][response.questionId].responses[categoryName] = [];
-                            // }
-                            // traitQuestionData[trait][response.questionId].responses[categoryName].push(parseInt(response.answer, 10) || 0);
-                            traitQuestionData[trait][response.questionId].responses.push(parseInt(response.answer, 10) || 0);
+                            if (!traitQuestionData[trait][response.questionId].responses[categoryName]) {
+                                traitQuestionData[trait][response.questionId].responses[categoryName] = [];
+                            }
+                            traitQuestionData[trait][response.questionId].responses[categoryName].push(parseInt(response.answer, 10) || 0);
+                            // traitQuestionData[trait][response.questionId].responses.push(parseInt(response.answer, 10) || 0);
                         }
                     });
 
@@ -252,16 +261,18 @@ const SurveyAnalysis = () => {
                                         responses: []
                                     };
                                 }
-                                // if (!traitQuestionData[trait][response.questionId].responses[categoryName]) {
-                                //     traitQuestionData[trait][response.questionId].responses[categoryName] = [];
-                                // }
-                                // traitQuestionData[trait][response.questionId].responses[categoryName].push(parseInt(response.answer, 10) || 0);
-                                traitQuestionData[trait][response.questionId].responses.push(parseInt(response.answer, 10) || 0);
+                                if (!traitQuestionData[trait][response.questionId].responses[categoryName]) {
+                                    traitQuestionData[trait][response.questionId].responses[categoryName] = [];
+                                }
+                                
+                                if(parseInt(response.answer, 10) > 0){
+                                    traitQuestionData[trait][response.questionId].responses[categoryName].push(parseInt(response.answer, 10));
+                                }
+                                // traitQuestionData[trait][response.questionId].responses.push(parseInt(response.answer, 10) || 0);
                             }
                         });
 
                     });
-
 
                     // Convert categoryCounts to summaryData format
                     for (const category in categoryCounts) {
@@ -335,7 +346,7 @@ const SurveyAnalysis = () => {
         };
 
         setTableData(processedTableData);
-        console.log(summaryData);
+        // console.log(summaryData);
         setSummaryData(summaryData);
 
         setTraitData(processedTraitData);
@@ -525,7 +536,7 @@ const SurveyAnalysis = () => {
                         {/* Detailed Trait Analysis */}
                         <Card>
                             <CardBody>
-                                <SurveyTraitWiseAnalysis traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} />
+                                <SurveyTraitWiseAnalysis traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
 
