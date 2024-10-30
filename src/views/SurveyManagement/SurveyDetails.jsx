@@ -93,7 +93,7 @@ const SurveyDetails = () => {
                                                 </div>
 
                                                 <Link to={`/admin/survey-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
-                                                <Link to={`/admin/share-by-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link>
+                                                <Link to={`/admin/survey-share-by-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link>
                                             </div>
                                         </CardHeader>
                                         <CardBody key={survey._id}>
