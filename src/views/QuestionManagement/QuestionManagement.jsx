@@ -29,6 +29,7 @@ import Joi from "@hapi/joi";
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useParams } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
+import FileSaver from 'file-saver';
 
 // reactstrap components
 import {
@@ -69,12 +70,12 @@ const QuestionManagement = () => {
     const [nextQuestionCode, setNextQuestionCode] = useState("");
 
     const [data, setData] = useState(null);
-    const [fileJsonData, setFileJsonData] = useState([])
+    const [fileJsonData, setFileJsonData] = useState([]);
 
     const toggle = () => {
         if (!modal) {
             // Fetch next question code
-            axios.get(process.env.REACT_APP_BACKEND_URL+'/questions/next-code')
+            axios.get(process.env.REACT_APP_BACKEND_URL + '/questions/next-code')
                 .then(res => setNextQuestionCode(res.data.lastQuestion))
                 .catch(err => console.log(err));
         }
@@ -97,21 +98,21 @@ const QuestionManagement = () => {
     });
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BACKEND_URL+'/trait/')
+        axios.get(process.env.REACT_APP_BACKEND_URL + '/trait/')
             .then(res => {
                 setTrait(res.data);
             })
             .catch(err => console.log(err));
 
         if (traitId) {
-            axios.get(process.env.REACT_APP_BACKEND_URL+'/question/')
+            axios.get(process.env.REACT_APP_BACKEND_URL + '/question/')
                 .then(res => {
                     Array.isArray(res.data) && (res.data).filter(el => el.trait._id === traitId)
                     setQuestions(res.data)
                 })
                 .catch(err => console.log(err));
         } else {
-            axios.get(process.env.REACT_APP_BACKEND_URL+'/question/')
+            axios.get(process.env.REACT_APP_BACKEND_URL + '/question/')
                 .then(res => {
                     setQuestions(res.data)
                 })
@@ -120,9 +121,9 @@ const QuestionManagement = () => {
     }, [traitId]);
 
     const onSubmit = (data) => {
-        if(updateMode){
-            const postData = {...data, _id:updateQuestion._id}
-            axios.put(process.env.REACT_APP_BACKEND_URL+`/question/${updateQuestion._id}`, postData)
+        if (updateMode) {
+            const postData = { ...data, _id: updateQuestion._id }
+            axios.put(process.env.REACT_APP_BACKEND_URL + `/question/${updateQuestion._id}`, postData)
                 .then((res) => {
                     if (res.data.status) {
                         reset({ question: "", questionOthers: "", trait: "" });
@@ -135,34 +136,34 @@ const QuestionManagement = () => {
                         toast.warn(res.data.message);
                     }
                 })
-        }else{
-            axios.post(process.env.REACT_APP_BACKEND_URL+'/question', data)
-            .then((res) => {
-                if (res.status === 200) {
-                    reset({ question: "", questionOthers: "", trait: ""});
-                    toast.success("Question Inserted Successfully!");
-                    toggle();
-                    getQuestions();
-                } else {
-                    toast.warn("Something Went Wrong!");
-                    getQuestions();
-                }
-            })
-            .catch((err) => {
-                console.log(err?.message)
-                toast.warn("Duplicate Question Code");
-            });
+        } else {
+            axios.post(process.env.REACT_APP_BACKEND_URL + '/question', data)
+                .then((res) => {
+                    if (res.status === 200) {
+                        reset({ question: "", questionOthers: "", trait: "" });
+                        toast.success("Question Inserted Successfully!");
+                        toggle();
+                        getQuestions();
+                    } else {
+                        toast.warn("Something Went Wrong!");
+                        getQuestions();
+                    }
+                })
+                .catch((err) => {
+                    console.log(err?.message)
+                    toast.warn("Duplicate Question Code");
+                });
         }
     }
 
     const selectedQuestion = (data) => {
         setUpdateMode(true);
-        reset({ question: data.question, questionOthers: data.questionOthers, trait: data.trait._id});
+        reset({ question: data.question, questionOthers: data.questionOthers, trait: data.trait._id });
         setSelectedQuestion(data);
     };
 
     const getQuestions = () => {
-        axios.get(process.env.REACT_APP_BACKEND_URL+'/question/')
+        axios.get(process.env.REACT_APP_BACKEND_URL + '/question/')
             .then(res => {
                 setQuestions(res.data);
             })
@@ -170,7 +171,7 @@ const QuestionManagement = () => {
     };
 
     const deleteQuestion = (id) => {
-        axios.delete(process.env.REACT_APP_BACKEND_URL+`/question/${id}`).then((res) => {
+        axios.delete(process.env.REACT_APP_BACKEND_URL + `/question/${id}`).then((res) => {
             console.log(res.data);
             if (res.data.status) {
                 // toast.success("Trait Successfully Deleted!");
@@ -191,7 +192,15 @@ const QuestionManagement = () => {
             const workbook = XLSX.read(event.target.result, { type: 'binary' });
             const sheetName = workbook.SheetNames[0];
             const sheet = workbook.Sheets[sheetName];
-            const sheetData = XLSX.utils.sheet_to_json(sheet);
+            // const sheetData = XLSX.utils.sheet_to_json(sheet);
+
+            // Read data excluding 'sno' column
+            // Parse the sheet data and ignore the 'S No' column
+            const sheetData = XLSX.utils.sheet_to_json(sheet, {
+                header: ['sno', 'question', 'questionOthers', 'trait'],  // Map headers
+                range: 1  // Skip header row in data parsing
+            }).map(({ question, questionOthers, trait }) => ({ question, questionOthers, trait })); // Ignore 'sno'
+
 
             setData(sheetData);
             setFileJsonData(sheetData);
@@ -199,12 +208,33 @@ const QuestionManagement = () => {
         reader.readAsBinaryString(file);
     };
 
+    const downloadTemplate = () => {
+        // Define the header row
+        // const headerRow = [['S No','Question', 'Question Others', 'Trait']];
+        const data = [
+            [{ v: 'S No', s: { font: { bold: true } } }, { v: 'Question' }, { v: 'Question Others' }, { v: 'Trait' }]
+        ];
+        const ws = XLSX.utils.aoa_to_sheet(data);
+
+        // Freeze the first row
+        ws['!freeze'] = { ySplit: 1 };
+
+        // Create a new workbook and add the worksheet
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Questions Template');
+
+        // Generate an Excel file and trigger a download
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+        FileSaver.saveAs(blob, 'Questions_Template.xlsx');
+    };
+
     // Step 1: Create a mapping of trait names to their respective _id values
     const traitMapping = Array.isArray(Trait) && Trait.reduce((map, trait) => {
         const trimmedTraitName = trait.traitName.trim();
         map[trimmedTraitName] = trait._id;
         return map;
-    }, { });
+    }, {});
 
     // Step 2: Replace the trait value in each question object with the corresponding _id and add a question code
     const updatedQuestions = fileJsonData.map((question, index) => {
@@ -224,13 +254,13 @@ const QuestionManagement = () => {
         console.log("JSON Data", fileJsonData);
         console.log("Fetched Data", updatedQuestions);
 
-        let questionData =[]
-        updatedQuestions.map((questionItem,index)=>{
-            questionData = [...questionData, {question: questionItem.question, questionOthers: questionItem.questionOthers, trait: questionItem.trait}];
-            
+        let questionData = []
+        updatedQuestions.map((questionItem, index) => {
+            questionData = [...questionData, { question: questionItem.question, questionOthers: questionItem.questionOthers, trait: questionItem.trait }];
+
         })
 
-        axios.post(process.env.REACT_APP_BACKEND_URL+'/questions/upload', questionData)
+        axios.post(process.env.REACT_APP_BACKEND_URL + '/questions/upload', questionData)
             .then((res) => {
                 if (res.status === 200) {
                     toast.success("Questions Inserted Successfully!");
@@ -259,9 +289,9 @@ const QuestionManagement = () => {
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
                                 <h3 className="mb-0">All Questions</h3>
                                 <div>
-                                    <button className='btn btn-primary' onClick={()=> setBtnActive(true) } disabled={btnActive}>Subject</button>
-                                    <button className='btn btn-primary' onClick={()=> setBtnActive(false) } disabled={!btnActive}>Respondents</button>
-                                
+                                    <Button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</Button>
+                                    <Button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</Button>
+
                                     <Button onClick={uploadToggle}><i className="fa-solid fa-upload"></i> Upload Questions</Button>
                                     <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Question</Button>
                                 </div>
@@ -272,6 +302,7 @@ const QuestionManagement = () => {
                                         </ModalHeader>
                                         <ModalBody>
                                             <input type="file" onChange={handleFileUpload} />
+                                            <Button className="btn btn-link mt-2" onClick={downloadTemplate}> Download Question Template </Button>
                                         </ModalBody>
                                         <ModalFooter>
                                             <Button color="primary" className='px-5 my-2' type="submit"> Upload </Button>
@@ -300,7 +331,7 @@ const QuestionManagement = () => {
                                                 <label htmlFor="" className="form-label">Select A Trait</label>
                                                 <select  {...register("trait")} className="form-control" placeholder="Select a Trait">
                                                     <option selected={true}>Select a Trait</option>
-                                                    {Array.isArray(Trait) && 
+                                                    {Array.isArray(Trait) &&
                                                         Trait.length >= 1 ? Trait.map((el, index) => {
                                                             return (<>
                                                                 <option value={el._id} className='text-dark'>{el.traitName}</option>
