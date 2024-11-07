@@ -58,29 +58,29 @@ const SurveyAnalysis = () => {
             try {
                 const categoryResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/categoryRoles/');
                 setCategoryRolesObject(categoryResponse.data);
-                // console.log("Category Roles response = ", categoryResponse.data);
+                console.log("Category Roles response = ", categoryResponse.data);
 
                 const questionResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/question/');
                 setQuestionObjects(questionResponse.data);
-                // console.log("Question response = ", questionResponse.data);
+                console.log("Question response = ", questionResponse.data);
 
                 const traitResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/trait/');
                 setTraitDetails(traitResponse.data);
-                // console.log("Trait response = ", traitResponse.data);
+                console.log("Trait response = ", traitResponse.data);
 
                 const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey?id=${id}`);
                 setSurveyObject(surveyResponse.data);
-                // console.log("Survey response = ", surveyResponse.data);
+                console.log("Survey response = ", surveyResponse.data);
                 setSurveyCategoryObject(surveyResponse.data[0].categories)
-                // console.log("Survey Category response = ", surveyResponse.data[0].categories);
+                console.log("Survey Category response = ", surveyResponse.data[0].categories);
                 
                 const surveyResultResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/${id}`);
                 setSurveyResponseObject(surveyResultResponse.data);
-                // console.log("Survey Result response = ", surveyResultResponse.data);
+                console.log("Survey Result response = ", surveyResultResponse.data);
 
                 const surveyResultSubjectDataResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response?surveyId=${id}&subjectId=${subjectId}`);
                 setSubjectObject(surveyResultSubjectDataResponse.data);
-                // console.log("Survey Subject Result response = ", surveyResultSubjectDataResponse.data);
+                console.log("Survey Subject Result response = ", surveyResultSubjectDataResponse.data);
             } catch (err) {
                 setError(err);
             } finally {
