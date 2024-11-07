@@ -171,9 +171,9 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
             }, 0);
 
             // const averageOfOthers = (totalWeightedScore / sumWeights).toFixed(2);
-            const averageOfOthers = totalWeightedScore.toFixed(2);
+            const averageOfOthers = totalWeightedScore.toFixed(1);
 
-            return { ...data, averageOfOthers };
+            return { ...data, averageOfOthers: parseFloat(averageOfOthers) };
         });
 
         setProcessedData(finalData);
