@@ -429,7 +429,7 @@ const SurveyShareBySMS = () => {
                                         {
                                             chooseEmailTemplate !== "" ? <>
                                                 <div className="col-12">
-                                                    <label className='form-label'>Email's Subject of Respondent</label>
+                                                    <label className='form-label'>SMS's Subject of Respondent</label>
                                                     <input className='form-control' type="text" name="subject" placeholder="Respondent SMS's Subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
                                                 </div>
                                                 <div className="col-12">
@@ -460,7 +460,7 @@ const SurveyShareBySMS = () => {
                                                 <div key={index}>
                                                     <label>Respondent Name</label>
                                                     <input type="text" className="form-control" value={respondent.respondentName} onChange={e => handleInputChange(category.category, index, 'respondentName', e.target.value)} required />
-                                                    <label>Respondent Email</label>
+                                                    <label>Respondent Phone No.</label>
                                                     <input type="text" className="form-control" value={respondent.respondentEmail} onChange={e => handleInputChange(category.category, index, 'respondentEmail', e.target.value)} required />
                                                 </div>
                                             ))}
