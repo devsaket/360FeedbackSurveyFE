@@ -72,7 +72,7 @@ const SurveyTraitsUnknownDeficiencies = ({ traitSelfOthersData, traitCategoryDat
                 };
             });
     
-            const unknownDeficiencyTraits = traitsWithComparison.filter(item => { return item.difference >= 1 });
+            const unknownDeficiencyTraits = traitsWithComparison.filter(item => { return item.difference > 0 });
             return unknownDeficiencyTraits;
         };
     
@@ -82,7 +82,6 @@ const SurveyTraitsUnknownDeficiencies = ({ traitSelfOthersData, traitCategoryDat
         // console.log("Final Data = ", unknownDeficiencyTraits);
 
     }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject]);
-    
 
     return (
         <>

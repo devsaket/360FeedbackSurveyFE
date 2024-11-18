@@ -1,21 +1,4 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.4
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
 import 'reactjs-popup/dist/index.css';
@@ -28,18 +11,10 @@ import { toast, ToastContainer } from 'react-toastify';
 import TextareaAutosize from 'react-textarea-autosize';
 
 // reactstrap components
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    Container,
-    Row,
-    CardTitle,
-    Button,
-
-} from "reactstrap";
+import { Card, CardHeader, CardBody, Container, Row, CardTitle, Button } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.js";
+import FileSaver from "file-saver";
 
 var surveyQuestionData = [];
 var surveyRespondentQuestionData = [];
@@ -383,6 +358,28 @@ const SurveyShareByEmail = () => {
     };
 
 
+    const downloadTemplate = () => {
+        // Define the header row
+        // const headerRow = [['S No','respondentName', 'respondentEmail', 'category']];
+        const data = [
+            [{ v: 'S No', s: { font: { bold: true } } }, { v: 'respondentName' }, { v: 'respondentEmail' }, { v: 'category' }]
+        ];
+        const ws = XLSX.utils.aoa_to_sheet(data);
+
+        // Freeze the first row
+        ws['!freeze'] = { ySplit: 1 };
+
+        // Create a new workbook and add the worksheet
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Upload Respondent Template');
+
+        // Generate an Excel file and trigger a download
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+        FileSaver.saveAs(blob, 'Upload_Respondent_Template.xlsx');
+    };
+
+
     return (
         <>
             <Header />
@@ -498,7 +495,7 @@ const SurveyShareByEmail = () => {
                                 <>
                                     <CardHeader className="d-flex justify-content-between align-items-center">
                                         <h3 className="" >Upload Respondents</h3>
-                                        {btnActive ? <Button className="btn btn-primary" onClick={() => setBtnActive(false)}>Go Back to Respondents</Button> : <></>}
+                                        {btnActive ? <div><Button className="btn btn-primary" onClick={downloadTemplate}>Download Upload Respondent Template</Button> <Button className="btn btn-primary" onClick={() => setBtnActive(false)}>Go Back to Respondents</Button> </div>: <></>}
                                     </CardHeader>
                                     <CardBody>
                                         <form onSubmit={handleFileRespondentSubmit}>
