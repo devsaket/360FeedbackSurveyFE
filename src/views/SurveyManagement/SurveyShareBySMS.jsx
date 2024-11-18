@@ -449,7 +449,7 @@ const SurveyShareBySMS = () => {
                                 <>
                                     <CardHeader className="d-flex justify-content-between align-items-center">
                                         <h3 className="">For Respondents</h3>
-                                        {!btnActive ? <button className="btn btn-primary" onClick={() => setBtnActive(true)}>Upload Respondents</button> : <></>}
+                                        {/* {!btnActive ? <button className="btn btn-primary" onClick={() => setBtnActive(true)}>Upload Respondents</button> : <></>} */}
                                     </CardHeader>
                                     <CardBody>
                                         <form onSubmit={handleSubmit}>

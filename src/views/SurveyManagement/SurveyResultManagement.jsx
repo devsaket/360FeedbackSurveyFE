@@ -104,9 +104,9 @@ const SurveyResultManagement = () => {
             });
     }
 
-    const handleDownload = () => {
-        exportToExcel(surveyResult, 'Survey_Responses');
-    };
+    // const handleDownload = () => {
+    //     exportToExcel(surveyResult, 'Survey_Responses');
+    // };
 
     return (
         <>
@@ -120,7 +120,7 @@ const SurveyResultManagement = () => {
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
                                 <h3 className="mb-0">Survey Result</h3>
-                                <Button onClick={handleDownload}>Download Excel</Button>
+                                {/* <Button onClick={handleDownload}>Download Excel</Button> */}
                             </CardHeader>
                             <CardBody>
 

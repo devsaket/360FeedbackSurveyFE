@@ -52,6 +52,7 @@ const SurveySubjectResultManagement = () => {
 
         //fetch surveys from the Backend
         getSurveys();
+
         // Fetch surveys from the backend
         axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/${surveyId}`)
             .then(response => {
@@ -105,7 +106,7 @@ const SurveySubjectResultManagement = () => {
     }
 
     const handleDownload = () => {
-        exportToExcel(surveyResult, 'Survey_Responses');
+        exportToExcel(surveyResult, questions, surveyId, subjectId,  'Survey_Responses');
     };
 
     return (
@@ -120,14 +121,20 @@ const SurveySubjectResultManagement = () => {
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
                                 <h3 className="mb-0">Survey Result</h3>
-                                <Button onClick={handleDownload}>Download Excel</Button>
+                                <div>
+                                    <Button onClick={handleDownload}>Download Excel</Button>
+                                    <Link to={`/admin/survey/analysis-new/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary">
+                                        <i className="fa-solid fa-square-poll-vertical"></i> Result Analysis
+                                    </Link>
+                                </div>
                             </CardHeader>
                             <CardBody>
 
                                 {Array.isArray(surveyResult) && surveyResult.map((survey, index) => (
                                     <div key={survey._id}>
-                                        <h2>Survey Name: {survey.surveyId} {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyName}</h2>
-                                        <p>{survey.surveyId} {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyDescription}</p>
+                                        <h2>{Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyName}</h2>
+                                        <p>{Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyDescription}</p>
+
                                         {Array.isArray(survey.subject) && survey.subject.filter(sub=> sub._id === subjectId)?.map(subject => (
                                             <Card key={subject._id} style={{ marginBottom: '20px' }}>
                                                 <h3>Subject: {subject.subjectName} ({subject.subjectEmail})</h3>
@@ -164,7 +171,7 @@ const SurveySubjectResultManagement = () => {
                 </Row>
                 <Row>
                     <Col className="text-center">
-                        <Link to={`/admin/survey/analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Old Analysis</Link>
+                        {/* <Link to={`/admin/survey/analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Old Analysis</Link> */}
                         <Link to={`/admin/survey/analysis-new/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> New Analysis</Link>
                     </Col>
                 </Row>
