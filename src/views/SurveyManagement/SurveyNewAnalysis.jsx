@@ -31,6 +31,7 @@ import SurveyTraitsHighPotential from './SurveyTraitsHighPotential';
 
 import './SurveyManagement.scss';
 import SurveyTraitMapping from './SurveyTraitMapping';
+import SurveyParticipationData from './SurveyParticipationData';
 
 const SurveyAnalysis = () => {
     const { id, subjectId } = useParams();
@@ -62,25 +63,25 @@ const SurveyAnalysis = () => {
 
                 const questionResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/question/');
                 setQuestionObjects(questionResponse.data);
-                console.log("Question response = ", questionResponse.data);
+                // console.log("Question response = ", questionResponse.data);
 
                 const traitResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/trait/');
                 setTraitDetails(traitResponse.data);
-                console.log("Trait response = ", traitResponse.data);
+                // console.log("Trait response = ", traitResponse.data);
 
                 const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey?id=${id}`);
                 setSurveyObject(surveyResponse.data);
-                console.log("Survey response = ", surveyResponse.data);
+                // console.log("Survey response = ", surveyResponse.data);
                 setSurveyCategoryObject(surveyResponse.data[0].categories)
                 console.log("Survey Category response = ", surveyResponse.data[0].categories);
                 
                 const surveyResultResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/${id}`);
                 setSurveyResponseObject(surveyResultResponse.data);
-                console.log("Survey Result response = ", surveyResultResponse.data);
+                // console.log("Survey Result response = ", surveyResultResponse.data);
 
                 const surveyResultSubjectDataResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response?surveyId=${id}&subjectId=${subjectId}`);
                 setSubjectObject(surveyResultSubjectDataResponse.data);
-                console.log("Survey Subject Result response = ", surveyResultSubjectDataResponse.data);
+                // console.log("Survey Subject Result response = ", surveyResultSubjectDataResponse.data);
             } catch (err) {
                 setError(err);
             } finally {
@@ -346,7 +347,7 @@ const SurveyAnalysis = () => {
         };
 
         setTableData(processedTableData);
-        // console.log(summaryData);
+        console.log(summaryData);
         setSummaryData(summaryData);
 
         setTraitData(processedTraitData);
@@ -456,6 +457,21 @@ const SurveyAnalysis = () => {
                             </CardBody>
                         </Card>
 
+                        {/* About This Survey */}
+                        <Card>
+                            <CardBody>
+                                {
+                                    Array.isArray(surveyObject) && surveyObject.map(surveyItem => {
+                                        return <>
+                                            <h3 className='display-4 fw-bold py-3'>"About this {surveyItem.surveyName}"</h3>
+                                            <p>{surveyItem.surveyDescription}</p>
+                                        </>
+                                    })
+                                }
+                                
+                            </CardBody>
+                        </Card>
+
                         {/* About This Feedback Survey */}
                         <Card>
                             <CardBody>
@@ -479,35 +495,7 @@ const SurveyAnalysis = () => {
 
                         {/* Survey Participation Data */}
                         <Card>
-                            <CardHeader>
-                                <h3>Survey Participation Data</h3>
-                            </CardHeader>
-                            <CardBody>
-                                <p>The following is a summary of the group of respondents who were invited to participate and provide feedback for you.</p>
-                                <table className='table table-bordered'>
-                                    <thead className='thead-dark'>
-                                        <tr>
-                                            <th className='text-wrap align-top text-start'><b className='text-white'>Relationship</b></th>
-                                            <th className='text-wrap align-top text-center'><b className='text-white'>Nominated</b></th>
-                                            <th className='text-wrap align-top text-center'><b className='text-white'>Completed</b></th>
-                                            <th className='text-wrap align-top text-center'><b className='text-white'>Completion Rate</b></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {Array.isArray(summaryData) && summaryData.map((row, index) => (
-                                            <tr key={index}>
-                                                <td>{row.category}</td>
-                                                <td className='text-wrap align-top text-center'>{row.nominated}</td>
-                                                <td className='text-wrap align-top text-center'>{row.completed}</td>
-                                                <td className='d-flex align-items-center justify-content-center'>
-                                                    {/* <progress value={row.completionRate}  max={100} className='w-100' /><span className='px-2'>{row.completionRate}%</span>  */}
-                                                    <ProgressBar bgcolor="#6a1b9a" completed={row.completionRate} max={100} /> 
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </CardBody>
+                            <SurveyParticipationData summaryData={summaryData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                         </Card>
 
                         {/* Overview of Respondents & Unable to Rate Weightage */}
@@ -521,14 +509,14 @@ const SurveyAnalysis = () => {
                         {/* Rank Traits based on average of Others rating */}
                         <Card>
                             <CardBody>
-                                <SurveyTraitsRespondentScore traitRespondentsData={traitRespondentsData} />
+                                <SurveyTraitsRespondentScore traitRespondentsData={traitRespondentsData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
                             
                         {/* Rank Traits based on average of Self rating */}
                         <Card>
                             <CardBody>
-                                <SurveyTraitsSelfScore traitSelfData={traitSelfOthersData} />
+                                <SurveyTraitsSelfScore traitSelfData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
                             
@@ -558,28 +546,28 @@ const SurveyAnalysis = () => {
                         {/* Top 5 Traits Compared to Self | Hidden Traits with Developmental Needs */}
                         <Card>
                             <CardBody>
-                                <SurveyTop5TraitsComparedToSelf traitSelfOthersData={traitSelfOthersData} />
+                                <SurveyTop5TraitsComparedToSelf traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
 
                         {/* Top Traits Average score greter than 5 | Trait of Strengths */}
                         <Card>
                             <CardBody>
-                                <SurveyTraitsForStrengths traitSelfOthersData={traitSelfOthersData} />
+                                <SurveyTraitsForStrengths traitSelfOthersData={traitSelfOthersData}  traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
 
                         {/* Unknown Deficiency with difference of 1 in selfRating & averageOtherRating | Blind Traits with Developmental Needs */}
                         <Card>
                             <CardBody>
-                                <SurveyTraitsUnknownDeficiencies traitSelfOthersData={traitSelfOthersData} />
+                                <SurveyTraitsUnknownDeficiencies traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
 
-                        {/* Open Deficiency with selfRating & averageOtherRating is less than 4 */}
+                        {/* Open Deficiency with selfRating & averageOtherRating is less than 4 | Traits with High Developmental Need */}
                         <Card>
                             <CardBody>
-                                <SurveyTraitsOpenDeficiencies traitSelfOthersData={traitSelfOthersData} />
+                                <SurveyTraitsOpenDeficiencies traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
 
@@ -593,17 +581,16 @@ const SurveyAnalysis = () => {
                         {/* High Potential Traits in between score of 4 to 5 */}
                         <Card>
                             <CardBody>
-                                <SurveyTraitsHighPotential traitSelfOthersData={traitSelfOthersData} />
+                                <SurveyTraitsHighPotential traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
 
                         {/* Mapping of Traits by Developmental Need */}
                         <Card className='my-3'>
                             <CardBody>
-                                <SurveyTraitMapping traitSelfOthersData={traitSelfOthersData} />
+                                <SurveyTraitMapping traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject}  />
                             </CardBody>
                         </Card>
-
 
                         <Card>
                             <CardHeader>
@@ -613,9 +600,6 @@ const SurveyAnalysis = () => {
                                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis repudiandae ipsum, eveniet iusto quod quas qui iste quae necessitatibus quo reiciendis, accusamus autem sequi itaque ducimus sint laboriosam possimus. Earum.</p>
                             </CardBody>
                         </Card>
-
-
-
                     </Col>
                 </Row>
             </Container>

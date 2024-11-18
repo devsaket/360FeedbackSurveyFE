@@ -1,29 +1,94 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SimpleDonutChart from './Charts/SimpleDonutChart';
 
-const SurveyTraitsUnknownDeficiencies = ({ traitSelfOthersData }) => {
-    const getUnknownDeficiency = () => {
-        const traitsWithComparison = traitSelfOthersData.map(item => {
-            return {
-                trait: item.trait,
-                selfRating: parseFloat(item.selfRating).toFixed(1),
-                averageOtherRating: parseFloat(item.averageOtherRating).toFixed(1),
-                difference: (parseFloat(item.averageOtherRating) - parseFloat(item.selfRating)).toFixed(1)
-            };
+const SurveyTraitsUnknownDeficiencies = ({ traitSelfOthersData, traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
+
+    const [processedData, setProcessedData] = useState([]);
+
+    // Map over surveyCategory and add categoryName
+    const updatedSurveyCategory = surveyCategoryObject.map((survey, index) => {
+        const matchedCategory = categoriesRolesObject.find(category => category._id === survey.category);
+        return {
+            ...survey,
+            categoryName: matchedCategory ? matchedCategory.categoryName : null,
+        };
+    });
+
+    // Add 'Self' to updatedSurveyCategory
+    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+
+    useEffect(() => {
+        const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
+
+        // Step 1: Transform traitQuestionData
+        const transformedData = Object.keys(traitQuestionData).map(trait => {
+            const questions = traitQuestionData[trait];
+
+            // Step 1: Transform traitQuestionData dynamically based on categoriesWithSelf
+            // Initialize categoryAverages dynamically
+            const categoryAverages = Object.fromEntries(categoriesWithSelf.map(cat => [cat.categoryName, []]));
+
+            Object.values(questions).forEach(question => {
+                categoriesWithSelf.forEach(({ categoryName }) => {
+                    const avgScore = calculateAverage(question.responses[categoryName] || []);
+                    categoryAverages[categoryName].push(avgScore);
+                });
+            });
+
+            // Calculate overall averages
+            const overallAverages = Object.fromEntries(
+                Object.entries(categoryAverages).map(([category, scores]) => [category, calculateAverage(scores)])
+            );
+
+            return { trait, ...overallAverages };
         });
 
-        const unknownDeficiencyTraits = traitsWithComparison.filter(item => { return item.difference > 0 });
-        return unknownDeficiencyTraits;
-    };
+        // Step 4: Calculate weighted average for categories except Self
+        const finalData = transformedData.map(data => {
+            const totalWeightedScore = surveyCategoryObject.reduce((acc, role) => {
+                const avgScore = data[categoriesRolesObject.find(cat => cat._id === role.category)?.categoryName];
+                const weight = role.scoreWeightage || 0;
+                return acc + (avgScore * (weight/100));
+            }, 0);
 
-    const unknownDeficiencyTraits = getUnknownDeficiency();
+            const sumWeights = categoriesRolesObject.reduce((acc, role) => {
+                return acc + (data[role.categoryName] || 0);
+            }, 0);
+
+            // const averageOfOthers = (totalWeightedScore / sumWeights).toFixed(2);
+            const averageOfOthers = totalWeightedScore.toFixed(1);
+
+            return { ...data, averageOfOthers: parseFloat(averageOfOthers) };
+        });
+
+        const getUnknownDeficiency = () => {
+            const traitsWithComparison = finalData.map(item => {
+                return {
+                    trait: item.trait,
+                    selfRating: parseFloat(item.Self).toFixed(1),
+                    averageOtherRating: parseFloat(item.averageOfOthers).toFixed(1),
+                    difference: (parseFloat(item.averageOfOthers) - parseFloat(item.Self)).toFixed(1)
+                };
+            });
+    
+            const unknownDeficiencyTraits = traitsWithComparison.filter(item => { return item.difference >= 1 });
+            return unknownDeficiencyTraits;
+        };
+    
+        const unknownDeficiencyTraits = getUnknownDeficiency();
+
+        setProcessedData(unknownDeficiencyTraits);
+        // console.log("Final Data = ", unknownDeficiencyTraits);
+
+    }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject]);
+    
 
     return (
         <>
             {/* <h4>Traits denoting your Unknown Deficiency</h4> */}
             <h4>Blind Traits with Developmental Needs</h4>
-            {unknownDeficiencyTraits.length > 0 ?
+            {processedData.length > 0 ?
                 <>
                     {/* <ul>
                         {unknownDeficiencyTraits.map((trait, idx) => (
@@ -42,7 +107,7 @@ const SurveyTraitsUnknownDeficiencies = ({ traitSelfOthersData }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(unknownDeficiencyTraits) && unknownDeficiencyTraits.map((item, index) => (
+                            {Array.isArray(processedData) && processedData.map((item, index) => (
                                 <tr key={index}>
                                     <td className='align-middle'>
                                         <h3>{item.trait}</h3>

@@ -1,20 +1,85 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SimpleDonutChart from './Charts/SimpleDonutChart';
 
-const SurveyTraitsOpenDeficiencies = ({ traitSelfOthersData }) => {
-    const getOpenDeficiency = () => {
-        const openDeficiencyTraits = traitSelfOthersData.filter(item => { return item.selfRating < 4 && item.averageOtherRating < 4 });
-        return openDeficiencyTraits;
-    };
+const SurveyTraitsOpenDeficiencies = ({ traitSelfOthersData , traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
 
-    const openDeficiencyTraits = getOpenDeficiency();
+    const [processedData, setProcessedData] = useState([]);
+
+    // Map over surveyCategory and add categoryName
+    const updatedSurveyCategory = surveyCategoryObject.map((survey, index) => {
+        const matchedCategory = categoriesRolesObject.find(category => category._id === survey.category);
+        return {
+            ...survey,
+            categoryName: matchedCategory ? matchedCategory.categoryName : null,
+        };
+    });
+
+    // Add 'Self' to updatedSurveyCategory
+    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+
+    useEffect(() => {
+        const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
+
+        // Step 1: Transform traitQuestionData
+        const transformedData = Object.keys(traitQuestionData).map(trait => {
+            const questions = traitQuestionData[trait];
+
+            // Step 1: Transform traitQuestionData dynamically based on categoriesWithSelf
+            // Initialize categoryAverages dynamically
+            const categoryAverages = Object.fromEntries(categoriesWithSelf.map(cat => [cat.categoryName, []]));
+
+            Object.values(questions).forEach(question => {
+                categoriesWithSelf.forEach(({ categoryName }) => {
+                    const avgScore = calculateAverage(question.responses[categoryName] || []);
+                    categoryAverages[categoryName].push(avgScore);
+                });
+            });
+
+            // Calculate overall averages
+            const overallAverages = Object.fromEntries(
+                Object.entries(categoryAverages).map(([category, scores]) => [category, calculateAverage(scores)])
+            );
+
+            return { trait, ...overallAverages };
+        });
+
+        // Step 4: Calculate weighted average for categories except Self
+        const finalData = transformedData.map(data => {
+            const totalWeightedScore = surveyCategoryObject.reduce((acc, role) => {
+                const avgScore = data[categoriesRolesObject.find(cat => cat._id === role.category)?.categoryName];
+                const weight = role.scoreWeightage || 0;
+                return acc + (avgScore * (weight/100));
+            }, 0);
+
+            const sumWeights = categoriesRolesObject.reduce((acc, role) => {
+                return acc + (data[role.categoryName] || 0);
+            }, 0);
+
+            // const averageOfOthers = (totalWeightedScore / sumWeights).toFixed(2);
+            const averageOfOthers = totalWeightedScore.toFixed(1);
+
+            return { ...data, averageOfOthers: parseFloat(averageOfOthers) };
+        });
+
+        const getOpenDeficiency = () => {
+            const openDeficiencyTraits = finalData.filter(item => { return item.Self < 4 && item.averageOfOthers < 4 });
+            return openDeficiencyTraits;
+        };
+    
+        const openDeficiencyTraits = getOpenDeficiency();
+
+        setProcessedData(openDeficiencyTraits);
+        // console.log("Final Data = ", openDeficiencyTraits);
+
+    }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject]);
+    
 
     return (
         <>
             {/* <h4>Traits denoting your Open Deficiencies</h4> */}
             <h4>Traits with High Developmental Need</h4>
-            {openDeficiencyTraits.length > 0 ?
+            {processedData.length > 0 ?
                 <>
                     {/* <ul>
                         {openDeficiencyTraits.map((trait, idx) => (
@@ -33,14 +98,14 @@ const SurveyTraitsOpenDeficiencies = ({ traitSelfOthersData }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(openDeficiencyTraits) && openDeficiencyTraits.map((item, index) => (
+                            {Array.isArray(processedData) && processedData.map((item, index) => (
                                 <tr key={index}>
                                     <td className='align-middle'>
                                         <h3>{item.trait}</h3>
                                         {/* <p>This section will be used to rate the employee based on their {item.trait}</p> */}
                                     </td>
-                                    <td><SimpleDonutChart key={index} data={item.selfRating} trait={item.trait} /></td>
-                                    <td><SimpleDonutChart key={index} data={item.averageOtherRating} trait={item.trait} /></td>
+                                    <td><SimpleDonutChart key={index} data={item.Self.toFixed(1)} trait={item.trait} /></td>
+                                    <td><SimpleDonutChart key={index} data={item.averageOfOthers.toFixed(1)} trait={item.trait} /></td>
                                 </tr>
                             ))}
                         </tbody>

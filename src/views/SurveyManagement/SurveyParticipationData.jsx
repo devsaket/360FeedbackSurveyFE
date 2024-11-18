@@ -1,0 +1,61 @@
+import React, { useEffect, useState } from 'react';
+import { Card, CardBody, CardHeader, Table } from 'react-bootstrap';
+import ProgressBar from './Charts/ProgressBar';
+
+const SurveyParticipationData = ({ summaryData, surveyCategoryObject, categoriesRolesObject }) => {
+
+    // Merge data based on the relationship category
+    const mergedData = summaryData.map(summary => {
+        // Find matching category in surveyCategoryObject by name
+        const matchingSurveyCategory = categoriesRolesObject.find(cat => 
+            surveyCategoryObject.some(surveyCat => surveyCat.category === cat._id && cat.categoryName === summary.category)
+        );
+
+        const scoreWeightage = matchingSurveyCategory
+            ? surveyCategoryObject.find(surveyCat => surveyCat.category === matchingSurveyCategory._id)?.scoreWeightage
+            : (summary.category === 'Self' ? 100 : 0); // Default to 100 for 'Self' if not found
+
+        return {
+            ...summary,
+            scoreWeightage
+        };
+    });
+
+    return (
+        <>
+            <CardHeader>
+                <h3>Survey Participation Data</h3>
+            </CardHeader>
+            <CardBody>
+                <p>The following is a summary of the group of respondents who were invited to participate and provide feedback for you.</p>
+                <table className='table table-bordered'>
+                    <thead className='thead-dark'>
+                        <tr>
+                            <th className='text-wrap align-top text-start'><b className='text-white'>Relationship</b></th>
+                            <th className='text-wrap align-top text-center'><b className='text-white'>Score Weightage</b></th>
+                            <th className='text-wrap align-top text-center'><b className='text-white'>Nominated</b></th>
+                            <th className='text-wrap align-top text-center'><b className='text-white'>Completed</b></th>
+                            <th className='text-wrap align-top text-center'><b className='text-white'>Completion Rate</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Array.isArray(mergedData) && mergedData.map((row, index) => (
+                            <tr key={index}>
+                                <td>{row.category}</td>
+                                <td className='text-wrap align-top text-center'>{row.scoreWeightage}</td>
+                                <td className='text-wrap align-top text-center'>{row.nominated}</td>
+                                <td className='text-wrap align-top text-center'>{row.completed}</td>
+                                <td className='d-flex align-items-center justify-content-center'>
+                                {/* <progress value={row.completionRate}  max={100} className='w-100' /><span className='px-2'>{row.completionRate}%</span>  */}
+                                    <ProgressBar bgcolor="#6a1b9a" completed={row.completionRate} max={100} />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </CardBody>
+        </>
+    )
+}
+
+export default SurveyParticipationData
