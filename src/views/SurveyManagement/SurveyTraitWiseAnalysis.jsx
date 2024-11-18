@@ -128,8 +128,6 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
         <>
             <h2>Detailed Trait Analysis</h2>
             <div className="my-4">
-                <p>Render Trait Table</p>
-                {renderTraitTable()}
                 {processedData.map((traitData, index) => {
                     // Calculate the average of all categories except 'Self' for each trait
                     const avgCategories = (
