@@ -67,20 +67,20 @@ var routes = [
   //   component: <Tables />,
   //   layout: "/admin",
   // },
-  // {
-  //   path: "/login",
-  //   name: "Login",
-  //   icon: "ni ni-key-25 text-info",
-  //   component: <Login />,
-  //   layout: "/auth",
-  // },
-  // {
-  //   path: "/register",
-  //   name: "Register",
-  //   icon: "ni ni-circle-08 text-pink",
-  //   component: <Register />,
-  //   layout: "/auth",
-  // },
+  {
+    path: "/login",
+    name: "Login",
+    icon: "ni ni-key-25 text-info",
+    component: <Login />,
+    layout: "/auth",
+  },
+  {
+    path: "/register",
+    name: "Register",
+    icon: "ni ni-circle-08 text-pink",
+    component: <Register />,
+    layout: "/admin",
+  },
   {
     path: "/trait",
     name: "Trait",
@@ -109,6 +109,7 @@ var routes = [
     component: <ItemBankManagement />,
     layout: "/admin",
   },
+  
   // {
   //   path: "/category",
   //   name: "Category Roles",

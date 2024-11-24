@@ -17,7 +17,7 @@
 */
 /*eslint-disable*/
 import { useState } from "react";
-import { NavLink as NavLinkRRD, Link } from "react-router-dom";
+import { NavLink as NavLinkRRD, Link, useNavigate } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
 
@@ -52,11 +52,13 @@ import {
   Col,
 } from "reactstrap";
 
-import  DecisionsSupportLogo  from '../../assets/img/brand/decision-support-logo.png'
+import DecisionsSupportLogo from '../../assets/img/brand/decision-support-logo.png'
+import { toast } from "react-toastify";
 
 var ps;
 
 const Sidebar = (props) => {
+  const navigate = useNavigate();
   const [collapseOpen, setCollapseOpen] = useState();
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
@@ -101,6 +103,12 @@ const Sidebar = (props) => {
       target: "_blank",
     };
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    toast.info("Logged out successfully!");
+    navigate("/auth/login");
+  };
 
   return (
     <Navbar
@@ -238,6 +246,12 @@ const Sidebar = (props) => {
           {/* Navigation */}
           <Nav className="mb-md-3" navbar>
             <NavItem>
+              <NavLink href="/admin/users">
+                <i className="ni ni-archive-2" />
+                Users
+              </NavLink>
+            </NavItem>
+            <NavItem>
               <NavLink href="/admin/category">
                 <i className="ni ni-archive-2" />
                 Category Roles
@@ -256,14 +270,14 @@ const Sidebar = (props) => {
               </NavLink>
             </NavItem>
           </Nav>
-          {/* <Nav className="mb-md-3" navbar>
+          <Nav className="mb-md-3" navbar>
             <NavItem className="active-pro active">
-              <NavLink href="https://www.creative-tim.com/product/argon-dashboard-pro-react?ref=adr-admin-sidebar">
+              <NavLink onClick={handleLogout}>
                 <i className="ni ni-spaceship" />
-                Upgrade to PRO
+                Logout
               </NavLink>
             </NavItem>
-          </Nav> */}
+          </Nav>
         </Collapse>
       </Container>
     </Navbar>

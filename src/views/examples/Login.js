@@ -17,6 +17,10 @@
 */
 
 // reactstrap components
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   Button,
   Card,
@@ -33,11 +37,34 @@ import {
 } from "reactstrap";
 
 const Login = () => {
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(process.env.REACT_APP_BACKEND_URL+"/user/login", formData);
+      const { token, role } = response.data;
+
+      // Save the token in localStorage
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("userRole", role);
+
+      toast.success("Login successful!");
+      navigate("/admin/index"); // Redirect to the dashboard
+    } catch (error) {
+      toast.error("Invalid username or password!");
+    }
+  };
   return (
     <>
       <Col lg="5" md="7">
         <Card className="bg-secondary shadow border-0">
-          <CardHeader className="bg-transparent pb-5">
+          {/* <CardHeader className="bg-transparent pb-5">
             <div className="text-muted text-center mt-2 mb-3">
               <small>Sign in with</small>
             </div>
@@ -77,23 +104,26 @@ const Login = () => {
                 <span className="btn-inner--text">Google</span>
               </Button>
             </div>
-          </CardHeader>
+          </CardHeader> */}
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small>Or sign in with credentials</small>
+              <small> Sign In</small>
             </div>
-            <Form role="form">
+            <form onSubmit={handleSubmit}>
               <FormGroup className="mb-3">
                 <InputGroup className="input-group-alternative">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
-                      <i className="ni ni-email-83" />
+                      <i className="ni ni-single-02" />
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Email"
-                    type="email"
-                    autoComplete="new-email"
+                    placeholder="Username"
+                    type="text"
+                    id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange} required
                   />
                 </InputGroup>
               </FormGroup>
@@ -108,10 +138,15 @@ const Login = () => {
                     placeholder="Password"
                     type="password"
                     autoComplete="new-password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
                   />
                 </InputGroup>
               </FormGroup>
-              <div className="custom-control custom-control-alternative custom-checkbox">
+              {/* <div className="custom-control custom-control-alternative custom-checkbox">
                 <input
                   className="custom-control-input"
                   id=" customCheckLogin"
@@ -123,13 +158,13 @@ const Login = () => {
                 >
                   <span className="text-muted">Remember me</span>
                 </label>
-              </div>
+              </div> */}
               <div className="text-center">
-                <Button className="my-4" color="primary" type="button">
+                <Button className="my-4" color="primary" type="submit">
                   Sign in
                 </Button>
               </div>
-            </Form>
+            </form>
           </CardBody>
         </Card>
         <Row className="mt-3">
@@ -143,13 +178,13 @@ const Login = () => {
             </a>
           </Col>
           <Col className="text-right" xs="6">
-            <a
+            {/* <a
               className="text-light"
               href="#pablo"
               onClick={(e) => e.preventDefault()}
             >
               <small>Create new account</small>
-            </a>
+            </a> */}
           </Col>
         </Row>
       </Col>

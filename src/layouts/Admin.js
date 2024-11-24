@@ -34,6 +34,13 @@ import SurveySubjectResultManagement from './../views/SurveyManagement/SurveySub
 import SurveyAnalysis from "views/SurveyManagement/SurveyAnalysis";
 import SurveyNewAnalysis from "views/SurveyManagement/SurveyNewAnalysis";
 import SurveyShareBySMS from "views/SurveyManagement/SurveyShareBySMS";
+import UserManagement from "views/UserManagement/UserManagement";
+
+const PrivateRoute = ({ children }) => {
+  const token = localStorage.getItem("authToken");
+  return token ? children : <Navigate to="/auth/login" />;
+};
+
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
@@ -88,19 +95,20 @@ const Admin = (props) => {
         <Routes>
           {getRoutes(routes)}
 
-          <Route path="/category" element={<CategoryManagement />} />
-          <Route path="/email-templates" element={<EmailTemplateManagement />} />
+          <Route path="/category" element={<PrivateRoute><CategoryManagement /></PrivateRoute>} />
+          <Route path="/users" element={<PrivateRoute><UserManagement /></PrivateRoute>} />
+          <Route path="/email-templates" element={<PrivateRoute><EmailTemplateManagement /></PrivateRoute>} />
 
 
-          <Route path="/survey-details/:id" element={<SurveyDetails />} />
-          <Route path="/survey-share-email/:id" element={<SurveyShareByEmail />} />
-          <Route path="/survey-share-by-sms/:id" element={<SurveyShareBySMS />} />
-          <Route path="/survey-result/:surveyId" element={<SurveyResultManagement />} />
-          <Route path="/survey-result-by-subject/:surveyId/:subjectId" element={<SurveySubjectResultManagement />} />
-          <Route exact path= "/survey/analysis/:id/:subjectId" element={<SurveyAnalysis />} />
-          <Route exact path= "/survey/analysis-new/:id/:subjectId" element={<SurveyNewAnalysis />} />
+          <Route path="/survey-details/:id" element={<PrivateRoute><SurveyDetails /></PrivateRoute>} />
+          <Route path="/survey-share-email/:id" element={<PrivateRoute><SurveyShareByEmail /></PrivateRoute>} />
+          <Route path="/survey-share-by-sms/:id" element={<PrivateRoute><SurveyShareBySMS /></PrivateRoute>} />
+          <Route path="/survey-result/:surveyId" element={<PrivateRoute><SurveyResultManagement /></PrivateRoute>} />
+          <Route path="/survey-result-by-subject/:surveyId/:subjectId" element={<PrivateRoute><SurveySubjectResultManagement /></PrivateRoute>} />
+          <Route exact path= "/survey/analysis/:id/:subjectId" element={<PrivateRoute><SurveyAnalysis /></PrivateRoute>} />
+          <Route exact path= "/survey/analysis-new/:id/:subjectId" element={<PrivateRoute><SurveyNewAnalysis /></PrivateRoute>} />
 
-          <Route path="*" element={<Navigate to="/admin/index" replace />} />
+          <Route path="*" element={<PrivateRoute><Navigate to="/admin/index" replace /></PrivateRoute>} />
         </Routes>
         <Container fluid>
           {/* <AdminFooter /> */}

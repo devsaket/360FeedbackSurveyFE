@@ -18,15 +18,14 @@
 import React from "react";
 import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 // reactstrap components
-import { Container } from "reactstrap";
+import { Container, Row } from "reactstrap";
 // core components
-import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import AdminFooter from "components/Footers/AdminFooter.js";
-import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
 import SurveyPreview from "components/WebPages/SurveyPreview";
 import SurveyPreviewRespondents from "components/WebPages/SurveyPreviewRespondents";
+import WebsiteNavbar from "components/Navbars/WebsiteNavbar";
 
 const WebsiteLayout = (props) => {
     const mainContent = React.useRef(null);
@@ -64,21 +63,39 @@ const WebsiteLayout = (props) => {
 
     return (
         <>
-            <div className="main-content" ref={mainContent}>
-                <AdminNavbar
-                    {...props}
-                    brandText={getBrandText(props?.location?.pathname)}
-                />
+            {/* <div className="main-content" ref={mainContent}>
+                
                 <Routes>
                     {getRoutes(routes)}
 
-                    <Route exact path="/survey-self/:id/:subjectId" element={<SurveyPreview />}/>
-                    <Route exact path="/survey-respondent/:id/:subjectId/:respondentId" element={<SurveyPreviewRespondents />}/>
+                    <Route exact path="/survey-self/:id/:subjectId" element={<SurveyPreview />} />
+                    <Route exact path="/survey-respondent/:id/:subjectId/:respondentId" element={<SurveyPreviewRespondents />} />
 
                     <Route path="*" element={<Navigate to="/index" replace />} />
                 </Routes>
-                <Container fluid>
+                <Container fluid> */}
                     {/* <AdminFooter /> */}
+                {/* </Container>
+            </div> */}
+
+            <div className="main-content" ref={mainContent}>
+                <WebsiteNavbar {...props} />
+
+                <div className="header bg-gradient-info py-7 py-lg-8">
+
+                </div>
+                {/* Page content */}
+                <Container className="mt--8 pb-5">
+                    <Row className="justify-content-center">
+                        <Routes>
+                            {getRoutes(routes)}
+
+                            <Route exact path="/survey-self/:id/:subjectId" element={<SurveyPreview />} />
+                            <Route exact path="/survey-respondent/:id/:subjectId/:respondentId" element={<SurveyPreviewRespondents />} />
+
+                            <Route path="*" element={<Navigate to="/website/login" replace />} />
+                        </Routes>
+                    </Row>
                 </Container>
             </div>
         </>
