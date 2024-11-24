@@ -23,14 +23,14 @@ const SurveyResponseRespondentList = ({ surveyResponses }) => {
     return (
         <div>
             <h1>Percentage of ‘Unable to Rate’ by the Multi-Raters and Self</h1>
-            <ul>
+            <ol>
                 {respondentsWithZeroPercent.map(({ name, zeroPercentage }) => (
                     <li key={name}>
-                        <strong>{name}</strong>: {zeroPercentage}% of responses are <i>'Unable to Rate'</i>
+                        <p><strong>{name}</strong>: {zeroPercentage}% of responses are <i>'Unable to Rate'</i></p>
                         <ZeroPercentageProgressBar zeroPercentage={parseFloat(zeroPercentage)} />
                     </li>
                 ))}
-            </ul>
+            </ol>
         </div>
     );
 };

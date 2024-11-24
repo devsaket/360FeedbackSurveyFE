@@ -1,20 +1,26 @@
-/* ProgressBar.css */
-.progress-bar {
+.zero-percent-progress-bar {
     width: 100%;
-    height: 20px;
+    height: 30px;
     border-radius: 10px;
     overflow: hidden;
-    /* border: 1px solid #ccc;  */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
-.progress-bar-segment {
+.zero-percent-progress-bar-segment {
     height: 100%;
+    padding-top: 3px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
-.red {
-    background-color: red;
+.zero-percent-progress-bar-label{
+    margin-top: 5px;
+    color: black;
 }
 
-.green {
-    background-color: green;
+@media print {
+    .zero-percent-progress-bar {
+        border: 1px solid #ccc;
+    }
 }

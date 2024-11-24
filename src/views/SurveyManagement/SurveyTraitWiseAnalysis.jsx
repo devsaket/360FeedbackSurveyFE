@@ -86,35 +86,33 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
                     <thead>
                         <tr>
                             <th>Trait</th>
-                            <th>Self</th>
+                            <th className='text-center'>Self</th>
                             {
                                 updatedSurveyCategory.map((key, index) =>
-                                    <th key={index}>{key.categoryName}</th>
+                                    <th key={index} className='text-center'>{key.categoryName}</th>
                                 )
                             }
-                            <th>AverageOfCategories</th>
-                            <th>Others</th>
+                            {/* <th className='text-center'>AverageOfCategories</th> */}
+                            <th className='text-center'>Average of Others</th>
                         </tr>
                     </thead>
                     <tbody>
                         {processedData.map((row, index) => {
 
-                            const avgCategories = (
-                                updatedSurveyCategory.reduce((sum, category) => sum + parseFloat(row[category.categoryName] || 0), 0) /
-                                updatedSurveyCategory.length
-                            );
+                            //const avgCategories = ( updatedSurveyCategory.reduce((sum, category) => sum + parseFloat(row[category.categoryName] || 0), 0) / updatedSurveyCategory.length
+                            //);
 
                             return (
                                 <tr key={index}>
                                     <td>{row.trait}</td>
-                                    <td>{row.Self.toFixed(1)}</td>
+                                    <td className='text-center'>{row.Self.toFixed(1)}</td>
                                     {updatedSurveyCategory.map((category) => (
-                                        <td key={category.category}>
+                                        <td key={category.category} className='text-center'>
                                             {row[category.categoryName]?.toFixed(1)}
                                         </td>
                                     ))}
-                                    <td>{avgCategories.toFixed(1)}</td> {/* New column */}
-                                    <td>{row.averageOfOthers}</td>
+                                    {/* <td className='text-center'>{avgCategories.toFixed(1)}</td> */}
+                                    <td className='text-center'>{row.averageOfOthers}</td>
                                 </tr>
                             );
                         })}
@@ -127,6 +125,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
     return (
         <>
             <h2>Detailed Trait Analysis</h2>
+            {/* {renderTraitTable()} */}
             <div className="my-4">
                 {processedData.map((traitData, index) => {
                     // Calculate the average of all categories except 'Self' for each trait
@@ -143,7 +142,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
                                     <BarChart
                                         data={[
                                             { category: 'Self', value: traitData.Self.toFixed(1) },
-                                            ...updatedSurveyCategory.map((category) => ({ category: category.categoryName, value: traitData[category.categoryName].toFixed(1) })), { category: 'All Raters', value: traitData.averageOfOthers }
+                                            ...updatedSurveyCategory.map((category) => ({ category: category.categoryName, value: traitData[category.categoryName].toFixed(1) })), { category: 'Avg of Others', value: traitData.averageOfOthers }
                                         ]}
                                         layout="vertical"
                                         margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
@@ -159,7 +158,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
                                             ))
                                         } */}
                                             {dynamicColors.map((item, idx) => (
-                                                <Cell key={`cell-${idx}`} fill={item.category === 'All Raters' ? '#FFA07A' : item.color} />
+                                                <Cell key={`cell-${idx}`} fill={item.category === 'Avg of Others' ? '#FFA07A' : item.color} />
                                             ))}
                                         </Bar>
                                     </BarChart>

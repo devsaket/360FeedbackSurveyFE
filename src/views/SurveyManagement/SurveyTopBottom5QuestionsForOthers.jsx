@@ -38,6 +38,7 @@ const SurveyTopBottom5QuestionsForOthers = ({ traitQuestionData }) => {
 
     return (
         <>
+            <div className='my-3'>
             <h2>Top Rated Statements by Others</h2>
             {topOtherQuestions.map((question, idx) => (
                 <div key={idx} className={`d-flex statement-main-box ${idx === 1 ? 'flex-row-reverse' : 'flex-row'}`}>
@@ -53,7 +54,9 @@ const SurveyTopBottom5QuestionsForOthers = ({ traitQuestionData }) => {
                     </div>
                 </div>
             ))}
+            </div>
 
+            <div className='mt-5 my-3'>
             <h2>Bottom Rated Statements by Others</h2>
             {bottomOtherQuestions.map((question, idx) => (
                 <div key={idx} className={`d-flex statement-main-box ${idx === 1 ? 'flex-row-reverse' : 'flex-row'}`}>
@@ -69,6 +72,7 @@ const SurveyTopBottom5QuestionsForOthers = ({ traitQuestionData }) => {
                     </div>
                 </div>
             ))}
+            </div>
 
         </>
     )

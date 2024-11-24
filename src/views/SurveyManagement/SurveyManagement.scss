@@ -1,15 +1,19 @@
+td{
+    vertical-align: middle !important;
+}
+
 .statement-main-box{
     // box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 20%);
     padding: 1rem;
 
     .statement-box{
         text-align: center;
-        background-color: #02153d;
+        // background-color: #02153d;
         padding: 0.9rem 0.3rem ;
         color: white;
         height: 100px;
         width: 100px;
-        border: solid 10px #02153d;
+        border: solid 10px #02153d !important;
         border-top-left-radius: 20px;
         border-bottom-right-radius: 20px;
         box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 20%);
@@ -54,9 +58,6 @@
 	// border-top: 25px solid transparent !important;
 	// border-bottom: 25px solid transparent !important;
 	height: auto;
-	// width: 19vw;
-    padding: 20px;
-    margin: 10px;
     // position: relative;
     // background-color: #1d458f;
 
@@ -65,4 +66,45 @@
         // left: -180px;
         // width:180px;
     // }
+}
+
+.mapping-card{
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+@media print {
+    td{
+        vertical-align: middle !important;
+    }
+    .a4 {
+        box-sizing: border-box;
+        height: 297mm !important;
+        page-break-after: always;
+        border: none !important;
+    }
+
+    .a4:last-child {
+        page-break-after: auto;
+    }
+
+    .report-page-header {
+        display: none;
+    }
+
+    .statement-box{
+        border: solid 10px #02153d !important;
+
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .mapping-card{
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .download-pdf-button, .card-print-toggler{
+        display: none;
+    }
 }

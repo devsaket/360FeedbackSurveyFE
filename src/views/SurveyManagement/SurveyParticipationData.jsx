@@ -41,13 +41,13 @@ const SurveyParticipationData = ({ summaryData, surveyCategoryObject, categories
                     <tbody>
                         {Array.isArray(mergedData) && mergedData.map((row, index) => (
                             <tr key={index}>
-                                <td>{row.category}</td>
-                                <td className='text-wrap align-top text-center'>{row.scoreWeightage}</td>
-                                <td className='text-wrap align-top text-center'>{row.nominated}</td>
-                                <td className='text-wrap align-top text-center'>{row.completed}</td>
-                                <td className='d-flex align-items-center justify-content-center'>
+                                <td className='font-weight-bold'>{row.category}</td>
+                                <td className='text-wrap align-top text-center align-middle'>{row.scoreWeightage}</td>
+                                <td className='text-wrap align-top text-center align-middle'>{row.nominated}</td>
+                                <td className='text-wrap align-top text-center align-middle'>{row.completed}</td>
+                                <td className='align-middle'>
                                 {/* <progress value={row.completionRate}  max={100} className='w-100' /><span className='px-2'>{row.completionRate}%</span>  */}
-                                    <ProgressBar bgcolor="#6a1b9a" completed={row.completionRate} max={100} />
+                                    <ProgressBar completed={row.completionRate} max={100} />
                                 </td>
                             </tr>
                         ))}

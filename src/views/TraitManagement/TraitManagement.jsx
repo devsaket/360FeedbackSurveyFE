@@ -195,7 +195,7 @@ const TraitManagement = () => {
                                         <tr className=''>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Trait Name</th>
-                                            <th scope="col" className='text-start align-text-top ps-2 w-50 bg-dark text-white'>Trait Description</th>
+                                            <th scope="col" className='text-start align-text-top ps-2 w-50 bg-dark text-white' style={{ maxWidth: '15rem' }}>Trait Description</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Created At</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
                                         </tr>
@@ -208,7 +208,7 @@ const TraitManagement = () => {
                                                 <tr key={el._id}>
                                                     <td className='text-center ps-1 align-start' style={{ width: '8rem' }}>{index + 1}</td>
                                                     <td className='text-start ps-1 align-start'><Link to={`/admin/trait-question/${el._id}`}>{el.traitName}</Link></td>
-                                                    <td className='text-start ps-1 align-start'>{el.traitDescription}</td>
+                                                    <td className='text-start ps-1 align-start' style={{ maxWidth: '15rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{el.traitDescription}</td>
                                                     <td className='text-center ps-1 align-start'>{new Date(el.createdOn).toLocaleDateString()}</td>
                                                     <td className='text-center ps-1 '>
                                                         <button className='btn p-2 text-success fs-4' type='button' onClick={() => { selectedTrait(el); toggle(); }} > <i className="fa-solid fa-pencil"></i></button>

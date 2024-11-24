@@ -7,8 +7,14 @@ import {
     CardBody,
     Container,
     Row,
-    Col
+    Col, Button
 } from "reactstrap";
+import { joiResolver } from "@hookform/resolvers/joi";
+import Joi from "@hapi/joi";
+import { useForm } from "react-hook-form";
+import { toast } from 'react-toastify';
+import TextareaAutosize from 'react-textarea-autosize';
+
 import Header from "components/Headers/Header.js";
 import DonutChart from './Charts/DonutChart';
 import SimpleDonutChart from './Charts/SimpleDonutChart';
@@ -28,10 +34,14 @@ import SurveyTraitsUnknownDeficiencies from './SurveyTraitsUnknownDeficiencies';
 import SurveyTraitsOpenDeficiencies from './SurveyTraitsOpenDeficiencies';
 import SurveyTraitsUnknownStrengths from './SurveyTraitsUnknownStrengths';
 import SurveyTraitsHighPotential from './SurveyTraitsHighPotential';
-
-import './SurveyManagement.scss';
 import SurveyTraitMapping from './SurveyTraitMapping';
 import SurveyParticipationData from './SurveyParticipationData';
+
+import './SurveyManagement.scss';
+
+const GeneralObservationSchema = Joi.object({
+    observation: Joi.string().required()
+});
 
 const SurveyAnalysis = () => {
     const { id, subjectId } = useParams();
@@ -53,13 +63,22 @@ const SurveyAnalysis = () => {
     const [traitQuestionData, setTraitQuestionData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [generalObservation, setGeneralObservation] = useState("");
+    const [generalObservationToggle, setGeneralObservationToggle] = useState(false);
+
+    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
+        resolver: joiResolver(GeneralObservationSchema),
+        defaultValues: { observation: "" }
+    });
+
+    const observation = watch("observation", "");
 
     useEffect(() => {
         const fetchSurveyData = async () => {
             try {
                 const categoryResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/categoryRoles/');
                 setCategoryRolesObject(categoryResponse.data);
-                console.log("Category Roles response = ", categoryResponse.data);
+                // console.log("Category Roles response = ", categoryResponse.data);
 
                 const questionResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + '/question/');
                 setQuestionObjects(questionResponse.data);
@@ -73,8 +92,8 @@ const SurveyAnalysis = () => {
                 setSurveyObject(surveyResponse.data);
                 // console.log("Survey response = ", surveyResponse.data);
                 setSurveyCategoryObject(surveyResponse.data[0].categories)
-                console.log("Survey Category response = ", surveyResponse.data[0].categories);
-                
+                // console.log("Survey Category response = ", surveyResponse.data[0].categories);
+
                 const surveyResultResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/${id}`);
                 setSurveyResponseObject(surveyResultResponse.data);
                 // console.log("Survey Result response = ", surveyResultResponse.data);
@@ -82,6 +101,8 @@ const SurveyAnalysis = () => {
                 const surveyResultSubjectDataResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response?surveyId=${id}&subjectId=${subjectId}`);
                 setSubjectObject(surveyResultSubjectDataResponse.data);
                 // console.log("Survey Subject Result response = ", surveyResultSubjectDataResponse.data);
+
+                getGeneralObservation();
             } catch (err) {
                 setError(err);
             } finally {
@@ -265,8 +286,8 @@ const SurveyAnalysis = () => {
                                 if (!traitQuestionData[trait][response.questionId].responses[categoryName]) {
                                     traitQuestionData[trait][response.questionId].responses[categoryName] = [];
                                 }
-                                
-                                if(parseInt(response.answer, 10) > 0){
+
+                                if (parseInt(response.answer, 10) > 0) {
                                     traitQuestionData[trait][response.questionId].responses[categoryName].push(parseInt(response.answer, 10));
                                 }
                                 // traitQuestionData[trait][response.questionId].responses.push(parseInt(response.answer, 10) || 0);
@@ -347,7 +368,7 @@ const SurveyAnalysis = () => {
         };
 
         setTableData(processedTableData);
-        console.log(summaryData);
+        // console.log(summaryData);
         setSummaryData(summaryData);
 
         setTraitData(processedTraitData);
@@ -357,6 +378,38 @@ const SurveyAnalysis = () => {
         setTraitRespondentsData(processTraitRespondentsData(processedTraitCategoryData));
         setTraitQuestionData(traitQuestionData);
     }, [loading, subjectId, subjectObject, surveyObject, surveyResponseObject, categoriesRolesObject, questionObjects]);
+
+    const getGeneralObservation = async () => {
+        const generalObservationResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/subject/general-observation/${id}/${subjectId}`);
+        setGeneralObservation(generalObservationResponse.data.observation);
+
+        if(generalObservationResponse.data.observation===''){
+            setGeneralObservationToggle(true);
+        } else {
+            setGeneralObservationToggle(false);
+        }
+    }
+
+    const onSubmit = (data) => {
+        data = {surveyId:id, subjectId, ...data}
+        console.log(data)
+        axios.post(process.env.REACT_APP_BACKEND_URL + '/survey-response/subject/general-observation', data)
+                .then((res) => {
+                    if (res.data.status === 200) {
+                        reset({ observation: ""});
+                        toast.success("General Observation Submitted Successfully!");
+                        getGeneralObservation();
+                    } else {
+                        toast.warn("Something Went Wrong!");
+                        getGeneralObservation();
+                    }
+                })
+                .catch((err) => console.log(err?.message));
+    }
+
+    const handleDocumentPrint = () => {
+        window.print();
+    }
 
     if (loading) {
         return <div>Loading...</div>;
@@ -374,7 +427,7 @@ const SurveyAnalysis = () => {
             <Container className="mt--7" fluid>
                 <Row className="mt--3">
                     <Col>
-                        <Card className="shadow">
+                        <Card className="shadow report-page-header">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
                                 <h3 className="mb-0">Survey Analysis</h3>
                             </CardHeader>
@@ -382,7 +435,7 @@ const SurveyAnalysis = () => {
 
                         {/* Introduction  */}
 
-                        <Card>
+                        <Card className='a4'>
                             <CardBody className='text-center'>
                                 {
                                     Array.isArray(surveyObject) && surveyObject.map(surveyItem => {
@@ -413,7 +466,7 @@ const SurveyAnalysis = () => {
                         </Card>
 
                         {/* Copyright and Disclaimer */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 <h3>Copyright</h3>
                                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore corrupti quisquam eaque culpa voluptates natus similique sit. Dicta natus, sapiente eaque obcaecati molestiae sequi dolorum facere reiciendis pariatur ut deleniti.</p>
@@ -449,7 +502,7 @@ const SurveyAnalysis = () => {
                         </Card> */}
 
                         {/* 360-Degree Assessment: An Introduction */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 <h3 className='display-4 fw-bold py-3'>360-Degree Assessment: An Introduction</h3>
                                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloremque, numquam! Voluptatem quae incidunt repellat natus, culpa, expedita iusto consequatur sequi fugit numquam ullam vitae eaque laudantium tempora facilis ad obcaecati!</p>
@@ -458,7 +511,7 @@ const SurveyAnalysis = () => {
                         </Card>
 
                         {/* About This Survey */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 {
                                     Array.isArray(surveyObject) && surveyObject.map(surveyItem => {
@@ -468,12 +521,12 @@ const SurveyAnalysis = () => {
                                         </>
                                     })
                                 }
-                                
+
                             </CardBody>
                         </Card>
 
                         {/* About This Feedback Survey */}
-                        <Card>
+                        {/* <Card>
                             <CardBody>
                                 {
                                     Array.isArray(subjectObject) && subjectObject.map(subjectItem => {
@@ -484,88 +537,88 @@ const SurveyAnalysis = () => {
                                 }
                                 <p>The content of this section can include features of the platform and its uniqueness – Unbiased, Evidence based, Triangulated etc. and also about the rating scale that 1 to 7, etc.</p>
                             </CardBody>
-                        </Card>
+                        </Card> */}
 
                         {/* Definition of 12 Traits */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 <SurveyTraitsData surveyDetails={surveyObject} traitData={traitDetails} />
                             </CardBody>
                         </Card>
 
                         {/* Survey Participation Data */}
-                        <Card>
+                        <Card className='a4'>
                             <SurveyParticipationData summaryData={summaryData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                         </Card>
 
                         {/* Overview of Respondents & Unable to Rate Weightage */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 <SurveyResponseRespondentList surveyResponses={subjectObject} />
                             </CardBody>
                         </Card>
 
-                    
+
                         {/* Rank Traits based on average of Others rating */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 <SurveyTraitsRespondentScore traitRespondentsData={traitRespondentsData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
-                            
+
                         {/* Rank Traits based on average of Self rating */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 <SurveyTraitsSelfScore traitSelfData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
-                            
+
 
                         {/* Detailed Trait Analysis */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 <SurveyTraitWiseAnalysis traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
 
-                        
+
                         {/* Top 5 & Bottom 5 Questions from self */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 <SurveyTopBottom5QuestionsForSelf subjectObject={subjectObject} questionObjects={questionObjects} />
                             </CardBody>
                         </Card>
-                    
+
                         {/* Top 5 & Bottom 5 Questions from others */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 <SurveyTopBottom5QuestionsForOthers traitQuestionData={traitQuestionData} />
                             </CardBody>
                         </Card>
-                        
+
                         {/* Top 5 Traits Compared to Self | Hidden Traits with Developmental Needs */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 <SurveyTop5TraitsComparedToSelf traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
 
                         {/* Top Traits Average score greter than 5 | Trait of Strengths */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
-                                <SurveyTraitsForStrengths traitSelfOthersData={traitSelfOthersData}  traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
+                                <SurveyTraitsForStrengths traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
 
                         {/* Unknown Deficiency with difference of 1 in selfRating & averageOtherRating | Blind Traits with Developmental Needs */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 <SurveyTraitsUnknownDeficiencies traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
 
                         {/* Open Deficiency with selfRating & averageOtherRating is less than 4 | Traits with High Developmental Need */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 <SurveyTraitsOpenDeficiencies traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
@@ -579,27 +632,44 @@ const SurveyAnalysis = () => {
                         </Card> */}
 
                         {/* High Potential Traits in between score of 4 to 5 */}
-                        <Card>
+                        <Card className='a4'>
                             <CardBody>
                                 <SurveyTraitsHighPotential traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
 
                         {/* Mapping of Traits by Developmental Need */}
-                        <Card className='my-3'>
+                        <Card className='my-3 a4'>
                             <CardBody>
-                                <SurveyTraitMapping traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject}  />
+                                <SurveyTraitMapping traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>
                         </Card>
 
-                        <Card>
+                        <Card className={generalObservationToggle? 'card-print-toggler':'a4'}>
                             <CardHeader>
                                 <h4>General Observation</h4>
                             </CardHeader>
                             <CardBody>
-                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis repudiandae ipsum, eveniet iusto quod quas qui iste quae necessitatibus quo reiciendis, accusamus autem sequi itaque ducimus sint laboriosam possimus. Earum.</p>
+                                {
+                                    generalObservationToggle ?
+                                    <>
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+                                        <label className="form-label mt-2">Trait Description</label>
+                                        <TextareaAutosize  {...register("observation")} className="form-control" placeholder="Enter General Observation" minRows={3} maxRows={5}></TextareaAutosize>
+                                        {errors.traitDescription && <p className='form-error'>General Observation is Required!</p>}
+                                        <Button color="primary" className='px-5 my-2' type="submit" disabled={!observation.trim()}> Submit </Button>
+                                    </form>
+                                    </>:<>
+                                        <p>{generalObservation}</p>
+                                    </>
+                                }
                             </CardBody>
                         </Card>
+                    </Col>
+                </Row>
+                <Row className='download-pdf-button'>
+                    <Col className='text-center'>
+                        <Button color="success" className='px-5 my-2 download-pdf-button' onClick={handleDocumentPrint}  disabled={observation.trim()}> Download as PDF </Button>
                     </Col>
                 </Row>
             </Container>

@@ -1,0 +1,57 @@
+.progress-bar-container-styles {
+    height: 30px;
+    width: 100%;
+    background-color: #e0e0de !important;
+    border-radius: 50px;
+    margin: 10px;
+    position: relative;
+}
+
+.progress-bar-filler-styles {
+    // height: 100%;
+    // width: `${(completed/max)*100}%`,
+    // backgroundColor: bgcolor,
+    // borderRadius: 'inherit',
+    // textAlign: 'right'
+
+    background-color: #5598fd !important;
+    height: 100%;
+    border-radius: inherit;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 5px;
+    z-index: 1;
+}
+
+.progress-bar-label-styles {
+    color: #000000;
+    font-weight: bold;
+    padding: 5px;
+    z-index: 2;
+    position: absolute;
+    // transform: translate(50%, 50%);
+    left: 42%;
+    top: -2px;
+}
+
+
+
+@media print {
+    .progress-bar-container-styles {
+        background-color: #e0e0de !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .progress-bar-filler-styles {
+        background-color: #5598fd !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .progress-bar-label-styles {
+        color: #000000 !important;
+    }
+
+}

@@ -82,7 +82,7 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
         <>
             <h2>Top Rated Statements By Self</h2>
             {subject && (
-                <div>
+                <div className='my-3'>
                     {/* <h2>Subject Specific Questions</h2> */}
                     {/* <h4>Top 5 Questions</h4> */}
 
@@ -104,14 +104,10 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
                             {/* <li key={idx}>{question.questionText} - Response: {question.response}</li> */}
                         </>
                     ))}
-
-
-                    {/* <ul>
-                        {subjectQuestions.topQuestions.map((question, idx) => (
-                            <li key={idx}>{question.questionText} - Response: {question.response}</li>
-                        ))}
-                    </ul> */}
-
+                </div>
+            )}
+            {subject && (
+                    <div className='mt-5 my-3'>
                     {/* <h4>Bottom 5 Questions</h4> */}
                     <h2>Bottom Rated Statements By Self</h2>
                     {subjectQuestions.bottomQuestions.map((question, idx) => (
@@ -132,8 +128,10 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
                             </div>
                         </>
                     ))}
+                </div>
+            )}
 
-                    {/* <h4>Treemap Representation</h4>
+            {/* <h4>Treemap Representation</h4>
                     <ResponsiveContainer width="100%" height={400}>
                         <Treemap data={treemapData} dataKey="value" stroke="#000" label={<CustomizedLabel />} >
                             {
@@ -146,8 +144,6 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
                             <Tooltip content={<CustomTooltip />} />
                         </Treemap>
                     </ResponsiveContainer> */}
-                </div>
-            )}
         </>
     )
 }

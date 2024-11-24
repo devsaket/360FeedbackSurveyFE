@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Card, CardBody, CardHeader } from 'react-bootstrap';
 
 const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
 
@@ -94,7 +95,7 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
 
         const topTraitsOfStrength = filterTopTraits();
         setTopTraitsOfStrength(topTraitsOfStrength);
-        
+
 
         // Hidden Traits with Developmental Needs
         const getTopTraits = () => {
@@ -151,65 +152,80 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
         <>
             <h3>Mapping of Traits by Developmental Need</h3>
 
-            <div className='d-flex flex-lg-row flex-lg-nowrap flex-md-column flex-md-wrap'>
+            <div className='row g-5 justify-content-center'>
                 {/* Traits of Strengths */}
-                <div className="trapezoid" style={{ backgroundColor: "#5356FF" }}>
-                    <div className='text-box'>
-                        <h4 className='pt-3 text-white'>Traits of Strengths</h4>
-                        {topTraitsOfStrength.length > 0 ? <>
-                            <ul>
-                                {topTraitsOfStrength.map((trait, idx) => (
-                                    <li key={idx} className='text-white'>
-                                        {trait.trait}
-                                    </li>
-                                ))}
-                            </ul>
-                        </> : <>
-                            <p className='text-white'>No such Traits are Found</p>
-                        </>}
-                    </div>
+                <div className="col-4 p-3 trapezoid">
+                    <Card style={{ backgroundColor: "#5356ff" }} className='h-100 mapping-card'>
+                        <CardHeader>
+                            <h4 className='pt-3'>Traits of Strengths</h4>
+                        </CardHeader>
+                        <CardBody>
+                            {topTraitsOfStrength.length > 0 ? <>
+                                <ul>
+                                    {topTraitsOfStrength.map((trait, idx) => (
+                                        <li key={idx} className='text-white'>
+                                            {trait.trait}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </> : <>
+                                <p className='text-white'>No such Traits are Found</p>
+                            </>}
+                        </CardBody>
+                    </Card>
                 </div>
 
                 {/* Traits of Potential Strengths */}
-                <div className="trapezoid" style={{ backgroundColor: "#4857dbe0" }}>
-                    <div className='text-box'>
-                        <h4 className='pt-3 text-white'>Traits of Potential Strengths</h4>
-                        {highPotentialTrait.length > 0 ? <>
-                            <ul>
-                                {highPotentialTrait.map((trait, idx) => (
-                                    <li key={idx} className='text-white'>
-                                        {trait.trait}
-                                    </li>
-                                ))}
-                            </ul>
-                        </> : <>
-                            <p className='text-white'>No such Traits are Found</p>
-                        </>}
-                    </div>
+                <div className="col-4 p-3 trapezoid">
+                    <Card style={{ backgroundColor: "#4857dbe0" }} className='h-100 mapping-card'>
+                        <CardHeader>
+                            <h4 className='pt-3'>Traits of Potential Strengths</h4>
+                        </CardHeader>
+                        <CardBody>
+                            {highPotentialTrait.length > 0 ? <>
+                                <ul>
+                                    {highPotentialTrait.map((trait, idx) => (
+                                        <li key={idx} className='text-white'>
+                                            {trait.trait}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </> : <>
+                                <p className='text-white'>No such Traits are Found</p>
+                            </>}
+                        </CardBody>
+                    </Card>
                 </div>
 
                 {/* Hidden Traits With Development Needs */}
-                <div className="trapezoid" style={{ backgroundColor: "#378CE7" }}>
-                    <div className='text-box'>
-                        <h4 className='pt-3 text-white'>Hidden Traits With Development Needs</h4>
-                        {topTraits.length > 0 ? <>
-                            <ul>
-                                {topTraits.map((trait, idx) => (
-                                    <li key={idx} className='text-white'>
-                                        {trait.trait}
-                                    </li>
-                                ))}
-                            </ul>
-                        </> : <>
-                            <p className='text-white'>No such Traits are Found</p>
-                        </>}
-                    </div>
+                <div className="col-4 p-3 trapezoid">
+                    <Card style={{ backgroundColor: "#378ce7" }} className='h-100 mapping-card'    >
+                        <CardHeader>
+                            <h4 className='pt-3'>Hidden Traits With Development Needs</h4>
+                        </CardHeader>
+                        <CardBody>
+                            {topTraits.length > 0 ? <>
+                                <ul>
+                                    {topTraits.map((trait, idx) => (
+                                        <li key={idx} className='text-white'>
+                                            {trait.trait}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </> : <>
+                                <p className='text-white'>No such Traits are Found</p>
+                            </>}
+                        </CardBody>
+                    </Card>
                 </div>
 
                 {/* Blind Traits With Development Needs */}
-                <div className="trapezoid" style={{ backgroundColor: "#67C6E3" }}>
-                    <div className='text-box'>
-                        <h4 className='pt-3 text-white'>Blind Traits With Development Needs</h4>
+                <div className="col-4 p-3 trapezoid">
+                    <Card style={{ backgroundColor: "#67C6E3" }} className='h-100 mapping-card'>
+                        <CardHeader>
+                            <h4 className='pt-3'>Blind Traits With Development Needs</h4>
+                        </CardHeader>
+                        <CardBody>
                         {unknownDeficiencyTraits.length > 0 ? <>
                             <ul>
                                 {unknownDeficiencyTraits.map((trait, idx) => (
@@ -221,13 +237,17 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
                         </> : <>
                             <p className='text-white'>No such Traits are Found</p>
                         </>}
-                    </div>
+                        </CardBody>
+                    </Card>
                 </div>
 
                 {/* Traits With High Developmental Needs */}
-                <div className="trapezoid" style={{ backgroundColor: "#1d458f" }}>
-                    <div className='text-box'>
-                        <h4 className='pt-3 text-white'>Traits With High Developmental Needs</h4>
+                <div className="col-4 p-3 trapezoid">
+                    <Card style={{ backgroundColor: "#1d458f" }} className='h-100 mapping-card'>
+                        <CardHeader>
+                            <h4 className='pt-3'>Traits With High Developmental Needs</h4>
+                        </CardHeader>
+                        <CardBody>
                         {openDeficiencyTraits.length > 0 ? <>
                             <ul>
                                 {openDeficiencyTraits.map((trait, idx) => (
@@ -239,8 +259,10 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
                         </> : <>
                             <p className='text-white'>No such Traits are Found</p>
                         </>}
-                    </div>
+                        </CardBody>
+                    </Card>
                 </div>
+                
             </div>
         </>
     )

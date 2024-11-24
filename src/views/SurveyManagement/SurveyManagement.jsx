@@ -31,7 +31,8 @@
         CardHeader,
         CardBody,
         Container,
-        Row, Modal, ModalHeader, ModalBody, ModalFooter, Button
+        Row, Modal, ModalHeader, ModalBody, ModalFooter, Button,
+        Table
     } from "reactstrap";
     // core components
     import Header from "components/Headers/Header.js";
@@ -358,12 +359,12 @@
                                     </Modal>
                                 </CardHeader>
                                 <CardBody>
-                                    <table className="table table-hover header-dash">
-                                        <thead className='position-relative'>
+                                    <Table className="table-hover header-dash w-100">
+                                        <thead>
                                             <tr className=''>
                                                 <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
                                                 <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Survey Name</th>
-                                                <th scope="col" className='text-start align-text-top ps-2 w-50 bg-dark text-white'>Description</th>
+                                                <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white' style={{ maxWidth: '15rem' }}>Description</th>
                                                 <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Created At</th>
                                                 <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
                                                 <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
@@ -377,7 +378,7 @@
                                                         <tr key={el._id}>
                                                             <td className='text-center ps-1 align-middle' style={{ width: '8rem' }}>{index + 1}</td>
                                                             <td className='text-start ps-1 align-middle'><Link to={`/admin/survey-details/${el._id}`}>{el.surveyName}</Link></td>
-                                                            <td className='text-start ps-1 align-middle'>{el.surveyDescription}</td>
+                                                            <td className='text-start ps-1 align-middle' style={{ maxWidth: '15rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{el.surveyDescription}</td>
                                                             <td className='text-center ps-1 align-middle'>{new Date(el.createdOn).toLocaleDateString()}</td>
                                                             <td className='text-center ps-1 '>
                                                                 <Link to={`/admin/survey-details/${el._id}`}><i class="fa-solid fa-eye"></i></Link>
@@ -397,7 +398,7 @@
                                             })
                                             }
                                         </tbody>
-                                    </table>
+                                    </Table>
                                 </CardBody>
                             </Card>
                         </div>
