@@ -106,6 +106,7 @@ const Sidebar = (props) => {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("userRole");
     toast.info("Logged out successfully!");
     navigate("/auth/login");
   };

@@ -73,13 +73,25 @@ td{
     print-color-adjust: exact;
 }
 
+.card {
+    box-sizing: border-box;
+    break-inside: avoid; /* Prevent card splitting */
+    page-break-inside: avoid; /* Ensure cards don't break across pages */
+    margin-bottom: 10px;
+}
+
+.card.large-content {
+    height: auto; /* Allow cards with large content to expand */
+    overflow: visible;
+}
+
 @media print {
     td{
         vertical-align: middle !important;
     }
     .a4 {
         box-sizing: border-box;
-        height: 297mm !important;
+        min-height: 297mm !important;
         page-break-after: always;
         border: none !important;
     }

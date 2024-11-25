@@ -575,7 +575,7 @@ const SurveyAnalysis = () => {
 
 
                         {/* Detailed Trait Analysis */}
-                        <Card className='a4'>
+                        <Card className='card a4 large-content'>
                             <CardBody>
                                 <SurveyTraitWiseAnalysis traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
                             </CardBody>

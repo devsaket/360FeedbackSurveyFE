@@ -230,7 +230,7 @@ const UserManagement = () => {
                                                         <button className='btn p-2 text-success fs-4' type='button' onClick={() => { selectedUser(el); toggle(); }} > <i className="fa-solid fa-pencil"></i></button>
 
                                                         {
-                                                            userRole === 0 ? <>
+                                                            userRole === '0' ? <>
                                                                 <Popup trigger={<button className=' p-2 bg-transparent border border-0'><i className="fa-solid fa-trash text-danger"></i></button>} position="top right">
                                                                     <div className='py-1 p-2'>Are you sure you want to delete <span className='text-danger fs-5 fw-bold'>{el.username}</span>?</div>
                                                                     <button className='btn btn-danger my-3 py-1 mx-2' onClick={() => deleteUser(el._id)}>Delete</button>
