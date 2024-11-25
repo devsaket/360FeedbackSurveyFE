@@ -660,7 +660,7 @@ const SurveyAnalysis = () => {
                                         <Button color="primary" className='px-5 my-2' type="submit" disabled={!observation.trim()}> Submit </Button>
                                     </form>
                                     </>:<>
-                                        <p>{generalObservation}</p>
+                                        <p>{generalObservation.replace("\n", "<br />")}</p>
                                     </>
                                 }
                             </CardBody>
