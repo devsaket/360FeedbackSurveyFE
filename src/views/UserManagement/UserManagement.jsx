@@ -91,6 +91,8 @@ const UserManagement = () => {
 
     }
     const onSubmit = (data) => {
+        console.log("Onsubmit initiated");
+        
         if (updateMode) {
             const postData = { ...data, _id: updateUser._id };
             axios.put(process.env.REACT_APP_BACKEND_URL + `/user/${updateUser._id}`, postData)
@@ -107,6 +109,9 @@ const UserManagement = () => {
                     }
                 })
         } else {
+            console.log('====================================');
+            console.log("Post = ", data);
+            console.log('====================================');
             axios.post(process.env.REACT_APP_BACKEND_URL + '/user', data)
                 .then((res) => {
                     if (res.data.status) {
@@ -172,7 +177,6 @@ const UserManagement = () => {
                                             <h3 className="mb-0">{updateMode ? 'Update' : 'Add'} User</h3>
                                         </ModalHeader>
                                         <ModalBody>
-
                                             <div className="row">
                                                 <div className="col-12">
                                                     <label className="form-label">First Name</label>
@@ -182,25 +186,19 @@ const UserManagement = () => {
                                                     <label className="form-label">Last Name</label>
                                                     <input {...register("lastName")} className="form-control" type="text" placeholder="Enter Last Name" />
 
-
                                                     <label className="form-label">Username</label>
-                                                    <input {...register("username")} className="form-control" type="text" placeholder="Enter Trait Name" />
+                                                    <input {...register("username")} className="form-control" type="text" placeholder="Enter Username" />
                                                     {errors.username && <p className='form-error'>Username is Required!</p>}
 
                                                     <label className="form-label">Password</label>
-                                                    <input {...register("password")} className="form-control" type="text" placeholder="Enter Trait Name" />
+                                                    <input {...register("password")} className="form-control" type="password" placeholder="Enter Password" />
                                                     {errors.password && <p className='form-error'>Password is Required!</p>}
-
                                                 </div>
                                             </div>
-
                                         </ModalBody>
                                         <ModalFooter>
                                             <Button color="primary" className='px-5 my-2' type="submit"> Submit </Button>
-
-                                            <Button color="secondary" onClick={toggle}>
-                                                Cancel
-                                            </Button>
+                                            <Button color="secondary" onClick={toggle}> Cancel </Button>
                                         </ModalFooter>
                                     </form>
                                 </Modal>
