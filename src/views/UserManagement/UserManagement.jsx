@@ -74,7 +74,7 @@ const UserManagement = () => {
             lastName: "",
             username: "",
             password: "",
-            role: 1
+            role: ""
         }
     });
 
@@ -98,7 +98,7 @@ const UserManagement = () => {
             axios.put(process.env.REACT_APP_BACKEND_URL + `/user/${updateUser._id}`, postData)
                 .then((res) => {
                     if (res.data.status) {
-                        reset({ firstName: "", lastName: "", username: "", password: "", role: 1 });
+                        reset({ firstName: "", lastName: "", username: "", role: "" });
                         toast.success(res.data.message);
                         toggle();
                         getUser();
@@ -115,7 +115,7 @@ const UserManagement = () => {
             axios.post(process.env.REACT_APP_BACKEND_URL + '/user', data)
                 .then((res) => {
                     if (res.data.status) {
-                        reset({ firstName: "", lastName: "", username: "", password: "", role: 1 });
+                        reset({ firstName: "", lastName: "", username: "", password: "", role: "" });
                         toast.success("User Created Successfully!");
                         toggle();
                         getUser();
@@ -139,9 +139,8 @@ const UserManagement = () => {
 
     const selectedUser = (data) => {
         setUpdateMode(true);
-        reset({ firstName: data.firstname, lastName: data.lastname, username: data.username, password: data.password, role: 1 });
+        reset({ firstName: data.firstname, lastName: data.lastname, username: data.username, password: data.password, role: data.role });
         setSelectedUser(data);
-
     };
 
     const deleteUser = (id) => {
@@ -179,20 +178,36 @@ const UserManagement = () => {
                                         <ModalBody>
                                             <div className="row">
                                                 <div className="col-12">
-                                                    <label className="form-label">First Name</label>
+                                                    <label className="form-label mt-1">First Name</label>
                                                     <input {...register("firstName")} className="form-control" type="text" placeholder="Enter First Name" />
                                                     {errors.firstName && <p className='form-error'>First Name is Required!</p>}
 
-                                                    <label className="form-label">Last Name</label>
+                                                    <label className="form-label mt-1">Last Name</label>
                                                     <input {...register("lastName")} className="form-control" type="text" placeholder="Enter Last Name" />
 
-                                                    <label className="form-label">Username</label>
-                                                    <input {...register("username")} className="form-control" type="text" placeholder="Enter Username" />
+                                                    <label className="form-label mt-1">Username</label>
+                                                    <input {...register("username")} className="form-control" type="text" placeholder="Enter Username" disabled={updateMode} />
                                                     {errors.username && <p className='form-error'>Username is Required!</p>}
 
-                                                    <label className="form-label">Password</label>
-                                                    <input {...register("password")} className="form-control" type="password" placeholder="Enter Password" />
-                                                    {errors.password && <p className='form-error'>Password is Required!</p>}
+                                                    {!updateMode ? <>
+                                                        <label className="form-label mt-1">Password</label>
+                                                        <input {...register("password")} className="form-control" type="password" placeholder="Enter Password" />
+                                                        {errors.password && <p className='form-error'>Password is Required!</p>}
+                                                    </> : <></>
+                                                    }
+
+
+                                                    <label className="form-label mt-1">Role</label>
+                                                    <select  {...register("role")} className="form-control" placeholder="Select a Trait" required disabled={updateMode}>
+                                                        <option value="">Select a User Role</option>
+                                                        <option value="0" className='text-dark'>Superadmin</option>
+                                                        <option value="1" className='text-dark'>Manager</option>
+                                                        <option value="2" className='text-dark'>Supervisor</option>
+                                                        <option value="3" className='text-dark'>Assessment and Evaluation Specialist</option>
+                                                        <option value="4" className='text-dark'>Data Entry</option>
+                                                        <option value="5" className='text-dark'>User</option>
+                                                    </select>
+                                                    {errors.trait && <p className='form-error'>Role is Required!</p>}
                                                 </div>
                                             </div>
                                         </ModalBody>
