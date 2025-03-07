@@ -24,18 +24,24 @@ const SurveyParticipationData = ({ summaryData, surveyCategoryObject, categories
     return (
         <>
             <CardHeader>
-                <h3>Survey Participation Data</h3>
+                {/* <h3>Survey Participation Data</h3> */}
+                <h3>تفاصيل بيانات المشاركة في عملية التقييم:</h3>
             </CardHeader>
             <CardBody>
-                <p>The following is a summary of the group of respondents who were invited to participate and provide feedback for you.</p>
+                <p>فيما يلي ملخصًا للفئات المستجيبة على المقياس يتضمن الوزن النسبي لكل فئة وعدد المقيمين، ومعدل الاستجابة لكل فئة</p>
                 <table className='table table-bordered'>
                     <thead className='thead-dark'>
                         <tr>
-                            <th className='text-wrap align-top text-start'><b className='text-white'>Relationship</b></th>
-                            <th className='text-wrap align-top text-center'><b className='text-white'>Score Weightage</b></th>
-                            <th className='text-wrap align-top text-center'><b className='text-white'>Nominated</b></th>
-                            <th className='text-wrap align-top text-center'><b className='text-white'>Completed</b></th>
-                            <th className='text-wrap align-top text-center'><b className='text-white'>Completion Rate</b></th>
+                            {/* <th className='text-wrap align-top text-start'><b className='text-white'>Relationship</b></th> */}
+                            <th className='text-wrap align-top text-start'><b className='text-white'>الفئة</b></th>
+                            {/* <th className='text-wrap align-top text-center'><b className='text-white'>Score Weightage</b></th> */}
+                            <th className='text-wrap align-top text-center'><b className='text-white'>الوزن النسبي </b></th>
+                            {/* <th className='text-wrap align-top text-center'><b className='text-white'>Nominated</b></th> */}
+                            <th className='text-wrap align-top text-center'><b className='text-white'>عدد المدعوين</b></th>
+                            {/* <th className='text-wrap align-top text-center'><b className='text-white'>Completed</b></th> */}
+                            <th className='text-wrap align-top text-center'><b className='text-white'>عدد المستجيبين</b></th>
+                            {/* <th className='text-wrap align-top text-center'><b className='text-white'>Completion Rate</b></th> */}
+                            <th className='text-wrap align-top text-center'><b className='text-white'>معدل الاستجابة</b></th>
                         </tr>
                     </thead>
                     <tbody>

@@ -16,7 +16,8 @@ const SurveyTraitsUnknownDeficiencies = ({ traitSelfOthersData, traitCategoryDat
     });
 
     // Add 'Self' to updatedSurveyCategory
-    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+    // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+    const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
 
     useEffect(() => {
         const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -66,9 +67,11 @@ const SurveyTraitsUnknownDeficiencies = ({ traitSelfOthersData, traitCategoryDat
             const traitsWithComparison = finalData.map(item => {
                 return {
                     trait: item.trait,
-                    selfRating: parseFloat(item.Self).toFixed(1),
+                    // selfRating: parseFloat(item.Self).toFixed(1),
+                    selfRating: parseFloat(item['تقييم ذاتي']).toFixed(1),
                     averageOtherRating: parseFloat(item.averageOfOthers).toFixed(1),
-                    difference: (parseFloat(item.averageOfOthers) - parseFloat(item.Self)).toFixed(1)
+                    // difference: (parseFloat(item.averageOfOthers) - parseFloat(item.Self)).toFixed(1)
+                    difference: (parseFloat(item.averageOfOthers) - parseFloat(item['تقييم ذاتي'])).toFixed(1)
                 };
             });
     
@@ -86,7 +89,8 @@ const SurveyTraitsUnknownDeficiencies = ({ traitSelfOthersData, traitCategoryDat
     return (
         <>
             {/* <h4>Traits denoting your Unknown Deficiency</h4> */}
-            <h4>Blind Traits with Developmental Needs</h4>
+            {/* <h4>Blind Traits with Developmental Needs</h4> */}
+            <h4>سمات(جدارات، مهارات، صفات)  عمياء تحتاج إلى تطوير </h4>
             {processedData.length > 0 ?
                 <>
                     {/* <ul>
@@ -100,9 +104,12 @@ const SurveyTraitsUnknownDeficiencies = ({ traitSelfOthersData, traitCategoryDat
                     <table className='table table-bordered'>
                         <thead className='thead-white'>
                             <tr>
-                                <th className='text-wrap align-top text-start w-25'><b className='text-muted'>Areas</b></th>
+                                {/* <th className='text-wrap align-top text-start w-25'><b className='text-muted'>Areas</b></th>
                                 <th className='text-wrap align-top text-center'><b className='text-muted'>Your Rating</b></th>
-                                <th className='text-wrap align-top text-center'><b className='text-muted'>Others Rating</b></th>
+                                <th className='text-wrap align-top text-center'><b className='text-muted'>Others Rating</b></th> */}
+                                <th className='text-wrap align-top text-start w-25'><b className='text-muted'>السمات(الجدارات، المهارات، الصفات)</b></th>
+                                <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الفرد " تقييم ذاتي "</b></th>
+                                <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الآخرين</b></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -131,7 +138,8 @@ const SurveyTraitsUnknownDeficiencies = ({ traitSelfOthersData, traitCategoryDat
                         </BarChart>
                     </ResponsiveContainer> */}
                 </> : <>
-                    <p className='ml-4'>No such Traits are Found</p>
+                    {/* <p className='ml-4'>No such Traits are Found</p> */}
+                    <p className='ml-4'>لا توجد سمات(جدارات، مهارات، صفات)  من هذا النوع</p>
                 </>
             }
 

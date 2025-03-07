@@ -2,6 +2,12 @@ td{
     vertical-align: middle !important;
 }
 
+.arabic-report {
+    direction: rtl;
+    text-align: right;
+    font-family: "Rubik", sans-serif; // Use Arabic-supportive font
+}
+
 .statement-main-box{
     // box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 20%);
     padding: 1rem;

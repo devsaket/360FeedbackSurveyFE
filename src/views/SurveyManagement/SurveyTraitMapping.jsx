@@ -19,7 +19,8 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
     });
 
     // Add 'Self' to updatedSurveyCategory
-    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+    // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+    const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
 
     useEffect(() => {
         const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -70,9 +71,11 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
             const traitsWithComparison = finalData.map(item => {
                 return {
                     trait: item.trait,
-                    selfRating: parseFloat(item.Self).toFixed(1),
+                    // selfRating: parseFloat(item.Self).toFixed(1),
+                    selfRating: parseFloat(item['تقييم ذاتي']).toFixed(1),
                     averageOtherRating: parseFloat(item.averageOfOthers).toFixed(1),
-                    difference: (parseFloat(item.Self) - parseFloat(item.averageOfOthers)).toFixed(1)
+                    // difference: (parseFloat(item.Self) - parseFloat(item.averageOfOthers)).toFixed(1)
+                    difference: (parseFloat(item['تقييم ذاتي']) - parseFloat(item.averageOfOthers)).toFixed(1)
                 };
             });
 
@@ -87,7 +90,8 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
         // Trait of Strength
         const filterTopTraits = () => {
             return finalData.filter(item => {
-                const selfRating = parseFloat(item.Self);
+                // const selfRating = parseFloat(item.Self);
+                const selfRating = parseFloat(item['تقييم ذاتي']);
                 const averageOtherRating = parseFloat(item.averageOfOthers);
                 return selfRating >= 5 && averageOtherRating >= 5;
             });
@@ -102,9 +106,11 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
             const traitsWithComparison = finalData.map(item => {
                 return {
                     trait: item.trait,
-                    selfRating: parseFloat(item.Self),
+                    // selfRating: parseFloat(item.Self),
+                    selfRating: parseFloat(item['تقييم ذاتي']),
                     averageOtherRating: parseFloat(item.averageOfOthers),
-                    difference: parseFloat(item.Self) - parseFloat(item.averageOfOthers)
+                    // difference: parseFloat(item.Self) - parseFloat(item.averageOfOthers)
+                    difference: parseFloat(item['تقييم ذاتي']) - parseFloat(item.averageOfOthers)
                 };
             });
 
@@ -121,9 +127,11 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
             const traitsWithComparison = finalData.map(item => {
                 return {
                     trait: item.trait,
-                    selfRating: parseFloat(item.Self).toFixed(1),
+                    // selfRating: parseFloat(item.Self).toFixed(1),
+                    selfRating: parseFloat(item['تقييم ذاتي']).toFixed(1),
                     averageOtherRating: parseFloat(item.averageOfOthers).toFixed(1),
-                    difference: (parseFloat(item.averageOfOthers) - parseFloat(item.Self)).toFixed(1)
+                    // difference: (parseFloat(item.averageOfOthers) - parseFloat(item.Self)).toFixed(1)
+                    difference: (parseFloat(item.averageOfOthers) - parseFloat(item['تقييم ذاتي'])).toFixed(1)
                 };
             });
 
@@ -136,7 +144,7 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
 
         // Trait with High Developmental Needs
         const getOpenDeficiency = () => {
-            const openDeficiencyTraits = finalData.filter(item => { return item.Self < 4 && item.averageOfOthers < 4 });
+            const openDeficiencyTraits = finalData.filter(item => { return item['تقييم ذاتي'] < 4 && item.averageOfOthers < 4 });
             return openDeficiencyTraits;
         };
 
@@ -150,14 +158,16 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
 
     return (
         <>
-            <h3>Mapping of Traits by Developmental Need</h3>
+            {/* <h3>Mapping of Traits by Developmental Need</h3> */}
+            <h3>تصنيف السمات(الجدارات، المهارات، الصفات)  بناءً على الحاجة التطويرية</h3>
 
             <div className='row g-5 justify-content-center'>
                 {/* Traits of Strengths */}
                 <div className="col-4 p-3 trapezoid">
                     <Card style={{ backgroundColor: "#5356ff" }} className='h-100 mapping-card'>
                         <CardHeader>
-                            <h4 className='pt-3'>Traits of Strengths</h4>
+                            {/* <h4 className='pt-3'>Traits of Strengths</h4> */}
+                            <h4 className='pt-3'>سمات (جدارات، مهارات، صفات) تمثل نقاط قوة</h4>
                         </CardHeader>
                         <CardBody>
                             {topTraitsOfStrength.length > 0 ? <>
@@ -169,7 +179,8 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
                                     ))}
                                 </ul>
                             </> : <>
-                                <p className='text-white'>No such Traits are Found</p>
+                                {/* <p className='text-white'>No such Traits are Found</p> */}
+                                <p className='text-white'>لا توجد سمات(جدارات، مهارات، صفات)  من هذا النوع</p>
                             </>}
                         </CardBody>
                     </Card>
@@ -179,7 +190,8 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
                 <div className="col-4 p-3 trapezoid">
                     <Card style={{ backgroundColor: "#4857dbe0" }} className='h-100 mapping-card'>
                         <CardHeader>
-                            <h4 className='pt-3'>Traits of Potential Strengths</h4>
+                            {/* <h4 className='pt-3'>Traits of Potential Strengths</h4> */}
+                            <h4 className='pt-3'>سمات(جدارات، مهارات، صفات)  تتمتع بفرص للنمو والتطور</h4>
                         </CardHeader>
                         <CardBody>
                             {highPotentialTrait.length > 0 ? <>
@@ -191,7 +203,8 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
                                     ))}
                                 </ul>
                             </> : <>
-                                <p className='text-white'>No such Traits are Found</p>
+                                {/* <p className='text-white'>No such Traits are Found</p> */}
+                                <p className='text-white'>لا توجد سمات(جدارات، مهارات، صفات)  من هذا النوع</p>
                             </>}
                         </CardBody>
                     </Card>
@@ -201,7 +214,8 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
                 <div className="col-4 p-3 trapezoid">
                     <Card style={{ backgroundColor: "#378ce7" }} className='h-100 mapping-card'    >
                         <CardHeader>
-                            <h4 className='pt-3'>Hidden Traits With Development Needs</h4>
+                            {/* <h4 className='pt-3'>Hidden Traits With Development Needs</h4> */}
+                            <h4 className='pt-3'>سمات(جدارات، مهارات، صفات)  خفية تحتاج إلى تطوير</h4>
                         </CardHeader>
                         <CardBody>
                             {topTraits.length > 0 ? <>
@@ -213,7 +227,8 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
                                     ))}
                                 </ul>
                             </> : <>
-                                <p className='text-white'>No such Traits are Found</p>
+                                {/* <p className='text-white'>No such Traits are Found</p> */}
+                                <p className='text-white'>لا توجد سمات(جدارات، مهارات، صفات)  من هذا النوع</p>
                             </>}
                         </CardBody>
                     </Card>
@@ -223,7 +238,8 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
                 <div className="col-4 p-3 trapezoid">
                     <Card style={{ backgroundColor: "#67C6E3" }} className='h-100 mapping-card'>
                         <CardHeader>
-                            <h4 className='pt-3'>Blind Traits With Development Needs</h4>
+                            {/* <h4 className='pt-3'>Blind Traits With Development Needs</h4> */}
+                            <h4 className='pt-3'>سمات (جدارات، مهارات، صفات) عمياء تحتاج إلى تطوير </h4>
                         </CardHeader>
                         <CardBody>
                         {unknownDeficiencyTraits.length > 0 ? <>
@@ -235,7 +251,8 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
                                 ))}
                             </ul>
                         </> : <>
-                            <p className='text-white'>No such Traits are Found</p>
+                            {/* <p className='text-white'>No such Traits are Found</p> */}
+                            <p className='text-white'>لا توجد سمات(جدارات، مهارات، صفات)  من هذا النوع</p>
                         </>}
                         </CardBody>
                     </Card>
@@ -245,7 +262,8 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
                 <div className="col-4 p-3 trapezoid">
                     <Card style={{ backgroundColor: "#1d458f" }} className='h-100 mapping-card'>
                         <CardHeader>
-                            <h4 className='pt-3'>Traits With High Developmental Needs</h4>
+                            {/* <h4 className='pt-3'>Traits With High Developmental Needs</h4> */}
+                            <h4 className='pt-3'>سمات (جدارات، مهارات، صفات) تتطلب اهتمامًا تطويريًا كبيرًا</h4>
                         </CardHeader>
                         <CardBody>
                         {openDeficiencyTraits.length > 0 ? <>
@@ -257,7 +275,8 @@ const SurveyTraitMapping = ({ traitSelfOthersData, traitCategoryData, traitData,
                                 ))}
                             </ul>
                         </> : <>
-                            <p className='text-white'>No such Traits are Found</p>
+                            {/* <p className='text-white'>No such Traits are Found</p> */}
+                            <p className='text-white'>لا توجد سمات(جدارات، مهارات، صفات)  من هذا النوع</p>
                         </>}
                         </CardBody>
                     </Card>

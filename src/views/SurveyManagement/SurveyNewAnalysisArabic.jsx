@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
     Card,
     CardHeader,
@@ -20,7 +20,7 @@ import DonutChart from './Charts/DonutChart';
 import SimpleDonutChart from './Charts/SimpleDonutChart';
 import RadarGraph from './Charts/RadarChart';
 import ProgressBar from './Charts/ProgressBar';
-import CompanyLogo from '../../assets/img/company/CompanyLogo.jpg'
+import CompanyLogo from '../../assets/img/company/DecisionSupportLogo.png'
 import { SurveyTraitsData } from './SurveyTraitsData';
 import SurveyResponseRespondentList from './SurveyResponseRespondentList';
 import SurveyTraitsRespondentScore from './SurveyTraitsRespondentScore';
@@ -36,6 +36,7 @@ import SurveyTraitsUnknownStrengths from './SurveyTraitsUnknownStrengths';
 import SurveyTraitsHighPotential from './SurveyTraitsHighPotential';
 import SurveyTraitMapping from './SurveyTraitMapping';
 import SurveyParticipationData from './SurveyParticipationData';
+import { getCurrentDate } from 'helpers';
 
 import './SurveyManagement.scss';
 
@@ -43,7 +44,7 @@ const GeneralObservationSchema = Joi.object({
     observation: Joi.string().required()
 });
 
-const SurveyAnalysis = () => {
+const SurveyAnalysisArabic = () => {
     const { id, subjectId } = useParams();
 
     const [surveyResponseObject, setSurveyResponseObject] = useState([]);
@@ -153,7 +154,8 @@ const SurveyAnalysis = () => {
             filteredSubject.subject.forEach(subject => {
                 if (subject._id === subjectId) {
 
-                    const { categoryName, scoreWeightage } = { categoryName: 'Self', scoreWeightage: 100 };
+                    // const { categoryName, scoreWeightage } = { categoryName: 'Self', scoreWeightage: 100 };
+                    const { categoryName, scoreWeightage } = { categoryName: 'تقييم ذاتي', scoreWeightage: 100 };
                     // Subject row
                     const subjectRow = {
                         surveySubmittedBy: subject.subjectName,
@@ -161,7 +163,8 @@ const SurveyAnalysis = () => {
                             const response = subject.responses.find(res => res.questionId === questionId);
                             return response ? response.answer : '0';
                         }),
-                        categoryName: 'Self',
+                        // categoryName: 'Self',
+                        categoryName: 'تقييم ذاتي',
                         scoreWeightage: 100,
                         totalScore: calculateTotalScore(subject.responses)
                     };
@@ -216,7 +219,8 @@ const SurveyAnalysis = () => {
                     // Respondent rows and summary data
                     const categoryCounts = {};
                     // Add subject to summary
-                    categoryCounts['Self'] = { nominated: 1, completed: subject.isFilled ? 1 : 0 }; // Self is always nominated and completed
+                    // categoryCounts['Self'] = { nominated: 1, completed: subject.isFilled ? 1 : 0 }; // Self is always nominated and completed
+                    categoryCounts['تقييم ذاتي'] = { nominated: 1, completed: subject.isFilled ? 1 : 0 }; // Self is always nominated and completed
 
 
                     subject.respondent.forEach(respondent => {
@@ -339,8 +343,10 @@ const SurveyAnalysis = () => {
 
         const processTraitSelfOthersData = (data) => {
             return data.map(item => {
-                const selfRating = item.categories.find(cat => cat.category === "Self")?.averageScore || 0;
-                const otherRatings = item.categories.filter(cat => cat.category !== "Self")?.map(cat => cat.averageScore);
+                // const selfRating = item.categories.find(cat => cat.category === "Self")?.averageScore || 0;
+                const selfRating = item.categories.find(cat => cat.category === "تقييم ذاتي")?.averageScore || 0;
+                // const otherRatings = item.categories.filter(cat => cat.category !== "Self")?.map(cat => cat.averageScore);
+                const otherRatings = item.categories.filter(cat => cat.category !== "تقييم ذاتي")?.map(cat => cat.averageScore);
                 // console.log(otherRatings);
                 const averageOtherRating = otherRatings.length > 0 ? (otherRatings.reduce((acc, score) => acc + parseFloat(score), 0) / otherRatings.length).toFixed(1) : 0;
                 // console.log(averageOtherRating)
@@ -355,7 +361,8 @@ const SurveyAnalysis = () => {
 
         const processTraitRespondentsData = (data) => {
             return data.map(item => {
-                const otherRatings = item.categories.filter(cat => cat.category !== "Self")?.map(cat => cat.averageScore);
+                // const otherRatings = item.categories.filter(cat => cat.category !== "Self")?.map(cat => cat.averageScore);
+                const otherRatings = item.categories.filter(cat => cat.category !== "تقييم ذاتي")?.map(cat => cat.averageScore);
                 // console.log(otherRatings);
                 const averageOtherRating = otherRatings.length > 0 ? (otherRatings.reduce((acc, score) => acc + parseFloat(score), 0) / otherRatings.length).toFixed(1) : 0;
                 // console.log(averageOtherRating)
@@ -425,11 +432,12 @@ const SurveyAnalysis = () => {
         <>
             <Header />
             <Container className="mt--7" fluid>
+                <article dir="rtl" className='arabic-report'>
                 <Row className="mt--3">
                     <Col>
                         <Card className="shadow report-page-header">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="mb-0">Survey Analysis</h3>
+                                <h3 className="mb-0">Survey Analysis in Arabic</h3>
                             </CardHeader>
                         </Card>
 
@@ -441,22 +449,25 @@ const SurveyAnalysis = () => {
                                     Array.isArray(surveyObject) && surveyObject.map(surveyItem => {
                                         return <>
                                             <h1 className='display-2 py-3'>{surveyItem.surveyName}</h1>
-                                            <img src={CompanyLogo} alt="Company Logo" className='rounded-circle border border-dark border-3' width={200} />
+                                            <img src={CompanyLogo} alt="Company Logo" className='border border-dark border-3' width={200} />
                                         </>
                                     })
                                 }
 
                                 <div className='my-5 py-5'>
-                                    <h2 className='display-2'>Company Name</h2>
-                                    <img src={CompanyLogo} alt="Company Logo" className='rounded-circle border border-dark border-3' width={200} />
+                                    {/* <h2 className='display-2'>Company Name</h2> */}
+                                    <h2 className='display-2'>"دعم القرارات للاستشارات التعليمية والتربوية"</h2>
+                                    {/* <img src={CompanyLogo} alt="Company Logo" className='rounded-circle border border-dark border-3' width={200} /> */}
                                 </div>
 
                                 <div className='my-5 py-5'>
                                     {
                                         Array.isArray(subjectObject) && subjectObject.map(subjectItem => {
                                             return <>
-                                                <h3 className='display-2 fw-bold py-3'>Report Generated for <br /> "{subjectItem.subjectName}"</h3>
-                                                <p>Date - 22/07/2024</p>
+                                                {/* <h3 className='display-2 fw-bold py-3'>Report Generated for <br /> "{subjectItem.subjectName}"</h3> */}
+                                                <h3 className='display-2 fw-bold py-3'>تقرير مُعدّ لصالح: <br /> "{subjectItem.subjectName}"</h3>
+                                                {/* <p>Date - {getCurrentDate()}</p> */}
+                                                <p>التاريخ: - {getCurrentDate()}</p>
                                             </>
                                         })
                                     }
@@ -468,13 +479,16 @@ const SurveyAnalysis = () => {
                         {/* Copyright and Disclaimer */}
                         <Card className='a4'>
                             <CardBody>
-                                <h3>Copyright</h3>
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore corrupti quisquam eaque culpa voluptates natus similique sit. Dicta natus, sapiente eaque obcaecati molestiae sequi dolorum facere reiciendis pariatur ut deleniti.</p>
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore corrupti quisquam eaque culpa voluptates natus similique sit. Dicta natus, sapiente eaque obcaecati molestiae sequi dolorum facere reiciendis pariatur ut deleniti.</p>
+                                {/* <h3>Copyright</h3> */}
+                                <h3>حقوق النشر: © [2025] شركة دعم القرارات للاستشارات التعليمية والتربوية. جميع الحقوق محفوظة.</h3>
+                                {/* <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore corrupti quisquam eaque culpa voluptates natus similique sit. Dicta natus, sapiente eaque obcaecati molestiae sequi dolorum facere reiciendis pariatur ut deleniti.</p> */}
+                                <p>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
+                                <p>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
 
-                                <h3>Disclaimer</h3>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam porro sequi dolores odio reiciendis delectus quasi asperiores error assumenda labore mollitia soluta enim quos rerum impedit officiis, obcaecati possimus. Tenetur.</p>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam porro sequi dolores odio reiciendis delectus quasi asperiores error assumenda labore mollitia soluta enim quos rerum impedit officiis, obcaecati possimus. Tenetur.</p>
+                                {/* <h3>Disclaimer</h3> */}
+                                <h3>إخلاء المسؤولية:</h3>
+                                <p>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
+                                <p>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
                             </CardBody>
                         </Card>
 
@@ -504,9 +518,11 @@ const SurveyAnalysis = () => {
                         {/* 360-Degree Assessment: An Introduction */}
                         <Card className='a4'>
                             <CardBody>
-                                <h3 className='display-4 fw-bold py-3'>360-Degree Assessment: An Introduction</h3>
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloremque, numquam! Voluptatem quae incidunt repellat natus, culpa, expedita iusto consequatur sequi fugit numquam ullam vitae eaque laudantium tempora facilis ad obcaecati!</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit velit reprehenderit doloribus voluptas at, ea consectetur eos? Minima sequi atque distinctio neque laboriosam quam ducimus fugit. Id repellendus repudiandae hic.</p>
+                                {/* <h3 className='display-4 fw-bold py-3'>360-Degree Assessment: An Introduction</h3> */}
+                                <h3 className='display-4 fw-bold py-3'>تقييم 360 درجة: مقدمة
+                                </h3>
+                                <p>أسلوب تقييم 360 درجة هو أداة تقييم شاملة تهدف إلى جمع تغذية راجعة متعددة الجوانب حول السمات (الجدارات، المهارات، الصفات) الشخصية والاجتماعية والسلوكية للفرد. يستند هذا المقياس إلى آراء الأشخاص المعنيين المحيطين به، بالإضافة إلى تقييمه الذاتي، مما يوفر رؤية أعمق لسماته، ويساعد في تحديد نقاط القوة والضعف لديه بشكل أكثر دقة. 
+                                </p>
                             </CardBody>
                         </Card>
 
@@ -516,7 +532,8 @@ const SurveyAnalysis = () => {
                                 {
                                     Array.isArray(surveyObject) && surveyObject.map(surveyItem => {
                                         return <>
-                                            <h3 className='display-4 fw-bold py-3'>"About this {surveyItem.surveyName}"</h3>
+                                            {/* <h3 className='display-4 fw-bold py-3'>About this: {surveyItem.surveyName}"</h3> */}
+                                            <h3 className='display-4 fw-bold py-3'>"نظرة عامة حول  {surveyItem.surveyName}"</h3>
                                             <p>{surveyItem.surveyDescription}</p>
                                         </>
                                     })
@@ -558,6 +575,12 @@ const SurveyAnalysis = () => {
                             </CardBody>
                         </Card>
 
+                        {/* Rank Traits based on average of Self rating */}
+                        <Card className='a4'>
+                            <CardBody>
+                                <SurveyTraitsSelfScore traitSelfData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
+                            </CardBody>
+                        </Card>
 
                         {/* Rank Traits based on average of Others rating */}
                         <Card className='a4'>
@@ -566,12 +589,7 @@ const SurveyAnalysis = () => {
                             </CardBody>
                         </Card>
 
-                        {/* Rank Traits based on average of Self rating */}
-                        <Card className='a4'>
-                            <CardBody>
-                                <SurveyTraitsSelfScore traitSelfData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
-                            </CardBody>
-                        </Card>
+                        
 
 
                         {/* Detailed Trait Analysis */}
@@ -669,13 +687,13 @@ const SurveyAnalysis = () => {
                 </Row>
                 <Row className='download-pdf-button'>
                     <Col className='text-center'>
-                        <Link to={`/admin/survey/analysis-ar/${id}/${subjectId}`}><i class="fa-solid fa-square-poll-vertical"></i> Result Arabic</Link>
                         <Button color="success" className='px-5 my-2 download-pdf-button' onClick={handleDocumentPrint}  disabled={observation.trim()}> Download as PDF </Button>
                     </Col>
                 </Row>
+                </article>
             </Container>
         </>
     );
 }
 
-export default SurveyAnalysis;
+export default SurveyAnalysisArabic;

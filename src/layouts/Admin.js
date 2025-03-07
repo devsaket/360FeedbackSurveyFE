@@ -35,6 +35,7 @@ import SurveyAnalysis from "views/SurveyManagement/SurveyAnalysis";
 import SurveyNewAnalysis from "views/SurveyManagement/SurveyNewAnalysis";
 import SurveyShareBySMS from "views/SurveyManagement/SurveyShareBySMS";
 import UserManagement from "views/UserManagement/UserManagement";
+import SurveyNewAnalysisArabic from 'views/SurveyManagement/SurveyNewAnalysisArabic';
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("authToken");
@@ -107,6 +108,7 @@ const Admin = (props) => {
           <Route path="/survey-result-by-subject/:surveyId/:subjectId" element={<PrivateRoute><SurveySubjectResultManagement /></PrivateRoute>} />
           <Route exact path= "/survey/analysis/:id/:subjectId" element={<PrivateRoute><SurveyAnalysis /></PrivateRoute>} />
           <Route exact path= "/survey/analysis-new/:id/:subjectId" element={<PrivateRoute><SurveyNewAnalysis /></PrivateRoute>} />
+          <Route exact path= "/survey/analysis-ar/:id/:subjectId" element={<PrivateRoute><SurveyNewAnalysisArabic /></PrivateRoute>} />
 
           <Route path="*" element={<PrivateRoute><Navigate to="/admin/index" replace /></PrivateRoute>} />
         </Routes>
