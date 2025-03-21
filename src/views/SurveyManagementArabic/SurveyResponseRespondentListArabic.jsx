@@ -1,7 +1,7 @@
 import React from 'react';
-import ZeroPercentageProgressBar from './ZeroPercentageProgressBar';
+import ZeroPercentageProgressBar from './ZeroPercentageProgressBarArabic';
 
-const SurveyResponseRespondentList = ({ surveyResponses }) => {
+const SurveyResponseRespondentListArabic = ({ surveyResponses }) => {
     // Filter the respondents who have filled the survey
     const filledRespondents = surveyResponses
         .filter(response => response.isFilled)
@@ -22,11 +22,13 @@ const SurveyResponseRespondentList = ({ surveyResponses }) => {
 
     return (
         <div>
-            <h1>Percentage of ‘Unable to Rate’ by the Multi-Raters and Self</h1>
+            {/* <h1>Percentage of ‘Unable to Rate’ by the Multi-Raters and Self</h1> */}
+            <h1>النسبة المئوية لاختيار "غير قادر على التقييم" من قِبل الفرد ". تقييم ذاتي " والمقيمين الآخرين </h1>
             <ol>
                 {respondentsWithZeroPercent.map(({ name, zeroPercentage }) => (
                     <li key={name}>
-                        <p><strong>{name}</strong>: {zeroPercentage}% of responses are <i>'Unable to Rate'</i></p>
+                        {/* <p><strong>{name}</strong>: {zeroPercentage}% of responses are <i>'Unable to Rate'</i></p> */}
+                        <p><strong>{name}</strong>: {zeroPercentage}% من الاستجابات كانت "غير قادر على التقييم"</p>
                         <ZeroPercentageProgressBar zeroPercentage={parseFloat(zeroPercentage)} />
                     </li>
                 ))}
@@ -35,4 +37,4 @@ const SurveyResponseRespondentList = ({ surveyResponses }) => {
     );
 };
 
-export default SurveyResponseRespondentList;
+export default SurveyResponseRespondentListArabic;

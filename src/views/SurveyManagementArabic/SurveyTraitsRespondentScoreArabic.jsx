@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import ProgressBar from './Charts/ProgressBar';
 
-const SurveyTraitsRespondentScore = ({ traitRespondentsData, traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
+const SurveyTraitsRespondentScoreArabic = ({ traitRespondentsData, traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
 
   const [processedData, setProcessedData] = useState([]);
 
@@ -16,7 +16,7 @@ const SurveyTraitsRespondentScore = ({ traitRespondentsData, traitCategoryData, 
   });
 
   // Add 'Self' to updatedSurveyCategory
-  const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+  const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
 
   useEffect(() => {
     const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -71,7 +71,8 @@ const SurveyTraitsRespondentScore = ({ traitRespondentsData, traitCategoryData, 
 
   return (
     <>
-      <h2>Ranking of Traits Based on the Average of Multi-Raters’ Feedback Scoring</h2>
+      {/* <h2>Ranking of Traits Based on the Average of Multi-Raters’ Feedback Scoring</h2> */}
+      <h2>ترتيب السمات (الجدارات، المهارات، الصفات) بناءً على متوسط تقييم الآخرين</h2>
       {
         traitOthersRating.map((item, index) => {
           return (
@@ -91,4 +92,4 @@ const SurveyTraitsRespondentScore = ({ traitRespondentsData, traitCategoryData, 
   )
 }
 
-export default SurveyTraitsRespondentScore
+export default SurveyTraitsRespondentScoreArabic

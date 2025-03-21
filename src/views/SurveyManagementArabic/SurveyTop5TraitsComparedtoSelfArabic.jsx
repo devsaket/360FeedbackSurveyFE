@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SimpleDonutChart from './Charts/SimpleDonutChart';
 
-const SurveyTop5TraitsComparedToSelf = ({ traitSelfOthersData, traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
+const SurveyTop5TraitsComparedToSelfArabic = ({ traitSelfOthersData, traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
 
     const [processedData, setProcessedData] = useState([]);
 
@@ -16,7 +16,8 @@ const SurveyTop5TraitsComparedToSelf = ({ traitSelfOthersData, traitCategoryData
     });
 
     // Add 'Self' to updatedSurveyCategory
-    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+    // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+    const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
 
     useEffect(() => {
         const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -66,9 +67,11 @@ const SurveyTop5TraitsComparedToSelf = ({ traitSelfOthersData, traitCategoryData
             const traitsWithComparison = finalData.map(item => {
                 return {
                     trait: item.trait,
-                    selfRating: parseFloat(item.Self),
+                    // selfRating: parseFloat(item.Self),
+                    selfRating: parseFloat(item['تقييم ذاتي']),
                     averageOtherRating: parseFloat(item.averageOfOthers),
-                    difference: parseFloat(item.Self) - parseFloat(item.averageOfOthers)
+                    // difference: parseFloat(item.Self) - parseFloat(item.averageOfOthers)
+                    difference: parseFloat(item['تقييم ذاتي']) - parseFloat(item.averageOfOthers)
                 };
             });
     
@@ -87,7 +90,8 @@ const SurveyTop5TraitsComparedToSelf = ({ traitSelfOthersData, traitCategoryData
 
     return (
         <>
-            <h4>Hidden Traits with Developmental Needs</h4>
+            {/* <h4>Hidden Traits with Developmental Needs</h4> */}
+            <h4>سمات (جدارات، مهارات، صفات) خفية تحتاج إلى تطوير </h4>
             {/* <ul>
                 {processedData.map((trait, idx) => (
                     <li key={idx}>
@@ -99,9 +103,12 @@ const SurveyTop5TraitsComparedToSelf = ({ traitSelfOthersData, traitCategoryData
             <table className='table table-bordered'>
                 <thead className='thead-white'>
                     <tr>
-                        <th className='text-wrap align-top text-start w-25'><b className='text-muted'>Areas</b></th>
+                        {/* <th className='text-wrap align-top text-start w-25'><b className='text-muted'>Areas</b></th>
                         <th className='text-wrap align-top text-center'><b className='text-muted'>Your Rating</b></th>
-                        <th className='text-wrap align-top text-center'><b className='text-muted'>Others Rating</b></th>
+                        <th className='text-wrap align-top text-center'><b className='text-muted'>Others Rating</b></th> */}
+                        <th className='text-wrap align-top text-start w-25'><b className='text-muted'>السمات(الجدارات، المهارات، الصفات)</b></th>
+                        <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الفرد " تقييم ذاتي "</b></th>
+                        <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الآخرين</b></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -110,8 +117,8 @@ const SurveyTop5TraitsComparedToSelf = ({ traitSelfOthersData, traitCategoryData
                             <td className='align-middle'>
                                 <h3>{item.trait}</h3>
                             </td>
-                            <td><SimpleDonutChart key={index} data={item.selfRating.toFixed(1)} trait={item.trait} /></td>
-                            <td><SimpleDonutChart key={index} data={item.averageOtherRating.toFixed(1)} trait={item.trait} /></td>
+                            <td><SimpleDonutChart key={index} data={item.selfRating} trait={item.trait} /></td>
+                            <td><SimpleDonutChart key={index} data={item.averageOtherRating} trait={item.trait} /></td>
                         </tr>
                     ))}
                 </tbody>
@@ -121,4 +128,4 @@ const SurveyTop5TraitsComparedToSelf = ({ traitSelfOthersData, traitCategoryData
     )
 }
 
-export default SurveyTop5TraitsComparedToSelf
+export default SurveyTop5TraitsComparedToSelfArabic

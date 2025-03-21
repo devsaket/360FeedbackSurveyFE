@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import ProgressBar from './Charts/ProgressBar';
 
-const SurveyTraitsRespondentScore = ({ traitRespondentsData, traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
+const SurveyTraitsSelfScoreArabic = ({ traitSelfData, traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
 
   const [processedData, setProcessedData] = useState([]);
 
@@ -16,7 +16,8 @@ const SurveyTraitsRespondentScore = ({ traitRespondentsData, traitCategoryData, 
   });
 
   // Add 'Self' to updatedSurveyCategory
-  const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+  // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+  const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
 
   useEffect(() => {
     const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -66,29 +67,30 @@ const SurveyTraitsRespondentScore = ({ traitRespondentsData, traitCategoryData, 
 
   }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject]);
 
- 
-  const traitOthersRating = processedData.sort((a, b) => parseFloat(b.averageOfOthers) - parseFloat(a.averageOfOthers));
+  // const traitSelfRating = processedData.sort((a, b) => parseFloat(b.Self) - parseFloat(a.Self));
+  const traitSelfRating = processedData.sort((a, b) => parseFloat(b['تقييم ذاتي']) - parseFloat(a['تقييم ذاتي']));
 
   return (
     <>
-      <h2>Ranking of Traits Based on the Average of Multi-Raters’ Feedback Scoring</h2>
-      {
-        traitOthersRating.map((item, index) => {
-          return (
-            <>
-              <div key={index} className='d-flex flex-row justify-content-between'>
-                <h3>{item.trait}</h3>
-                {/* <p>{item.averageOtherRating}</p> */}
-                <div className='w-25'>
-                  <ProgressBar bgcolor="#6a1b9a" completed={item.averageOfOthers.toFixed(1)} max={7} />
+      {/* <h2>Ranking of Traits Based on Self Rating</h2> */}
+      <h2>ترتيب السمات (الجدارات، المهارات، الصفات) بناءً على التقييم الذاتي ". تقييم ذاتي "</h2>
+        {
+          traitSelfRating.map((item,index)=>{
+            return(
+              <>
+                <div key={index} className='d-flex flex-row justify-content-between'>
+                  <h3 className=''>{item.trait}</h3>
+                  {/* <p>{item.selfRating}</p> */}
+                  <div className='w-25'>
+                    <ProgressBar bgcolor="#6a1b9a" completed={parseFloat(item['تقييم ذاتي']).toFixed(1)} max={7}  /> 
+                  </div>
                 </div>
-              </div>
-            </>
-          )
-        })
-      }
+              </>
+            )
+          })
+        }
     </>
   )
 }
 
-export default SurveyTraitsRespondentScore
+export default SurveyTraitsSelfScoreArabic

@@ -34,7 +34,7 @@ const CustomizedLabel = ({ x, y, width, height, value }) => {
     );
 };
 
-const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) => {
+const SurveyTopBottom5QuestionsForSelfArabic = ({ subjectObject, questionObjects }) => {
 
     const getTopAndBottomSelfQuestions = (subject) => {
         const responses = subject.responses.filter(response => response.answer > 0); // Filter out responses with 0
@@ -80,7 +80,8 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
 
     return (
         <>
-            <h2>Top Rated Statements By Self</h2>
+            {/* <h2>Top Rated Statements By Self</h2> */}
+            <h2>أعلى الفقرات تقييمًا من قبل الفرد تقييم ذاتي</h2>
             {subject && (
                 <div className='my-3'>
                     {/* <h2>Subject Specific Questions</h2> */}
@@ -90,7 +91,8 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
                         <>
                             <div className={`d-flex statement-main-box ${idx == 1 ? 'flex-row-reverse' : 'flex-row'}`}>
                                 <div className='statement-box bg-primary'>
-                                    <h6 className='statement-head'>Statement</h6>
+                                    {/* <h6 className='statement-head'>Statement</h6> */}
+                                    <h6 className='statement-head'>فقرة</h6>
                                     <p className='statement-text'>{idx + 1}</p>
                                 </div>
                                 <div className='question-box'>
@@ -109,14 +111,16 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
             {subject && (
                     <div className='mt-5 my-3'>
                     {/* <h4>Bottom 5 Questions</h4> */}
-                    <h2>Bottom Rated Statements By Self</h2>
+                    {/* <h2>Bottom Rated Statements By Self</h2> */}
+                    <h2>أقل الفقرات تقييمًا من قبل الفرد "" تقييم ذاتي</h2>
                     {subjectQuestions.bottomQuestions.map((question, idx) => (
                         <>
                             {/* <li key={idx}>{question.questionText} - Response: {question.response}</li> */}
 
                             <div className={`d-flex statement-main-box ${idx == 1 ? 'flex-row-reverse' : 'flex-row'}`}>
                                 <div className='statement-box bg-danger'>
-                                    <h6 className='statement-head'>Statement</h6>
+                                    {/* <h6 className='statement-head'>Statement</h6> */}
+                                    <h6 className='statement-head'>فقرة</h6>
                                     <p className='statement-text'>{idx + 1}</p>
                                 </div>
                                 <div className='question-box'>
@@ -148,4 +152,4 @@ const SurveyTopBottom5QuestionsForSelf = ({ subjectObject, questionObjects }) =>
     )
 }
 
-export default SurveyTopBottom5QuestionsForSelf
+export default SurveyTopBottom5QuestionsForSelfArabic

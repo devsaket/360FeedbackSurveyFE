@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SimpleDonutChart from './Charts/SimpleDonutChart';
 
-const SurveyTraitsHighPotential = ({ traitSelfOthersData  , traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
+const SurveyTraitsHighPotentialArabic = ({ traitSelfOthersData  , traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
 
     const [processedData, setProcessedData] = useState([]);
 
@@ -16,7 +16,8 @@ const SurveyTraitsHighPotential = ({ traitSelfOthersData  , traitCategoryData, t
     });
 
     // Add 'Self' to updatedSurveyCategory
-    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+    // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+    const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
 
     useEffect(() => {
         const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -66,9 +67,11 @@ const SurveyTraitsHighPotential = ({ traitSelfOthersData  , traitCategoryData, t
             const traitsWithComparison = finalData.map(item => {
                 return {
                     trait: item.trait,
-                    selfRating: parseFloat(item.Self).toFixed(1),
+                    // selfRating: parseFloat(item.Self).toFixed(1),
+                    selfRating: parseFloat(item['تقييم ذاتي']).toFixed(1),
                     averageOtherRating: parseFloat(item.averageOfOthers).toFixed(1),
-                    difference: (parseFloat(item.Self) - parseFloat(item.averageOfOthers)).toFixed(1)
+                    // difference: (parseFloat(item.Self) - parseFloat(item.averageOfOthers)).toFixed(1)
+                    difference: (parseFloat(item['تقييم ذاتي']) - parseFloat(item.averageOfOthers)).toFixed(1)
                 };
             });
     
@@ -88,7 +91,8 @@ const SurveyTraitsHighPotential = ({ traitSelfOthersData  , traitCategoryData, t
     return (
         <>
             {/* <h4>High Potential Traits</h4> */}
-            <h4>Traits of Potential Strengths</h4>
+            {/* <h4>Traits of Potential Strengths</h4> */}
+            <h4>سمات(جدارات، مهارات، صفات)  تتمتع بفرص للنمو والتطور</h4>
             {processedData.length > 0 ? <>
                 {/* <ul>
                     {highPotentialTraits.map((trait, idx) => (
@@ -101,9 +105,12 @@ const SurveyTraitsHighPotential = ({ traitSelfOthersData  , traitCategoryData, t
                 <table className='table table-bordered'>
                                     <thead className='thead-white'>
                                         <tr>
-                                            <th className='text-wrap align-top text-start w-50'><b className='text-muted'>Areas</b></th>
+                                            {/* <th className='text-wrap align-top text-start w-50'><b className='text-muted'>Areas</b></th>
                                             <th className='text-wrap align-top text-center w-25'><b className='text-muted'>Your Rating</b></th>
-                                            <th className='text-wrap align-top text-center w-25'><b className='text-muted'>Others Rating</b></th>
+                                            <th className='text-wrap align-top text-center w-25'><b className='text-muted'>Others Rating</b></th> */}
+                                            <th className='text-wrap align-top text-start w-25'><b className='text-muted'>السمات(الجدارات، المهارات، الصفات)</b></th>
+                                            <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الفرد " تقييم ذاتي "</b></th>
+                                            <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الآخرين</b></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -132,10 +139,11 @@ const SurveyTraitsHighPotential = ({ traitSelfOthersData  , traitCategoryData, t
                         </BarChart>
                     </ResponsiveContainer> */}
             </> : <>
-                <p className='ml-4'>No such Traits are Found</p>
+                {/* <p className='ml-4'>No such Traits are Found</p> */}
+                <p className='ml-4'>لا توجد سمات(جدارات، مهارات، صفات)  من هذا النوع</p>
             </>}
         </>
     )
 }
 
-export default SurveyTraitsHighPotential
+export default SurveyTraitsHighPotentialArabic

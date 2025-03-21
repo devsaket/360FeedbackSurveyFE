@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardBody, CardHeader, Table } from 'react-bootstrap';
 import ProgressBar from './Charts/ProgressBar';
 
-const SurveyParticipationData = ({ summaryData, surveyCategoryObject, categoriesRolesObject }) => {
+const SurveyParticipationDataArabic = ({ summaryData, surveyCategoryObject, categoriesRolesObject }) => {
 
     // Merge data based on the relationship category
     const mergedData = summaryData.map(summary => {
@@ -24,18 +24,24 @@ const SurveyParticipationData = ({ summaryData, surveyCategoryObject, categories
     return (
         <>
             <CardHeader>
-                <h3>Survey Participation Data</h3>
+                {/* <h3>Survey Participation Data</h3> */}
+                <h3>تفاصيل بيانات المشاركة في عملية التقييم:</h3>
             </CardHeader>
             <CardBody>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam impedit doloremque dolores quod, est minus aperiam inventore praesentium tempora quibusdam, aspernatur tenetur quis repellendus, veritatis eius voluptates quos reiciendis repellat.</p>
+                <p>فيما يلي ملخصًا للفئات المستجيبة على المقياس يتضمن الوزن النسبي لكل فئة وعدد المقيمين، ومعدل الاستجابة لكل فئة</p>
                 <table className='table table-bordered'>
                     <thead className='thead-dark'>
                         <tr>
-                            <th className='text-wrap align-top text-start'><b className='text-white'>Relationship</b></th>
-                            <th className='text-wrap align-top text-center'><b className='text-white'>Score Weightage</b></th>
-                            <th className='text-wrap align-top text-center'><b className='text-white'>Nominated</b></th>
-                            <th className='text-wrap align-top text-center'><b className='text-white'>Completed</b></th>
-                            <th className='text-wrap align-top text-center'><b className='text-white'>Completion Rate</b></th>
+                            {/* <th className='text-wrap align-top text-start'><b className='text-white'>Relationship</b></th> */}
+                            <th className='text-wrap align-top text-start'><b className='text-white'>الفئة</b></th>
+                            {/* <th className='text-wrap align-top text-center'><b className='text-white'>Score Weightage</b></th> */}
+                            <th className='text-wrap align-top text-center'><b className='text-white'>الوزن النسبي </b></th>
+                            {/* <th className='text-wrap align-top text-center'><b className='text-white'>Nominated</b></th> */}
+                            <th className='text-wrap align-top text-center'><b className='text-white'>عدد المدعوين</b></th>
+                            {/* <th className='text-wrap align-top text-center'><b className='text-white'>Completed</b></th> */}
+                            <th className='text-wrap align-top text-center'><b className='text-white'>عدد المستجيبين</b></th>
+                            {/* <th className='text-wrap align-top text-center'><b className='text-white'>Completion Rate</b></th> */}
+                            <th className='text-wrap align-top text-center'><b className='text-white'>معدل الاستجابة</b></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,4 +64,4 @@ const SurveyParticipationData = ({ summaryData, surveyCategoryObject, categories
     )
 }
 
-export default SurveyParticipationData
+export default SurveyParticipationDataArabic

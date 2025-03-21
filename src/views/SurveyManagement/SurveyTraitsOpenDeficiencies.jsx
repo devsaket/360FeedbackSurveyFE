@@ -16,8 +16,7 @@ const SurveyTraitsOpenDeficiencies = ({ traitSelfOthersData , traitCategoryData,
     });
 
     // Add 'Self' to updatedSurveyCategory
-    // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
-    const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
+    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
 
     useEffect(() => {
         const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -64,8 +63,7 @@ const SurveyTraitsOpenDeficiencies = ({ traitSelfOthersData , traitCategoryData,
         });
 
         const getOpenDeficiency = () => {
-            // const openDeficiencyTraits = finalData.filter(item => { return item.Self < 4 && item.averageOfOthers < 4 });
-            const openDeficiencyTraits = finalData.filter(item => { return item['تقييم ذاتي'] < 4 && item.averageOfOthers < 4 });
+            const openDeficiencyTraits = finalData.filter(item => { return item.Self < 4 && item.averageOfOthers < 4 });
             return openDeficiencyTraits;
         };
     
@@ -80,8 +78,7 @@ const SurveyTraitsOpenDeficiencies = ({ traitSelfOthersData , traitCategoryData,
     return (
         <>
             {/* <h4>Traits denoting your Open Deficiencies</h4> */}
-            {/* <h4>Traits with High Developmental Need</h4> */}
-            <h4>سمات(جدارات، مهارات، صفات)  تتطلب اهتمامًا تطويريًا كبيرًا</h4>
+            <h4>Traits with High Developmental Need</h4>
             {processedData.length > 0 ?
                 <>
                     {/* <ul>
@@ -95,12 +92,9 @@ const SurveyTraitsOpenDeficiencies = ({ traitSelfOthersData , traitCategoryData,
                     <table className='table table-bordered'>
                         <thead className='thead-white'>
                             <tr>
-                                {/* <th className='text-wrap align-top text-start w-25'><b className='text-muted'>Areas</b></th>
+                                <th className='text-wrap align-top text-start w-25'><b className='text-muted'>Areas</b></th>
                                 <th className='text-wrap align-top text-center'><b className='text-muted'>Your Rating</b></th>
-                                <th className='text-wrap align-top text-center'><b className='text-muted'>Others Rating</b></th> */}
-                                <th className='text-wrap align-top text-start w-25'><b className='text-muted'>السمات(الجدارات، المهارات، الصفات)</b></th>
-                                <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الفرد " تقييم ذاتي "</b></th>
-                                <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الآخرين</b></th>
+                                <th className='text-wrap align-top text-center'><b className='text-muted'>Others Rating</b></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -110,7 +104,7 @@ const SurveyTraitsOpenDeficiencies = ({ traitSelfOthersData , traitCategoryData,
                                         <h3>{item.trait}</h3>
                                         {/* <p>This section will be used to rate the employee based on their {item.trait}</p> */}
                                     </td>
-                                    <td><SimpleDonutChart key={index} data={item['تقييم ذاتي'].toFixed(1)} trait={item.trait} /></td>
+                                    <td><SimpleDonutChart key={index} data={item.Self.toFixed(1)} trait={item.trait} /></td>
                                     <td><SimpleDonutChart key={index} data={item.averageOfOthers.toFixed(1)} trait={item.trait} /></td>
                                 </tr>
                             ))}
@@ -129,8 +123,7 @@ const SurveyTraitsOpenDeficiencies = ({ traitSelfOthersData , traitCategoryData,
                         </BarChart>
                     </ResponsiveContainer> */}
                 </> : <>
-                    {/* <p className='ml-4'>No such Traits are Found</p> */}
-                    <p className='ml-4'>لا توجد سمات(جدارات، مهارات، صفات)  من هذا النوع</p>
+                    <p className='ml-4'>No such Traits are Found</p>
                 </>
             }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const SurveyTraitsData = ({ surveyDetails, traitData }) => {
+export const SurveyTraitsDataArabic = ({ surveyDetails, traitData }) => {
     // Extract the trait IDs from the surveyDetails object
     const traitIds = surveyDetails[0]?.traits || [];
 
@@ -9,7 +9,8 @@ export const SurveyTraitsData = ({ surveyDetails, traitData }) => {
 
     return (
         <div>
-            <h1>Traits for Survey: {surveyDetails[0]?.surveyName}</h1>
+            {/* <h1>Traits for Survey: {surveyDetails[0]?.surveyName}</h1> */}
+            <h1>السمات (جدارات، مهارات، صفات) المستهدفة بعملية التقييم: {surveyDetails[0]?.surveyName}</h1>
             <ul>
                 {filteredTraits.map(trait => (
                     <li key={trait._id}>

@@ -30,12 +30,12 @@ import SurveyShareByEmail from "views/SurveyManagement/SurveyShareByEmail";
 import SurveyResultManagement from "views/SurveyManagement/SurveyResultManagement";
 import CategoryManagement from "views/CategoryManagement/CategoryManagement";
 import EmailTemplateManagement from "views/EmailTemplateManagement/EmailTemplateManagement";
-import SurveySubjectResultManagement from './../views/SurveyManagement/SurveySubjectResultManagement';
+import SurveySubjectResultManagement from '../views/SurveyManagement/SurveySubjectResultManagement';
 import SurveyAnalysis from "views/SurveyManagement/SurveyAnalysis";
 import SurveyNewAnalysis from "views/SurveyManagement/SurveyNewAnalysis";
 import SurveyShareBySMS from "views/SurveyManagement/SurveyShareBySMS";
 import UserManagement from "views/UserManagement/UserManagement";
-import SurveyNewAnalysisArabic from 'views/SurveyManagement/SurveyNewAnalysisArabic';
+import SurveyNewAnalysisArabic from 'views/SurveyManagementArabic/SurveyNewAnalysisArabic';
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("authToken");

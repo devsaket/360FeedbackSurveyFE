@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import SimpleDonutChart from './Charts/SimpleDonutChart';
 
-const SurveyTraitsForStrengths = ({ traitSelfOthersData, traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
+const SurveyTraitsOpenDeficienciesArabic = ({ traitSelfOthersData , traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
 
     const [processedData, setProcessedData] = useState([]);
 
@@ -11,12 +11,13 @@ const SurveyTraitsForStrengths = ({ traitSelfOthersData, traitCategoryData, trai
         const matchedCategory = categoriesRolesObject.find(category => category._id === survey.category);
         return {
             ...survey,
-            categoryName: matchedCategory ? matchedCategory.categoryName : null
+            categoryName: matchedCategory ? matchedCategory.categoryName : null,
         };
     });
 
     // Add 'Self' to updatedSurveyCategory
-    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+    // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+    const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
 
     useEffect(() => {
         const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -49,7 +50,7 @@ const SurveyTraitsForStrengths = ({ traitSelfOthersData, traitCategoryData, trai
             const totalWeightedScore = surveyCategoryObject.reduce((acc, role) => {
                 const avgScore = data[categoriesRolesObject.find(cat => cat._id === role.category)?.categoryName];
                 const weight = role.scoreWeightage || 0;
-                return acc + (avgScore * (weight / 100));
+                return acc + (avgScore * (weight/100));
             }, 0);
 
             const sumWeights = categoriesRolesObject.reduce((acc, role) => {
@@ -62,30 +63,29 @@ const SurveyTraitsForStrengths = ({ traitSelfOthersData, traitCategoryData, trai
             return { ...data, averageOfOthers: parseFloat(averageOfOthers) };
         });
 
-        const filterTopTraits = () => {
-            return finalData.filter(item => {
-                const selfRating = parseFloat(item.Self);
-                const averageOtherRating = parseFloat(item.averageOfOthers);
-                return selfRating >= 5 && averageOtherRating >= 5;
-            });
+        const getOpenDeficiency = () => {
+            // const openDeficiencyTraits = finalData.filter(item => { return item.Self < 4 && item.averageOfOthers < 4 });
+            const openDeficiencyTraits = finalData.filter(item => { return item['تقييم ذاتي'] < 4 && item.averageOfOthers < 4 });
+            return openDeficiencyTraits;
         };
+    
+        const openDeficiencyTraits = getOpenDeficiency();
 
-        const topTraits = filterTopTraits();
-
-        setProcessedData(topTraits);
-        // console.log("Final Data = ", topTraits);
+        setProcessedData(openDeficiencyTraits);
+        // console.log("Final Data = ", openDeficiencyTraits);
 
     }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject]);
     
 
     return (
         <>
-            {/* <h4>Traits denoting your strengths</h4> */}
-            <h4>Traits of Strength</h4>
+            {/* <h4>Traits denoting your Open Deficiencies</h4> */}
+            {/* <h4>Traits with High Developmental Need</h4> */}
+            <h4>سمات(جدارات، مهارات، صفات)  تتطلب اهتمامًا تطويريًا كبيرًا</h4>
             {processedData.length > 0 ?
                 <>
                     {/* <ul>
-                        {topTraitsOfStrength.map((trait, idx) => (
+                        {openDeficiencyTraits.map((trait, idx) => (
                             <li key={idx}>
                                 <strong>{trait.trait}</strong> - Self Rating: {trait.selfRating}, Average Other Rating: {trait.averageOtherRating}
                             </li>
@@ -95,9 +95,12 @@ const SurveyTraitsForStrengths = ({ traitSelfOthersData, traitCategoryData, trai
                     <table className='table table-bordered'>
                         <thead className='thead-white'>
                             <tr>
-                                <th className='text-wrap align-top text-start w-25'><b className='text-muted'>Areas</b></th>
+                                {/* <th className='text-wrap align-top text-start w-25'><b className='text-muted'>Areas</b></th>
                                 <th className='text-wrap align-top text-center'><b className='text-muted'>Your Rating</b></th>
-                                <th className='text-wrap align-top text-center'><b className='text-muted'>Others Rating</b></th>
+                                <th className='text-wrap align-top text-center'><b className='text-muted'>Others Rating</b></th> */}
+                                <th className='text-wrap align-top text-start w-25'><b className='text-muted'>السمات(الجدارات، المهارات، الصفات)</b></th>
+                                <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الفرد " تقييم ذاتي "</b></th>
+                                <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الآخرين</b></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,18 +110,18 @@ const SurveyTraitsForStrengths = ({ traitSelfOthersData, traitCategoryData, trai
                                         <h3>{item.trait}</h3>
                                         {/* <p>This section will be used to rate the employee based on their {item.trait}</p> */}
                                     </td>
-                                    <td><SimpleDonutChart key={index} data={item.Self} trait={item.trait} /></td>
-                                    <td><SimpleDonutChart key={index} data={item.averageOfOthers} trait={item.trait} /></td>
+                                    <td><SimpleDonutChart key={index} data={item['تقييم ذاتي'].toFixed(1)} trait={item.trait} /></td>
+                                    <td><SimpleDonutChart key={index} data={item.averageOfOthers.toFixed(1)} trait={item.trait} /></td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
 
                     {/* <ResponsiveContainer width="100%" height={400}>
-                        <BarChart data={topTraitsOfStrength}>
+                        <BarChart data={openDeficiencyTraits}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="trait" />
-                            <YAxis domain={[0,7]} />
+                            <YAxis domain={[0,7]}/>
                             <Tooltip />
                             <Legend />
                             <Bar dataKey="selfRating" fill="#8884d8" name="Self Rating" />
@@ -126,7 +129,8 @@ const SurveyTraitsForStrengths = ({ traitSelfOthersData, traitCategoryData, trai
                         </BarChart>
                     </ResponsiveContainer> */}
                 </> : <>
-                    <p className='ml-4'>No such Traits are Found</p>
+                    {/* <p className='ml-4'>No such Traits are Found</p> */}
+                    <p className='ml-4'>لا توجد سمات(جدارات، مهارات، صفات)  من هذا النوع</p>
                 </>
             }
 
@@ -134,4 +138,4 @@ const SurveyTraitsForStrengths = ({ traitSelfOthersData, traitCategoryData, trai
     )
 }
 
-export default SurveyTraitsForStrengths
+export default SurveyTraitsOpenDeficienciesArabic
