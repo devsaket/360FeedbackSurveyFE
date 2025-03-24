@@ -131,8 +131,7 @@ const SurveyTraitsUnknownDeficiencies = ({ traitSelfOthersData, traitCategoryDat
                         </BarChart>
                     </ResponsiveContainer> */}
                 </> : <>
-                    {/* <p className='ml-4'>No such Traits are Found</p> */}
-                    <p className='ml-4'>لا توجد سمات(جدارات، مهارات، صفات)  من هذا النوع</p>
+                    <p className='ml-4'>No such Traits are Found</p>
                 </>
             }
 
