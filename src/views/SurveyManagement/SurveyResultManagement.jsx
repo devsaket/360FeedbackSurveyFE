@@ -132,8 +132,8 @@ const SurveyResultManagement = () => {
                                             <Card key={subject._id} style={{ marginBottom: '20px' }}>
                                                 <h3>
                                                     Subject {m+1}: {subject.subjectName} ({subject.subjectEmail})  {subject.isFilled? 'Filled': 'Not Filled'}  
-                                                    {/* <Link to={`/admin/survey-result-by-subject/${surveyId}/${subject._id}`}>See Results</Link> */}
-                                                    <Button>See Results</Button>
+                                                    <Link to={`/admin/survey-result-by-subject/${surveyId}/${subject._id}`}>See Results</Link>
+                                                    {/* <Button>See Results</Button> */}
                                                 </h3>
                                                 {/* <h4>Responses:</h4>
                                                 <ul>

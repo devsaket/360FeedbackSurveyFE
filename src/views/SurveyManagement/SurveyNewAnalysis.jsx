@@ -169,49 +169,54 @@ const SurveyAnalysis = () => {
 
                     // Aggregate trait scores
                     subject.responses.forEach(response => {
-                        const trait = getTraitDetails(response.questionId);
-                        if (trait) {
-                            if (!traitScores[trait]) {
-                                traitScores[trait] = { totalScore: 0, count: 0 };
-                            }
-                            traitScores[trait].totalScore += parseInt(response.answer, 10) || 0;
-                            traitScores[trait].count += 1;
+                        const responseAnswer = parseInt(response.answer, 10);
 
-                            if (!categoryTraitScores[categoryName]) {
-                                categoryTraitScores[categoryName] = {};
-                            }
-                            if (!categoryTraitScores[categoryName][trait]) {
-                                categoryTraitScores[categoryName][trait] = { totalScore: 0, count: 0 };
-                            }
-                            categoryTraitScores[categoryName][trait].totalScore += parseInt(response.answer, 10) || 0;
-                            categoryTraitScores[categoryName][trait].count += 1;
+                        if (responseAnswer > 0) {
+                            const trait = getTraitDetails(response.questionId);
+                            if (trait) {
+                                if (!traitScores[trait]) {
+                                    traitScores[trait] = { totalScore: 0, count: 0 };
+                                }
+                                traitScores[trait].totalScore += responseAnswer || 0;
+                                traitScores[trait].count += 1;
 
-                            if (!traitCategoryScores[trait]) {
-                                traitCategoryScores[trait] = {};
-                            }
-                            if (!traitCategoryScores[trait][categoryName]) {
-                                traitCategoryScores[trait][categoryName] = { totalScore: 0, count: 0 };
-                            }
-                            traitCategoryScores[trait][categoryName].totalScore += parseInt(response.answer, 10) || 0;
-                            traitCategoryScores[trait][categoryName].count += 1;
+                                if (!categoryTraitScores[categoryName]) {
+                                    categoryTraitScores[categoryName] = {};
+                                }
+                                if (!categoryTraitScores[categoryName][trait]) {
+                                    categoryTraitScores[categoryName][trait] = { totalScore: 0, count: 0 };
+                                }
+                                categoryTraitScores[categoryName][trait].totalScore += responseAnswer || 0;
+                                categoryTraitScores[categoryName][trait].count += 1;
 
-                            if (!traitQuestionData[trait]) {
-                                traitQuestionData[trait] = {};
+                                if (!traitCategoryScores[trait]) {
+                                    traitCategoryScores[trait] = {};
+                                }
+                                if (!traitCategoryScores[trait][categoryName]) {
+                                    traitCategoryScores[trait][categoryName] = { totalScore: 0, count: 0 };
+                                }
+                                traitCategoryScores[trait][categoryName].totalScore += responseAnswer || 0;
+                                traitCategoryScores[trait][categoryName].count += 1;
+
+                                if (!traitQuestionData[trait]) {
+                                    traitQuestionData[trait] = {};
+                                }
+                                if (!traitQuestionData[trait][response.questionId]) {
+                                    traitQuestionData[trait][response.questionId] = {
+                                        questionText: questionObjects.find(q => q._id === response.questionId)?.question || '',
+                                        // responses: {}
+                                        responses: []
+                                    };
+                                }
+                                if (!traitQuestionData[trait][response.questionId].responses[categoryName]) {
+                                    traitQuestionData[trait][response.questionId].responses[categoryName] = [];
+                                }
+                                traitQuestionData[trait][response.questionId].responses[categoryName].push(responseAnswer || 0);
+                                // traitQuestionData[trait][response.questionId].responses.push(responseAnswer || 0);
                             }
-                            if (!traitQuestionData[trait][response.questionId]) {
-                                traitQuestionData[trait][response.questionId] = {
-                                    questionText: questionObjects.find(q => q._id === response.questionId)?.question || '',
-                                    // responses: {}
-                                    responses: []
-                                };
-                            }
-                            if (!traitQuestionData[trait][response.questionId].responses[categoryName]) {
-                                traitQuestionData[trait][response.questionId].responses[categoryName] = [];
-                            }
-                            traitQuestionData[trait][response.questionId].responses[categoryName].push(parseInt(response.answer, 10) || 0);
-                            // traitQuestionData[trait][response.questionId].responses.push(parseInt(response.answer, 10) || 0);
                         }
-                    });
+                    }
+                    );
 
                     // Respondent rows and summary data
                     const categoryCounts = {};
@@ -247,50 +252,54 @@ const SurveyAnalysis = () => {
 
                         // Aggregate trait scores
                         respondent.responses.forEach(response => {
-                            const trait = getTraitDetails(response.questionId);
-                            if (trait) {
-                                if (!traitScores[trait]) {
-                                    traitScores[trait] = { totalScore: 0, count: 0 };
-                                }
-                                traitScores[trait].totalScore += parseInt(response.answer, 10) || 0;
-                                traitScores[trait].count += 1;
+                            const responseAnswer = parseInt(response.answer, 10);
 
-                                if (!categoryTraitScores[categoryName]) {
-                                    categoryTraitScores[categoryName] = {};
-                                }
-                                if (!categoryTraitScores[categoryName][trait]) {
-                                    categoryTraitScores[categoryName][trait] = { totalScore: 0, count: 0 };
-                                }
-                                categoryTraitScores[categoryName][trait].totalScore += parseInt(response.answer, 10) || 0;
-                                categoryTraitScores[categoryName][trait].count += 1;
+                            if (responseAnswer > 0) {
+                                const trait = getTraitDetails(response.questionId);
+                                if (trait) {
+                                    if (!traitScores[trait]) {
+                                        traitScores[trait] = { totalScore: 0, count: 0 };
+                                    }
+                                    traitScores[trait].totalScore += parseInt(response.answer, 10) || 0;
+                                    traitScores[trait].count += 1;
 
-                                if (!traitCategoryScores[trait]) {
-                                    traitCategoryScores[trait] = {};
-                                }
-                                if (!traitCategoryScores[trait][categoryName]) {
-                                    traitCategoryScores[trait][categoryName] = { totalScore: 0, count: 0 };
-                                }
-                                traitCategoryScores[trait][categoryName].totalScore += parseInt(response.answer, 10) || 0;
-                                traitCategoryScores[trait][categoryName].count += 1;
+                                    if (!categoryTraitScores[categoryName]) {
+                                        categoryTraitScores[categoryName] = {};
+                                    }
+                                    if (!categoryTraitScores[categoryName][trait]) {
+                                        categoryTraitScores[categoryName][trait] = { totalScore: 0, count: 0 };
+                                    }
+                                    categoryTraitScores[categoryName][trait].totalScore += parseInt(response.answer, 10) || 0;
+                                    categoryTraitScores[categoryName][trait].count += 1;
 
-                                if (!traitQuestionData[trait]) {
-                                    traitQuestionData[trait] = {};
-                                }
-                                if (!traitQuestionData[trait][response.questionId]) {
-                                    traitQuestionData[trait][response.questionId] = {
-                                        questionText: questionObjects.find(q => q._id === response.questionId)?.question || '',
-                                        // responses: {}
-                                        responses: []
-                                    };
-                                }
-                                if (!traitQuestionData[trait][response.questionId].responses[categoryName]) {
-                                    traitQuestionData[trait][response.questionId].responses[categoryName] = [];
-                                }
+                                    if (!traitCategoryScores[trait]) {
+                                        traitCategoryScores[trait] = {};
+                                    }
+                                    if (!traitCategoryScores[trait][categoryName]) {
+                                        traitCategoryScores[trait][categoryName] = { totalScore: 0, count: 0 };
+                                    }
+                                    traitCategoryScores[trait][categoryName].totalScore += parseInt(response.answer, 10) || 0;
+                                    traitCategoryScores[trait][categoryName].count += 1;
 
-                                if (parseInt(response.answer, 10) > 0) {
-                                    traitQuestionData[trait][response.questionId].responses[categoryName].push(parseInt(response.answer, 10));
+                                    if (!traitQuestionData[trait]) {
+                                        traitQuestionData[trait] = {};
+                                    }
+                                    if (!traitQuestionData[trait][response.questionId]) {
+                                        traitQuestionData[trait][response.questionId] = {
+                                            questionText: questionObjects.find(q => q._id === response.questionId)?.question || '',
+                                            // responses: {}
+                                            responses: []
+                                        };
+                                    }
+                                    if (!traitQuestionData[trait][response.questionId].responses[categoryName]) {
+                                        traitQuestionData[trait][response.questionId].responses[categoryName] = [];
+                                    }
+
+                                    if (parseInt(response.answer, 10) > 0) {
+                                        traitQuestionData[trait][response.questionId].responses[categoryName].push(parseInt(response.answer, 10));
+                                    }
+                                    // traitQuestionData[trait][response.questionId].responses.push(parseInt(response.answer, 10) || 0);
                                 }
-                                // traitQuestionData[trait][response.questionId].responses.push(parseInt(response.answer, 10) || 0);
                             }
                         });
 
@@ -383,7 +392,7 @@ const SurveyAnalysis = () => {
         const generalObservationResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/subject/general-observation/${id}/${subjectId}`);
         setGeneralObservation(generalObservationResponse.data.observation);
 
-        if(generalObservationResponse.data.observation===''){
+        if (generalObservationResponse.data.observation === '') {
             setGeneralObservationToggle(true);
         } else {
             setGeneralObservationToggle(false);
@@ -391,20 +400,20 @@ const SurveyAnalysis = () => {
     }
 
     const onSubmit = (data) => {
-        data = {surveyId:id, subjectId, ...data}
+        data = { surveyId: id, subjectId, ...data }
         console.log(data)
         axios.post(process.env.REACT_APP_BACKEND_URL + '/survey-response/subject/general-observation', data)
-                .then((res) => {
-                    if (res.data.status === 200) {
-                        reset({ observation: ""});
-                        toast.success("General Observation Submitted Successfully!");
-                        getGeneralObservation();
-                    } else {
-                        toast.warn("Something Went Wrong!");
-                        getGeneralObservation();
-                    }
-                })
-                .catch((err) => console.log(err?.message));
+            .then((res) => {
+                if (res.data.status === 200) {
+                    reset({ observation: "" });
+                    toast.success("General Observation Submitted Successfully!");
+                    getGeneralObservation();
+                } else {
+                    toast.warn("Something Went Wrong!");
+                    getGeneralObservation();
+                }
+            })
+            .catch((err) => console.log(err?.message));
     }
 
     const handleDocumentPrint = () => {
@@ -572,7 +581,7 @@ const SurveyAnalysis = () => {
                             </CardBody>
                         </Card>
 
-                        
+
 
 
                         {/* Detailed Trait Analysis */}
@@ -646,23 +655,23 @@ const SurveyAnalysis = () => {
                             </CardBody>
                         </Card>
 
-                        <Card className={generalObservationToggle? 'card-print-toggler':'a4'}>
+                        <Card className={generalObservationToggle ? 'card-print-toggler' : 'a4'}>
                             <CardHeader>
                                 <h4>General Observation</h4>
                             </CardHeader>
                             <CardBody>
                                 {
                                     generalObservationToggle ?
-                                    <>
-                                    <form onSubmit={handleSubmit(onSubmit)}>
-                                        <label className="form-label mt-2">Trait Description</label>
-                                        <TextareaAutosize  {...register("observation")} className="form-control" placeholder="Enter General Observation" minRows={3} maxRows={5}></TextareaAutosize>
-                                        {errors.traitDescription && <p className='form-error'>General Observation is Required!</p>}
-                                        <Button color="primary" className='px-5 my-2' type="submit" disabled={!observation.trim()}> Submit </Button>
-                                    </form>
-                                    </>:<>
-                                        <pre>{generalObservation}</pre>
-                                    </>
+                                        <>
+                                            <form onSubmit={handleSubmit(onSubmit)}>
+                                                <label className="form-label mt-2">Trait Description</label>
+                                                <TextareaAutosize  {...register("observation")} className="form-control" placeholder="Enter General Observation" minRows={3} maxRows={5}></TextareaAutosize>
+                                                {errors.traitDescription && <p className='form-error'>General Observation is Required!</p>}
+                                                <Button color="primary" className='px-5 my-2' type="submit" disabled={!observation.trim()}> Submit </Button>
+                                            </form>
+                                        </> : <>
+                                            <pre>{generalObservation}</pre>
+                                        </>
                                 }
                             </CardBody>
                         </Card>
@@ -671,7 +680,7 @@ const SurveyAnalysis = () => {
                 <Row className='download-pdf-button'>
                     <Col className='text-center'>
                         <Link to={`/admin/survey/analysis-ar/${id}/${subjectId}`}><Button color="primary" className='px-5 m-2'><i class="fa-solid fa-square-poll-vertical"></i> Result Arabic</Button></Link>
-                        <Button color="success" className='px-5 my-2 download-pdf-button' onClick={handleDocumentPrint}  disabled={observation.trim()}> Download as PDF </Button>
+                        <Button color="success" className='px-5 my-2 download-pdf-button' onClick={handleDocumentPrint} disabled={observation.trim()}> Download as PDF </Button>
                     </Col>
                 </Row>
             </Container>

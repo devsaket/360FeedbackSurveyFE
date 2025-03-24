@@ -40,7 +40,9 @@ const SurveyTraitsSelfScore = ({ traitSelfData, traitCategoryData, traitData, tr
       const overallAverages = Object.fromEntries(
         Object.entries(categoryAverages).map(([category, scores]) => [category, calculateAverage(scores)])
       );
-
+      console.log('====================================');
+      console.log("Trait & overall averages", { trait, ...overallAverages });
+      console.log('====================================');
       return { trait, ...overallAverages };
     });
 
