@@ -3,6 +3,11 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } fro
 import ProgressBar from './Charts/ProgressBar';
 
 const SurveyTraitsRespondentScore = ({ traitRespondentsData, traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject }) => {
+  console.log("Trait Data = ", traitData);
+  console.log("Trait category Data = ", traitCategoryData);
+  console.log("Trait Question Data = ", traitQuestionData);
+  console.log("Survey Category Data = ", surveyCategoryObject);
+  console.log("Category Roles Data = ", categoriesRolesObject);
 
   const [processedData, setProcessedData] = useState([]);
 
@@ -31,8 +36,18 @@ const SurveyTraitsRespondentScore = ({ traitRespondentsData, traitCategoryData, 
 
       Object.values(questions).forEach(question => {
         categoriesWithSelf.forEach(({ categoryName }) => {
-          const avgScore = calculateAverage(question.responses[categoryName] || []);
+          const responses = question.responses[categoryName] || [];
+
+          // If any response is 0, skip this question for the current category
+          if (responses.includes(0)) {
+            return; // Skip adding this question's data for categoryName
+          }
+
+          // Calculate and push the average score for this question
+          const avgScore = calculateAverage(responses);
           categoryAverages[categoryName].push(avgScore);
+          // const avgScore = calculateAverage(question.responses[categoryName] || []);
+          // categoryAverages[categoryName].push(avgScore);
         });
       });
 
@@ -66,7 +81,7 @@ const SurveyTraitsRespondentScore = ({ traitRespondentsData, traitCategoryData, 
 
   }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject]);
 
- 
+
   const traitOthersRating = processedData.sort((a, b) => parseFloat(b.averageOfOthers) - parseFloat(a.averageOfOthers));
 
   return (

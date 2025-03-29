@@ -31,8 +31,16 @@ const SurveyTraitsSelfScore = ({ traitSelfData, traitCategoryData, traitData, tr
 
       Object.values(questions).forEach(question => {
         categoriesWithSelf.forEach(({ categoryName }) => {
-          const avgScore = calculateAverage(question.responses[categoryName] || []);
+          let responses = question.responses[categoryName] || [];
+          // For the Self category, filter out 0 responses
+          if (categoryName === "Self") {
+            responses = responses.filter(response => response > 0);
+            if (responses.length === 0) return; // Skip this question entirely if no valid self responses
+          }
+          const avgScore = calculateAverage(responses);
           categoryAverages[categoryName].push(avgScore);
+          // const avgScore = calculateAverage(question.responses[categoryName] || []);
+          // categoryAverages[categoryName].push(avgScore);
         });
       });
 
@@ -73,21 +81,21 @@ const SurveyTraitsSelfScore = ({ traitSelfData, traitCategoryData, traitData, tr
   return (
     <>
       <h2>Ranking of Traits Based on Self Rating</h2>
-        {
-          traitSelfRating.map((item,index)=>{
-            return(
-              <>
-                <div key={index} className='d-flex flex-row justify-content-between'>
-                  <h3 className=''>{item.trait}</h3>
-                  {/* <p>{item.selfRating}</p> */}
-                  <div className='w-25'>
-                    <ProgressBar bgcolor="#6a1b9a" completed={parseFloat(item.Self).toFixed(1)} max={7}  /> 
-                  </div>
+      {
+        traitSelfRating.map((item, index) => {
+          return (
+            <>
+              <div key={index} className='d-flex flex-row justify-content-between'>
+                <h3 className=''>{item.trait}</h3>
+                {/* <p>{item.selfRating}</p> */}
+                <div className='w-25'>
+                  <ProgressBar bgcolor="#6a1b9a" completed={parseFloat(item.Self).toFixed(1)} max={7} />
                 </div>
-              </>
-            )
-          })
-        }
+              </div>
+            </>
+          )
+        })
+      }
     </>
   )
 }

@@ -171,7 +171,7 @@ const SurveyAnalysis = () => {
                     subject.responses.forEach(response => {
                         const responseAnswer = parseInt(response.answer, 10);
 
-                        if (responseAnswer > 0) {
+                        // if (responseAnswer > 0) {
                             const trait = getTraitDetails(response.questionId);
                             if (trait) {
                                 if (!traitScores[trait]) {
@@ -211,9 +211,13 @@ const SurveyAnalysis = () => {
                                 if (!traitQuestionData[trait][response.questionId].responses[categoryName]) {
                                     traitQuestionData[trait][response.questionId].responses[categoryName] = [];
                                 }
-                                traitQuestionData[trait][response.questionId].responses[categoryName].push(responseAnswer || 0);
+
+                                // traitQuestionData[trait][response.questionId].responses[categoryName].push(responseAnswer || 0);
+                                if (responseAnswer > 0) {
+                                    traitQuestionData[trait][response.questionId].responses[categoryName].push(responseAnswer);
+                                }
                                 // traitQuestionData[trait][response.questionId].responses.push(responseAnswer || 0);
-                            }
+                            // }
                         }
                     }
                     );
@@ -240,7 +244,7 @@ const SurveyAnalysis = () => {
 
                         // Count the respondents for summary
                         if (!categoryCounts[categoryName]) {
-                            categoryCounts[categoryName] = { nominated: 0, completed: 0 };
+                            categoryCounts[categoryName] = { nominated: 0, completed: 0 };  
                         }
                         categoryCounts[categoryName].nominated += 1;
                         // if (respondent.responses.length > 0) {
@@ -254,7 +258,7 @@ const SurveyAnalysis = () => {
                         respondent.responses.forEach(response => {
                             const responseAnswer = parseInt(response.answer, 10);
 
-                            if (responseAnswer > 0) {
+                            // if (responseAnswer > 0) {
                                 const trait = getTraitDetails(response.questionId);
                                 if (trait) {
                                     if (!traitScores[trait]) {
@@ -299,7 +303,7 @@ const SurveyAnalysis = () => {
                                         traitQuestionData[trait][response.questionId].responses[categoryName].push(parseInt(response.answer, 10));
                                     }
                                     // traitQuestionData[trait][response.questionId].responses.push(parseInt(response.answer, 10) || 0);
-                                }
+                                // }
                             }
                         });
 

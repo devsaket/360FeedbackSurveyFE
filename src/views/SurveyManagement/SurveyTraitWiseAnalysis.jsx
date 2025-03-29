@@ -35,14 +35,25 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
 
             Object.values(questions).forEach(question => {
                 categoriesWithSelf.forEach(({ categoryName }) => {
-                    const avgScore = calculateAverage(question.responses[categoryName] || []);
-                    categoryAverages[categoryName].push(avgScore);
+                    const responses = question.responses[categoryName] || [];
+                    // Filter out 0 responses.
+                    const nonZeroResponses = responses.filter(response => response !== 0);
+                    // Only if there are non-zero responses, calculate and push the average.
+                    if (nonZeroResponses.length > 0) {
+                        const avgScore = calculateAverage(nonZeroResponses);
+                        categoryAverages[categoryName].push(avgScore);
+                    }
+                    // const avgScore = calculateAverage(question.responses[categoryName] || []);
+                    // categoryAverages[categoryName].push(avgScore);
                 });
             });
 
             // Calculate overall averages
             const overallAverages = Object.fromEntries(
-                Object.entries(categoryAverages).map(([category, scores]) => [category, calculateAverage(scores)])
+                // Object.entries(categoryAverages).map(([category, scores]) => [category, calculateAverage(scores)])
+                Object.entries(categoryAverages).map(([category, scores]) => [
+                    category, scores.length > 0 ? calculateAverage(scores) : 0
+                ])
             );
 
             return { trait, ...overallAverages };
@@ -53,7 +64,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
             const totalWeightedScore = surveyCategoryObject.reduce((acc, role) => {
                 const avgScore = data[categoriesRolesObject.find(cat => cat._id === role.category)?.categoryName];
                 const weight = role.scoreWeightage || 0;
-                return acc + (avgScore * (weight/100));
+                return acc + (avgScore * (weight / 100));
             }, 0);
 
             const sumWeights = categoriesRolesObject.reduce((acc, role) => {
@@ -67,7 +78,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
         });
 
         setProcessedData(finalData);
-        // console.log("Final Data = ", finalData);
+        console.log("Final Data = ", finalData);
 
     }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject]);
 
@@ -147,7 +158,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
                                         layout="vertical"
                                         margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
                                     >
-                                    {/* <BarChart
+                                        {/* <BarChart
                                         data={[
                                             { category: 'تقييم ذاتي', value: parseFloat(traitData['تقييم ذاتي']).toFixed(1) },
                                             ...updatedSurveyCategory.map((category) => ({ category: category.categoryName, value: traitData[category.categoryName].toFixed(1) })), { category: 'متوسط تقييم الآخرين', value: traitData.averageOfOthers }
@@ -155,7 +166,7 @@ const SurveyTraitWiseAnalysis = ({ traitCategoryData, traitData, traitQuestionDa
                                         layout="vertical"
                                         margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
                                     > */}
-                                        <XAxis type="number" domain={[0,8]} tickCount={8} />
+                                        <XAxis type="number" domain={[0, 8]} tickCount={8} />
                                         <YAxis type="category" dataKey="category" />
                                         <Tooltip />
                                         <Bar dataKey="value" label={{ position: 'right' }}>
