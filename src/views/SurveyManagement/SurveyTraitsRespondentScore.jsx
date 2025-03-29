@@ -39,7 +39,7 @@ const SurveyTraitsRespondentScore = ({ traitRespondentsData, traitCategoryData, 
           const responses = question.responses[categoryName] || [];
 
           // If any response is 0, skip this question for the current category
-          if (responses.includes(0)) {
+          if (responses.includes(0) || responses.length === 0) {
             return; // Skip adding this question's data for categoryName
           }
 
