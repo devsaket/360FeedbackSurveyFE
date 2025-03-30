@@ -31,8 +31,15 @@ const SurveyTraitsRespondentScoreArabic = ({ traitRespondentsData, traitCategory
 
       Object.values(questions).forEach(question => {
         categoriesWithSelf.forEach(({ categoryName }) => {
-          const avgScore = calculateAverage(question.responses[categoryName] || []);
+          const responses = question.responses[categoryName] || [];
+          // Filter out 0 responses
+          if (responses.includes(0) || responses.length === 0) {
+            return;
+          }
+          const avgScore = calculateAverage(responses);
           categoryAverages[categoryName].push(avgScore);
+          // const avgScore = calculateAverage(question.responses[categoryName] || []);
+          // categoryAverages[categoryName].push(avgScore);
         });
       });
 
@@ -66,7 +73,7 @@ const SurveyTraitsRespondentScoreArabic = ({ traitRespondentsData, traitCategory
 
   }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject]);
 
- 
+
   const traitOthersRating = processedData.sort((a, b) => parseFloat(b.averageOfOthers) - parseFloat(a.averageOfOthers));
 
   return (

@@ -32,14 +32,22 @@ const SurveyTraitsOpenDeficienciesArabic = ({ traitSelfOthersData , traitCategor
 
             Object.values(questions).forEach(question => {
                 categoriesWithSelf.forEach(({ categoryName }) => {
-                    const avgScore = calculateAverage(question.responses[categoryName] || []);
-                    categoryAverages[categoryName].push(avgScore);
+                    const responses = question.responses[categoryName] || [];
+                    // Filter out 0 responses
+                    const nonZeroResponses = responses.filter(response => response !== 0);
+                    //Only if there are non-zero responses, calculate and push the average.
+                    if(nonZeroResponses.length > 0){
+                        const avgScore = calculateAverage(nonZeroResponses);
+                        categoryAverages[categoryName].push(avgScore);
+                    }
+                    // const avgScore = calculateAverage(question.responses[categoryName] || []);
+                    // categoryAverages[categoryName].push(avgScore);
                 });
             });
 
             // Calculate overall averages
             const overallAverages = Object.fromEntries(
-                Object.entries(categoryAverages).map(([category, scores]) => [category, calculateAverage(scores)])
+                Object.entries(categoryAverages).map(([category, scores]) => [category, scores.length > 0 ? calculateAverage(scores):0])
             );
 
             return { trait, ...overallAverages };

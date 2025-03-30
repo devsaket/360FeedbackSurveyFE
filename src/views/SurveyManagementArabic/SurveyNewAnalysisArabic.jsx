@@ -172,6 +172,7 @@ const SurveyAnalysisArabic = () => {
 
                     // Aggregate trait scores
                     subject.responses.forEach(response => {
+                        const responseAnswer = parseInt(response.answer, 10);
                         const trait = getTraitDetails(response.questionId);
                         if (trait) {
                             if (!traitScores[trait]) {
@@ -211,7 +212,10 @@ const SurveyAnalysisArabic = () => {
                             if (!traitQuestionData[trait][response.questionId].responses[categoryName]) {
                                 traitQuestionData[trait][response.questionId].responses[categoryName] = [];
                             }
-                            traitQuestionData[trait][response.questionId].responses[categoryName].push(parseInt(response.answer, 10) || 0);
+                            // traitQuestionData[trait][response.questionId].responses[categoryName].push(parseInt(response.answer, 10) || 0);
+                            if(responseAnswer > 0){
+                                traitQuestionData[trait][response.questionId].responses[categoryName].push(response.answer);
+                            }
                             // traitQuestionData[trait][response.questionId].responses.push(parseInt(response.answer, 10) || 0);
                         }
                     });

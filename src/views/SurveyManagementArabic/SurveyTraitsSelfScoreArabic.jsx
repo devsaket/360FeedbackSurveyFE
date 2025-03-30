@@ -32,8 +32,16 @@ const SurveyTraitsSelfScoreArabic = ({ traitSelfData, traitCategoryData, traitDa
 
       Object.values(questions).forEach(question => {
         categoriesWithSelf.forEach(({ categoryName }) => {
-          const avgScore = calculateAverage(question.responses[categoryName] || []);
+          const responses = question.responses[categoryName] || [];
+          // Filter out 0 responses
+          if(categoryName === "Self") {
+            responses = responses.filter(response => response > 0);
+            if (responses.length === 0) return;
+          }
+          const avgScore = calculateAverage(responses);
           categoryAverages[categoryName].push(avgScore);
+          // const avgScore = calculateAverage(question.responses[categoryName] || []);
+          // categoryAverages[categoryName].push(avgScore);
         });
       });
 
@@ -74,21 +82,21 @@ const SurveyTraitsSelfScoreArabic = ({ traitSelfData, traitCategoryData, traitDa
     <>
       {/* <h2>Ranking of Traits Based on Self Rating</h2> */}
       <h2>ترتيب السمات (الجدارات، المهارات، الصفات) بناءً على التقييم الذاتي ". تقييم ذاتي "</h2>
-        {
-          traitSelfRating.map((item,index)=>{
-            return(
-              <>
-                <div key={index} className='d-flex flex-row justify-content-between'>
-                  <h3 className=''>{item.trait}</h3>
-                  {/* <p>{item.selfRating}</p> */}
-                  <div className='w-25'>
-                    <ProgressBar bgcolor="#6a1b9a" completed={parseFloat(item['تقييم ذاتي']).toFixed(1)} max={7}  /> 
-                  </div>
+      {
+        traitSelfRating.map((item, index) => {
+          return (
+            <>
+              <div key={index} className='d-flex flex-row justify-content-between'>
+                <h3 className=''>{item.trait}</h3>
+                {/* <p>{item.selfRating}</p> */}
+                <div className='w-25'>
+                  <ProgressBar bgcolor="#6a1b9a" completed={parseFloat(item['تقييم ذاتي']).toFixed(1)} max={7} />
                 </div>
-              </>
-            )
-          })
-        }
+              </div>
+            </>
+          )
+        })
+      }
     </>
   )
 }
