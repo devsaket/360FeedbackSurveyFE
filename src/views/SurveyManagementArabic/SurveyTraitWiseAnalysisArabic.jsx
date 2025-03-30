@@ -39,7 +39,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
                     // Filter out 0 responses
                     const nonZeroResponses = responses.filter(response => response !== 0);
                     //Only if there are non-zero responses, calculate and push the average.
-                    if(nonZeroResponses.length > 0){
+                    if (nonZeroResponses.length > 0) {
                         const avgScore = calculateAverage(nonZeroResponses);
                         categoryAverages[categoryName].push(avgScore);
                     }
@@ -50,7 +50,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
 
             // Calculate overall averages
             const overallAverages = Object.fromEntries(
-                Object.entries(categoryAverages).map(([category, scores]) => [category, scores.length > 0 ? calculateAverage(scores) : 0 ])
+                Object.entries(categoryAverages).map(([category, scores]) => [category, scores.length > 0 ? calculateAverage(scores) : 0])
             );
 
             return { trait, ...overallAverages };
@@ -61,7 +61,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
             const totalWeightedScore = surveyCategoryObject.reduce((acc, role) => {
                 const avgScore = data[categoriesRolesObject.find(cat => cat._id === role.category)?.categoryName];
                 const weight = role.scoreWeightage || 0;
-                return acc + (avgScore * (weight/100));
+                return acc + (avgScore * (weight / 100));
             }, 0);
 
             const sumWeights = categoriesRolesObject.reduce((acc, role) => {
@@ -81,6 +81,20 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
 
     // Add a color for 'Self' to the start of colors array
     const dynamicColors = [{ category: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
+
+    const CustomXAxisTick = ({ x, y, payload }) => (
+        <g transform={`translate(${x}, ${y})`}>
+            <text
+                transform="scale(-1,1)"
+                x={0}
+                y={0}
+                dy={-6}
+                textAnchor="middle"
+                fill="#666">
+                {payload.value}
+            </text>
+        </g>
+    );
 
     const renderTraitTable = () => {
         if (!processedData || !Object.keys(processedData).length) {
@@ -149,8 +163,10 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
                         <Card key={index} className="mb-4 shadow">
                             <CardHeader><h4>{traitData.trait}</h4></CardHeader>
                             <CardBody>
-                                <ResponsiveContainer width="100%" height={300}>
-                                    {/* <BarChart
+                                <div style={{ transform: "scaleX(-1)" }}>
+                                    <ResponsiveContainer width="100%" height={300}>
+                                        {/* <div dir="rtl"> */}
+                                        {/* <BarChart
                                         data={[
                                             { category: 'Self', value: traitData.Self.toFixed(1) },
                                             ...updatedSurveyCategory.map((category) => ({ category: category.categoryName, value: traitData[category.categoryName].toFixed(1) })), { category: 'Avg of Others', value: traitData.averageOfOthers }
@@ -158,30 +174,31 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
                                         layout="vertical"
                                         margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
                                     > */}
-                                    <BarChart
-                                        data={[
-                                            { category: 'تقييم ذاتي', value: parseFloat(traitData.Self).toFixed(1) },
-                                            ...updatedSurveyCategory.map((category) => ({ category: category.categoryName, value: traitData[category.categoryName].toFixed(1) })), { category: 'متوسط تقييم الآخرين', value: traitData.averageOfOthers }
-                                        ]}
-                                        layout="vertical"
-                                        margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-                                    >
-                                        <XAxis type="number" domain={[0,8]} tickCount={8} orientation='top'/>
-                                        <YAxis type="category" dataKey="category" mirror={true}  />
-                                        <Tooltip />
-                                        <Bar dataKey="value" label={{ position: 'right' }}>
-                                            {/* <Cell key={`cell-0`} fill={colors['Self']} /> */}
-                                            {/* {
+                                        <BarChart
+                                            data={[
+                                                { category: 'تقييم ذاتي', value: parseFloat(traitData.Self).toFixed(1) },
+                                                ...updatedSurveyCategory.map((category) => ({ category: category.categoryName, value: traitData[category.categoryName].toFixed(1) })), { category: 'متوسط تقييم الآخرين', value: traitData.averageOfOthers }
+                                            ]}
+                                            layout="vertical"
+                                            margin={{ top: 20, right: 30, left: 80, bottom: 20 }}
+                                        >
+                                            <XAxis type="number" domain={[0, 8]} tickCount={8} orientation='top' tick={<CustomXAxisTick />} />
+                                            <YAxis type="category" dataKey="category" mirror={true} />
+                                            <Tooltip />
+                                            <Bar dataKey="value" label={{ position: 'right' }}>
+                                                {/* <Cell key={`cell-0`} fill={colors['Self']} /> */}
+                                                {/* {
                                             updatedSurveyCategory.map((category, idx) => (
                                                 <Cell key={`cell-${idx}`} fill={colors[category.categoryName]} />
                                             ))
                                         } */}
-                                            {dynamicColors.map((item, idx) => (
-                                                <Cell key={`cell-${idx}`} fill={item.category === 'متوسط تقييم الآخرين' ? '#FFA07A' : item.color} />
-                                            ))}
-                                        </Bar>
-                                    </BarChart>
-                                </ResponsiveContainer>
+                                                {dynamicColors.map((item, idx) => (
+                                                    <Cell key={`cell-${idx}`} fill={item.category === 'متوسط تقييم الآخرين' ? '#FFA07A' : item.color} />
+                                                ))}
+                                            </Bar>
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                </div>
                             </CardBody>
                         </Card>
                     )
