@@ -16,8 +16,7 @@ const SurveyTraitsSelfScoreArabic = ({ traitSelfData, traitCategoryData, traitDa
   });
 
   // Add 'Self' to updatedSurveyCategory
-  // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
-  const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
+  const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
 
   useEffect(() => {
     const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -32,7 +31,7 @@ const SurveyTraitsSelfScoreArabic = ({ traitSelfData, traitCategoryData, traitDa
 
       Object.values(questions).forEach(question => {
         categoriesWithSelf.forEach(({ categoryName }) => {
-          const responses = question.responses[categoryName] || [];
+          let responses = question.responses[categoryName] || [];
           // Filter out 0 responses
           if(categoryName === "Self") {
             responses = responses.filter(response => response > 0);
@@ -75,8 +74,7 @@ const SurveyTraitsSelfScoreArabic = ({ traitSelfData, traitCategoryData, traitDa
 
   }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject]);
 
-  // const traitSelfRating = processedData.sort((a, b) => parseFloat(b.Self) - parseFloat(a.Self));
-  const traitSelfRating = processedData.sort((a, b) => parseFloat(b['تقييم ذاتي']) - parseFloat(a['تقييم ذاتي']));
+  const traitSelfRating = processedData.sort((a, b) => parseFloat(b.Self) - parseFloat(a.Self));
 
   return (
     <>
@@ -90,7 +88,7 @@ const SurveyTraitsSelfScoreArabic = ({ traitSelfData, traitCategoryData, traitDa
                 <h3 className=''>{item.trait}</h3>
                 {/* <p>{item.selfRating}</p> */}
                 <div className='w-25'>
-                  <ProgressBar bgcolor="#6a1b9a" completed={parseFloat(item['تقييم ذاتي']).toFixed(1)} max={7} />
+                  <ProgressBar bgcolor="#6a1b9a" completed={parseFloat(item.Self).toFixed(1)} max={7} />
                 </div>
               </div>
             </>

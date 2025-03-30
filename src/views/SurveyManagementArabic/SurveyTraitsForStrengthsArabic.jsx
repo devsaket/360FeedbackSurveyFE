@@ -16,8 +16,7 @@ const SurveyTraitsForStrengthsArabic = ({ traitSelfOthersData, traitCategoryData
     });
 
     // Add 'Self' to updatedSurveyCategory
-    // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
-    const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
+    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
 
     useEffect(() => {
         const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -73,8 +72,7 @@ const SurveyTraitsForStrengthsArabic = ({ traitSelfOthersData, traitCategoryData
 
         const filterTopTraits = () => {
             return finalData.filter(item => {
-                // const selfRating = parseFloat(item.Self);
-                const selfRating = parseFloat(item['تقييم ذاتي']);
+                const selfRating = parseFloat(item.Self);
                 const averageOtherRating = parseFloat(item.averageOfOthers);
                 return selfRating >= 5 && averageOtherRating >= 5;
             });
@@ -121,8 +119,7 @@ const SurveyTraitsForStrengthsArabic = ({ traitSelfOthersData, traitCategoryData
                                         <h3>{item.trait}</h3>
                                         {/* <p>This section will be used to rate the employee based on their {item.trait}</p> */}
                                     </td>
-                                    {/* <td><SimpleDonutChart key={index} data={item.Self} trait={item.trait} /></td> */}
-                                    <td><SimpleDonutChart key={index} data={item['تقييم ذاتي']} trait={item.trait} /></td>
+                                    <td><SimpleDonutChart key={index} data={item.Self} trait={item.trait} /></td>
                                     <td><SimpleDonutChart key={index} data={item.averageOfOthers} trait={item.trait} /></td>
                                 </tr>
                             ))}

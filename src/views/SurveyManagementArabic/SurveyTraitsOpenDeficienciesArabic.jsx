@@ -16,8 +16,7 @@ const SurveyTraitsOpenDeficienciesArabic = ({ traitSelfOthersData , traitCategor
     });
 
     // Add 'Self' to updatedSurveyCategory
-    // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
-    const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
+    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
 
     useEffect(() => {
         const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -72,8 +71,7 @@ const SurveyTraitsOpenDeficienciesArabic = ({ traitSelfOthersData , traitCategor
         });
 
         const getOpenDeficiency = () => {
-            // const openDeficiencyTraits = finalData.filter(item => { return item.Self < 4 && item.averageOfOthers < 4 });
-            const openDeficiencyTraits = finalData.filter(item => { return item['تقييم ذاتي'] < 4 && item.averageOfOthers < 4 });
+            const openDeficiencyTraits = finalData.filter(item => { return item.Self < 4 && item.averageOfOthers < 4 });
             return openDeficiencyTraits;
         };
     
@@ -118,7 +116,7 @@ const SurveyTraitsOpenDeficienciesArabic = ({ traitSelfOthersData , traitCategor
                                         <h3>{item.trait}</h3>
                                         {/* <p>This section will be used to rate the employee based on their {item.trait}</p> */}
                                     </td>
-                                    <td><SimpleDonutChart key={index} data={item['تقييم ذاتي'].toFixed(1)} trait={item.trait} /></td>
+                                    <td><SimpleDonutChart key={index} data={item.Self.toFixed(1)} trait={item.trait} /></td>
                                     <td><SimpleDonutChart key={index} data={item.averageOfOthers.toFixed(1)} trait={item.trait} /></td>
                                 </tr>
                             ))}

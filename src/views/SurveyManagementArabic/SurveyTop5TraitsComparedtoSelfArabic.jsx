@@ -16,8 +16,7 @@ const SurveyTop5TraitsComparedToSelfArabic = ({ traitSelfOthersData, traitCatego
     });
 
     // Add 'Self' to updatedSurveyCategory
-    // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
-    const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
+    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
 
     useEffect(() => {
         const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -75,11 +74,9 @@ const SurveyTop5TraitsComparedToSelfArabic = ({ traitSelfOthersData, traitCatego
             const traitsWithComparison = finalData.map(item => {
                 return {
                     trait: item.trait,
-                    // selfRating: parseFloat(item.Self),
-                    selfRating: parseFloat(item['تقييم ذاتي']),
+                    selfRating: parseFloat(item.Self),
                     averageOtherRating: parseFloat(item.averageOfOthers),
-                    // difference: parseFloat(item.Self) - parseFloat(item.averageOfOthers)
-                    difference: parseFloat(item['تقييم ذاتي']) - parseFloat(item.averageOfOthers)
+                    difference: parseFloat(item.Self) - parseFloat(item.averageOfOthers)
                 };
             });
     

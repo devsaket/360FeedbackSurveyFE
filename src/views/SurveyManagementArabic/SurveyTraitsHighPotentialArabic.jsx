@@ -16,8 +16,7 @@ const SurveyTraitsHighPotentialArabic = ({ traitSelfOthersData  , traitCategoryD
     });
 
     // Add 'Self' to updatedSurveyCategory
-    // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
-    const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
+    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
 
     useEffect(() => {
         const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -78,8 +77,7 @@ const SurveyTraitsHighPotentialArabic = ({ traitSelfOthersData  , traitCategoryD
                     // selfRating: parseFloat(item.Self).toFixed(1),
                     selfRating: parseFloat(item['تقييم ذاتي']).toFixed(1),
                     averageOtherRating: parseFloat(item.averageOfOthers).toFixed(1),
-                    // difference: (parseFloat(item.Self) - parseFloat(item.averageOfOthers)).toFixed(1)
-                    difference: (parseFloat(item['تقييم ذاتي']) - parseFloat(item.averageOfOthers)).toFixed(1)
+                    difference: (parseFloat(item.Self) - parseFloat(item.averageOfOthers)).toFixed(1)
                 };
             });
     

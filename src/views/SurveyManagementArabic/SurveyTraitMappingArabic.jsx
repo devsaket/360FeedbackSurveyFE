@@ -19,8 +19,7 @@ const SurveyTraitMappingArabic = ({ traitSelfOthersData, traitCategoryData, trai
     });
 
     // Add 'Self' to updatedSurveyCategory
-    // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
-    const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
+    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
 
     useEffect(() => {
         const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -79,11 +78,9 @@ const SurveyTraitMappingArabic = ({ traitSelfOthersData, traitCategoryData, trai
             const traitsWithComparison = finalData.map(item => {
                 return {
                     trait: item.trait,
-                    // selfRating: parseFloat(item.Self).toFixed(1),
-                    selfRating: parseFloat(item['تقييم ذاتي']).toFixed(1),
+                    selfRating: parseFloat(item.Self).toFixed(1),
                     averageOtherRating: parseFloat(item.averageOfOthers).toFixed(1),
-                    // difference: (parseFloat(item.Self) - parseFloat(item.averageOfOthers)).toFixed(1)
-                    difference: (parseFloat(item['تقييم ذاتي']) - parseFloat(item.averageOfOthers)).toFixed(1)
+                    difference: (parseFloat(item.Self) - parseFloat(item.averageOfOthers)).toFixed(1)
                 };
             });
 
@@ -98,8 +95,7 @@ const SurveyTraitMappingArabic = ({ traitSelfOthersData, traitCategoryData, trai
         // Trait of Strength
         const filterTopTraits = () => {
             return finalData.filter(item => {
-                // const selfRating = parseFloat(item.Self);
-                const selfRating = parseFloat(item['تقييم ذاتي']);
+                const selfRating = parseFloat(item.Self);
                 const averageOtherRating = parseFloat(item.averageOfOthers);
                 return selfRating >= 5 && averageOtherRating >= 5;
             });
@@ -114,11 +110,9 @@ const SurveyTraitMappingArabic = ({ traitSelfOthersData, traitCategoryData, trai
             const traitsWithComparison = finalData.map(item => {
                 return {
                     trait: item.trait,
-                    // selfRating: parseFloat(item.Self),
-                    selfRating: parseFloat(item['تقييم ذاتي']),
+                    selfRating: parseFloat(item.Self),
                     averageOtherRating: parseFloat(item.averageOfOthers),
-                    // difference: parseFloat(item.Self) - parseFloat(item.averageOfOthers)
-                    difference: parseFloat(item['تقييم ذاتي']) - parseFloat(item.averageOfOthers)
+                    difference: parseFloat(item.Self) - parseFloat(item.averageOfOthers)
                 };
             });
 
@@ -135,11 +129,9 @@ const SurveyTraitMappingArabic = ({ traitSelfOthersData, traitCategoryData, trai
             const traitsWithComparison = finalData.map(item => {
                 return {
                     trait: item.trait,
-                    // selfRating: parseFloat(item.Self).toFixed(1),
-                    selfRating: parseFloat(item['تقييم ذاتي']).toFixed(1),
+                    selfRating: parseFloat(item.Self).toFixed(1),
                     averageOtherRating: parseFloat(item.averageOfOthers).toFixed(1),
-                    // difference: (parseFloat(item.averageOfOthers) - parseFloat(item.Self)).toFixed(1)
-                    difference: (parseFloat(item.averageOfOthers) - parseFloat(item['تقييم ذاتي'])).toFixed(1)
+                    difference: (parseFloat(item.averageOfOthers) - parseFloat(item.Self)).toFixed(1)
                 };
             });
 
@@ -152,7 +144,7 @@ const SurveyTraitMappingArabic = ({ traitSelfOthersData, traitCategoryData, trai
 
         // Trait with High Developmental Needs
         const getOpenDeficiency = () => {
-            const openDeficiencyTraits = finalData.filter(item => { return item['تقييم ذاتي'] < 4 && item.averageOfOthers < 4 });
+            const openDeficiencyTraits = finalData.filter(item => { return item.Self < 4 && item.averageOfOthers < 4 });
             return openDeficiencyTraits;
         };
 

@@ -47,7 +47,7 @@ const SurveyParticipationDataArabic = ({ summaryData, surveyCategoryObject, cate
                     <tbody>
                         {Array.isArray(mergedData) && mergedData.map((row, index) => (
                             <tr key={index}>
-                                <td className='font-weight-bold'>{row.category}</td>
+                                <td className='font-weight-bold'>{row.category === "Self" ? 'تقييم ذاتي' : row.category}</td>
                                 <td className='text-wrap align-top text-center align-middle'>{row.scoreWeightage}</td>
                                 <td className='text-wrap align-top text-center align-middle'>{row.nominated}</td>
                                 <td className='text-wrap align-top text-center align-middle'>{row.completed}</td>

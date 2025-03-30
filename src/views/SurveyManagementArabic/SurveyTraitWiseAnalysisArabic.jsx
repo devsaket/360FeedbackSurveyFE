@@ -20,8 +20,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
     });
 
     // Add 'Self' to updatedSurveyCategory
-    // const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
-    const categoriesWithSelf = [{ categoryName: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
+    const categoriesWithSelf = [{ categoryName: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
 
     useEffect(() => {
         const calculateAverage = (arr) => arr.reduce((sum, val) => sum + val, 0) / (arr.length || 1);
@@ -81,8 +80,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
     }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject]);
 
     // Add a color for 'Self' to the start of colors array
-    // const dynamicColors = [{ category: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
-    const dynamicColors = [{ category: 'تقييم ذاتي', color: '#0088FE' }, ...updatedSurveyCategory];
+    const dynamicColors = [{ category: 'Self', color: '#0088FE' }, ...updatedSurveyCategory];
 
     const renderTraitTable = () => {
         if (!processedData || !Object.keys(processedData).length) {
@@ -162,7 +160,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
                                     > */}
                                     <BarChart
                                         data={[
-                                            { category: 'تقييم ذاتي', value: parseFloat(traitData['تقييم ذاتي']).toFixed(1) },
+                                            { category: 'تقييم ذاتي', value: parseFloat(traitData.Self).toFixed(1) },
                                             ...updatedSurveyCategory.map((category) => ({ category: category.categoryName, value: traitData[category.categoryName].toFixed(1) })), { category: 'متوسط تقييم الآخرين', value: traitData.averageOfOthers }
                                         ]}
                                         layout="vertical"

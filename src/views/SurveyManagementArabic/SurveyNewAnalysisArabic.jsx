@@ -154,8 +154,7 @@ const SurveyAnalysisArabic = () => {
             filteredSubject.subject.forEach(subject => {
                 if (subject._id === subjectId) {
 
-                    // const { categoryName, scoreWeightage } = { categoryName: 'Self', scoreWeightage: 100 };
-                    const { categoryName, scoreWeightage } = { categoryName: 'تقييم ذاتي', scoreWeightage: 100 };
+                    const { categoryName, scoreWeightage } = { categoryName: 'Self', scoreWeightage: 100 };
                     // Subject row
                     const subjectRow = {
                         surveySubmittedBy: subject.subjectName,
@@ -163,8 +162,7 @@ const SurveyAnalysisArabic = () => {
                             const response = subject.responses.find(res => res.questionId === questionId);
                             return response ? response.answer : '0';
                         }),
-                        // categoryName: 'Self',
-                        categoryName: 'تقييم ذاتي',
+                        categoryName: 'Self',
                         scoreWeightage: 100,
                         totalScore: calculateTotalScore(subject.responses)
                     };
@@ -223,9 +221,7 @@ const SurveyAnalysisArabic = () => {
                     // Respondent rows and summary data
                     const categoryCounts = {};
                     // Add subject to summary
-                    // categoryCounts['Self'] = { nominated: 1, completed: subject.isFilled ? 1 : 0 }; // Self is always nominated and completed
-                    categoryCounts['تقييم ذاتي'] = { nominated: 1, completed: subject.isFilled ? 1 : 0 }; // Self is always nominated and completed
-
+                    categoryCounts['Self'] = { nominated: 1, completed: subject.isFilled ? 1 : 0 }; // Self is always nominated and completed
 
                     subject.respondent.forEach(respondent => {
                         const { categoryName, scoreWeightage } = getCategoryDetails(respondent.category);
@@ -347,10 +343,8 @@ const SurveyAnalysisArabic = () => {
 
         const processTraitSelfOthersData = (data) => {
             return data.map(item => {
-                // const selfRating = item.categories.find(cat => cat.category === "Self")?.averageScore || 0;
-                const selfRating = item.categories.find(cat => cat.category === "تقييم ذاتي")?.averageScore || 0;
-                // const otherRatings = item.categories.filter(cat => cat.category !== "Self")?.map(cat => cat.averageScore);
-                const otherRatings = item.categories.filter(cat => cat.category !== "تقييم ذاتي")?.map(cat => cat.averageScore);
+                const selfRating = item.categories.find(cat => cat.category === "Self")?.averageScore || 0;
+                const otherRatings = item.categories.filter(cat => cat.category !== "Self")?.map(cat => cat.averageScore);
                 // console.log(otherRatings);
                 const averageOtherRating = otherRatings.length > 0 ? (otherRatings.reduce((acc, score) => acc + parseFloat(score), 0) / otherRatings.length).toFixed(1) : 0;
                 // console.log(averageOtherRating)
@@ -365,8 +359,7 @@ const SurveyAnalysisArabic = () => {
 
         const processTraitRespondentsData = (data) => {
             return data.map(item => {
-                // const otherRatings = item.categories.filter(cat => cat.category !== "Self")?.map(cat => cat.averageScore);
-                const otherRatings = item.categories.filter(cat => cat.category !== "تقييم ذاتي")?.map(cat => cat.averageScore);
+                const otherRatings = item.categories.filter(cat => cat.category !== "Self")?.map(cat => cat.averageScore);
                 // console.log(otherRatings);
                 const averageOtherRating = otherRatings.length > 0 ? (otherRatings.reduce((acc, score) => acc + parseFloat(score), 0) / otherRatings.length).toFixed(1) : 0;
                 // console.log(averageOtherRating)
