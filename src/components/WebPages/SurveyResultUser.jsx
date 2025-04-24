@@ -16,35 +16,35 @@ import { toast } from 'react-toastify';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import Header from "components/Headers/Header.js";
-import DonutChart from './Charts/DonutChart';
-import SimpleDonutChart from './Charts/SimpleDonutChart';
-import RadarGraph from './Charts/RadarChart';
-import ProgressBar from './Charts/ProgressBar';
+// import DonutChart from './Charts/DonutChart';
+// import SimpleDonutChart from './Charts/SimpleDonutChart';
+// import RadarGraph from './Charts/RadarChart';
+// import ProgressBar from './Charts/ProgressBar';
 import CompanyLogo from '../../assets/img/company/DecisionSupportLogo.png'
-import { SurveyTraitsDataArabic } from './SurveyTraitsDataArabic';
-import SurveyResponseRespondentListArabic from './SurveyResponseRespondentListArabic';
-import SurveyTraitsRespondentScoreArabic from './SurveyTraitsRespondentScoreArabic';
-import SurveyTraitsSelfScoreArabic from './SurveyTraitsSelfScoreArabic';
-import SurveyTraitWiseAnalysisArabic from './SurveyTraitWiseAnalysisArabic';
-import SurveyTopBottom5QuestionsForSelfArabic from './SurveyTopBottom5QuestionsForSelfArabic';
-import SurveyTopBottom5QuestionsForOthersArabic from './SurveyTopBottom5QuestionsForOthersArabic';
-import SurveyTop5TraitsComparedToSelfArabic from './SurveyTop5TraitsComparedtoSelfArabic';
-import SurveyTraitsForStrengthsArabic from './SurveyTraitsForStrengthsArabic';
-import SurveyTraitsUnknownDeficienciesArabic from './SurveyTraitsUnknownDeficienciesArabic';
-import SurveyTraitsOpenDeficienciesArabic from './SurveyTraitsOpenDeficienciesArabic';
-import SurveyTraitsUnknownStrengthsArabic from './SurveyTraitsUnknownStrengthsArabic';
-import SurveyTraitsHighPotentialArabic from './SurveyTraitsHighPotentialArabic';
-import SurveyTraitMappingArabic from './SurveyTraitMappingArabic';
-import SurveyParticipationDataArabic from './SurveyParticipationDataArabic';
+import { SurveyTraitsDataArabic } from '../../views/SurveyManagementArabic/SurveyTraitsDataArabic';
+import SurveyResponseRespondentListArabic from '../../views/SurveyManagementArabic/SurveyResponseRespondentListArabic';
+import SurveyTraitsRespondentScoreArabic from '../../views/SurveyManagementArabic/SurveyTraitsRespondentScoreArabic';
+import SurveyTraitsSelfScoreArabic from '../../views/SurveyManagementArabic/SurveyTraitsSelfScoreArabic';
+import SurveyTraitWiseAnalysisArabic from '../../views/SurveyManagementArabic/SurveyTraitWiseAnalysisArabic';
+import SurveyTopBottom5QuestionsForSelfArabic from '../../views/SurveyManagementArabic/SurveyTopBottom5QuestionsForSelfArabic';
+import SurveyTopBottom5QuestionsForOthersArabic from '../../views/SurveyManagementArabic/SurveyTopBottom5QuestionsForOthersArabic';
+import SurveyTop5TraitsComparedToSelfArabic from '../../views/SurveyManagementArabic/SurveyTop5TraitsComparedtoSelfArabic';
+import SurveyTraitsForStrengthsArabic from '../../views/SurveyManagementArabic/SurveyTraitsForStrengthsArabic';
+import SurveyTraitsUnknownDeficienciesArabic from '../../views/SurveyManagementArabic/SurveyTraitsUnknownDeficienciesArabic';
+import SurveyTraitsOpenDeficienciesArabic from '../../views/SurveyManagementArabic/SurveyTraitsOpenDeficienciesArabic';
+import SurveyTraitsUnknownStrengthsArabic from '../../views/SurveyManagementArabic/SurveyTraitsUnknownStrengthsArabic';
+import SurveyTraitsHighPotentialArabic from '../../views/SurveyManagementArabic/SurveyTraitsHighPotentialArabic';
+import SurveyTraitMappingArabic from '../../views/SurveyManagementArabic/SurveyTraitMappingArabic';
+import SurveyParticipationDataArabic from '../../views/SurveyManagementArabic/SurveyParticipationDataArabic';
 import { getCurrentDate } from 'helpers';
 
-import './SurveyManagementArabic.scss';
+import '../../views/SurveyManagementArabic/SurveyManagementArabic.scss';
 
 const GeneralObservationSchema = Joi.object({
     observation: Joi.string().required()
 });
 
-const SurveyAnalysisArabic = () => {
+const SurveyResultUser = () => {
     const { id, subjectId } = useParams();
 
     const [surveyResponseObject, setSurveyResponseObject] = useState([]);
@@ -427,7 +427,7 @@ const SurveyAnalysisArabic = () => {
 
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             <Container className="mt--7" fluid>
                 <article dir="rtl" className='arabic-report'>
                 <Row className="mt--3">
@@ -690,4 +690,4 @@ const SurveyAnalysisArabic = () => {
     );
 }
 
-export default SurveyAnalysisArabic;
+export default SurveyResultUser;

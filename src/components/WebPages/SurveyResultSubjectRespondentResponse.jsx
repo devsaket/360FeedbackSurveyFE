@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.4
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
@@ -29,11 +12,11 @@ import {
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.js";
-import { exportToExcel } from './excelUtils';
+import { exportToExcel } from '../../views/SurveyManagementArabic/excelUtils';
 
-const SurveySubjectResultManagement = () => {
+const SurveyResultSubjectRespondentResponse = () => {
 
-    const { surveyId, subjectId } = useParams();
+    const { id, subjectId } = useParams();
 
     const [questions, setQuestions] = useState([]);
     const [traits, setTraits] = useState([]);
@@ -54,15 +37,15 @@ const SurveySubjectResultManagement = () => {
         getSurveys();
 
         // Fetch surveys from the backend
-        axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/${surveyId}`)
+        axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/${id}`)
             .then(response => {
                 setSurveyResult(response.data);
-                console.log(response.data);
+                // console.log(response.data);
             })
             .catch(error => {
                 console.error('Error fetching surveys:', error);
             });
-    }, [surveyId, subjectId]);
+    }, [id, subjectId]);
 
     const getSurveys = () => {
         // Fetch surveys from the backend
@@ -106,7 +89,7 @@ const SurveySubjectResultManagement = () => {
     }
 
     const handleDownload = () => {
-        exportToExcel(surveyResult, questions, surveyId, subjectId,  'Survey_Responses');
+        exportToExcel(surveyResult, questions, id, subjectId,  'Survey_Responses');
     };
 
     return (
@@ -123,7 +106,7 @@ const SurveySubjectResultManagement = () => {
                                 <h3 className="mb-0">Survey Result</h3>
                                 <div>
                                     <Button onClick={handleDownload}>Download Excel</Button>
-                                    <Link to={`/website/survey-analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary">
+                                    <Link to={`/website/survey-analysis/${id}/${subjectId}`} className="btn btn-lg btn-primary">
                                         <i className="fa-solid fa-square-poll-vertical"></i> Result Analysis
                                     </Link>
                                 </div>
@@ -172,7 +155,7 @@ const SurveySubjectResultManagement = () => {
                 <Row>
                     <Col className="text-center">
                         {/* <Link to={`/admin/survey/analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Old Analysis</Link> */}
-                        <Link to={`/website/survey-analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Result Analysis</Link>
+                        <Link to={`/website/survey-analysis/${id}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Result Analysis</Link>
                     </Col>
                 </Row>
 
@@ -181,4 +164,5 @@ const SurveySubjectResultManagement = () => {
     );
 };
 
-export default SurveySubjectResultManagement;
+export default SurveyResultSubjectRespondentResponse;
+

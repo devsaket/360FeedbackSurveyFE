@@ -43,8 +43,8 @@ const GeneralObservationSchema = Joi.object({
     observation: Joi.string().required()
 });
 
-const SurveyAnalysis = () => {
-    const { id, subjectId } = useParams();
+const SurveyAnalysis = (props) => {
+    const { id, subjectId } = useParams() || props;
 
     const [surveyResponseObject, setSurveyResponseObject] = useState([]);
     const [surveyObject, setSurveyObject] = useState([]);
@@ -668,7 +668,7 @@ const SurveyAnalysis = () => {
                                     generalObservationToggle ?
                                         <>
                                             <form onSubmit={handleSubmit(onSubmit)}>
-                                                <label className="form-label mt-2">Trait Description</label>
+                                                <label className="form-label mt-2">General Observation</label>
                                                 <TextareaAutosize  {...register("observation")} className="form-control" placeholder="Enter General Observation" minRows={3} maxRows={5}></TextareaAutosize>
                                                 {errors.traitDescription && <p className='form-error'>General Observation is Required!</p>}
                                                 <Button color="primary" className='px-5 my-2' type="submit" disabled={!observation.trim()}> Submit </Button>

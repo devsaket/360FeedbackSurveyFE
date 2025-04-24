@@ -26,6 +26,9 @@ import routes from "routes.js";
 import SurveyPreview from "components/WebPages/SurveyPreview";
 import SurveyPreviewRespondents from "components/WebPages/SurveyPreviewRespondents";
 import WebsiteNavbar from "components/Navbars/WebsiteNavbar";
+import SurveyPreviewProduct from "components/WebPages/SurveyPreviewProduct";
+import SurveyResultUser from '../components/WebPages/SurveyResultUser';
+import SurveyResultSubjectRespondentResponse from "components/WebPages/SurveyResultSubjectRespondentResponse";
 
 const WebsiteLayout = (props) => {
     const mainContent = React.useRef(null);
@@ -90,8 +93,12 @@ const WebsiteLayout = (props) => {
                         <Routes>
                             {getRoutes(routes)}
 
+                            <Route exact path="/survey-preview/:id" element={<SurveyPreviewProduct />} />
                             <Route exact path="/survey-self/:id/:subjectId" element={<SurveyPreview />} />
                             <Route exact path="/survey-respondent/:id/:subjectId/:respondentId" element={<SurveyPreviewRespondents />} />
+
+                            <Route exact path="/survey-result-user/:id/:subjectId" element={<SurveyResultSubjectRespondentResponse />} />
+                            <Route exact path="/survey-analysis/:id/:subjectId" element={<SurveyResultUser />} />
 
                             <Route path="*" element={<Navigate to="/website/login" replace />} />
                         </Routes>

@@ -140,7 +140,7 @@ const SurveyDetailsArabic = () => {
                             })}
                         </Card>
                         <Card className="d-flex flex-row justify-content-center py-3">
-                                <Link to={`/website/survey-self/${id}`} target="_blank" className="btn btn-success px-4 me-2">Preview for Subject</Link>
+                                <Link to={`/website/survey-preview/${id}`} target="_blank" className="btn btn-success px-4 me-2">Preview for Subject</Link>
                                 {/* <Link to={`/survey-respondent/${id}`} target="_blank" className="btn btn-success px-4 me-2">Preview for Respondent</Link> */}
                                 <Link to={`/admin/survey-share-email/${id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
                                 <Link to={`/admin/share-by-sms/${id}`} className="btn btn-info px-4">Share By SMS</Link>
