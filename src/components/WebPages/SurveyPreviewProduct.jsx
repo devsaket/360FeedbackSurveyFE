@@ -8,7 +8,7 @@ import LikertScale from '../LikertScale/LikertScale';
 const SurveyPreviewProduct = () => {
     const { id } = useParams();
     let count = 0;
-    
+
     const [surveyDe, setSurveyDe] = useState([]);
     const [Trait, setTrait] = useState([]);
     const [Questions, setQuestions] = useState([]);
@@ -65,19 +65,25 @@ const SurveyPreviewProduct = () => {
     return (
         <>
             <div className="container my-3 justify-content-end bg-light-50">
-                {!isSubmitted?Array.isArray(surveyDe) && surveyDe?.map((survey) => {
+                {!isSubmitted ? Array.isArray(surveyDe) && surveyDe?.map((survey) => {
                     return (
                         <>
                             <div className="row border-bottom" key={survey._id}>
-                                <div className="col-12 d-flex flex-row justify-content-between align-items-center my-3 border-bottom border-3">
+                                <div className="col-12 d-flex flex-row justify-content-between align-items-center mt-3 border-bottom border-3 bg-white">
                                     <h1 className="text-dark">{survey.surveyName}</h1>
+
+                                    <div>
+                                    <Link to={`/website/survey-user-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
+                                    {/* <Link to={`/admin/survey-share-by-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link> */}
+                                    <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">Survey Result</Link>
+                                    </div>
                                 </div>
 
-                                <div className="col-12 mt-4">
+                                <div className="col-12 bg-white shadow py-2">
                                     <p className='ps-3'>{survey.surveyDescription}</p>
                                 </div>
 
-                                <form onSubmit={()=>{}}>
+                                <form onSubmit={() => { }}>
                                     <div className="col-12">
                                         {Array.isArray(survey.traits) && survey.traits.map(traitId => {
                                             const trait = Trait.find(t => t._id === traitId);
@@ -88,20 +94,20 @@ const SurveyPreviewProduct = () => {
                                                         {/* <p>{trait.traitDescription}</p> */}
 
                                                         {Array.isArray(survey.questions) && survey.questions.map((questionId) => {
-                                                                const question = Questions.find(question => question._id === questionId && question.trait._id === traitId);
-                                                                if (question) {
-                                                                    count++;
-                                                                    return (
-                                                                        <>
-                                                                            <div className='bg-body-secondary my-3 py-3 px-5' key={question._id}>
-                                                                                <h3 className='fw-semibold'>Question {count}</h3>
-                                                                                <p className='ps-5'>{ question.question }</p>
-                                                                                <LikertScale questionId={question._id} onResponseChange={()=>{}} />
-                                                                            </div>
-                                                                        </>
-                                                                    )
-                                                                }
-                                                            })}
+                                                            const question = Questions.find(question => question._id === questionId && question.trait._id === traitId);
+                                                            if (question) {
+                                                                count++;
+                                                                return (
+                                                                    <>
+                                                                        <div className='bg-body-secondary my-3 py-3 px-5' key={question._id}>
+                                                                            <h3 className='fw-semibold'>Question {count}</h3>
+                                                                            <p className='ps-5'>{question.question}</p>
+                                                                            <LikertScale questionId={question._id} onResponseChange={() => { }} />
+                                                                        </div>
+                                                                    </>
+                                                                )
+                                                            }
+                                                        })}
                                                     </div>
                                                 );
                                             }
@@ -115,12 +121,12 @@ const SurveyPreviewProduct = () => {
                         </>
                     )
                 })
-                :<>
-                    <div className='d-flex justify-content-center'>
-                        <p className='display-4 text-center w-50'>Submission is Successful and THank you for Participation</p>
-                    </div>
-                </>
-            }
+                    : <>
+                        <div className='d-flex justify-content-center'>
+                            <p className='display-4 text-center w-50'>Submission is Successful and THank you for Participation</p>
+                        </div>
+                    </>
+                }
             </div>
         </>
     )

@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.4
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 // reactstrap components
@@ -29,6 +12,11 @@ import WebsiteNavbar from "components/Navbars/WebsiteNavbar";
 import SurveyPreviewProduct from "components/WebPages/SurveyPreviewProduct";
 import SurveyResultUser from '../components/WebPages/SurveyResultUser';
 import SurveyResultSubjectRespondentResponse from "components/WebPages/SurveyResultSubjectRespondentResponse";
+import UserLogin from "components/WebPages/UserLogin";
+import UserRegister from "components/WebPages/UserRegister";
+import ProtectedRole2 from '../ProtectedRole2';
+import SurveyUserShareEmail from "components/WebPages/SurveyUserShareEmail";
+import SurveyResultSubjectList from "components/WebPages/SurveyResultSubjectList";
 
 const WebsiteLayout = (props) => {
     const mainContent = React.useRef(null);
@@ -93,12 +81,17 @@ const WebsiteLayout = (props) => {
                         <Routes>
                             {getRoutes(routes)}
 
-                            <Route exact path="/survey-preview/:id" element={<SurveyPreviewProduct />} />
+                            <Route exact path="/login" element={<UserLogin />} />
+                            <Route exact path="/register" element={<UserRegister/>} />
+                            <Route element={<ProtectedRole2 />}>
+                                <Route exact path="/survey-preview/:id" element={<SurveyPreviewProduct />} />
+                                <Route exact path="/survey-user-share-email/:id" element={<SurveyUserShareEmail />} />
+                                <Route exact path="/survey-result-user/:surveyId" element={<SurveyResultSubjectList />} />
+                                <Route exact path="/survey-result-user/:id/:subjectId" element={<SurveyResultSubjectRespondentResponse />} />
+                                <Route exact path="/survey-analysis/:id/:subjectId" element={<SurveyResultUser />} />
+                            </Route>
                             <Route exact path="/survey-self/:id/:subjectId" element={<SurveyPreview />} />
                             <Route exact path="/survey-respondent/:id/:subjectId/:respondentId" element={<SurveyPreviewRespondents />} />
-
-                            <Route exact path="/survey-result-user/:id/:subjectId" element={<SurveyResultSubjectRespondentResponse />} />
-                            <Route exact path="/survey-analysis/:id/:subjectId" element={<SurveyResultUser />} />
 
                             <Route path="*" element={<Navigate to="/website/login" replace />} />
                         </Routes>
