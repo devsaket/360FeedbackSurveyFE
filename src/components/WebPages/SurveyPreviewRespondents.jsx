@@ -15,6 +15,7 @@ const SurveyPreviewRespondents = () => {
 
     const [responses, setResponses] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [answers, setAnswers] = useState({});
 
     useEffect(() => {
         const fetchSurveyData = async () => {
@@ -46,7 +47,24 @@ const SurveyPreviewRespondents = () => {
             }
             return newResponses;
         });
+
+        setAnswers(prev => ({ ...prev, [questionId]: answer }));
     };
+
+    const allQuestionIds = React.useMemo(() => {
+            if (!Array.isArray(surveyDe) || !Trait.length || !Questions.length) return [];
+            return surveyDe.flatMap(survey =>
+                survey.questions.filter(qId => {
+                    const q = Questions.find(q => q._id === qId);
+                    // keep only questions whose trait is in this survey’s traits
+                    return q && survey.traits.includes(q.trait._id);
+                })
+            );
+        }, [surveyDe, Trait, Questions]);
+    
+        const canSubmit = allQuestionIds.length > 0 &&
+            allQuestionIds.every(id => answers[id] !== undefined);
+            // allQuestionIds.every(id => (answers[id] ?? -1) > 0);  //If you want to exclude “Unable to rate” (answer 0) from counting as filled
 
     const handleRespondentResponseSubmit = (e) => {
         e.preventDefault();
@@ -113,7 +131,7 @@ const SurveyPreviewRespondents = () => {
                                         })}
                                     </div>
                                     <div className="col-12 text-center">
-                                        <button type="submit" className='btn btn-primary'>Submit</button>
+                                        <button type="submit" className='btn btn-primary' disabled={!canSubmit}>Submit</button>
                                     </div>
                                 </form>
                             </div>
