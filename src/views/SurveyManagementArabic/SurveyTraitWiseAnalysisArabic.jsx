@@ -182,7 +182,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
                                             layout="vertical"
                                             margin={{ top: 20, right: 30, left: 80, bottom: 20 }}
                                         >
-                                            <XAxis type="number" domain={[0, 8]} tickCount={8} orientation='top' tick={<CustomXAxisTick />} />
+                                            <XAxis type="number" domain={[0, 7]} tickCount={7} orientation='top' tick={<CustomXAxisTick />} />
                                             <YAxis type="category" dataKey="category" mirror={true} />
                                             <Tooltip wrapperStyle={{ transform: 'scaleX(-1)' }} />
                                             <Bar dataKey="value" label={{ position: 'right' }}>

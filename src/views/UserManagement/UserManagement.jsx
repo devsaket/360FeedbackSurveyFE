@@ -80,7 +80,7 @@ const UserManagement = () => {
 
     // Fetch trait Data
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BACKEND_URL + '/user/')
+        axios.get(process.env.REACT_APP_BACKEND_URL + '/user/all')
             .then(res => {
                 setUser(res.data);
             })
@@ -130,7 +130,7 @@ const UserManagement = () => {
     };
 
     const getUser = () => {
-        axios.get(process.env.REACT_APP_BACKEND_URL + '/user/')
+        axios.get(process.env.REACT_APP_BACKEND_URL + '/user/all')
             .then(res => {
                 setUser(res.data);
             })

@@ -22,6 +22,10 @@ var surveyRespondentQuestionData = [];
 const SurveyUserShareEmail = () => {
     const { id } = useParams();
     const [copiedText, setCopiedText] = useState();
+
+    const [userId, setUserId] = useState(null);
+    const [token, setToken] = useState(null);
+
     const [modal, setModal] = useState(false);
     const toggle = () => setModal(!modal);
 
@@ -53,18 +57,26 @@ const SurveyUserShareEmail = () => {
     const [respondentsData, setRespondentsData] = useState({});
     const [receivedRespondentsData, setReceivedRespondentsData] = useState([]);
     const [subjectId, setSubjectId] = useState([]);
+    const [shareStep, setShareStep] = useState('1');
 
-    // Fetch Category Data
     useEffect(() => {
+        setUserId(localStorage.getItem('userId'));          // or pull from parsed user object
+        setToken(localStorage.getItem('authUserToken'));          // or pull from parsed user object
+    }, []);
+
+
+    useEffect(() => {
+        if (!userId || !token) return;
+
         getCategory();
         getEmailTemplate();
-    
+
         const fetchSurveyData = async () => {
             const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey?id=${id}`);
             setSurveyDe(surveyResponse.data)
             initializeRespondents(surveyResponse.data);
         }
-    
+
         fetchSurveyData();
     }, [id]);
 
@@ -151,48 +163,48 @@ const SurveyUserShareEmail = () => {
         // Handle form submission logic here
         users.push(Object.entries(respondentsData) // Convert object to array of [key, value] pairs
             .flatMap(([category, users]) => // For each [subject, users] pair, map users to new format
-            Array.isArray(users) && users.map(user => ({ ...user, category })) // Spread user object and add subject
-        ));
+                Array.isArray(users) && users.map(user => ({ ...user, category })) // Spread user object and add subject
+            ));
 
         console.log(users);
-        
+
         Array.isArray(users) && users.map((respondentData, index) => {
-            const respondentsArrayData = {surveyId: id, subjectId: subjectId, respondent: respondentData};
+            const respondentsArrayData = { surveyId: id, subjectId: subjectId, respondent: respondentData };
             console.log(respondentsArrayData);
-            
+
             axios.post(process.env.REACT_APP_BACKEND_URL + '/survey-responses/add-respondent', respondentsArrayData)
-            .then(res => {
-                toast.success('Respondent Data Stored successfully!');
-                setIsDisabled(true);
-                console.log(res.data);
+                .then(res => {
+                    toast.success('Respondent Data Stored successfully!');
+                    setIsDisabled(true);
+                    console.log(res.data);
 
-                Array.isArray(res.data.subject.respondent) && res.data.subject.respondent.map((resdata)=>{
-                    const resEmailData = {surveyId: id,subjectId: res.data.subjectId, respondentId: resdata._id, name:resdata.respondentName, email: resdata.respondentEmail, subject: respondentSubject, message: respondentMessage }
-                    console.log(resEmailData);
+                    Array.isArray(res.data.subject.respondent) && res.data.subject.respondent.map((resdata) => {
+                        const resEmailData = { surveyId: id, subjectId: res.data.subjectId, respondentId: resdata._id, name: resdata.respondentName, email: resdata.respondentEmail, subject: respondentSubject, message: respondentMessage }
+                        console.log(resEmailData);
 
-                    axios.post(process.env.REACT_APP_BACKEND_URL + '/share-survey-respondent-by-email', resEmailData)
-                    .then(res => {
-                        toast.success(`Email sent successfully to ${resEmailData.respondentName} !`);
-                    }).catch(error => {
-                        toast.warn('Failed to send email');
+                        axios.post(process.env.REACT_APP_BACKEND_URL + '/share-survey-respondent-by-email', resEmailData)
+                            .then(res => {
+                                toast.success(`Email sent successfully to ${resEmailData.respondentName} !`);
+                            }).catch(error => {
+                                toast.warn('Failed to send email');
+                            })
                     })
                 })
-            })
-            .catch(error => {
-                toast.warn('Failed to store Respondent Data');
-                console.log(error)
-            })
+                .catch(error => {
+                    toast.warn('Failed to store Respondent Data');
+                    console.log(error)
+                })
         })
 
         // const respondentsArrayData = {surveyId: id, respondents: users};
         // console.log(respondentsArrayData);
-        
+
         // axios.put(process.env.REACT_APP_BACKEND_URL + '/survey-responses/respondents', respondentsArrayData)
         // .then(res => {
         //     toast.success('Subject Data Stored successfully!');
         //     setIsDisabled(true);
         //     console.log(respondentsArrayData);
-                        
+
         //     users.map((respondentData, index) => {
         //         const surveyShareData = { surveyId: id, name: respondentData.respondentName, email: respondentData.respondentEmail, category: respondentData.category };
 
@@ -208,7 +220,7 @@ const SurveyUserShareEmail = () => {
         // .catch(error => {
         //     toast.warn('Failed to send email');
         // })
-            
+
     };
 
 
@@ -228,6 +240,14 @@ const SurveyUserShareEmail = () => {
                 toast.success('Subject Data Stored successfully!');
                 setSubjectId(res.data.subjectId)
                 setIsDisabled(true);
+                setShareStep("2");
+
+                // tie subject → user.surveys
+                axios.post(
+                    `${process.env.REACT_APP_BACKEND_URL}/user/survey/subject`,
+                    { surveyId: id, subjectId },
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
 
                 const emailData = { surveyId: id, subjectName: name.trim(), subjectEmail: recipientEmail.trim(), subject: subject.trim(), message: message.trim(), subjectId: res.data.subjectId }
 
@@ -392,174 +412,181 @@ const SurveyUserShareEmail = () => {
                                 <h3 className="mb-0 fw-bold">Share Survey By Email</h3>
                             </CardHeader>
                         </Card>
-                        <Card className="mt-3 shadow">
-                            <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="">For Subject</h3>
-                            </CardHeader>
-                            <CardBody>
-                                <form onSubmit={handleSendEmail}>
-                                    <label className='form-label'>Subject Name</label>
-                                    <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder='Enter Name' className='form-control' />
-
-                                    <label className='form-label'>Subject's Email Address</label>
-                                    <input type="email" value={recipientEmail} onChange={e => setRecipientEmail(e.target.value)} placeholder='Enter Recipient Email Address' className='form-control' />
-
-                                    <div className="row">
-                                        <div className="col-12">
-                                            <label className='form-label'>Choose an Email Template</label>
-                                            <Select
-                                        value={subjectEmailTemplateOptions.find(option => option.value === chooseEmailTemplate)}
-                                        onChange={e => {
-                                            setchooseEmailTemplate(e.value);
-                                            const selectedTemplate = EmailTemplates.find(template => template._id === e.value);
-                                            if (selectedTemplate) {
-                                                setSubject(selectedTemplate.templateSubject);
-                                                setMessage(selectedTemplate.templateMessage);
-                                            }
-                                        }}
-                                        options={subjectEmailTemplateOptions}
-                                        placeholder="Select Email Template"
-                                        isClearable
-                                        isSearchable
-                                    />
-                                        </div>
-                                        {
-                                            chooseEmailTemplate !== "" ? <>
-                                                <div className="col-12">
-                                                    <label className='form-label'>Email's Subject of Respondent</label>
-                                                    <input className='form-control' type="text" name="subject" placeholder="Respondent Email's Subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
-                                                </div>
-                                                <div className="col-12">
-                                                    <label className='form-label'>Message for Respondent</label>
-                                                    <TextareaAutosize className='form-control' minRows="5" maxRows="10" name="message" placeholder="Message for Respondent" value={message} onChange={(e) => setMessage(e.target.value)}></TextareaAutosize>
-                                                </div>
-                                            </> : <></>
-                                        }
-                                    </div>
-
-                                    <button onClick={handleSendEmail} className='btn btn-primary my-2' disabled={isDisabled}>Send Invitation</button>
-                                </form>
-                            </CardBody>
-                        </Card>
-                        <Card className="mt-3">
-                            {!btnActive ?
-                                <>
-                                    <CardHeader className="d-flex justify-content-between align-items-center">
-                                        <h3 className="">For Respondents</h3>
-                                        {!btnActive ? <button className="btn btn-primary" onClick={() => setBtnActive(true)}>Upload Respondents</button> : <></>}
+                        {
+                            shareStep === "1" ?
+                                <Card className="mt-3 shadow">
+                                    <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
+                                        <h3 className="">For Subject</h3>
                                     </CardHeader>
                                     <CardBody>
-                                        <form onSubmit={handleSubmit}>
-                                        {Array.isArray(surveyDe) && surveyDe[0]?.categories?.map((category, index) => (
-                                        <div key={index} className="mt-4">
-                                            <h5>{Array.isArray(Categories) && Categories.find(cat=> cat._id===category.category)?.categoryName} (Max: {category.maxRespondents})</h5>
-                                            {respondentsData[category.category]?.map((respondent, index) => (
-                                                <div key={index}>
-                                                    <label>Respondent Name</label>
-                                                    <input type="text" className="form-control" value={respondent.respondentName} onChange={e => handleInputChange(category.category, index, 'respondentName', e.target.value)} required />
-                                                    <label>Respondent Email</label>
-                                                    <input type="email" className="form-control" value={respondent.respondentEmail} onChange={e => handleInputChange(category.category, index, 'respondentEmail', e.target.value)} required />
+                                        <form onSubmit={handleSendEmail}>
+                                            <label className='form-label'>Subject Name</label>
+                                            <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder='Enter Name' className='form-control' />
+
+                                            <label className='form-label'>Subject's Email Address</label>
+                                            <input type="email" value={recipientEmail} onChange={e => setRecipientEmail(e.target.value)} placeholder='Enter Recipient Email Address' className='form-control' />
+
+                                            <div className="row">
+                                                <div className="col-12">
+                                                    <label className='form-label'>Choose an Email Template</label>
+                                                    <Select
+                                                        value={subjectEmailTemplateOptions.find(option => option.value === chooseEmailTemplate)}
+                                                        onChange={e => {
+                                                            setchooseEmailTemplate(e.value);
+                                                            const selectedTemplate = EmailTemplates.find(template => template._id === e.value);
+                                                            if (selectedTemplate) {
+                                                                setSubject(selectedTemplate.templateSubject);
+                                                                setMessage(selectedTemplate.templateMessage);
+                                                            }
+                                                        }}
+                                                        options={subjectEmailTemplateOptions}
+                                                        placeholder="Select Email Template"
+                                                        isClearable
+                                                        isSearchable
+                                                    />
                                                 </div>
-                                            ))}
-                                            {/* <Button color="success" onClick={() => handleAddUser(category.category)}>Add Respondent</Button> */}
-                                        </div>
-                                    ))}
-                                    <label className='form-label mt-2'>Choose Email Template</label>
-                                    <Select
-                                        value={respondentEmailTemplateOptions.find(option => option.value === respondentChooseEmailTemplate)}
-                                        onChange={e => {
-                                            setchooseRespondentEmailTemplate(e.value);
-                                            const selectedTemplate = EmailTemplates.find(template => template._id === e.value);
-                                            if (selectedTemplate) {
-                                                setRespondentSubject(selectedTemplate.templateSubject);
-                                                setRespondentMessage(selectedTemplate.templateMessage);
-                                            }
-                                        }}
-                                        options={respondentEmailTemplateOptions}
-                                        placeholder="Select Email Template"
-                                        isClearable
-                                        isSearchable
-                                    />
-                                    <label className='form-label mt-2'>Email Subject</label>
-                                    <TextareaAutosize className="form-control" minRows={3} value={respondentSubject} onChange={e => setRespondentSubject(e.target.value)} placeholder='Enter Email Subject' required />
-                                    <label className='form-label mt-2'>Email Message</label>
-                                    <TextareaAutosize className="form-control" minRows={5} value={respondentMessage} onChange={e => setRespondentMessage(e.target.value)} placeholder='Enter Email Message' required />
-                                    <Button type='submit' color="primary" className="mt-4">Send Email</Button>
-                                </form>
-                                    </CardBody></> : <></>
-                            }
-                        </Card>
+                                                {
+                                                    chooseEmailTemplate !== "" ? <>
+                                                        <div className="col-12">
+                                                            <label className='form-label'>Email's Subject of Respondent</label>
+                                                            <input className='form-control' type="text" name="subject" placeholder="Respondent Email's Subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
+                                                        </div>
+                                                        <div className="col-12">
+                                                            <label className='form-label'>Message for Respondent</label>
+                                                            <TextareaAutosize className='form-control' minRows="5" maxRows="10" name="message" placeholder="Message for Respondent" value={message} onChange={(e) => setMessage(e.target.value)}></TextareaAutosize>
+                                                        </div>
+                                                    </> : <></>
+                                                }
+                                            </div>
 
-                        <Card className="mt-3">
-                            {btnActive ?
-                                <>
-                                    <CardHeader className="d-flex justify-content-between align-items-center">
-                                        <h3 className="" >Upload Respondents</h3>
-                                        {btnActive ? <div><Button className="btn btn-primary" onClick={downloadTemplate}>Download Upload Respondent Template</Button> <Button className="btn btn-primary" onClick={() => setBtnActive(false)}>Go Back to Respondents</Button> </div>: <></>}
-                                    </CardHeader>
-                                    <CardBody>
-                                        <form onSubmit={handleFileRespondentSubmit}>
-                                            <input type="file" onChange={handleFileRespondentUpload} />
-                                            {/* <button type='submit'>Upload Fetched Data</button> */}
+                                            <button onClick={handleSendEmail} className='btn btn-primary my-2' disabled={isDisabled}>Send Invitation</button>
+                                        </form>
+                                    </CardBody>
+                                </Card> : <></>
+                        }
+                        {
+                            shareStep === "2" ? <>
+                                <Card className="mt-3">
+                                    {!btnActive ?
+                                        <>
+                                            <CardHeader className="d-flex justify-content-between align-items-center">
+                                                <h3 className="">For Respondents</h3>
+                                                {!btnActive ? <button className="btn btn-primary" onClick={() => setBtnActive(true)}>Upload Respondents</button> : <></>}
+                                            </CardHeader>
+                                            <CardBody>
+                                                <form onSubmit={handleSubmit}>
+                                                    {Array.isArray(surveyDe) && surveyDe[0]?.categories?.map((category, index) => (
+                                                        <div key={index} className="mt-4">
+                                                            <h5>{Array.isArray(Categories) && Categories.find(cat => cat._id === category.category)?.categoryName} (Max: {category.maxRespondents})</h5>
+                                                            {respondentsData[category.category]?.map((respondent, index) => (
+                                                                <div key={index}>
+                                                                    <label>Respondent Name</label>
+                                                                    <input type="text" className="form-control" value={respondent.respondentName} onChange={e => handleInputChange(category.category, index, 'respondentName', e.target.value)} required />
+                                                                    <label>Respondent Email</label>
+                                                                    <input type="email" className="form-control" value={respondent.respondentEmail} onChange={e => handleInputChange(category.category, index, 'respondentEmail', e.target.value)} required />
+                                                                </div>
+                                                            ))}
+                                                            {/* <Button color="success" onClick={() => handleAddUser(category.category)}>Add Respondent</Button> */}
+                                                        </div>
+                                                    ))}
+                                                    <label className='form-label mt-2'>Choose Email Template</label>
+                                                    <Select
+                                                        value={respondentEmailTemplateOptions.find(option => option.value === respondentChooseEmailTemplate)}
+                                                        onChange={e => {
+                                                            setchooseRespondentEmailTemplate(e.value);
+                                                            const selectedTemplate = EmailTemplates.find(template => template._id === e.value);
+                                                            if (selectedTemplate) {
+                                                                setRespondentSubject(selectedTemplate.templateSubject);
+                                                                setRespondentMessage(selectedTemplate.templateMessage);
+                                                            }
+                                                        }}
+                                                        options={respondentEmailTemplateOptions}
+                                                        placeholder="Select Email Template"
+                                                        isClearable
+                                                        isSearchable
+                                                    />
+                                                    <label className='form-label mt-2'>Email Subject</label>
+                                                    <TextareaAutosize className="form-control" minRows={3} value={respondentSubject} onChange={e => setRespondentSubject(e.target.value)} placeholder='Enter Email Subject' required />
+                                                    <label className='form-label mt-2'>Email Message</label>
+                                                    <TextareaAutosize className="form-control" minRows={5} value={respondentMessage} onChange={e => setRespondentMessage(e.target.value)} placeholder='Enter Email Message' required />
+                                                    <Button type='submit' color="primary" className="mt-4">Send Email</Button>
+                                                </form>
+                                            </CardBody></> : <></>
+                                    }
+                                </Card>
 
-                                            {/* {data && (
+                                <Card className="mt-3">
+                                    {btnActive ?
+                                        <>
+                                            <CardHeader className="d-flex justify-content-between align-items-center">
+                                                <h3 className="" >Upload Respondents</h3>
+                                                {btnActive ? <div><Button className="btn btn-primary" onClick={downloadTemplate}>Download Upload Respondent Template</Button> <Button className="btn btn-primary" onClick={() => setBtnActive(false)}>Go Back to Respondents</Button> </div> : <></>}
+                                            </CardHeader>
+                                            <CardBody>
+                                                <form onSubmit={handleFileRespondentSubmit}>
+                                                    <input type="file" onChange={handleFileRespondentUpload} />
+                                                    {/* <button type='submit'>Upload Fetched Data</button> */}
+
+                                                    {/* {data && (
                                                 <div>
                                                     <h2>Imported Data:</h2>
                                                     <pre>{JSON.stringify(data, null, 2)}</pre>
                                                 </div>
                                             )} */}
-                                            {btnActive ? Array.isArray(updatedUsers) && updatedUsers.map((user, index) => (
-                                                <div key={index} className='col-12'>
-                                                    <h4 className='mt-3'>Respondent {index + 1}</h4>
-                                                    <div className="row">
-                                                        <div className="col-3">
-                                                            {/* <label className='form-label'>Name</label> */}
-                                                            <input className='form-control' type="text" name="name" placeholder="Respondent Name" value={user.respondentName} onChange={(e) => handleInputChange(index, e.target.value)} />
-                                                        </div>
-                                                        <div className="col-3">
-                                                            {/* <label className='form-label'>Email Address</label> */}
-                                                            <input className='form-control' type="email" name="email" placeholder="Respondent Email Address" value={user.respondentEmail} onChange={(e) => handleInputChange(index, e.target.value)} />
-                                                        </div>
-                                                        <div className="col-3">
-                                                            {/* <label className='form-label'>Category</label> */}
-                                                            <Select options={options} value={options.find(option => option.value === user.category)} onChange={(option) => handleInputChange(index, { target: { name: 'category', value: option.value } })} />
-                                                        </div>
-                                                    </div>
-
-                                                    {/* <hr className='my-3' /> */}
-                                                </div>
-                                            )) : <></>}
-
-                                            {btnActive ? <>
-                                                <div className="row mt-4">
-                                                    <div className="col-9">
-                                                        <label className='form-label'>Choose an Email Template</label>
-                                                        <Select options={respondentEmailTemplateOptions} value={respondentChooseEmailTemplate} onChange={(option) => { handleRespondentSelectedEmailTemplate(option) }} />
-                                                    </div>
-                                                    {
-                                                        respondentChooseEmailTemplate !== "" ? <>
-                                                            <div className="col-9">
-                                                                <label className='form-label'>Email's Subject of Respondent</label>
-                                                                <input className='form-control' type="text" name="subject" placeholder="Respondent Email's Subject" value={respondentSubject} onChange={(e) => setRespondentSubject(e.target.value)} />
+                                                    {btnActive ? Array.isArray(updatedUsers) && updatedUsers.map((user, index) => (
+                                                        <div key={index} className='col-12'>
+                                                            <h4 className='mt-3'>Respondent {index + 1}</h4>
+                                                            <div className="row">
+                                                                <div className="col-3">
+                                                                    {/* <label className='form-label'>Name</label> */}
+                                                                    <input className='form-control' type="text" name="name" placeholder="Respondent Name" value={user.respondentName} onChange={(e) => handleInputChange(index, e.target.value)} />
+                                                                </div>
+                                                                <div className="col-3">
+                                                                    {/* <label className='form-label'>Email Address</label> */}
+                                                                    <input className='form-control' type="email" name="email" placeholder="Respondent Email Address" value={user.respondentEmail} onChange={(e) => handleInputChange(index, e.target.value)} />
+                                                                </div>
+                                                                <div className="col-3">
+                                                                    {/* <label className='form-label'>Category</label> */}
+                                                                    <Select options={options} value={options.find(option => option.value === user.category)} onChange={(option) => handleInputChange(index, { target: { name: 'category', value: option.value } })} />
+                                                                </div>
                                                             </div>
-                                                            <div className="col-9">
-                                                                <label className='form-label'>Message for Respondent</label>
-                                                                <TextareaAutosize className='form-control' minRows="5" maxRows="10" name="message" placeholder="Message for Respondent" value={respondentMessage} onChange={(e) => setRespondentMessage(e.target.value)}></TextareaAutosize>
-                                                            </div>
-                                                        </> : <></>
-                                                    }
-                                                </div>
 
-                                                <div className="row">
-                                                    <div className="col-9 text-center">
-                                                        <button className='btn btn-primary my-2 px-5' type="submit">Send Email to Respondents</button>
-                                                    </div>
-                                                </div>
-                                            </> : <></>}
-                                        </form>
-                                    </CardBody></> : <></>
-                            }
-                        </Card>
+                                                            {/* <hr className='my-3' /> */}
+                                                        </div>
+                                                    )) : <></>}
+
+                                                    {btnActive ? <>
+                                                        <div className="row mt-4">
+                                                            <div className="col-9">
+                                                                <label className='form-label'>Choose an Email Template</label>
+                                                                <Select options={respondentEmailTemplateOptions} value={respondentChooseEmailTemplate} onChange={(option) => { handleRespondentSelectedEmailTemplate(option) }} />
+                                                            </div>
+                                                            {
+                                                                respondentChooseEmailTemplate !== "" ? <>
+                                                                    <div className="col-9">
+                                                                        <label className='form-label'>Email's Subject of Respondent</label>
+                                                                        <input className='form-control' type="text" name="subject" placeholder="Respondent Email's Subject" value={respondentSubject} onChange={(e) => setRespondentSubject(e.target.value)} />
+                                                                    </div>
+                                                                    <div className="col-9">
+                                                                        <label className='form-label'>Message for Respondent</label>
+                                                                        <TextareaAutosize className='form-control' minRows="5" maxRows="10" name="message" placeholder="Message for Respondent" value={respondentMessage} onChange={(e) => setRespondentMessage(e.target.value)}></TextareaAutosize>
+                                                                    </div>
+                                                                </> : <></>
+                                                            }
+                                                        </div>
+
+                                                        <div className="row">
+                                                            <div className="col-9 text-center">
+                                                                <button className='btn btn-primary my-2 px-5' type="submit">Send Email to Respondents</button>
+                                                            </div>
+                                                        </div>
+                                                    </> : <></>}
+                                                </form>
+                                            </CardBody></> : <></>
+                                    }
+                                </Card>
+                            </> : <></>
+                        }
                     </div>
                 </Row>
             </Container>

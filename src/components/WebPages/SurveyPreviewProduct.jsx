@@ -16,6 +16,8 @@ const SurveyPreviewProduct = () => {
     const [responses, setResponses] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
+    const [btnActive, setBtnActive] = useState(true)
+
     useEffect(() => {
         const fetchSurveyData = async () => {
 
@@ -74,7 +76,7 @@ const SurveyPreviewProduct = () => {
 
                                     <div>
                                     <Link to={`/website/survey-user-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
-                                    {/* <Link to={`/admin/survey-share-by-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link> */}
+                                    <Link to={`/website/survey-user-share-email/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link>
                                     <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">Survey Result</Link>
                                     </div>
                                 </div>
@@ -113,9 +115,9 @@ const SurveyPreviewProduct = () => {
                                             }
                                         })}
                                     </div>
-                                    <div className="col-12 text-center">
+                                    {/* <div className="col-12 text-center">
                                         <button type="submit" className='btn btn-primary' disabled>Submit</button>
-                                    </div>
+                                    </div> */}
                                 </form>
                             </div>
                         </>

@@ -53,6 +53,7 @@ const SurveyShareByEmail = () => {
     const [respondentsData, setRespondentsData] = useState({});
     const [receivedRespondentsData, setReceivedRespondentsData] = useState([]);
     const [subjectId, setSubjectId] = useState([]);
+    const [shareStep, setShareStep] = useState("2");
 
     // Fetch Category Data
     useEffect(() => {
@@ -228,6 +229,7 @@ const SurveyShareByEmail = () => {
                 toast.success('Subject Data Stored successfully!');
                 setSubjectId(res.data.subjectId)
                 setIsDisabled(true);
+                setShareStep("2");
 
                 const emailData = { surveyId: id, subjectName: name.trim(), subjectEmail: recipientEmail.trim(), subject: subject.trim(), message: message.trim(), subjectId: res.data.subjectId }
 
@@ -392,7 +394,9 @@ const SurveyShareByEmail = () => {
                                 <h3 className="mb-0 fw-bold">Share Survey By Email</h3>
                             </CardHeader>
                         </Card>
-                        <Card className="mt-3 shadow">
+                        {
+                            shareStep ==="1"?<>
+                                <Card className="mt-3 shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
                                 <h3 className="">For Subject</h3>
                             </CardHeader>
@@ -441,7 +445,12 @@ const SurveyShareByEmail = () => {
                                 </form>
                             </CardBody>
                         </Card>
-                        <Card className="mt-3">
+                            </>:<></>
+                        }
+                        
+                        {
+                            shareStep === "2" ? <>
+                                <Card className="mt-3">
                             {!btnActive ?
                                 <>
                                     <CardHeader className="d-flex justify-content-between align-items-center">
@@ -560,6 +569,8 @@ const SurveyShareByEmail = () => {
                                     </CardBody></> : <></>
                             }
                         </Card>
+                            </> : <></>
+                        }
                     </div>
                 </Row>
             </Container>

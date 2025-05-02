@@ -29,12 +29,28 @@ const UserLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(process.env.REACT_APP_BACKEND_URL + "/user/login", formData);
-      const { token, role } = response.data;
+      const payload = { ...formData, surveyId: localStorage.getItem("postAuthSurveyId") }
+      const response = await axios.post(process.env.REACT_APP_BACKEND_URL + "/user/login", payload);
+      const { token, role, userId } = response.data;
 
       // Save the token in localStorage
       localStorage.setItem("authUserToken", token);
       localStorage.setItem("userRole", role);
+      localStorage.setItem("userId", userId);
+
+      // 1️⃣ add the survey to the user profile if we captured one
+      const surveyId = localStorage.getItem("postAuthSurveyId");
+      if (surveyId) {
+        try {
+          await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}/user/survey`,
+            { surveyId },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+        } catch (err) {
+          console.error("Could not register survey on user:", err);
+        }
+      }
 
       toast.success("Login successful!");
 
@@ -43,7 +59,7 @@ const UserLogin = () => {
 
       // B. Fallback: maybe the browser refreshed, use localStorage
       if (!redirectPath) {
-        redirectPath = localStorage.getItem("postAuthRedirect") || "/admin/index";
+        redirectPath = "/website/survey-user-dashboard";
       }
 
       // clean-up so it doesn’t affect future logins

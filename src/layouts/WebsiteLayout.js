@@ -17,6 +17,7 @@ import UserRegister from "components/WebPages/UserRegister";
 import ProtectedRole2 from '../ProtectedRole2';
 import SurveyUserShareEmail from "components/WebPages/SurveyUserShareEmail";
 import SurveyResultSubjectList from "components/WebPages/SurveyResultSubjectList";
+import SurveyUserDashboard from "components/WebPages/SurveyUserDashboard";
 
 const WebsiteLayout = (props) => {
     const mainContent = React.useRef(null);
@@ -84,14 +85,16 @@ const WebsiteLayout = (props) => {
                             <Route exact path="/login" element={<UserLogin />} />
                             <Route exact path="/register" element={<UserRegister/>} />
                             <Route element={<ProtectedRole2 />}>
+                                <Route exact path="/survey-user-dashboard" element={<SurveyUserDashboard />} />
                                 <Route exact path="/survey-preview/:id" element={<SurveyPreviewProduct />} />
                                 <Route exact path="/survey-user-share-email/:id" element={<SurveyUserShareEmail />} />
                                 <Route exact path="/survey-result-user/:surveyId" element={<SurveyResultSubjectList />} />
                                 <Route exact path="/survey-result-user/:id/:subjectId" element={<SurveyResultSubjectRespondentResponse />} />
-                                <Route exact path="/survey-analysis/:id/:subjectId" element={<SurveyResultUser />} />
+                                
                             </Route>
                             <Route exact path="/survey-self/:id/:subjectId" element={<SurveyPreview />} />
                             <Route exact path="/survey-respondent/:id/:subjectId/:respondentId" element={<SurveyPreviewRespondents />} />
+                            <Route exact path="/survey-analysis/:id/:subjectId" element={<SurveyResultUser />} />
 
                             <Route path="*" element={<Navigate to="/website/login" replace />} />
                         </Routes>

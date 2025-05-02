@@ -1,30 +1,44 @@
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
-
-// reactstrap components
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    Container,
-    Row, Button
-} from "reactstrap";
-// core components
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import {Card, CardHeader, CardBody, Container, Row, Button, Table } from "reactstrap";
 import Header from "components/Headers/Header.js";
 
 const SurveyResultSubjectList = () => {
-
     const { surveyId } = useParams();
+    const navigate = useNavigate();
+
+    const [userId, setUserId] = useState(null);
+    const [token, setToken] = useState(null);
 
     const [questions, setQuestions] = useState([]);
     const [traits, setTraits] = useState([]);
     const [Categories, setCategories] = useState([]);
     const [surveys, setSurveys] = useState([]);
     const [surveyResult, setSurveyResult] = useState([]);
+    const [userSubjectIds, setUserSubjectIds] = useState([]);
 
     useEffect(() => {
+        setUserId(localStorage.getItem('userId'));          // or pull from parsed user object
+        setToken(localStorage.getItem('authUserToken'));          // or pull from parsed user object
+    }, []);
+
+
+    useEffect(() => {
+        if (!userId || !token) return;                                 // shouldn’t happen
+
+        axios
+            .get(`${process.env.REACT_APP_BACKEND_URL}/user/survey/${surveyId}/subjects`
+                , {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            )
+            .then(res => setUserSubjectIds(res.data.subjects ?? []))
+            .catch(err => console.error("user subjects:", err));
+    }, [surveyId]);
+
+    useEffect(() => {
+
         // Fetch traits from the backend
         getTraits();
         // Fetch questions from the backend
@@ -91,6 +105,18 @@ const SurveyResultSubjectList = () => {
     //     exportToExcel(surveyResult, 'Survey_Responses');
     // };
 
+    const filteredResult = useMemo(() => {
+        if (!Array.isArray(surveyResult) || userSubjectIds.length === 0)
+            return [];
+
+        return surveyResult.map(sr => ({
+            ...sr,
+            subject: sr.subject?.filter(sub =>
+                userSubjectIds.some(id => id === sub._id)
+            ),
+        }));
+    }, [surveyResult, userSubjectIds]);
+
     return (
         <>
             <Header />
@@ -102,48 +128,35 @@ const SurveyResultSubjectList = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="mb-0">Survey Result</h3>
-                                {/* <Button onClick={handleDownload}>Download Excel</Button> */}
+                                <h3 className="mb-0">Survey Result - Subjects List</h3>
                             </CardHeader>
                             <CardBody>
-
-                                {Array.isArray(surveyResult) && surveyResult.map((survey, index) => (
-                                    <div key={survey._id}>
-                                        <h2>Survey Name: {survey.surveyId} {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyName}</h2>
-                                        <p>{survey.surveyId} {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyDescription}</p>
-                                        {Array.isArray(survey.subject) && survey.subject.map((subject,m) => (
-                                            <Card key={subject._id} style={{ marginBottom: '20px' }}>
-                                                <h3>
-                                                    Subject {m+1}: {subject.subjectName} ({subject.subjectEmail})  {subject.isFilled? 'Filled': 'Not Filled'}  
-                                                    <Link to={`/website/survey-result-user/${surveyId}/${subject._id}`}>See Results</Link>
-                                                    {/* <Button>See Results</Button> */}
-                                                </h3>
-                                                {/* <h4>Responses:</h4>
-                                                <ul>
-                                                    {subject.responses.map(response => (
-                                                        <li key={response._id}>
-                                                            Question ID: {response.questionId} - {questions.find(s=> s._id===response.questionId)?.question}, Answer: {response.answer}
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                                <h4>Respondents:</h4>
-                                                {subject.respondent.map(respondent => (
-                                                    <div key={respondent._id} style={{ marginLeft: '20px', marginBottom: '10px' }}>
-                                                        <h5>Respondent: {respondent.respondentName} ({respondent.respondentEmail})</h5>
-                                                        <p>Category ID: {respondent.category} - {Categories.find(s=> s._id===respondent.category)?.categoryName}</p>
-                                                        <ul>
-                                                            {respondent.responses.map(response => (
-                                                                <li key={response._id}>
-                                                                    Question ID: {response.questionId} - {questions.find(s=> s._id===response.questionId)?.question}, Answer: {response.answer}
-                                                                </li>
-                                                            ))}
-                                                        </ul>
-                                                    </div>
-                                                ))} */}
-                                            </Card>
+                                <Table className="table-hover header-dash w-100">
+                                    <thead>
+                                        <tr className=''>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
+                                            <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Subject Name</th>
+                                            <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Email</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Status</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className=''>
+                                        {Array.isArray(filteredResult) && filteredResult.map((survey, index) => (
+                                            Array.isArray(survey.subject) && survey.subject.map((subject, m) => (
+                                                <tr key={subject._id} style={{ marginBottom: '20px' }}>
+                                                    <td className='text-center ps-1 align-middle' style={{ width: '8rem' }}>{m + 1}</td>
+                                                    <td>{subject.subjectName}</td>
+                                                    <td>{subject.subjectEmail}</td>
+                                                    <td>{subject.isFilled ? 'Filled' : 'Not Filled'}</td>
+                                                    <td>
+                                                        <Link to={`/website/survey-result-user/${surveyId}/${subject._id}`}>See Results</Link>
+                                                    </td>
+                                                </tr>
+                                            ))
                                         ))}
-                                    </div>
-                                ))}
+                                    </tbody>
+                                </Table>
                             </CardBody>
                         </Card>
                     </div>
