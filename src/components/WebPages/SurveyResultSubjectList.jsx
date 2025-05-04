@@ -25,31 +25,32 @@ const SurveyResultSubjectList = () => {
 
 
     useEffect(() => {
-        if (!userId || !token) return;                                 // shouldn’t happen
+        if (!userId || !token) return;
 
-        axios
-            .get(`${process.env.REACT_APP_BACKEND_URL}/user/survey/${surveyId}/subjects`
-                , {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            )
-            .then(res => setUserSubjectIds(res.data.subjects ?? []))
-            .catch(err => console.error("user subjects:", err));
-    }, [surveyId]);
-
-    useEffect(() => {
-
-        // Fetch traits from the backend
+        getUserSurveySubjects();
         getTraits();
-        // Fetch questions from the backend
         getQuestions();
-
-        // Fetch Categories from the Backend
         getCategories();
-
-        //fetch surveys from the Backend
         getSurveys();
-        // Fetch surveys from the backend
+        getSurveyResult()
+    }, [surveyId, userId, token]);
+
+    const getUserSurveySubjects = ()=>{
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/survey/subjects/${surveyId}`, 
+            {
+                headers: { Authorization: `Bearer ${token}` },
+                params: {userId: userId}
+            },
+        )
+        .then(res => {
+            console.log("User Subjects = ",res.data)
+            setUserSubjectIds(res.data.subjects ?? [])
+        })
+        .catch(err => console.error("user subjects:", err));
+    }
+
+    const getSurveyResult = () => {
+        // Fetch survey Response from the backend
         axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/${surveyId}`)
             .then(response => {
                 setSurveyResult(response.data);
@@ -58,7 +59,7 @@ const SurveyResultSubjectList = () => {
             .catch(error => {
                 console.error('Error fetching surveys:', error);
             });
-    }, [surveyId]);
+    }
 
     const getSurveys = () => {
         // Fetch surveys from the backend

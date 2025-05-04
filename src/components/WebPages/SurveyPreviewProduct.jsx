@@ -75,6 +75,10 @@ const SurveyPreviewProduct = () => {
                                     <h1 className="text-dark">{survey.surveyName}</h1>
 
                                     <div>
+                                    <div className='mx-3'>
+                                                    <button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</button>
+                                                    <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</button>
+                                                </div>
                                     <Link to={`/website/survey-user-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
                                     <Link to={`/website/survey-user-share-email/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link>
                                     <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">Survey Result</Link>
@@ -103,7 +107,7 @@ const SurveyPreviewProduct = () => {
                                                                     <>
                                                                         <div className='bg-body-secondary my-3 py-3 px-5' key={question._id}>
                                                                             <h3 className='fw-semibold'>Question {count}</h3>
-                                                                            <p className='ps-5'>{question.question}</p>
+                                                                            <p className='ps-5'>{btnActive ? question.question : question.questionOthers}</p>
                                                                             <LikertScale questionId={question._id} onResponseChange={() => { }} />
                                                                         </div>
                                                                     </>

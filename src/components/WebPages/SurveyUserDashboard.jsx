@@ -26,31 +26,32 @@ const SurveyUserDashboard = () => {
         if (!userId || !token) return;
 
         const fetchSurveyData = async () => {
-            const userSurveyList = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/surveys/${userId}`,
-                { headers: { Authorization: `Bearer ${token}` } })
-            // console.log("User Survey List = ", userSurveyList.data)
-            setSurveyList(userSurveyList.data)
+            try {
+                /* A. — get both payloads */
+                const { data: userSurveyList } = await axios.get(
+                    `${process.env.REACT_APP_BACKEND_URL}/user/surveys/${userId}`,
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
 
-            const surveyResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey`)
-            // console.log("User Surveys = ", surveyResponse.data)
-            setSurveys(surveyResponse.data)
+                const { data: allSurveys } = await axios.get(
+                    `${process.env.REACT_APP_BACKEND_URL}/survey`
+                );
 
-            /* 🔑 match by id */
-            const ids = userSurveyList.data.map(item => item.surveyId._id);
-            const filtered = surveys.filter(s => ids.includes(s._id));
+                /* B. — build the id list once */
+                const userIds = userSurveyList.map(u => u.surveyId._id.toString());
 
-            setSurveyList(userSurveyList);
-            setSurveys(surveys);          // keep if you still need the full list
-            setUserSurveys(filtered);        // <- use this to render the table
+                /* C. — filter against the *local* `allSurveys`, not state */
+                const matched = allSurveys.filter(s => userIds.includes(s._id.toString()));
 
-            // const userSurveyIds = userSurveyList.data.map(item => item.surveyId._id);
-
-            // const matchedSurveys = surveyResponse.data.filter(s =>
-            //     userSurveyIds.includes(s._id)
-            // );
-
-            // setUserSurveys(matchedSurveys);
-        }
+                /* D. — finally push everything into state */
+                setSurveyList(userSurveyList);   // list with surveyId / subjects
+                setSurveys(allSurveys);          // full catalogue (optional)
+                setUserSurveys(matched);         // rows to render
+            } catch (err) {
+                console.error(err);
+                toast.error('Could not fetch surveys');
+            }
+        };
 
         fetchSurveyData();
     }, [userId, token])
@@ -97,7 +98,7 @@ const SurveyUserDashboard = () => {
                                                             <td className='text-center ps-1 '>
                                                                 <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
                                                                 <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4">Share By SMS</Link>
-                                                                {/* <Link to={`/website/survey-result-user/${el._id}`}><i class="fa-solid fa-square-poll-vertical"></i> Result</Link> */}
+                                                                <Link to={`/website/survey-result-user/${el._id}`}><i class="fa-solid fa-square-poll-vertical"></i> Result</Link>
                                                                 {/* <Link to={`/admin/survey/analysis/${el._id}`}><i class="fa-solid fa-square-poll-vertical"></i> Analysis</Link> */}
                                                             </td>
                                                         </tr>

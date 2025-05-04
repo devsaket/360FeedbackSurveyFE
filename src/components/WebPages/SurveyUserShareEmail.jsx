@@ -98,6 +98,7 @@ const SurveyUserShareEmail = () => {
     const getCategory = () => {
         axios.get(process.env.REACT_APP_BACKEND_URL + '/categoryRoles/')
             .then(res => {
+                console.log("Category", res.data)
                 setCategories(res.data);
             })
             .catch(err => console.log(err));
@@ -106,6 +107,7 @@ const SurveyUserShareEmail = () => {
     const getEmailTemplate = () => {
         axios.get(process.env.REACT_APP_BACKEND_URL + '/emailTemplate/')
             .then(res => {
+                console.log("Email Template", res.data)
                 setEmailTemplates(res.data);
             })
             .catch(err => console.log(err));
@@ -245,7 +247,7 @@ const SurveyUserShareEmail = () => {
                 // tie subject → user.surveys
                 axios.post(
                     `${process.env.REACT_APP_BACKEND_URL}/user/survey/subject`,
-                    { surveyId: id, subjectId },
+                    { surveyId: id, subjectId: res.data.subjectId, userId },
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
 
