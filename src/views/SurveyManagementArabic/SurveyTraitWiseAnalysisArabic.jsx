@@ -96,6 +96,50 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
         </g>
     );
 
+    const CustomYAxisTick = ({ x, y, payload }) => (
+        <g transform={`translate(${x-10},${y})`}>
+            {/* flip the text back, then right-align it */}
+            <text
+                transform="scale(-1,1)"
+                dy="0.32em"
+                textAnchor="end"
+                fill="#666"
+            >
+                {payload.value}
+            </text>
+        </g>
+    );
+
+    const RenderBarLabel = ({ x, y, width, value }) => (
+        <text
+          transform="scale(-1,1)"      /* unflip */
+          x={x - width + 8}            /* move 8 px to the “new right” */
+          y={y + 20}                    /* vertically centre the glyph */
+          textAnchor="end"
+          fontSize="12"
+          fill="red"
+        >
+          {value}
+        </text>
+      );
+
+      const ValueLabel = ({ x, y, width, height, value }) => {
+        const PAD = 6;                       // space between bar and text
+        return (
+          <text
+            x={x - PAD}                      /* ← move left; after flip it’s “right” */
+            y={y + height / 2}
+            dy="0.32em"
+            textAnchor="end"
+            transform="scale(-1,1)"          /* cancel the parent flip              */
+            fill="#333"
+            fontSize={12}
+          >
+            {Number(value).toFixed(1)}
+          </text>
+        );
+      }
+
     const renderTraitTable = () => {
         if (!processedData || !Object.keys(processedData).length) {
             return <p>No trait data available.</p>;
@@ -180,12 +224,12 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
                                                 ...updatedSurveyCategory.map((category) => ({ category: category.categoryName, value: traitData[category.categoryName].toFixed(1) })), { category: 'متوسط تقييم الآخرين', value: traitData.averageOfOthers }
                                             ]}
                                             layout="vertical"
-                                            margin={{ top: 20, right: 30, left: 80, bottom: 20 }}
+                                            margin={{ top: 20, right: 30, left: 180, bottom: 20 }}
                                         >
-                                            <XAxis type="number" domain={[0, 7]} tickCount={7} orientation='top' tick={<CustomXAxisTick />} />
-                                            <YAxis type="category" dataKey="category" mirror={true} />
+                                            <XAxis type="number" domain={[0, 7]} tickCount={7} ticks={[0,1,2,3,4,5,6,7]} interval={0} orientation='top' tick={<CustomXAxisTick />} />
+                                            <YAxis type="category" dataKey="category" width={150} mirror={true} tick={<CustomYAxisTick />} />
                                             <Tooltip wrapperStyle={{ transform: 'scaleX(-1)' }} />
-                                            <Bar dataKey="value" label={{ position: 'right' }}>
+                                            <Bar dataKey="value">
                                                 {/* <Cell key={`cell-0`} fill={colors['Self']} /> */}
                                                 {/* {
                                             updatedSurveyCategory.map((category, idx) => (
@@ -195,6 +239,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
                                                 {dynamicColors.map((item, idx) => (
                                                     <Cell key={`cell-${idx}`} fill={item.category === 'متوسط تقييم الآخرين' ? '#FFA07A' : item.color} />
                                                 ))}
+                                                <LabelList dataKey="value" content={<ValueLabel />} />
                                             </Bar>
                                         </BarChart>
                                     </ResponsiveContainer>
