@@ -78,7 +78,7 @@ const SurveyUserShareEmail = () => {
         }
 
         fetchSurveyData();
-    }, [id]);
+    }, [id, userId, token]);
 
     const initializeRespondents = (surveyData) => {
         const initialRespondents = {};
