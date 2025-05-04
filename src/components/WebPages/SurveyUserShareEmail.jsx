@@ -191,6 +191,7 @@ const SurveyUserShareEmail = () => {
                                 toast.warn('Failed to send email');
                             })
                     })
+                    setShareStep("1");
                 })
                 .catch(error => {
                     toast.warn('Failed to store Respondent Data');
