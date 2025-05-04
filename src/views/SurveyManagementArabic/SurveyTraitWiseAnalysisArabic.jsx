@@ -97,7 +97,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
     );
 
     const CustomYAxisTick = ({ x, y, payload }) => (
-        <g transform={`translate(${x-10},${y})`}>
+        <g transform={`translate(${x - 10},${y})`}>
             {/* flip the text back, then right-align it */}
             <text
                 transform="scale(-1,1)"
@@ -112,33 +112,33 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
 
     const RenderBarLabel = ({ x, y, width, value }) => (
         <text
-          transform="scale(-1,1)"      /* unflip */
-          x={x - width + 8}            /* move 8 px to the “new right” */
-          y={y + 20}                    /* vertically centre the glyph */
-          textAnchor="end"
-          fontSize="12"
-          fill="red"
-        >
-          {value}
-        </text>
-      );
-
-      const ValueLabel = ({ x, y, width, height, value }) => {
-        const PAD = 6;                       // space between bar and text
-        return (
-          <text
-            x={x - PAD}                      /* ← move left; after flip it’s “right” */
-            y={y + height / 2}
-            dy="0.32em"
+            transform="scale(-1,1)"      /* unflip */
+            x={x - width + 8}            /* move 8 px to the “new right” */
+            y={y + 20}                    /* vertically centre the glyph */
             textAnchor="end"
-            transform="scale(-1,1)"          /* cancel the parent flip              */
-            fill="#333"
-            fontSize={12}
-          >
-            {Number(value).toFixed(1)}
-          </text>
+            fontSize="12"
+            fill="red"
+        >
+            {value}
+        </text>
+    );
+
+    const ValueLabel = ({ x, y, width, height, value }) => {
+        const PAD = 6;
+        return (
+            <text
+                x={x - PAD}
+                y={y + height / 2}
+                dy="0.32em"
+                textAnchor="end"
+                transform="scale(-1,1)"
+                fill="#333"
+                fontSize={12}
+            >
+                {Number(value).toFixed(1)}
+            </text>
         );
-      }
+    }
 
     const renderTraitTable = () => {
         if (!processedData || !Object.keys(processedData).length) {
@@ -226,7 +226,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
                                             layout="vertical"
                                             margin={{ top: 20, right: 30, left: 180, bottom: 20 }}
                                         >
-                                            <XAxis type="number" domain={[0, 7]} tickCount={7} ticks={[0,1,2,3,4,5,6,7]} interval={0} orientation='top' tick={<CustomXAxisTick />} />
+                                            <XAxis type="number" domain={[0, 7]} tickCount={7} ticks={[0, 1, 2, 3, 4, 5, 6, 7]} interval={0} orientation='top' tick={<CustomXAxisTick />} />
                                             <YAxis type="category" dataKey="category" width={150} mirror={true} tick={<CustomYAxisTick />} />
                                             <Tooltip wrapperStyle={{ transform: 'scaleX(-1)' }} />
                                             <Bar dataKey="value">
