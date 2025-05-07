@@ -18,6 +18,7 @@ import ProtectedRole2 from '../ProtectedRole2';
 import SurveyUserShareEmail from "components/WebPages/SurveyUserShareEmail";
 import SurveyResultSubjectList from "components/WebPages/SurveyResultSubjectList";
 import SurveyUserDashboard from "components/WebPages/SurveyUserDashboard";
+import SurveyUserShareSMS from "components/WebPages/SurveyUserShareSMS";
 
 const WebsiteLayout = (props) => {
     const mainContent = React.useRef(null);
@@ -88,6 +89,7 @@ const WebsiteLayout = (props) => {
                                 <Route exact path="/survey-user-dashboard" element={<SurveyUserDashboard />} />
                                 <Route exact path="/survey-preview/:id" element={<SurveyPreviewProduct />} />
                                 <Route exact path="/survey-user-share-email/:id" element={<SurveyUserShareEmail />} />
+                                <Route exact path="/survey-user-share-sms/:id" element={<SurveyUserShareSMS />} />
                                 <Route exact path="/survey-result-user/:surveyId" element={<SurveyResultSubjectList />} />
                                 <Route exact path="/survey-result-user/:id/:subjectId" element={<SurveyResultSubjectRespondentResponse />} />
                                 

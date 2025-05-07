@@ -80,7 +80,7 @@ const SurveyPreviewProduct = () => {
                                                     <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</button>
                                                 </div>
                                     <Link to={`/website/survey-user-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
-                                    <Link to={`/website/survey-user-share-email/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link>
+                                    <Link to={`/website/survey-user-share-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link>
                                     <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">Survey Result</Link>
                                     </div>
                                 </div>
