@@ -67,9 +67,20 @@ const SurveyUserDashboard = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="mb-0">Welcome To Dashboard</h3>
+                                <h3 className="mb-0">Welcome To Decisions Support</h3>
                             </CardHeader>
                         </Card>
+
+                        <Card className="shadow my-3">
+                            <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
+                                <h3 className="mb-0">GuideLines</h3>
+                            </CardHeader>
+                            <CardBody>
+                                <p><b>Step 1</b><br />Click on the Survey Name</p>
+                                <p><b>Step 2</b><br />Click on the Survey Share By Email</p>
+                            </CardBody>
+                        </Card>
+
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
                                 <h3 className="mb-0">All Surveys ({userSurveys.length})</h3>
