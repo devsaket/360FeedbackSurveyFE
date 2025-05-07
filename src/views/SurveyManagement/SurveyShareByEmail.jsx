@@ -53,7 +53,7 @@ const SurveyShareByEmail = () => {
     const [respondentsData, setRespondentsData] = useState({});
     const [receivedRespondentsData, setReceivedRespondentsData] = useState([]);
     const [subjectId, setSubjectId] = useState([]);
-    const [shareStep, setShareStep] = useState("2");
+    const [shareStep, setShareStep] = useState("1");
 
     // Fetch Category Data
     useEffect(() => {
@@ -354,6 +354,7 @@ const SurveyShareByEmail = () => {
                             toast.warn('Failed to send email');
                         })
                 })
+                setShareStep('1');
             }).catch(error => {
                 toast.warn('Failed to Store Respondents Data!');
             })

@@ -53,6 +53,8 @@ const SurveyShareByEmailArabic = () => {
     const [respondentsData, setRespondentsData] = useState({});
     const [receivedRespondentsData, setReceivedRespondentsData] = useState([]);
     const [subjectId, setSubjectId] = useState([]);
+    const [shareStep, setShareStep] = useState('1');
+    
 
     // Fetch Category Data
     useEffect(() => {
@@ -177,6 +179,7 @@ const SurveyShareByEmailArabic = () => {
                         toast.warn('Failed to send email');
                     })
                 })
+                setShareStep("1")
             })
             .catch(error => {
                 toast.warn('Failed to store Respondent Data');
@@ -228,6 +231,14 @@ const SurveyShareByEmailArabic = () => {
                 toast.success('Subject Data Stored successfully!');
                 setSubjectId(res.data.subjectId)
                 setIsDisabled(true);
+                setShareStep("2");
+
+                // // tie subject → user.surveys
+                // axios.post(
+                //     `${process.env.REACT_APP_BACKEND_URL}/user/survey/subject`,
+                //     { surveyId: id, subjectId: res.data.subjectId, userId },
+                //     { headers: { Authorization: `Bearer ${token}` } }
+                // );
 
                 const emailData = { surveyId: id, subjectName: name.trim(), subjectEmail: recipientEmail.trim(), subject: subject.trim(), message: message.trim(), subjectId: res.data.subjectId }
 

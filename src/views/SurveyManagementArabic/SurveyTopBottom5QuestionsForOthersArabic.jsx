@@ -32,6 +32,8 @@ const SurveyTopBottom5QuestionsForOthersArabic = ({ traitQuestionData }) => {
         const topOtherQuestions = sortedQuestions.slice(0, 3);
         const bottomOtherQuestions = sortedQuestions.slice(-3);
 
+        console.log(topOtherQuestions);
+
         return { topOtherQuestions, bottomOtherQuestions };
     };
 
