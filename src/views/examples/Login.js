@@ -47,7 +47,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(process.env.REACT_APP_BACKEND_URL+"/user/login", formData);
+      const response = await axios.post(process.env.REACT_APP_BACKEND_URL+"/admin/login", formData);
       const { token, role } = response.data;
 
       // Save the token in localStorage

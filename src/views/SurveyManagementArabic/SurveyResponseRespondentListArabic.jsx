@@ -2,6 +2,9 @@ import React from 'react';
 import ZeroPercentageProgressBar from './ZeroPercentageProgressBarArabic';
 
 const SurveyResponseRespondentListArabic = ({ surveyResponses }) => {
+
+    console.log("Subject Response = ", surveyResponses);
+
     // Filter the respondents who have filled the survey
     const filledRespondents = surveyResponses
         .filter(response => response.isFilled)
@@ -18,12 +21,14 @@ const SurveyResponseRespondentListArabic = ({ surveyResponses }) => {
             name: respondent.respondentName,
             zeroPercentage: zeroPercentage.toFixed(1) // Fixed to 2 decimal places
         };
-    });
+    }); 
+
+    console.log("Respondents Data Zero Percent = ", respondentsWithZeroPercent);
 
     return (
         <div>
             {/* <h1>Percentage of ‘Unable to Rate’ by the Multi-Raters and Self</h1> */}
-            <h1>النسبة المئوية لاختيار "غير قادر على التقييم" من قِبل الفرد ". تقييم ذاتي " والمقيمين الآخرين </h1>
+            <h1>النسبة المئوية لاختيار "غير قادر على التقييم" من قِبل الفرد " تقييم ذاتي " والمقيمين الآخرين </h1>
             <ol>
                 {respondentsWithZeroPercent.map(({ name, zeroPercentage }) => (
                     <li key={name}>

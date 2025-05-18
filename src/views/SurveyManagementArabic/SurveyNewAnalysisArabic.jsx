@@ -464,7 +464,7 @@ const SurveyAnalysisArabic = () => {
                                                 {/* <h3 className='display-2 fw-bold py-3'>Report Generated for <br /> "{subjectItem.subjectName}"</h3> */}
                                                 <h3 className='display-2 fw-bold py-3'>تقرير مُعدّ لصالح: <br /> "{subjectItem.subjectName}"</h3>
                                                 {/* <p>Date - {getCurrentDate()}</p> */}
-                                                <p>التاريخ: - {getCurrentDate()}</p>
+                                                <p>التاريخ: {getCurrentDate()}</p>
                                             </>
                                         })
                                     }

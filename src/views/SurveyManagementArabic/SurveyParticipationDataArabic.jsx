@@ -15,6 +15,8 @@ const SurveyParticipationDataArabic = ({ summaryData, surveyCategoryObject, cate
             ? surveyCategoryObject.find(surveyCat => surveyCat.category === matchingSurveyCategory._id)?.scoreWeightage
             : (summary.category === 'Self' ? 100 : 0); // Default to 100 for 'Self' if not found
 
+        // console.log("Survey Participation Data = ", {...summary, scoreWeightage});
+
         return {
             ...summary,
             scoreWeightage

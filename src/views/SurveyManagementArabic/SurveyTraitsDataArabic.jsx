@@ -11,13 +11,23 @@ export const SurveyTraitsDataArabic = ({ surveyDetails, traitData }) => {
         <div>
             {/* <h1>Traits for Survey: {surveyDetails[0]?.surveyName}</h1> */}
             <h1>السمات (جدارات، مهارات، صفات) المستهدفة بعملية التقييم: {surveyDetails[0]?.surveyName}</h1>
-            <table>
-            {filteredTraits.map(trait => (
-                <tr key={trait._id}>
-                    <th>{trait.traitName}</th>
-                    <td>{trait.traitDescription}</td>
-                </tr>
-                ))}
+            <table className='table table-bordered'>
+                <thead className='thead-dark'>
+                    <tr>
+                        <th className='text-wrap align-top text-start'><b className='text-white'>الرقم التسلسلي</b></th>
+                        <th className='text-wrap align-top text-start'><b className='text-white'>اسم السمة</b></th>
+                        <th className='text-wrap align-top text-start'><b className='text-white'>تعريف السمة</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredTraits.map((trait, idx) => (
+                        <tr key={trait._id}>
+                            <th>{idx+1}</th>
+                            <th>{trait.traitName}</th>
+                            <td>{trait.traitDescription}</td>
+                        </tr>
+                    ))}
+                </tbody>
             </table>
             {/* <ul>
                 {filteredTraits.map(trait => (

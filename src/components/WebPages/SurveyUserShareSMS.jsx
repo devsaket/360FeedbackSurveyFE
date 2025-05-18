@@ -397,6 +397,7 @@ const SurveyUserShareSMS = () => {
                             toast.warn('Failed to send SMS');
                         })
                 })
+                setShareStep('1');
             }).catch(error => {
                 toast.warn('Failed to Store Respondents Data!');
             })
