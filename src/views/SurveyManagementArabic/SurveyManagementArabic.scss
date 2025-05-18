@@ -1,4 +1,4 @@
-td{
+td {
     vertical-align: middle !important;
 }
 
@@ -8,14 +8,14 @@ td{
     font-family: "Rubik", sans-serif; // Use Arabic-supportive font
 }
 
-.statement-main-box{
+.statement-main-box {
     // box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 20%);
     padding: 1rem;
 
-    .statement-box{
+    .statement-box {
         text-align: center;
         // background-color: #02153d;
-        padding: 0.9rem 0.3rem ;
+        padding: 0.9rem 0.3rem;
         color: white;
         height: 100px;
         width: 100px;
@@ -24,7 +24,7 @@ td{
         border-bottom-right-radius: 20px;
         box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 20%);
 
-        h6{
+        h6 {
             font-size: 12px;
             text-transform: uppercase;
             color: white;
@@ -33,7 +33,7 @@ td{
             line-height: 0;
         }
 
-        p{
+        p {
             padding: 0;
             margin: 30px 0 0 0;
             font-size: 55px;
@@ -42,13 +42,13 @@ td{
         }
     }
 
-    .question-box{
-        margin: 1rem   1.3rem 0 1.3rem;
+    .question-box {
+        margin: 1rem 1.3rem 0 1.3rem;
         width: 100%;
         text-align: left;
         position: relative;
 
-        hr{
+        hr {
             position: absolute;
             width: 100%;
             height: 5px;
@@ -58,43 +58,56 @@ td{
     }
 }
 
-.trapezoid{
+.trapezoid {
     // border-color: #1d458f;
     // border-left: 200px solid;
-	// border-top: 25px solid transparent !important;
-	// border-bottom: 25px solid transparent !important;
-	height: auto;
+    // border-top: 25px solid transparent !important;
+    // border-bottom: 25px solid transparent !important;
+    height: auto;
     // position: relative;
     // background-color: #1d458f;
 
     // .text-box{
-        // position: absolute;
-        // left: -180px;
-        // width:180px;
+    // position: absolute;
+    // left: -180px;
+    // width:180px;
     // }
 }
 
-.mapping-card{
+.mapping-card {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
 }
 
 .card {
     box-sizing: border-box;
-    break-inside: avoid; /* Prevent card splitting */
-    page-break-inside: avoid; /* Ensure cards don't break across pages */
+    break-inside: avoid;
+    /* Prevent card splitting */
+    page-break-inside: avoid;
+    /* Ensure cards don't break across pages */
     margin-bottom: 10px;
 }
 
 .card.large-content {
-    height: auto; /* Allow cards with large content to expand */
+    height: auto;
+    /* Allow cards with large content to expand */
     overflow: visible;
 }
 
 @media print {
-    td{
+    @page {
+        margin: 0;
+    }
+
+    body {
+        margin: 1cm;
+        /* or whatever safe printable margin you need */
+    }
+
+    td {
         vertical-align: middle !important;
     }
+
     .a4 {
         box-sizing: border-box;
         min-height: 297mm !important;
@@ -110,19 +123,20 @@ td{
         display: none;
     }
 
-    .statement-box{
+    .statement-box {
         border: solid 10px #02153d !important;
 
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
 
-    .mapping-card{
+    .mapping-card {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
 
-    .download-pdf-button, .card-print-toggler{
+    .download-pdf-button,
+    .card-print-toggler {
         display: none;
     }
 }

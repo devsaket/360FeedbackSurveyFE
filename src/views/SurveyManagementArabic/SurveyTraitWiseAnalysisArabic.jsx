@@ -88,7 +88,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
                 transform="scale(-1,1)"
                 x={0}
                 y={0}
-                dy={-6}
+                dy={15}
                 textAnchor="middle"
                 fill="#666">
                 {payload.value}
@@ -203,6 +203,21 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
                         updatedSurveyCategory.length
                     ).toFixed(1);
 
+                    // build & filter out zeros
+                    const chartData = [
+                        { category: 'تقييم ذاتي', value: Number(traitData.Self.toFixed(1)) },
+                        ...surveyCategoryObject.map((role) => {
+                            const name = categoriesRolesObject.find((c) => c._id === role.category)?.categoryName;
+                            return { category: name, value: Number(traitData[name].toFixed(1)) }
+                        }),
+                        { category: 'متوسط تقييم الآخرين', value: Number(traitData.averageOfOthers.toFixed(1)) }
+                    ].filter((d) => d.value > 0)
+
+                    if (chartData.length === 0) {
+                        // nothing to show for this trait
+                        return null
+                    }
+
                     return (
                         <Card key={index} className="mb-4 shadow">
                             <CardHeader><h4>{traitData.trait}</h4></CardHeader>
@@ -226,7 +241,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
                                             layout="vertical"
                                             margin={{ top: 20, right: 30, left: 180, bottom: 20 }}
                                         >
-                                            <XAxis type="number" domain={[0, 7]} tickCount={7} ticks={[0, 1, 2, 3, 4, 5, 6, 7]} interval={0} orientation='top' tick={<CustomXAxisTick />} />
+                                            <XAxis type="number" domain={[0, 7]} tickCount={7} ticks={[0, 1, 2, 3, 4, 5, 6, 7]} interval={0} orientation='bottom' tick={<CustomXAxisTick />} />
                                             <YAxis type="category" dataKey="category" width={150} mirror={true} tick={<CustomYAxisTick />} />
                                             <Tooltip wrapperStyle={{ transform: 'scaleX(-1)' }} />
                                             <Bar dataKey="value">

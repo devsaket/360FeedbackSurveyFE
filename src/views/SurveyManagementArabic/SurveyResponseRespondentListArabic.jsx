@@ -3,7 +3,15 @@ import ZeroPercentageProgressBar from './ZeroPercentageProgressBarArabic';
 
 const SurveyResponseRespondentListArabic = ({ surveyResponses }) => {
 
-    console.log("Subject Response = ", surveyResponses);
+    // console.log("Subject Response = ", surveyResponses);
+
+    const zeroFilledSubject = surveyResponses.map(subject=> {
+        const totalResponses = subject.responses.length;
+        const zeroResponses = subject.responses.filter(r => r.answer === '0').length;
+        const zeroPercentage = (zeroResponses / totalResponses) * 100;
+
+        return {name: subject.subjectName, zeroPercentage: zeroPercentage.toFixed(1)}
+    })
 
     // Filter the respondents who have filled the survey
     const filledRespondents = surveyResponses
@@ -23,13 +31,20 @@ const SurveyResponseRespondentListArabic = ({ surveyResponses }) => {
         };
     }); 
 
-    console.log("Respondents Data Zero Percent = ", respondentsWithZeroPercent);
+    // console.log("Respondents Data Zero Percent = ", respondentsWithZeroPercent);
 
     return (
         <div>
             {/* <h1>Percentage of ‘Unable to Rate’ by the Multi-Raters and Self</h1> */}
             <h1>النسبة المئوية لاختيار "غير قادر على التقييم" من قِبل الفرد " تقييم ذاتي " والمقيمين الآخرين </h1>
             <ol>
+                {zeroFilledSubject.map(({ name, zeroPercentage }) => (
+                    <li key={name}>
+                        {/* <p><strong>{name}</strong>: {zeroPercentage}% of responses are <i>'Unable to Rate'</i></p> */}
+                        <p><strong>{name}</strong>: {zeroPercentage}% من الاستجابات كانت "غير قادر على التقييم"</p>
+                        <ZeroPercentageProgressBar zeroPercentage={parseFloat(zeroPercentage)} />
+                    </li>
+                ))}
                 {respondentsWithZeroPercent.map(({ name, zeroPercentage }) => (
                     <li key={name}>
                         {/* <p><strong>{name}</strong>: {zeroPercentage}% of responses are <i>'Unable to Rate'</i></p> */}

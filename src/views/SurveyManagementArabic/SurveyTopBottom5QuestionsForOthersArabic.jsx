@@ -1,6 +1,7 @@
 import React from 'react'
 
 const SurveyTopBottom5QuestionsForOthersArabic = ({ traitQuestionData }) => {
+    // console.log("Trait Questions = ", traitQuestionData);
     const getTopAndBottomOthersQuestions = () => {
         const allQuestions = [];
 
@@ -19,6 +20,7 @@ const SurveyTopBottom5QuestionsForOthersArabic = ({ traitQuestionData }) => {
                     const totalResponse = otherResponses.reduce((acc, score) => acc + score, 0);
                     allQuestions.push({
                         questionText: questionData.questionText,
+                        questionOthersText: questionData.questionOthersText,
                         totalResponse
                     });
                 }
@@ -32,7 +34,7 @@ const SurveyTopBottom5QuestionsForOthersArabic = ({ traitQuestionData }) => {
         const topOtherQuestions = sortedQuestions.slice(0, 3);
         const bottomOtherQuestions = sortedQuestions.slice(-3);
 
-        console.log(topOtherQuestions);
+        // console.log(topOtherQuestions);
 
         return { topOtherQuestions, bottomOtherQuestions };
     };
@@ -53,7 +55,7 @@ const SurveyTopBottom5QuestionsForOthersArabic = ({ traitQuestionData }) => {
                     </div>
                     <div className='question-box'>
                         <div className='question-text'>
-                            <p>{question.questionText}</p>
+                            <p>{question.questionOthersText}</p>
                         </div>
                         <hr />
                     </div>
@@ -73,7 +75,7 @@ const SurveyTopBottom5QuestionsForOthersArabic = ({ traitQuestionData }) => {
                     </div>
                     <div className='question-box'>
                         <div className='question-text'>
-                            <p>{question.questionText}</p>
+                            <p>{question.questionOthersText}</p>
                         </div>
                         <hr />
                     </div>

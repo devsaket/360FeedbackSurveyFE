@@ -79,7 +79,7 @@ const SurveyTraitsSelfScoreArabic = ({ traitSelfData, traitCategoryData, traitDa
   return (
     <>
       {/* <h2>Ranking of Traits Based on Self Rating</h2> */}
-      <h2>ترتيب السمات (الجدارات، المهارات، الصفات) بناءً على التقييم الذاتي ". تقييم ذاتي "</h2>
+      <h2>ترتيب السمات (الجدارات، المهارات، الصفات) بناءً على التقييم الذاتي " تقييم ذاتي "</h2>
       {
         traitSelfRating.map((item, index) => {
           return (

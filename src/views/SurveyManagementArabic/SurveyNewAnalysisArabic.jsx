@@ -203,6 +203,7 @@ const SurveyAnalysisArabic = () => {
                             if (!traitQuestionData[trait][response.questionId]) {
                                 traitQuestionData[trait][response.questionId] = {
                                     questionText: questionObjects.find(q => q._id === response.questionId)?.question || '',
+                                    questionOthersText: questionObjects.find(q => q._id === response.questionId)?.questionOthers || '',
                                     // responses: {}
                                     responses: []
                                 };
@@ -283,6 +284,7 @@ const SurveyAnalysisArabic = () => {
                                 if (!traitQuestionData[trait][response.questionId]) {
                                     traitQuestionData[trait][response.questionId] = {
                                         questionText: questionObjects.find(q => q._id === response.questionId)?.question || '',
+                                        questionOthersText: questionObjects.find(q => q._id === response.questionId)?.questionOthers || '',
                                         // responses: {}
                                         responses: []
                                     };
