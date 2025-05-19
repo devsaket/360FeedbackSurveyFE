@@ -119,7 +119,8 @@ const SurveyPreview = () => {
                                                                 return (
                                                                     <>
                                                                         <div className='bg-body-secondary my-3 py-3 px-5' key={question._id}>
-                                                                            <h3 className='fw-semibold'>Question {count}</h3>
+                                                                            {/* <h3 className='fw-semibold'>Question {count}</h3> */}
+                                                                            <h3 className='fw-semibold'>السؤال {count}</h3>
                                                                             <p className='ps-5'>{question.question}</p>
                                                                             <LikertScale questionId={question._id} onResponseChange={handleResponseChange} />
                                                                         </div>

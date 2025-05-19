@@ -88,12 +88,17 @@ const SurveyDetailsArabic = () => {
                                             <h3 className="mb-0">{survey.surveyName}</h3>
                                             <div className='d-flex flex-row '>
                                                 <div className='mx-3'>
-                                                    <button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</button>
-                                                    <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</button>
+                                                    {/* <button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</button>
+                                                    <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</button> */}
+                                                    <button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>الفرد المُقيَّم</button>
+                                                    <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>االمقيمون الآخرون</button>
                                                 </div>
 
-                                                <Link to={`/admin/survey-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
-                                                <Link to={`/admin/survey-share-by-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link>
+                                                {/* <Link to={`/admin/survey-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
+                                                <Link to={`/admin/survey-share-by-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link> */}
+
+                                                <Link to={`/admin/survey-share-email/${survey._id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link>
+                                                <Link to={`/admin/survey-share-by-sms/${survey._id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link>
                                             </div>
                                         </CardHeader>
                                         <CardBody key={survey._id}>
@@ -142,8 +147,10 @@ const SurveyDetailsArabic = () => {
                         <Card className="d-flex flex-row justify-content-center py-3">
                                 <Link to={`/website/survey-preview/${id}`} target="_blank" className="btn btn-success px-4 me-2">Preview for Subject</Link>
                                 {/* <Link to={`/survey-respondent/${id}`} target="_blank" className="btn btn-success px-4 me-2">Preview for Respondent</Link> */}
-                                <Link to={`/admin/survey-share-email/${id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
-                                <Link to={`/admin/share-by-sms/${id}`} className="btn btn-info px-4">Share By SMS</Link>
+                                {/* <Link to={`/admin/survey-share-email/${id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
+                                <Link to={`/admin/share-by-sms/${id}`} className="btn btn-info px-4">Share By SMS</Link> */}
+                                <Link to={`/admin/survey-share-email/${id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link>
+                                <Link to={`/admin/share-by-sms/${id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link>
                         </Card>
                     </div>
                 </Row>

@@ -285,12 +285,15 @@ const SurveyManagement = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="mb-0">All Surveys</h3>
-                                <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Survey</Button>
+                                {/* <h3 className="mb-0">All Surveys</h3> */}
+                                <h3 className="mb-0">جميع الاستبيانات</h3>
+                                {/* <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Survey</Button> */}
+                                <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> إضافة استبيان</Button>
                                 <Modal isOpen={modal} toggle={toggle}   >
                                     <form onSubmit={handleSubmit}>
                                         <ModalHeader toggle={toggle} className="border border-bottom">
-                                            <h3 className="mb-0">Add Survey</h3>
+                                            {/* <h3 className="mb-0">Add Survey</h3> */}
+                                            <h3 className="mb-0">إضافة استبيان</h3>
                                         </ModalHeader>
                                         <ModalBody>
                                             <label htmlFor="surveyName" className='form-label'>Survey Name</label>
@@ -354,12 +357,19 @@ const SurveyManagement = () => {
                                 <Table className="table-hover header-dash w-100">
                                     <thead>
                                         <tr className=''>
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
+                                            {/* <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Survey Name</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white' style={{ maxWidth: '15rem' }}>Description</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Created At</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Copy ID</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th> */}
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>الرقم التسلسلي</th>
+                                            <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>اسم الاستبيان</th>
+                                            <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white' style={{ maxWidth: '15rem' }}>الوصف</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>تاريخ الإنشاء</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>نسخ الرابط</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
                                         </tr>
                                     </thead>

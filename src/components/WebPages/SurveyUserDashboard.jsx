@@ -83,7 +83,8 @@ const SurveyUserDashboard = () => {
 
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="mb-0">All Surveys ({userSurveys.length})</h3>
+                                {/* <h3 className="mb-0">All Surveys ({userSurveys.length})</h3> */}
+                                <h3 className="mb-0">جميع الاستبيانات ({userSurveys.length})</h3>
                             </CardHeader>
                             <CardBody>
                                 {userSurveys.length > 0 ? <>
@@ -107,8 +108,10 @@ const SurveyUserDashboard = () => {
                                                                 <Link to={`/website/survey-preview/${el._id}`}><i class="fa-solid fa-eye"></i></Link>
                                                             </td>
                                                             <td className='text-center ps-1 '>
-                                                                <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
-                                                                <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4">Share By SMS</Link>
+                                                                {/* <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4 me-2">Share By Email</Link> */}
+                                                                <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link>
+                                                                {/* <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4">Share By SMS</Link> */}
+                                                                <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link>
                                                                 <Link to={`/website/survey-result-user/${el._id}`}><i class="fa-solid fa-square-poll-vertical"></i> Result</Link>
                                                                 {/* <Link to={`/admin/survey/analysis/${el._id}`}><i class="fa-solid fa-square-poll-vertical"></i> Analysis</Link> */}
                                                             </td>

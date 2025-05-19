@@ -24,7 +24,8 @@ const LikertScale = ({ questionId, onResponseChange }) => {
 
     return (
         <div className="likert-scale">
-            <p className='ps-2 fw-bold'>Your Rating</p>
+            {/* <p className='ps-2 fw-bold'>Your Rating</p> */}
+            <p className='ps-2 fw-bold'>تقييمك</p>
             <div className='d-flex justify-content-around'>
                 <div className="likert-buttons">
                     {Array.isArray([1, 2, 3, 4, 5, 6, 7])&&[1, 2, 3, 4, 5, 6, 7].map((rating) => (
@@ -43,10 +44,12 @@ const LikertScale = ({ questionId, onResponseChange }) => {
                     ))}
                 </div>
             </div>
-            <p className='ps-5'>You selected: {selectedRating}</p>
+            {/* <p className='ps-5'>You selected: {selectedRating}</p> */}
+            <p className='ps-5'>اختيارك: {selectedRating}</p>
             <div className="unable-to-rate text-right">
                 <input type="checkbox" checked={unableToRate} onChange={handleCheckboxChange} className='form-check-input' />
-                <label className='form-check-label'>Unable to Rate</label>
+                {/* <label className='form-check-label'>Unable to Rate</label> */}
+                <label className='form-check-label'>غير قادر على التقييم</label>
             </div>
         </div>
     );

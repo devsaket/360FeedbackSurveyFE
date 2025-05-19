@@ -144,12 +144,14 @@ const EmailTemplateManagement = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="mb-0">All Email Templates</h3>
-                                <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Email Templates</Button>
+                                {/* <h3 className="mb-0">All Email Templates</h3> */}
+                                <h3 className="mb-0">جميع قوالب البريد الإلكتروني</h3>
+                                {/* <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Email Templates</Button> */}
+                                <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i>إضافة قالب بريد إلكتروني</Button>
                                 <Modal isOpen={modal} toggle={toggle}   >
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <ModalHeader toggle={toggle}>
-                                            <h3 className="mb-0">{updateMode ? 'Update' : 'Add'} Email Templates</h3>
+                                            <h3 className="mb-0">{updateMode ? 'Update Email Template' : 'إضافة قالب بريد إلكتروني'}</h3>
                                         </ModalHeader>
                                         <ModalBody>
                                             <label className="form-label">Email Template Name</label>
@@ -165,7 +167,8 @@ const EmailTemplateManagement = () => {
                                             {errors.templateMessage && <p className='form-error'>Email Template Message is Required!</p>}
 
                                             {/* <div className='form-check ms-0 ps-0 d-flex align-items-center'> */}
-                                                <label className="form-label pt-2 ms-0">For Whom </label>
+                                                {/* <label className="form-label pt-2 ms-0">For Whom </label> */}
+                                                <label className="form-label pt-2 ms-0">For whom</label>
                                                 <label htmlFor="field-subject" className='form-check-label mx-5'>
                                                     <input {...register("templateForSubject")} type="radio" value="true" id="field-subject" className="form-check-input" />Subject
                                                 </label>
@@ -186,10 +189,15 @@ const EmailTemplateManagement = () => {
                                 <table className="table table-hover header-dash">
                                     <thead className='position-relative'>
                                     <tr className=''>
-                                                    <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
+                                                    {/* <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
                                                     <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Template Name</th>
                                                     <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Template Subject</th>
                                                     <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Created At</th>
+                                                    <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th> */}
+                                                    <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>الرقم التسلسلي</th>
+                                                    <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>اسم القالب</th>
+                                                    <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>قالب الفرد المُقيَّم</th>
+                                                    <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>تاريخ الإنشاء</th>
                                                     <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
                                                 </tr>
                                     </thead>

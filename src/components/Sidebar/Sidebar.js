@@ -243,31 +243,36 @@ const Sidebar = (props) => {
           {/* Divider */}
           <hr className="my-3" />
           {/* Heading */}
-          <h6 className="navbar-heading text-muted">Settings</h6>
+          {/* <h6 className="navbar-heading text-muted">Settings</h6> */}
+          <h6 className="navbar-heading text-muted">الإعدادات</h6>
           {/* Navigation */}
           <Nav className="mb-md-3" navbar>
             <NavItem>
               <NavLink href="/admin/users">
                 <i className="ni ni-archive-2" />
-                Users
+                {/* Users */}
+                المستخدمون
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/admin/category">
                 <i className="ni ni-archive-2" />
-                Category Roles
+                {/* Category Roles */}
+                إدارة فئات المستجيبين
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/admin/email-templates">
                 <i className="fa-solid fa-envelope" />
-                Email Templates
+                {/* Email Templates */}
+                قوالب البريد الإلكتروني
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="https://decisionssupport.org" target="_blank">
                 <i className="fa-solid fa-home text-dark" />
-                FrontEnd Website
+                {/* FrontEnd Website */}
+                الواجهة الأمامية للموقع
               </NavLink>
             </NavItem>
           </Nav>
@@ -275,7 +280,8 @@ const Sidebar = (props) => {
             <NavItem className="active-pro active">
               <NavLink onClick={handleLogout}>
                 <i className="ni ni-spaceship" />
-                Logout
+                {/* Logout */}
+                تسجيل الخروج
               </NavLink>
             </NavItem>
           </Nav>

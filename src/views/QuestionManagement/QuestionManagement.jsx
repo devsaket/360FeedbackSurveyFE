@@ -270,10 +270,13 @@ const QuestionManagement = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="mb-0">All Questions</h3>
+                                {/* <h3 className="mb-0">All Questions</h3> */}
+                                <h3 className="mb-0">جميع الأسئلة</h3>
                                 <div>
-                                    <Button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</Button>
-                                    <Button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</Button>
+                                    {/* <Button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</Button>
+                                    <Button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</Button> */}
+                                    <Button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>الفرد المُقيَّم</Button>
+                                    <Button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>االمقيمون الآخرون </Button>
 
                                     <Button onClick={uploadToggle}><i className="fa-solid fa-upload"></i> Upload Questions</Button>
                                     <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Question</Button>
@@ -281,7 +284,8 @@ const QuestionManagement = () => {
                                 <Modal isOpen={uploadModal} toggle={uploadToggle} >
                                     <form onSubmit={handleFileSubmit}>
                                         <ModalHeader toggle={uploadToggle}>
-                                            <h3 className="mb-0"> Upload Questions</h3>
+                                            {/* <h3 className="mb-0"> Upload Questions</h3> */}
+                                            <h3 className="mb-0"> تحميل الأسئلة</h3>
                                         </ModalHeader>
                                         <ModalBody>
                                             <input type="file" onChange={handleFileUpload} />
@@ -297,7 +301,8 @@ const QuestionManagement = () => {
                                 <Modal isOpen={modal} toggle={toggle} >
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <ModalHeader toggle={toggle}>
-                                            <h3 className="mb-0">{updateMode ? 'Update' : 'Add'} Question</h3>
+                                            {/* <h3 className="mb-0">{updateMode ? 'Update Question' : 'Add Question'}</h3> */}
+                                            <h3 className="mb-0">{updateMode ? 'Update Question' : 'إضافة سؤال'}</h3>
                                         </ModalHeader>
                                         <ModalBody>
                                             <div className="col-12 py-lg-2">
@@ -342,11 +347,17 @@ const QuestionManagement = () => {
                                 <table className="table table-hover header-dash">
                                     <thead className='position-relative'>
                                         <tr className=''>
-                                            <th scope="col" className='text-center align-text-top ps-1 bg-dark text-white' style={{ width: '6rem' }}>S.No</th>
+                                            {/* <th scope="col" className='text-center align-text-top ps-1 bg-dark text-white' style={{ width: '6rem' }}>S.No</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Code</th>
                                             <th scope="col-6" className='text-start align-text-top ps-2 bg-dark text-white'>Question</th>
                                             <th scope="col-2" className='text-start align-text-top ps-2 bg-dark text-white'>Trait</th>
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Created At</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Created At</th> */}
+
+                                            <th scope="col" className='text-center align-text-top ps-1 bg-dark text-white' style={{ width: '6rem' }}>الرقم التسلسلي</th>
+                                            <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>الرمز</th>
+                                            <th scope="col-6" className='text-start align-text-top ps-2 bg-dark text-white'>السؤال</th>
+                                            <th scope="col-2" className='text-start align-text-top ps-2 bg-dark text-white'>السمة</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>تاريخ الإنشاء</th>
                                             {/* <th scope="col" className='text-center align-text-top ps-2'>Updated At</th> */}
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
                                         </tr>

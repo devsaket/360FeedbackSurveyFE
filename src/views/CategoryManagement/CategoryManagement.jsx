@@ -139,12 +139,13 @@ const CategoryManagement = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="mb-0">All Categories</h3>
-                                <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Category</Button>
+                                {/* <h3 className="mb-0">All Categories</h3> */}
+                                <h3 className="mb-0">جميع الفئات</h3>
+                                <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> إضافة فئة</Button>
                                 <Modal isOpen={modal} toggle={toggle}   >
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <ModalHeader toggle={toggle}>
-                                            <h3 className="mb-0">{updateMode ? 'Update' : 'Add'} Category</h3>
+                                            <h3 className="mb-0">{updateMode ? 'Update Category' : 'إضافة فئة'} </h3>
                                         </ModalHeader>
                                         <ModalBody>
                                             <label className="form-label">Category Name</label>
@@ -166,10 +167,15 @@ const CategoryManagement = () => {
                                 <table className="table table-hover header-dash">
                                     <thead className='position-relative'>
                                         <tr className=''>
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
+                                            {/* <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Category Name</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Category Label</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Created At</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th> */}
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>الرقم التسلسلي</th>
+                                            <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>اسم الفئة</th>
+                                            <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>تصنيف الفئة</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>تاريخ الإنشاء</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
                                         </tr>
                                     </thead>

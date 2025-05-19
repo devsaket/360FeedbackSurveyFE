@@ -83,10 +83,13 @@ const ItemBankManagement = () => {
                     <div className="col">
                     <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="mb-0">All Items</h3>
+                                {/* <h3 className="mb-0">All Items</h3> */}
+                                <h3 className="mb-0">جميع المفردات</h3>
                                 <div>
-                                    <Button className='btn' color="primary" onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</Button>
-                                    <Button className='btn' color="primary" onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</Button>
+                                    {/* <Button className='btn' color="primary" onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</Button>
+                                    <Button className='btn' color="primary" onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</Button> */}
+                                    <Button className='btn' color="primary" onClick={() => setBtnActive(true)} disabled={btnActive}>الفرد المُقيَّم</Button>
+                                    <Button className='btn' color="primary" onClick={() => setBtnActive(false)} disabled={!btnActive}>االمقيمون الآخرون</Button>
                                 </div>
                             </CardHeader>
                             <CardBody>
