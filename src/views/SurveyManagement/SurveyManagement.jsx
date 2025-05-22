@@ -250,7 +250,7 @@ const SurveyManagement = () => {
 
         axios.post(process.env.REACT_APP_BACKEND_URL + '/survey', surveyData)
             .then(response => {
-                console.log('Survey created successfully:', response.data.survey._id);
+                // console.log('Survey created successfully:', response.data.survey._id);
                 toast.success("Survey created Successfully!");
                 toggle();
                 navigate(`/admin/survey-details/${response.data.survey._id}`, { replace: true });
@@ -270,7 +270,7 @@ const SurveyManagement = () => {
             })
             .catch(err => {
                 toast.error("Failed to copy Survey ID");
-                console.error("Could not copy text: ", err);
+                // console.error("Could not copy text: ", err);
             });
     };
 
@@ -296,18 +296,22 @@ const SurveyManagement = () => {
                                             <h3 className="mb-0">إضافة استبيان</h3>
                                         </ModalHeader>
                                         <ModalBody>
-                                            <label htmlFor="surveyName" className='form-label'>Survey Name</label>
-                                            <input type="text" id="surveyName" value={surveyName} placeholder="Survey Name" onChange={(e) => setSurveyName(e.target.value)} className='form-control' />
+                                            {/* <label htmlFor="surveyName" className='form-label'>Survey Name</label> */}
+                                            <label htmlFor="surveyName" className='form-label' dir="rtl">اسم المقياس</label>
+                                            <input type="text" id="surveyName" value={surveyName} placeholder="اسم المقياس" onChange={(e) => setSurveyName(e.target.value)} className='form-control' />
 
-                                            <label htmlFor="surveyDescription">Survey Description:</label><br />
-                                            <TextareaAutosize id="surveyDescription" value={surveyDescription} placeholder="Survey Description" minRows={3} maxRows={5} onChange={(e) => setSurveyDescription(e.target.value)} className='form-control'></TextareaAutosize>
+                                            {/* <label htmlFor="surveyDescription">Survey Description:</label><br /> */}
+                                            <label htmlFor="surveyDescription" dir="rtl">وصف المقياس:</label><br />
+                                            <TextareaAutosize id="surveyDescription" value={surveyDescription} placeholder="وصف المقياس" minRows={3} maxRows={5} onChange={(e) => setSurveyDescription(e.target.value)} className='form-control'></TextareaAutosize>
 
-                                            <label htmlFor="surveyTrait" className='form-label'>Survey Trait:</label>
+                                            {/* <label htmlFor="surveyTrait" className='form-label'>Survey Trait:</label> */}
+                                            <label htmlFor="surveyTrait" className='form-label' dir="rtl">سمات المقياس</label>
                                             <Select options={options} value={selectedTrait} onChange={handleTraitChange} isMulti={true} />
 
                                             {Array.isArray(selectedTrait) && selectedTrait?.map(dataitem => (
                                                 <>
-                                                    <p>Select Questions for <b>{dataitem.label}</b>:</p>
+                                                    {/* <p>Select Questions for <b>{dataitem.label}</b>:</p> */}
+                                                    <p dir="rtl">حدد أسئلة ل <b>{dataitem.label}</b>:</p>
                                                     <ul className="list-unstyled">
                                                         {Array.isArray(questions) &&
                                                             questions.filter((el) => el.trait._id === dataitem.value).length > 0 ?
@@ -318,37 +322,41 @@ const SurveyManagement = () => {
                                                                 </li>
                                                             )) :
                                                             <>
-                                                                <li>No Question is available in this trait!</li>
+                                                                {/* <li>No Question is available in this trait!</li> */}
+                                                                <li dir="rtl">لا يوجد سؤال متاح في هذه الخاصية!</li>
                                                             </>
                                                         }
                                                     </ul>
                                                 </>
                                             ))}
 
-                                            <label htmlFor="surveyCategories" className='form-label'>Respondent Categories:</label>
+                                            {/* <label htmlFor="surveyCategories" className='form-label'>Respondent Categories:</label> */}
+                                            <label htmlFor="surveyCategories" className='form-label' dir="rtl">فئات المستجيبين:</label>
                                             <Select options={categoriesSelectOptions} value={selectedCategories} onChange={handleCategoriesChange} isMulti={true} required />
 
                                             {Array.isArray(selectedCategories) && selectedCategories.map(category => (
                                                 <div key={category.value} className="mb-3">
                                                     <h5>{category.label}</h5>
-                                                    <label htmlFor={`scoreWeightage-${category.value}`}>Score Weightage:</label>
+                                                    {/* <label htmlFor={`scoreWeightage-${category.value}`}>Score Weightage:</label> */}
+                                                    <label htmlFor={`scoreWeightage-${category.value}`} dir="rtl">الوزن النسبي:</label>
                                                     <input type="number" id={`scoreWeightage-${category.value}`} value={categoryDetails[category.value]?.scoreWeightage || 0} onChange={(e) => handleCategoryDetailChange(category.value, 'scoreWeightage', parseInt(e.target.value))} className='form-control' required />
 
-                                                    <label htmlFor={`maxRespondents-${category.value}`}>Maximum Respondents:</label>
+                                                    {/* <label htmlFor={`maxRespondents-${category.value}`}>Maximum Respondents:</label> */}
+                                                    <label htmlFor={`maxRespondents-${category.value}`} dir="rtl">عدد المستجيبين</label>
                                                     <input type="number" id={`maxRespondents-${category.value}`} value={categoryDetails[category.value]?.maxRespondents || 0} onChange={(e) => handleCategoryDetailChange(category.value, 'maxRespondents', parseInt(e.target.value))} className='form-control' required />
                                                 </div>
                                             ))}
 
                                             {weightageError && <p className="text-danger">{weightageError}</p>}
-                                            <p>Total Score Weightage: {totalWeightage}</p>
+                                            {/* <p>Total Score Weightage: {totalWeightage}</p> */}
+                                            <p dir="rtl">مجموع الوزن النسبي {totalWeightage}</p>
 
                                         </ModalBody>
                                         <ModalFooter>
-                                            <Button color="primary" className='px-5 my-2' type="submit"> Submit </Button>
-
-                                            <Button color="secondary" onClick={toggle}>
-                                                Cancel
-                                            </Button>
+                                            {/* <Button color="primary" className='px-5 my-2' type="submit">Submit</Button>
+                                            <Button color="secondary" onClick={toggle}>Cancel</Button> */}
+                                            <Button color="primary" className='px-5 my-2' type="submit" dir="rtl">إرسال</Button>
+                                            <Button color="secondary" onClick={toggle} dir="rtl">إلغاء</Button>
                                         </ModalFooter>
                                     </form>
                                 </Modal>
@@ -386,8 +394,10 @@ const SurveyManagement = () => {
                                                         <td className='text-center ps-1 '>
                                                             <Link to={`/admin/survey-details/${el._id}`}><i class="fa-solid fa-eye"></i></Link>
                                                             <Popup trigger={<button className=' p-2 bg-transparent border border-0'><i className="fa-solid fa-trash"></i></button>} position="top right">
-                                                                <div className='py-1 p-2'>Are you sure you want to delete <span className='text-danger fs-5 fw-bold'>{el.surveyName}</span>?</div>
-                                                                <button className='btn btn-danger my-3 py-1 mx-2' onClick={() => { handleDeleteSurvey(el._id) }}>Delete</button>
+                                                                {/* <div className='py-1 p-2'>Are you sure you want to delete <span className='text-danger fs-5 fw-bold'>{el.surveyName}</span>?</div>
+                                                                <button className='btn btn-danger my-3 py-1 mx-2' onClick={()=>{handleDeleteSurvey(el._id)}}>Delete</button> */}
+                                                                <div className='py-1 p-2' dir="rtl">هل أنت متأكد أنك تريد الحذف؟ <span className='text-danger fs-5 fw-bold'>{el.surveyName}</span>?</div>
+                                                                <button className='btn btn-danger my-3 py-1 mx-2' onClick={()=>{handleDeleteSurvey(el._id)}} dir="rtl">يمسح</button>
                                                             </Popup>
                                                         </td>
                                                         <td className='text-center ps-1 align-middle'>
@@ -396,9 +406,9 @@ const SurveyManagement = () => {
                                                             </button>
                                                         </td>
                                                         <td className='text-center ps-1 '>
-                                                            <Link to={`/admin/survey-result/${el._id}`}><i class="fa-solid fa-square-poll-vertical"></i> Result</Link>
+                                                            {/* <Link to={`/admin/survey-result/${el._id}`}><i class="fa-solid fa-square-poll-vertical"></i> Result</Link> */}
+                                                            <Link to={`/admin/survey-result/${el._id}`} dir="rtl"><i class="fa-solid fa-square-poll-vertical"></i> نتيجة</Link>
                                                             {/* <Link to={`/admin/survey/analysis/${el._id}`}><i class="fa-solid fa-square-poll-vertical"></i> Analysis</Link> */}
-
                                                         </td>
                                                     </tr>
                                                 </>

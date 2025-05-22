@@ -135,7 +135,8 @@ const SurveyPreviewProduct = () => {
                 })
                     : <>
                         <div className='d-flex justify-content-center'>
-                            <p className='display-4 text-center w-50'>Submission is Successful and THank you for Participation</p>
+                            {/* <p className='display-4 text-center w-50'>Submission is Successful and THank you for Participation</p> */}
+                            <p className='display-4 text-center w-50' dir='rtl' style={{marginTop: "350px"}}>شكراً لكم على التقييم</p>
                         </div>
                     </>
                 }

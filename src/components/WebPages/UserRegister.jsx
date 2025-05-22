@@ -53,7 +53,8 @@ const UserRegister = () => {
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent pb-2">
             <div className="text-muted text-center mt-2">
-              <h1>Register</h1>
+              {/* <h1>Register</h1> */}
+              <h1 dir="rtl">التسجيل</h1>
             </div>
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
@@ -65,7 +66,7 @@ const UserRegister = () => {
                       <i className="ni ni-hat-3" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="First Name" type="text" name="firstname" value={formData.firstname} onChange={handleChange} required/>
+                  <Input placeholder="الاسم الأول" type="text" name="firstname" value={formData.firstname} onChange={handleChange} required/>
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -75,7 +76,7 @@ const UserRegister = () => {
                       <i className="ni ni-hat-3" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="Last Name" type="text" name="lastname" value={formData.lastname} onChange={handleChange} />
+                  <Input placeholder="اسم العائلة" type="text" name="lastname" value={formData.lastname} onChange={handleChange} />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -85,7 +86,7 @@ const UserRegister = () => {
                       <i className="ni ni-email-83" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="Email" type="email" name="username" value={formData.username}  onChange={handleChange} required />
+                  <Input placeholder="البريد الألكتروني" type="email" name="username" value={formData.username}  onChange={handleChange} required />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -96,7 +97,7 @@ const UserRegister = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Password"
+                    placeholder="كلمة المرور"
                     type="password"
                     name="password"
                     value={formData.password}
@@ -135,14 +136,17 @@ const UserRegister = () => {
               </Row> */}
               <div className="text-center">
                 <Button className="mt-4" color="primary" type="submit">
-                  Create account
+                  {/* Create account */}
+                  <span dir="rtl">إنشاء حساب</span>
                 </Button>
               </div>
             </Form>
             <div className="text-muted font-italic text-center my-3">
                 <small>
-                  Already Registered ? 
-                  <span className="text-success font-weight-700"><Link to={`/website/login`}>Sign In</Link></span>
+                  {/* Already Registered ?  */}
+                  <span dir="rtl">هل قمت بالتسجيل بالفعل؟</span>
+                  {/* <span className="text-success font-weight-700"><Link to={`/website/login`}>Sign In</Link></span> */}
+                  <span className="text-success font-weight-700"><Link to={`/website/login`}><span dir="rtl">تسجيل الدخول</span></Link></span>
                 </small>
               </div>
           </CardBody>

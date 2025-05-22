@@ -78,7 +78,8 @@ const UserLogin = () => {
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent pb-2">
             <div className="text-muted text-center mt-2 ">
-              <h1>Login</h1>
+              {/* <h1>Login</h1> */}
+              <h1 dir="rtl">دخول</h1>
             </div>
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
@@ -91,7 +92,7 @@ const UserLogin = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="email"
+                    placeholder="البريد الألكتروني"
                     type="email"
                     id="username"
                     name="username"
@@ -108,7 +109,7 @@ const UserLogin = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Password"
+                    placeholder="كلمة المرور"
                     type="password"
                     autoComplete="new-password"
                     id="password"
@@ -120,8 +121,8 @@ const UserLogin = () => {
                 </InputGroup>
               </FormGroup>
               <div className="text-center">
-                <Button className="my-4" color="primary" type="submit">
-                  Sign in
+                <Button className="my-4" color="primary" type="submit" dir="rtl">
+                  تسجيل الدخول
                 </Button>
               </div>
             </form>

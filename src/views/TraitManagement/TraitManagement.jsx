@@ -150,33 +150,37 @@ const TraitManagement = () => {
                                 {/* <h3 className="mb-0">All Traits</h3> */}
                                 <h3 className="mb-0">جميع السمات</h3>
                                 {/* <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Trait</Button> */}
-                                <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> إضافة سمة</Button>
+                                <Button onClick={toggle} dir="rtl"><i className="fa-solid fa-plus me-2"></i> إضافة سمة</Button>
                                 <Modal isOpen={modal} toggle={toggle}   >
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <ModalHeader toggle={toggle}>
-                                            <h3 className="mb-0">{updateMode ? 'Update' : 'Add'} Trait</h3>
+                                            {/* <h3 className="mb-0">{updateMode ? 'Update Trait' : 'Add Trait'}</h3> */}
+                                            <h3 className="mb-0" dir="rtl">{updateMode ? 'إضافة سمة' : 'إضافة سمة'}</h3>
                                         </ModalHeader>
                                         <ModalBody>
 
                                             <div className="row">
                                                 <div className="col-12">
-                                                    <label className="form-label">Trait Name</label>
+                                                    {/* <label className="form-label">Trait Name</label> */}
+                                                    <label className="form-label" dir="rtl">اسم السمة</label>
                                                     <input {...register("traitName")} className="form-control" type="text" placeholder="Enter Trait Name" />
-                                                    {errors.traitName && <p className='form-error'>Trait Name is Required!</p>}
+                                                    {/* {errors.traitName && <p className='form-error'>Trait Name is Required!</p>} */}
+                                                    {errors.traitName && <p className='form-error' dir="rtl">اسم السمة مطلوب!</p>}
 
-                                                    <label className="form-label mt-2">Trait Description</label>
+                                                    {/* <label className="form-label mt-2">Trait Description</label> */}
+                                                    <label className="form-label mt-2" dir="rtl">تعريف السمة</label>
                                                     <TextareaAutosize  {...register("traitDescription")} className="form-control" placeholder="Enter Trait Description" minRows={3} maxRows={5}></TextareaAutosize>
-                                                    {errors.traitDescription && <p className='form-error'>Trait Description is Required!</p>}
+                                                    {/* {errors.traitDescription && <p className='form-error'>Trait Description is Required!</p>} */}
+                                                    {errors.traitDescription && <p className='form-error' dir="rtl">وصف السمة مطلوب!</p>}
                                                 </div>
                                             </div>
 
                                         </ModalBody>
                                         <ModalFooter>
-                                            <Button color="primary" className='px-5 my-2' type="submit"> Submit </Button>
-
-                                            <Button color="secondary" onClick={toggle}>
-                                                Cancel
-                                            </Button>
+                                            {/* <Button color="primary" className='px-5 my-2' type="submit"> Submit </Button>
+                                            <Button color="secondary" onClick={toggle}>Cancel</Button> */}
+                                            <Button color="primary" className='px-5 my-2' type="submit" dir="rtl">إرسال</Button>
+                                            <Button color="secondary" onClick={toggle} dir="rtl">إلغاء</Button>
                                         </ModalFooter>
                                     </form>
                                 </Modal>

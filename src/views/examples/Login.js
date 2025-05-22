@@ -107,7 +107,8 @@ const Login = () => {
           </CardHeader> */}
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small> Sign In</small>
+              {/* <small> Sign In</small> */}
+              <h2 dir="rtl">تسجيل الدخول</h2>
             </div>
             <form onSubmit={handleSubmit}>
               <FormGroup className="mb-3">
@@ -118,7 +119,7 @@ const Login = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Username"
+                    placeholder="اسم المستخدم"
                     type="text"
                     id="username"
                 name="username"
@@ -135,7 +136,7 @@ const Login = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Password"
+                    placeholder="كلمة المرور"
                     type="password"
                     autoComplete="new-password"
                 id="password"
@@ -161,7 +162,7 @@ const Login = () => {
               </div> */}
               <div className="text-center">
                 <Button className="my-4" color="primary" type="submit">
-                  Sign in
+                  <span dir="rtl">تسجيل الدخول</span>
                 </Button>
               </div>
             </form>
@@ -174,7 +175,7 @@ const Login = () => {
               href="#pablo"
               onClick={(e) => e.preventDefault()}
             >
-              <small>Forgot password?</small>
+              <small dir="rtl">نسيت كلمة المرور؟</small>
             </a>
           </Col>
           <Col className="text-right" xs="6">

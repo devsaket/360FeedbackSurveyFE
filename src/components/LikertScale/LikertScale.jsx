@@ -31,7 +31,7 @@ const LikertScale = ({ questionId, onResponseChange }) => {
                     {Array.isArray([1, 2, 3, 4, 5, 6, 7])&&[1, 2, 3, 4, 5, 6, 7].map((rating) => (
                         <Button key={rating} className={`likert-button ${selectedRating === rating ? 'selected' : ''} `} onClick={() => handleRatingSelect(rating)} disabled={unableToRate}>
                             {rating}
-                            <span className="likert-label">
+                            {/* <span className="likert-label">
                                 {rating === 1 ? 'Very Poor' :
                                     rating === 2 ? 'Poor' :
                                         rating === 3 ? 'Fair' :
@@ -39,6 +39,15 @@ const LikertScale = ({ questionId, onResponseChange }) => {
                                                 rating === 5 ? 'Good' :
                                                     rating === 6 ? 'Very Good' :
                                                         'Excellent'}
+                            </span> */}
+                            <span className="likert-label" dir='rtl'>
+                                {rating === 1 ? 'معارض بشدة' :
+                                    rating === 2 ? 'معارض ' :
+                                        rating === 3 ? 'معارض إلى حد ما' :
+                                            rating === 4 ? 'محايد' :
+                                                rating === 5 ? 'موافق إلى حد ما' :
+                                                    rating === 6 ? 'موافق' :
+                                                        'موافق بشدة'}
                             </span>
                         </Button>
                     ))}

@@ -355,11 +355,15 @@ const SurveyResultSubjectRespondentResponse = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="mb-0">Survey Result</h3>
+                                {/* <h3 className="mb-0">Survey Result</h3> */}
+                                <h3 className="mb-0" dir="rtl">نتائج المقياس</h3>
                                 <div>
                                     {/* <Button onClick={handleDownload}>Download Excel</Button> */}
-                                    <Link to={`/website/survey-analysis/${id}/${subjectId}`} className="btn btn-lg btn-primary">
+                                    {/* <Link to={`/website/survey-analysis/${id}/${subjectId}`} className="btn btn-lg btn-primary">
                                         <i className="fa-solid fa-square-poll-vertical"></i> Result Analysis
+                                    </Link> */}
+                                    <Link to={`/website/survey-analysis/${id}/${subjectId}`} className="btn btn-lg btn-primary">
+                                        <i className="fa-solid fa-square-poll-vertical"></i>تحليل النتيجة
                                     </Link>
                                 </div>
                             </CardHeader>
@@ -372,7 +376,8 @@ const SurveyResultSubjectRespondentResponse = () => {
                 <Row>
                     <Col className="text-center">
                         {/* <Link to={`/admin/survey/analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Old Analysis</Link> */}
-                        <Link to={`/website/survey-analysis/${id}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Result Analysis</Link>
+                        {/* <Link to={`/website/survey-analysis/${id}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Result Analysis</Link> */}
+                        <Link to={`/website/survey-analysis/${id}/${subjectId}`} className="btn btn-lg btn-primary" dir="rtl"><i className="fa-solid fa-square-poll-vertical"></i> تحليل النتيجة</Link>
                     </Col>
                 </Row>
             </Container>

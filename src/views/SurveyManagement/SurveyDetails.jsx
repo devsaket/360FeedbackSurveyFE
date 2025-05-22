@@ -106,8 +106,9 @@ const SurveyDetails = () => {
                                                                                 return (
                                                                                     <>
                                                                                         <div className='bg-secondary my-3 py-3 px-5' key={question._id}>
-                                                                                            <h3 className='fw-semibold'>Question {count}</h3>
-                                                                                            <p className='ps-5'>{btnActive ? question.question : question.questionOthers}</p>
+                                                                                            {/* <h3 className='fw-semibold'>Question {count}</h3> */}
+                                                                                            <h3 className='fw-semibold' dir="rtl">سؤال {count}</h3>
+                                                                                            <p className='ps-5' dir="rtl">{btnActive ? question.question : question.questionOthers}</p>
                                                                                             <LikertScale />
                                                                                         </div>
                                                                                     </>
@@ -127,7 +128,8 @@ const SurveyDetails = () => {
                             })}
                         </Card>
                         <Card className="d-flex flex-row justify-content-center py-3">
-                                <Link to={`/website/survey-preview/${id}`} target="_blank" className="btn btn-success px-4 me-2">Survey Preview</Link>
+                                {/* <Link to={`/website/survey-preview/${id}`} target="_blank" className="btn btn-success px-4 me-2">Survey Preview</Link> */}
+                                <Link to={`/website/survey-preview/${id}`} target="_blank" className="btn btn-success px-4 me-2">معاينة المسح</Link>
                                 {/* <Link to={`/survey-respondent/${id}`} target="_blank" className="btn btn-success px-4 me-2">Preview for Respondent</Link> */}
                                 {/* <Link to={`/admin/survey-share-email/${id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
                                 <Link to={`/admin/share-by-sms/${id}`} className="btn btn-info px-4">Share By SMS</Link> */}

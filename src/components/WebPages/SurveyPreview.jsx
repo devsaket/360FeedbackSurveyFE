@@ -134,7 +134,8 @@ const SurveyPreview = () => {
                                         })}
                                     </div>
                                     <div className="col-12 text-center">
-                                        <button type="submit" className='btn btn-primary' disabled={!canSubmit}>Submit</button>
+                                        {/* <button type="submit" className='btn btn-primary' disabled={!canSubmit}>Submit</button> */}
+                                        <button type="submit" className='btn btn-primary' disabled={!canSubmit} dir='rtl'>إرسال</button>
                                     </div>
                                 </form>
                             </div>
@@ -143,7 +144,8 @@ const SurveyPreview = () => {
                 })
                     : <>
                         <div className='d-flex justify-content-center'>
-                            <p className='display-4 text-center w-50'>Submission is Successful and THank you for Participation</p>
+                            {/* <p className='display-4 text-center w-50'>Submission is Successful and THank you for Participation</p> */}
+                            <p className='display-4 text-center w-50' dir='rtl' style={{marginTop: "350px"}}>شكراً لكم على التقييم</p>
                         </div>
                     </>
                 }

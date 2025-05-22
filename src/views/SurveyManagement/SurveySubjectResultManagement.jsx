@@ -30,6 +30,7 @@ import {
 // core components
 import Header from "components/Headers/Header.js";
 import { exportToExcel } from './excelUtils';
+import { Table } from "react-bootstrap";
 
 const SurveySubjectResultManagement = () => {
 
@@ -106,12 +107,12 @@ const SurveySubjectResultManagement = () => {
     }
 
     const handleDownload = () => {
-        exportToExcel(surveyResult, questions, surveyId, subjectId,  'Survey_Responses');
+        exportToExcel(surveyResult, questions, surveyId, subjectId, 'Survey_Responses');
     };
 
     return (
         <>
-            {/* <Header /> */}
+            <Header />
             {/* Page content */}
             <Container className="mt--7" fluid>
                 {/* Table */}
@@ -120,44 +121,90 @@ const SurveySubjectResultManagement = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="mb-0">Survey Result</h3>
+                                {/* <h3 className="mb-0">Survey Result</h3> */}
+                                <h3 className="mb-0" dir="rtl">نتائج المقياس</h3>
                                 <div>
-                                    <Button onClick={handleDownload}>Download Excel</Button>
-                                    <Link to={`/website/survey-analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary">
-                                        <i className="fa-solid fa-square-poll-vertical"></i> Result Analysis
-                                    </Link>
+                                    {/* <Button onClick={handleDownload}>Download Excel</Button>
+                                    <Link to={`/website/survey-analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Result Analysis </Link> */}
+                                    <Button onClick={handleDownload} dir="rtl">تحميل اكسل</Button>
+                                    {/* <Link to={`/website/survey-analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary" dir="rtl"><i className="fa-solid fa-square-poll-vertical"></i> تحليل النتيجة </Link> */}
+                                    <Link to={`/admin/survey/analysis-ar/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary" dir="rtl"><i className="fa-solid fa-square-poll-vertical"></i> تحليل النتيجة </Link>
                                 </div>
                             </CardHeader>
                             <CardBody>
 
                                 {Array.isArray(surveyResult) && surveyResult.map((survey, index) => (
                                     <div key={survey._id}>
-                                        <h2>{Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyName}</h2>
-                                        <p>{Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyDescription}</p>
+                                        <h2>{Array.isArray(surveys) && surveys.find(s => s._id === survey.surveyId)?.surveyName}</h2>
+                                        <p>{Array.isArray(surveys) && surveys.find(s => s._id === survey.surveyId)?.surveyDescription}</p>
 
-                                        {Array.isArray(survey.subject) && survey.subject.filter(sub=> sub._id === subjectId)?.map(subject => (
-                                            <Card key={subject._id} style={{ marginBottom: '20px' }}>
-                                                <h3>Subject: {subject.subjectName} ({subject.subjectEmail})</h3>
-                                                <h4>Responses:</h4>
-                                                <ul>
+                                        {Array.isArray(survey.subject) && survey.subject.filter(sub => sub._id === subjectId)?.map(subject => (
+                                            <Card key={subject._id} style={{ marginBottom: '20px' }} className="p-3">
+                                                {/* <h3>Subject: {subject.subjectName} ({subject.subjectEmail})</h3>
+                                                <h4>Responses:</h4> */}
+                                                <h3 dir="rtl">موضوع: {subject.subjectName} ({subject.subjectEmail})</h3>
+                                                <h4 dir="rtl">الردود:</h4>
+                                                <Table className="table table-bordered table-hover header-dash w-100" dir="rtl">
+                                                    <thead className="thead-dark">
+                                                        {/* <th className="text-light font-weight-bolder h1">#</th>
+                                                        <th className="text-light font-weight-bolder h1">Question</th>
+                                                        <th className="text-light font-weight-bolder h1 text-center">Answer</th> */}
+                                                        <th className="text-light font-weight-bolder h1">#</th>
+                                                        <th className="text-light font-weight-bolder h1">سؤال</th>
+                                                        <th className="text-light font-weight-bolder h1 text-center">إجابة</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        {Array.isArray(subject.responses) && subject.responses.map((response, idx) => (
+                                                            <tr key={response._id}>
+                                                                <td>{idx + 1}</td>
+                                                                <td>{questions.find(s => s._id === response.questionId)?.question}</td>
+                                                                <td className="text-center">{response.answer}</td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </Table>
+                                                {/* <ul>
                                                     {Array.isArray(subject.responses) && subject.responses.map(response => (
                                                         <li key={response._id}>
-                                                            Question ID: {response.questionId} - {questions.find(s=> s._id===response.questionId)?.question}, Answer: {response.answer}
+                                                            Question ID: {response.questionId}  <br />
+                                                            Question: {questions.find(s=> s._id===response.questionId)?.question}, Answer: {response.answer}
                                                         </li>
                                                     ))}
-                                                </ul>
-                                                <h4>Respondents:</h4>
+                                                </ul> */}
+                                                {/* <h4 className="mt-5">Respondents:</h4> */}
+                                                <h4 className="mt-5" dir="rtl">المستجيبون:</h4>
                                                 {Array.isArray(subject.respondent) && subject.respondent.map(respondent => (
-                                                    <div key={respondent._id} style={{ marginLeft: '20px', marginBottom: '10px' }}>
-                                                        <h5>Respondent: {respondent.respondentName} ({respondent.respondentEmail})</h5>
-                                                        <p>Category ID: {respondent.category} - {Categories.find(s=> s._id===respondent.category)?.categoryName}</p>
-                                                        <ul>
+                                                    <div key={respondent._id} style={{ marginLeft: '20px', marginBottom: '10px' }} className="my-4">
+                                                        {/* <h5>Respondent: {respondent.respondentName} ({respondent.respondentEmail})</h5>
+                                                        <p>Category ID: {respondent.category} - {Categories.find(s => s._id === respondent.category)?.categoryName}</p> */}
+                                                        <h5 dir="rtl">المُستَجِيب: {respondent.respondentName} ({respondent.respondentEmail})</h5>
+                                                        <p dir="rtl">فئة: {Categories.find(s => s._id === respondent.category)?.categoryName}</p>
+                                                        <Table className="table table-bordered table-hover header-dash w-100" dir="rtl">
+                                                            <thead className="thead-dark">
+                                                                {/* <th className="text-light font-weight-bolder h1">#</th>
+                                                                <th className="text-light font-weight-bolder h1">Question</th>
+                                                                <th className="text-light font-weight-bolder h1 text-center">Answer</th> */}
+                                                                <th className="text-light font-weight-bolder h1">#</th>
+                                                                <th className="text-light font-weight-bolder h1">سؤال</th>
+                                                                <th className="text-light font-weight-bolder h1 text-center">إجابة</th>
+                                                            </thead>
+                                                            <tbody>
+                                                                {Array.isArray(respondent.responses) && respondent.responses.map((response, idx) => (
+                                                                    <tr key={response._id}>
+                                                                        <td>{idx + 1}</td>
+                                                                        <td>{questions.find(s => s._id === response.questionId)?.questionOthers}</td>
+                                                                        <td className="text-center">{response.answer}</td>
+                                                                    </tr>
+                                                                ))}
+                                                            </tbody>
+                                                        </Table>
+                                                        {/* <ul>
                                                             {Array.isArray(respondent.responses) && respondent.responses.map(response => (
                                                                 <li key={response._id}>
-                                                                    Question ID: {response.questionId} - {questions.find(s=> s._id===response.questionId)?.question}, Answer: {response.answer}
+                                                                    Question ID: {response.questionId} - {questions.find(s => s._id === response.questionId)?.question}, Answer: {response.answer}
                                                                 </li>
                                                             ))}
-                                                        </ul>
+                                                        </ul> */}
                                                     </div>
                                                 ))}
                                             </Card>
@@ -166,13 +213,13 @@ const SurveySubjectResultManagement = () => {
                                 ))}
                             </CardBody>
                         </Card>
-                        
+
                     </div>
                 </Row>
                 <Row>
-                    <Col className="text-center">
+                    <Col className="text-center mb-5">
                         {/* <Link to={`/admin/survey/analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Old Analysis</Link> */}
-                        <Link to={`/admin/survey/analysis-ar/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Result Analysis</Link>
+                        <Link to={`/admin/survey/analysis-ar/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary" dir="rtl"><i className="fa-solid fa-square-poll-vertical"></i>  تحليل النتيجة </Link>
                         {/* <Link to={`/website/survey-analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Result Analysis</Link> */}
                     </Col>
                 </Row>
