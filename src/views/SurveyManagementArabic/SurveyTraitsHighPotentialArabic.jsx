@@ -74,14 +74,14 @@ const SurveyTraitsHighPotentialArabic = ({ traitSelfOthersData  , traitCategoryD
             const traitsWithComparison = finalData.map(item => {
                 return {
                     trait: item.trait,
-                    // selfRating: parseFloat(item.Self).toFixed(1),
-                    selfRating: parseFloat(item['تقييم ذاتي']).toFixed(1),
+                    selfRating: parseFloat(item.Self).toFixed(1),
+                    // selfRating: parseFloat(item['تقييم ذاتي']).toFixed(1),
                     averageOtherRating: parseFloat(item.averageOfOthers).toFixed(1),
                     difference: (parseFloat(item.Self) - parseFloat(item.averageOfOthers)).toFixed(1)
                 };
             });
     
-            const highPotentialTraits = traitsWithComparison.filter(item => { return item.selfRating > 4 && item.selfRating < 5 && item.averageOtherRating > 4 && item.averageOtherRating < 5 });
+            const highPotentialTraits = traitsWithComparison.filter(item => { return item.selfRating >= 4 && item.selfRating < 5 && item.averageOtherRating >= 4 && item.averageOtherRating < 5 });
             return highPotentialTraits;
         };
     

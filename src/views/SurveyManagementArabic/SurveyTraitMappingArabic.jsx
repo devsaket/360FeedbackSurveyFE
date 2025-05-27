@@ -84,7 +84,7 @@ const SurveyTraitMappingArabic = ({ traitSelfOthersData, traitCategoryData, trai
                 };
             });
 
-            const highPotentialTraits = traitsWithComparison.filter(item => { return item.selfRating > 4 && item.selfRating < 5 && item.averageOtherRating > 4 && item.averageOtherRating < 5 });
+            const highPotentialTraits = traitsWithComparison.filter(item => { return item.selfRating >= 4 && item.selfRating < 5 && item.averageOtherRating >= 4 && item.averageOtherRating < 5 });
             return highPotentialTraits;
         };
 
