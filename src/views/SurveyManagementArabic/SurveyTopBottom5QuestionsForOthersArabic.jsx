@@ -12,8 +12,8 @@ const SurveyTopBottom5QuestionsForOthersArabic = ({ traitQuestionData }) => {
 
                 // Collect all responses excluding Self
                 const otherResponses = Object.entries(questionData.responses)
-                    // .filter(([category]) => category !== "Self") // Exclude "Self" category
-                    .filter(([category]) => category !== "تقييم ذاتي") // Exclude "Self" category
+                    .filter(([category]) => category !== "Self") // Exclude "Self" category
+                    // .filter(([category]) => category !== "تقييم ذاتي") // Exclude "Self" category
                     .flatMap(([, responses]) => responses); // Flatten response arrays
 
                 if (otherResponses.length > 0) {
@@ -34,12 +34,14 @@ const SurveyTopBottom5QuestionsForOthersArabic = ({ traitQuestionData }) => {
         const topOtherQuestions = sortedQuestions.slice(0, 3);
         const bottomOtherQuestions = sortedQuestions.slice(-3);
 
-        // console.log(topOtherQuestions);
+        bottomOtherQuestions.sort((a, b) => a.totalResponse - b.totalResponse);
 
         return { topOtherQuestions, bottomOtherQuestions };
     };
 
     const { topOtherQuestions, bottomOtherQuestions } = getTopAndBottomOthersQuestions();
+
+    // console.log("Other Questions", { topOtherQuestions, bottomOtherQuestions })
 
     return (
         <>
