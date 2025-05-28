@@ -72,9 +72,14 @@ const SurveyPreview = () => {
 
     const handleSubjectResponseSubmit = (e) => {
         e.preventDefault();
-        console.log('Survey Responses:', responses);
-        // Add logic to send responses to the server or handle them as needed
+        // console.log('Survey Responses:', responses);
 
+        if (!canSubmit) {
+            toast.warn('Please select responses for all the questions');
+            return;
+        }
+
+        // Add logic to send responses to the server or handle them as needed
         const subjectResponseData = { surveyId: id, subjectId: subjectId, subjectResponses: responses }
 
         axios.put(process.env.REACT_APP_BACKEND_URL + '/update-subject-response', subjectResponseData)
@@ -89,6 +94,7 @@ const SurveyPreview = () => {
 
     return (
         <>
+            <ToastContainer />
             <div className="container my-3 justify-content-end bg-light-50">
                 {!isSubmitted ? Array.isArray(surveyDe) && surveyDe?.map((survey) => {
                     return (
@@ -135,7 +141,7 @@ const SurveyPreview = () => {
                                     </div>
                                     <div className="col-12 text-center">
                                         {/* <button type="submit" className='btn btn-primary' disabled={!canSubmit}>Submit</button> */}
-                                        <button type="submit" className='btn btn-primary' disabled={!canSubmit} dir='rtl'>إرسال</button>
+                                        <button type="submit" className='btn btn-primary' dir='rtl'>إرسال</button>
                                     </div>
                                 </form>
                             </div>

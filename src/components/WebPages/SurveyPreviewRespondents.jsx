@@ -68,9 +68,14 @@ const SurveyPreviewRespondents = () => {
 
     const handleRespondentResponseSubmit = (e) => {
         e.preventDefault();
-        console.log('Survey Responses:', responses);
-        // Add logic to send responses to the server or handle them as needed
+        // console.log('Survey Responses:', responses);
 
+        if (!canSubmit) {
+            toast.warn('Please select responses for all the questions');
+            return;
+        }
+
+        // Add logic to send responses to the server or handle them as needed
         const respondentResponseData = {surveyId:id, subjectId:subjectId, respondentId: respondentId ,responses:responses}
 
         axios.put(process.env.REACT_APP_BACKEND_URL+`/update-respondent-response`, respondentResponseData)
@@ -133,7 +138,7 @@ const SurveyPreviewRespondents = () => {
                                     </div>
                                     <div className="col-12 text-center">
                                         {/* <button type="submit" className='btn btn-primary' disabled={!canSubmit}>Submit</button> */}
-                                        <button type="submit" className='btn btn-primary' disabled={!canSubmit} dir='rtl'>إرسال</button>
+                                        <button type="submit" className='btn btn-primary' dir='rtl'>إرسال</button>
                                     </div>
                                 </form>
                             </div>
