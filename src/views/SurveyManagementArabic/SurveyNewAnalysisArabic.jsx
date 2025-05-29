@@ -212,7 +212,7 @@ const SurveyAnalysisArabic = () => {
                                 traitQuestionData[trait][response.questionId].responses[categoryName] = [];
                             }
                             // traitQuestionData[trait][response.questionId].responses[categoryName].push(parseInt(response.answer, 10) || 0);
-                            if(responseAnswer > 0){
+                            if (responseAnswer > 0) {
                                 traitQuestionData[trait][response.questionId].responses[categoryName].push(response.answer);
                             }
                             // traitQuestionData[trait][response.questionId].responses.push(parseInt(response.answer, 10) || 0);
@@ -389,7 +389,7 @@ const SurveyAnalysisArabic = () => {
         const generalObservationResponse = await axios.get(process.env.REACT_APP_BACKEND_URL + `/survey-response/subject/general-observation/${id}/${subjectId}`);
         setGeneralObservation(generalObservationResponse.data.observation);
 
-        if(generalObservationResponse.data.observation===''){
+        if (generalObservationResponse.data.observation === '') {
             setGeneralObservationToggle(true);
         } else {
             setGeneralObservationToggle(false);
@@ -397,20 +397,20 @@ const SurveyAnalysisArabic = () => {
     }
 
     const onSubmit = (data) => {
-        data = {surveyId:id, subjectId, ...data}
+        data = { surveyId: id, subjectId, ...data }
         console.log(data)
         axios.post(process.env.REACT_APP_BACKEND_URL + '/survey-response/subject/general-observation', data)
-                .then((res) => {
-                    if (res.data.status === 200) {
-                        reset({ observation: ""});
-                        toast.success("General Observation Submitted Successfully!");
-                        getGeneralObservation();
-                    } else {
-                        toast.warn("Something Went Wrong!");
-                        getGeneralObservation();
-                    }
-                })
-                .catch((err) => console.log(err?.message));
+            .then((res) => {
+                if (res.data.status === 200) {
+                    reset({ observation: "" });
+                    toast.success("General Observation Submitted Successfully!");
+                    getGeneralObservation();
+                } else {
+                    toast.warn("Something Went Wrong!");
+                    getGeneralObservation();
+                }
+            })
+            .catch((err) => console.log(err?.message));
     }
 
     const handleDocumentPrint = () => {
@@ -432,53 +432,53 @@ const SurveyAnalysisArabic = () => {
             <Header />
             <Container className="mt--7" fluid>
                 <article dir="rtl" className='arabic-report'>
-                <Row className="mt--3">
-                    <Col>
-                        <Card className="shadow report-page-header">
-                            <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="mb-0">Survey Analysis in Arabic</h3>
-                            </CardHeader>
-                        </Card>
+                    <Row className="mt--3">
+                        <Col>
+                            <Card className="shadow report-page-header">
+                                <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
+                                    <h3 className="mb-0">Survey Analysis in Arabic</h3>
+                                </CardHeader>
+                            </Card>
 
-                        {/* Introduction  */}
+                            {/* Introduction  */}
 
-                        <Card className='a4'>
-                            <CardBody className='text-center'>
-                                {
-                                    Array.isArray(surveyObject) && surveyObject.map(surveyItem => {
-                                        return <>
-                                            <h1 className='display-2 py-3'>{surveyItem.surveyName}</h1>
-                                            <img src={CompanyLogo} alt="Company Logo" className='border border-dark border-3' width={200} />
-                                        </>
-                                    })
-                                }
-
-                                <div className='my-5 py-5'>
-                                    {/* <h2 className='display-2'>Company Name</h2> */}
-                                    <h2 className='display-2'>"دعم القرارات للاستشارات التعليمية والتربوية"</h2>
-                                    {/* <img src={CompanyLogo} alt="Company Logo" className='rounded-circle border border-dark border-3' width={200} /> */}
-                                </div>
-
-                                <div className='my-5 py-5'>
+                            <Card className='a4'>
+                                <CardBody className='text-center'>
                                     {
-                                        Array.isArray(subjectObject) && subjectObject.map(subjectItem => {
+                                        Array.isArray(surveyObject) && surveyObject.map(surveyItem => {
                                             return <>
-                                                {/* <h3 className='display-2 fw-bold py-3'>Report Generated for <br /> "{subjectItem.subjectName}"</h3> */}
-                                                <h3 className='display-2 fw-bold py-3'>تقرير مُعدّ لصالح: <br /> "{subjectItem.subjectName}"</h3>
-                                                {/* <p>Date - {getCurrentDate()}</p> */}
-                                                <p>التاريخ: {getCurrentDate()}</p>
+                                                <h1 className='display-2 py-3'>{surveyItem.surveyName}</h1>
+                                                <img src={CompanyLogo} alt="Company Logo" className='border border-dark border-3' width={200} />
                                             </>
                                         })
                                     }
-                                </div>
 
-                            </CardBody>
-                        </Card>
+                                    <div className='my-5 py-5'>
+                                        {/* <h2 className='display-2'>Company Name</h2> */}
+                                        <h2 className='display-2'>"دعم القرارات للاستشارات التعليمية والتربوية"</h2>
+                                        {/* <img src={CompanyLogo} alt="Company Logo" className='rounded-circle border border-dark border-3' width={200} /> */}
+                                    </div>
 
-                        
+                                    <div className='my-5 py-5'>
+                                        {
+                                            Array.isArray(subjectObject) && subjectObject.map(subjectItem => {
+                                                return <>
+                                                    {/* <h3 className='display-2 fw-bold py-3'>Report Generated for <br /> "{subjectItem.subjectName}"</h3> */}
+                                                    <h3 className='display-2 fw-bold py-3'>تقرير مُعدّ لصالح: <br /> "{subjectItem.subjectName}"</h3>
+                                                    {/* <p>Date - {getCurrentDate()}</p> */}
+                                                    <p>التاريخ: {getCurrentDate()}</p>
+                                                </>
+                                            })
+                                        }
+                                    </div>
 
-                        {/* The Company & Expertise */}
-                        {/* <Card>
+                                </CardBody>
+                            </Card>
+
+
+
+                            {/* The Company & Expertise */}
+                            {/* <Card>
                             <CardBody>
                                 <h3>Brief About Company</h3>
                                 <p></p>
@@ -500,35 +500,35 @@ const SurveyAnalysisArabic = () => {
                             </CardBody>
                         </Card> */}
 
-                        {/* 360-Degree Assessment: An Introduction */}
-                        <Card className='a4'>
-                            <CardBody>
-                                {/* <h3 className='display-4 fw-bold py-3'>360-Degree Assessment: An Introduction</h3> */}
-                                <h3 className='display-4 fw-bold py-3'>تقييم 360 درجة: مقدمة
-                                </h3>
-                                <p>أسلوب تقييم 360 درجة هو أداة تقييم شاملة تهدف إلى جمع تغذية راجعة متعددة الجوانب حول السمات (الجدارات، المهارات، الصفات) الشخصية والاجتماعية والسلوكية للفرد. يستند هذا المقياس إلى آراء الأشخاص المعنيين المحيطين به، بالإضافة إلى تقييمه الذاتي، مما يوفر رؤية أعمق لسماته، ويساعد في تحديد نقاط القوة والضعف لديه بشكل أكثر دقة. 
-                                </p>
-                            </CardBody>
-                        {/* </Card> */}
+                            {/* 360-Degree Assessment: An Introduction */}
+                            <Card className='a4'>
+                                <CardBody>
+                                    {/* <h3 className='display-4 fw-bold py-3'>360-Degree Assessment: An Introduction</h3> */}
+                                    <h3 className='display-4 fw-bold py-3'>تقييم 360 درجة: مقدمة
+                                    </h3>
+                                    <p>أسلوب تقييم 360 درجة هو أداة تقييم شاملة تهدف إلى جمع تغذية راجعة متعددة الجوانب حول السمات (الجدارات، المهارات، الصفات) الشخصية والاجتماعية والسلوكية للفرد. يستند هذا المقياس إلى آراء الأشخاص المعنيين المحيطين به، بالإضافة إلى تقييمه الذاتي، مما يوفر رؤية أعمق لسماته، ويساعد في تحديد نقاط القوة والضعف لديه بشكل أكثر دقة.
+                                    </p>
+                                </CardBody>
+                                {/* </Card> */}
 
-                        {/* About This Survey */}
-                        {/* <Card className=''> */}
-                            <CardBody>
-                                {
-                                    Array.isArray(surveyObject) && surveyObject.map(surveyItem => {
-                                        return <>
-                                            {/* <h3 className='display-4 fw-bold py-3'>About this: {surveyItem.surveyName}"</h3> */}
-                                            <h3 className='display-4 fw-bold py-3'>"نظرة عامة حول  {surveyItem.surveyName}"</h3>
-                                            <p>{surveyItem.surveyDescription}</p>
-                                        </>
-                                    })
-                                }
+                                {/* About This Survey */}
+                                {/* <Card className=''> */}
+                                <CardBody>
+                                    {
+                                        Array.isArray(surveyObject) && surveyObject.map(surveyItem => {
+                                            return <>
+                                                {/* <h3 className='display-4 fw-bold py-3'>About this: {surveyItem.surveyName}"</h3> */}
+                                                <h3 className='display-4 fw-bold py-3'>"نظرة عامة حول  {surveyItem.surveyName}"</h3>
+                                                <p>{surveyItem.surveyDescription}</p>
+                                            </>
+                                        })
+                                    }
 
-                            </CardBody>
-                        </Card>
+                                </CardBody>
+                            </Card>
 
-                        {/* About This Feedback Survey */}
-                        {/* <Card>
+                            {/* About This Feedback Survey */}
+                            {/* <Card>
                             <CardBody>
                                 {
                                     Array.isArray(subjectObject) && subjectObject.map(subjectItem => {
@@ -541,152 +541,162 @@ const SurveyAnalysisArabic = () => {
                             </CardBody>
                         </Card> */}
 
-                        {/* Definition of 12 Traits */}
-                        <Card className='a4'>
-                            <CardBody>
-                                <SurveyTraitsDataArabic surveyDetails={surveyObject} traitData={traitDetails} />
-                            </CardBody>
-                        </Card>
+                            {/* Definition of 12 Traits */}
+                            <Card className='a4'>
+                                <CardBody>
+                                    <SurveyTraitsDataArabic surveyDetails={surveyObject} traitData={traitDetails} />
+                                </CardBody>
+                            </Card>
 
-                        {/* Survey Participation Data */}
-                        <Card className='a4'>
-                            <SurveyParticipationDataArabic summaryData={summaryData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
-                        </Card>
+                            {/* Survey Participation Data */}
+                            <Card className='a4'>
+                                <SurveyParticipationDataArabic summaryData={summaryData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
+                            </Card>
 
-                        {/* Overview of Respondents & Unable to Rate Weightage */}
-                        <Card className=''>
-                            <CardBody>
-                                <SurveyResponseRespondentListArabic surveyResponses={subjectObject} />
-                            </CardBody>
-                        </Card>
+                            {/* Overview of Respondents & Unable to Rate Weightage */}
+                            <Card className=''>
+                                <CardBody>
+                                    <SurveyResponseRespondentListArabic surveyResponses={subjectObject} />
+                                </CardBody>
+                            </Card>
 
-                        {/* Rank Traits based on average of Self rating */}
-                        <Card className='a4'>
-                            <CardBody>
-                                <SurveyTraitsSelfScoreArabic traitSelfData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
-                            </CardBody>
-                        </Card>
+                            {/* Rank Traits based on average of Self rating */}
+                            <Card className='a4'>
+                                <CardBody>
+                                    <SurveyTraitsSelfScoreArabic traitSelfData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
+                                </CardBody>
+                            </Card>
 
-                        {/* Rank Traits based on average of Others rating */}
-                        <Card className='a4'>
-                            <CardBody>
-                                <SurveyTraitsRespondentScoreArabic traitRespondentsData={traitRespondentsData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
-                            </CardBody>
-                        </Card>
+                            {/* Rank Traits based on average of Others rating */}
+                            <Card className='a4'>
+                                <CardBody>
+                                    <SurveyTraitsRespondentScoreArabic traitRespondentsData={traitRespondentsData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
+                                </CardBody>
+                            </Card>
 
-                        {/* Detailed Trait Analysis */}
-                        <Card className='card a4 large-content'>
-                            <CardBody>
-                                <SurveyTraitWiseAnalysisArabic traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
-                            </CardBody>
-                        </Card>
+                            {/* Detailed Trait Analysis */}
+                            <Card className='card a4 large-content'>
+                                <CardBody>
+                                    <SurveyTraitWiseAnalysisArabic traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
+                                </CardBody>
+                            </Card>
 
 
-                        {/* Top 5 & Bottom 5 Questions from self */}
-                        <Card className='a4'>
-                            <CardBody>
-                                <SurveyTopBottom5QuestionsForSelfArabic subjectObject={subjectObject} questionObjects={questionObjects} />
-                            </CardBody>
-                        </Card>
+                            {/* Top 5 & Bottom 5 Questions from self */}
+                            <Card className='a4'>
+                                <CardBody>
+                                    <SurveyTopBottom5QuestionsForSelfArabic subjectObject={subjectObject} questionObjects={questionObjects} />
+                                </CardBody>
+                            </Card>
 
-                        {/* Top 5 & Bottom 5 Questions from others */}
-                        <Card className='a4'>
-                            <CardBody>
-                                <SurveyTopBottom5QuestionsForOthersArabic traitQuestionData={traitQuestionData} />
-                            </CardBody>
-                        </Card>
+                            {/* Top 5 & Bottom 5 Questions from others */}
+                            <Card className='a4'>
+                                <CardBody>
+                                    <SurveyTopBottom5QuestionsForOthersArabic traitQuestionData={traitQuestionData} />
+                                </CardBody>
+                            </Card>
 
-                        {/* Top 5 Traits Compared to Self | Hidden Traits with Developmental Needs */}
-                        <Card className='a4'>
-                            <CardBody>
-                                <SurveyTop5TraitsComparedToSelfArabic traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
-                            </CardBody>
-                        </Card>
+                            {/* Top 5 Traits Compared to Self | Hidden Traits with Developmental Needs */}
+                            <Card className='a4'>
+                                <CardBody>
+                                    <SurveyTop5TraitsComparedToSelfArabic traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
+                                </CardBody>
+                            </Card>
 
-                        {/* Top Traits Average score greter than 5 | Trait of Strengths */}
-                        <Card className='a4'>
-                            <CardBody>
-                                <SurveyTraitsForStrengthsArabic traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
-                            </CardBody>
-                        </Card>
+                            {/* Top Traits Average score greter than 5 | Trait of Strengths */}
+                            <Card className='a4'>
+                                <CardBody>
+                                    <SurveyTraitsForStrengthsArabic traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
+                                </CardBody>
+                            </Card>
 
-                        {/* Unknown Deficiency with difference of 1 in selfRating & averageOtherRating | Blind Traits with Developmental Needs */}
-                        <Card className='a4'>
-                            <CardBody>
-                                <SurveyTraitsUnknownDeficienciesArabic traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
-                            </CardBody>
-                        </Card>
+                            {/* Unknown Deficiency with difference of 1 in selfRating & averageOtherRating | Blind Traits with Developmental Needs */}
+                            <Card className='a4'>
+                                <CardBody>
+                                    <SurveyTraitsUnknownDeficienciesArabic traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
+                                </CardBody>
+                            </Card>
 
-                        {/* Open Deficiency with selfRating & averageOtherRating is less than 4 | Traits with High Developmental Need */}
-                        <Card className='a4'>
-                            <CardBody>
-                                <SurveyTraitsOpenDeficienciesArabic traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
-                            </CardBody>
-                        </Card>
+                            {/* Open Deficiency with selfRating & averageOtherRating is less than 4 | Traits with High Developmental Need */}
+                            <Card className='a4'>
+                                <CardBody>
+                                    <SurveyTraitsOpenDeficienciesArabic traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
+                                </CardBody>
+                            </Card>
 
-                        {/* Unknown Strengths with averageOtherRating is greater than 1 from the selfRating */}
-                        {/* <Card>
+                            {/* Unknown Strengths with averageOtherRating is greater than 1 from the selfRating */}
+                            {/* <Card>
                             <CardBody>
                                 <SurveyTraitsUnknownStrengthsArabic traitSelfOthersData={traitSelfOthersData} />
                             </CardBody>
                         </Card> */}
 
-                        {/* High Potential Traits in between score of 4 to 5 */}
-                        <Card className='a4'>
-                            <CardBody>
-                                <SurveyTraitsHighPotentialArabic traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
-                            </CardBody>
-                        </Card>
+                            {/* High Potential Traits in between score of 4 to 5 */}
+                            <Card className='a4'>
+                                <CardBody>
+                                    <SurveyTraitsHighPotentialArabic traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
+                                </CardBody>
+                            </Card>
 
-                        {/* Mapping of Traits by Developmental Need */}
-                        <Card className='my-3 a4'>
-                            <CardBody>
-                                <SurveyTraitMappingArabic traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
-                            </CardBody>
-                        </Card>
+                            {/* Mapping of Traits by Developmental Need */}
+                            <Card className='my-3 a4'>
+                                <CardBody>
+                                    <SurveyTraitMappingArabic traitSelfOthersData={traitSelfOthersData} traitCategoryData={traitCategoryData} traitData={traitData} traitQuestionData={traitQuestionData} surveyCategoryObject={surveyCategoryObject} categoriesRolesObject={categoriesRolesObject} />
+                                </CardBody>
+                            </Card>
 
-                        <Card className={generalObservationToggle? 'card-print-toggler':'a4'}>
-                            <CardHeader>
-                                <h4>General Observation</h4>
-                            </CardHeader>
-                            <CardBody>
-                                {
-                                    generalObservationToggle ?
-                                    <>
-                                    <form onSubmit={handleSubmit(onSubmit)}>
-                                        <label className="form-label mt-2">General Observation</label>
-                                        <TextareaAutosize  {...register("observation")} className="form-control" placeholder="Enter General Observation" minRows={3} maxRows={5}></TextareaAutosize>
-                                        {errors.traitDescription && <p className='form-error'>General Observation is Required!</p>}
-                                        <Button color="primary" className='px-5 my-2' type="submit" disabled={!observation.trim()}> Submit </Button>
-                                    </form>
-                                    </>:<>
-                                        <pre>{generalObservation}</pre>
-                                    </>
-                                }
-                            </CardBody>
-                        </Card>
+                            <Card className={generalObservationToggle ? 'card-print-toggler' : 'a4'}>
+                                <CardHeader>
+                                    <h4>General Observation</h4>
+                                </CardHeader>
+                                <CardBody>
+                                    {
+                                        generalObservationToggle ?
+                                            <>
+                                                <form onSubmit={handleSubmit(onSubmit)}>
+                                                    <label className="form-label mt-2">General Observation</label>
+                                                    <TextareaAutosize  {...register("observation")} className="form-control" placeholder="Enter General Observation" minRows={3} maxRows={5}></TextareaAutosize>
+                                                    {errors.traitDescription && <p className='form-error'>General Observation is Required!</p>}
+                                                    <Button color="primary" className='px-5 my-2' type="submit" disabled={!observation.trim()}> Submit </Button>
+                                                </form>
+                                            </> : <>
+                                                <pre>{generalObservation}</pre>
+                                            </>
+                                    }
+                                </CardBody>
+                            </Card>
 
-                        {/* Copyright and Disclaimer */}
-                        <Card className='a4'>
-                            <CardBody>
-                                {/* <h3>Copyright</h3> */}
-                                <h3>حقوق النشر: © [2025] شركة دعم القرارات للاستشارات التعليمية والتربوية. جميع الحقوق محفوظة.</h3>
-                                {/* <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore corrupti quisquam eaque culpa voluptates natus similique sit. Dicta natus, sapiente eaque obcaecati molestiae sequi dolorum facere reiciendis pariatur ut deleniti.</p> */}
-                                <p>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
+                            {/* Copyright and Disclaimer */}
+                            <Card className='a4'>
+                                <CardBody>
+                                    {/* <h3>Copyright</h3> */}
+                                    <h3>حقوق النشر: © [2025] شركة دعم القرارات للاستشارات التعليمية والتربوية. جميع الحقوق محفوظة.</h3>
+                                    {/* <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore corrupti quisquam eaque culpa voluptates natus similique sit. Dicta natus, sapiente eaque obcaecati molestiae sequi dolorum facere reiciendis pariatur ut deleniti.</p> */}
+                                    <p dir='rtl'>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر
+                                        توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل
+                                        أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات
+                                        للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا
+                                        التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
 
-                                {/* <h3>Disclaimer</h3> */}
-                                <h3>إخلاء المسؤولية:</h3>
-                                <p>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
-                                <p>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                </Row>
-                <Row className='download-pdf-button'>
-                    <Col className='text-center'>
-                        <Button color="success" className='px-5 my-2 download-pdf-button' onClick={handleDocumentPrint}  disabled={observation.trim()}> Download as PDF </Button>
-                    </Col>
-                </Row>
+                                    {/* <h3>Disclaimer</h3> */}
+                                    <h3>إخلاء المسؤولية:</h3>
+                                    <p dir='rtl'>تم إعداد هذا التقرير بناءً على المعلومات المتاحة خلال العملية
+                                        التقييمية باستخدام أسلوب تقييم 360 درجة. إن استخدام
+                                        المعلومات الواردة في هذا التقرير هو مسؤولية العميل فقط
+                                        حيث أن الغرض من هذا التقرير هو تقديم خدمة استرشادية
+                                        للعميل و لا تتحمل شركة دعم القرارات للاستشارات التعليمية
+                                        والتربوية أو أي من موظفيها أي مسؤولية عن أي خسائر أو
+                                        أضرار مباشرة أو غير مباشرة قد تنشأ عن الاعتماد على هذه
+                                        المعلومات أو استخدام التقرير.</p>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
+                    <Row className='download-pdf-button'>
+                        <Col className='text-center'>
+                            <Button color="success" className='px-5 my-2 download-pdf-button' onClick={handleDocumentPrint} disabled={observation.trim()}> Download as PDF </Button>
+                        </Col>
+                    </Row>
                 </article>
             </Container>
         </>
