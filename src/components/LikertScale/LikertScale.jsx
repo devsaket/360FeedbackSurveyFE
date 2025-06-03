@@ -23,7 +23,7 @@ const LikertScale = ({ questionId, onResponseChange }) => {
 
 
     return (
-        <div className="likert-scale">
+        <div className="likert-scale" dir='rtl'>
             {/* <p className='ps-2 fw-bold'>Your Rating</p> */}
             <p className='ps-2 fw-bold'>تقييمك</p>
             <div className='d-flex justify-content-around'>

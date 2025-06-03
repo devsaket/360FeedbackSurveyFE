@@ -41,9 +41,10 @@ const WebsiteNavbar = (props) => {
         <Container fluid>
           <Link
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-            to="/"
+            to="/" dir="rtl"
           >
-            Decisions Support
+            {/* Decisions Support */}
+            شركة دعم القرارات
           </Link>
           {/* <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
             <FormGroup className="mb-0">

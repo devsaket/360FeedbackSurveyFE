@@ -66,7 +66,7 @@ const SurveyPreviewProduct = () => {
 
     return (
         <>
-            <div className="container my-3 justify-content-end bg-light-50">
+            <div className="container my-3 justify-content-end bg-light-50" dir='rtl'>
                 {!isSubmitted ? Array.isArray(surveyDe) && surveyDe?.map((survey) => {
                     return (
                         <>
@@ -86,7 +86,8 @@ const SurveyPreviewProduct = () => {
                                     {/* <Link to={`/website/survey-user-share-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link> */}
                                     <Link to={`/website/survey-user-share-sms/${survey._id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link>
                                     {/* <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">Survey Result</Link> */}
-                                    <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">Survey Result</Link>
+                                    {/* <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">Survey Result</Link> */}
+                                    <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">نتيجة المقياس</Link>
                                     </div>
                                 </div>
 
@@ -112,8 +113,8 @@ const SurveyPreviewProduct = () => {
                                                                     <>
                                                                         <div className='bg-body-secondary my-3 py-3 px-5' key={question._id}>
                                                                             {/* <h3 className='fw-semibold'>Question {count}</h3> */}
-                                                                            <h3 className='fw-semibold'>السؤال {count}</h3>
-                                                                            <p className='ps-5'>{btnActive ? question.question : question.questionOthers}</p>
+                                                                            <h3 className='fw-semibold d-flex'>السؤال {count}</h3>
+                                                                            <p className='ps-5 d-flex'>{btnActive ? question.question : question.questionOthers}</p>
                                                                             <LikertScale questionId={question._id} onResponseChange={() => { }} />
                                                                         </div>
                                                                     </>

@@ -114,7 +114,7 @@ const SurveySubjectResultManagement = () => {
         <>
             <Header />
             {/* Page content */}
-            <Container className="mt--7" fluid>
+            <Container className="mt--7" fluid dir="rtl">
                 {/* Table */}
 
                 <Row className="mt--3">

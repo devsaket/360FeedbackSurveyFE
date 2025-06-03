@@ -398,7 +398,7 @@ const SurveyAnalysisArabic = () => {
 
     const onSubmit = (data) => {
         data = { surveyId: id, subjectId, ...data }
-        console.log(data)
+        // console.log(data)
         axios.post(process.env.REACT_APP_BACKEND_URL + '/survey-response/subject/general-observation', data)
             .then((res) => {
                 if (res.data.status === 200) {

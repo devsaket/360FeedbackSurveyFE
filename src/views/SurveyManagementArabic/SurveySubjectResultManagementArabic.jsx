@@ -120,7 +120,8 @@ const SurveySubjectResultManagementArabic = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                <h3 className="mb-0">Survey Result</h3>
+                                {/* <h3 className="mb-0">Survey Result</h3> */}
+                                <h3 className="mb-0" dir="rtl">نتائج المقياس</h3>
                                 <div>
                                     <Button onClick={handleDownload}>Download Excel</Button>
                                     <Link to={`/admin/survey/analysis-new/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary">

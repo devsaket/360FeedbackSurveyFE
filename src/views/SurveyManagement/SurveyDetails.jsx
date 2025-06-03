@@ -58,7 +58,7 @@ const SurveyDetails = () => {
         <>
             <Header />
             {/* Page content */}
-            <Container className="mt--7" fluid>
+            <Container className="mt--7" fluid dir="rtl">
                 {/* Table */}
 
                 <Row className="mt--3">
@@ -86,7 +86,7 @@ const SurveyDetails = () => {
                                         <CardBody key={survey._id}>
 
                                                 <div className="col-12 mt-4">
-                                                    <p className='ps-3'>{survey.surveyDescription}</p>
+                                                    <p className='ps-3 d-flex' dir="rtl">{survey.surveyDescription}</p>
                                                 </div>
 
                                                 <div className="col-12">
@@ -107,8 +107,8 @@ const SurveyDetails = () => {
                                                                                     <>
                                                                                         <div className='bg-secondary my-3 py-3 px-5' key={question._id}>
                                                                                             {/* <h3 className='fw-semibold'>Question {count}</h3> */}
-                                                                                            <h3 className='fw-semibold' dir="rtl">سؤال {count}</h3>
-                                                                                            <p className='ps-5' dir="rtl">{btnActive ? question.question : question.questionOthers}</p>
+                                                                                            <h3 className='fw-semibold d-flex' dir="rtl">سؤال {count}</h3>
+                                                                                            <p className='ps-5 d-flex' dir="rtl">{btnActive ? question.question : question.questionOthers}</p>
                                                                                             <LikertScale />
                                                                                         </div>
                                                                                     </>

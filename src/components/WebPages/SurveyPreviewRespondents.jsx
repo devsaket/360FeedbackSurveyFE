@@ -91,17 +91,17 @@ const SurveyPreviewRespondents = () => {
     return (
         <>
             <ToastContainer />
-            <div className="container my-3 justify-content-end bg-light-50">
+            <div className="container my-3 justify-content-end bg-light-50" dir='rtl'>
                 {!isSubmitted ? Array.isArray(surveyDe) && surveyDe?.map((survey) => {
                     return (
                         <>
                             <div className="row border-bottom" key={survey._id}>
                                 <div className="col-12 d-flex flex-row justify-content-between align-items-center my-3 border-bottom border-3">
-                                    <h1 className="text-dark">{survey.surveyName}</h1>
+                                    <h1 className="text-dark d-flex">{survey.surveyName}</h1>
                                 </div>
 
                                 <div className="col-12 mt-4">
-                                    <p className='ps-3'>{survey.surveyDescription}</p>
+                                    <p className='ps-3 d-flex'>{survey.surveyDescription}</p>
                                 </div>
 
                                 <form onSubmit={handleRespondentResponseSubmit}>
@@ -123,8 +123,8 @@ const SurveyPreviewRespondents = () => {
                                                                         <>
                                                                             <div className='bg-body-secondary my-3 py-3 px-5' key={question._id}>
                                                                                 {/* <h3 className='fw-semibold'>Question {count}</h3> */}
-                                                                                <h3 className='fw-semibold'>السؤال {count}</h3>
-                                                                                <p className='ps-5'>{ question.questionOthers }</p>
+                                                                                <h3 className='fw-semibold d-flex'>السؤال {count}</h3>
+                                                                                <p className='ps-5 d-flex'>{ question.questionOthers }</p>
                                                                                 <LikertScale questionId={question._id} onResponseChange={handleResponseChange} />
                                                                             </div>
                                                                         </>

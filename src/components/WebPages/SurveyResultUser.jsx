@@ -203,6 +203,7 @@ const SurveyResultUser = () => {
                             if (!traitQuestionData[trait][response.questionId]) {
                                 traitQuestionData[trait][response.questionId] = {
                                     questionText: questionObjects.find(q => q._id === response.questionId)?.question || '',
+                                    questionOthersText: questionObjects.find(q => q._id === response.questionId)?.questionOthers || '',
                                     // responses: {}
                                     responses: []
                                 };
@@ -283,6 +284,7 @@ const SurveyResultUser = () => {
                                 if (!traitQuestionData[trait][response.questionId]) {
                                     traitQuestionData[trait][response.questionId] = {
                                         questionText: questionObjects.find(q => q._id === response.questionId)?.question || '',
+                                        questionOthersText: questionObjects.find(q => q._id === response.questionId)?.questionOthers || '',
                                         // responses: {}
                                         responses: []
                                     };
@@ -396,7 +398,7 @@ const SurveyResultUser = () => {
 
     const onSubmit = (data) => {
         data = {surveyId:id, subjectId, ...data}
-        console.log(data)
+        // console.log(data)
         axios.post(process.env.REACT_APP_BACKEND_URL + '/survey-response/subject/general-observation', data)
                 .then((res) => {
                     if (res.data.status === 200) {
@@ -473,21 +475,7 @@ const SurveyResultUser = () => {
                             </CardBody>
                         </Card>
 
-                        {/* Copyright and Disclaimer */}
-                        <Card className='a4'>
-                            <CardBody>
-                                {/* <h3>Copyright</h3> */}
-                                <h3>حقوق النشر: © [2025] شركة دعم القرارات للاستشارات التعليمية والتربوية. جميع الحقوق محفوظة.</h3>
-                                {/* <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore corrupti quisquam eaque culpa voluptates natus similique sit. Dicta natus, sapiente eaque obcaecati molestiae sequi dolorum facere reiciendis pariatur ut deleniti.</p> */}
-                                <p>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
-                                <p>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
-
-                                {/* <h3>Disclaimer</h3> */}
-                                <h3>إخلاء المسؤولية:</h3>
-                                <p>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
-                                <p>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
-                            </CardBody>
-                        </Card>
+                        
 
                         {/* The Company & Expertise */}
                         {/* <Card>
@@ -521,10 +509,10 @@ const SurveyResultUser = () => {
                                 <p>أسلوب تقييم 360 درجة هو أداة تقييم شاملة تهدف إلى جمع تغذية راجعة متعددة الجوانب حول السمات (الجدارات، المهارات، الصفات) الشخصية والاجتماعية والسلوكية للفرد. يستند هذا المقياس إلى آراء الأشخاص المعنيين المحيطين به، بالإضافة إلى تقييمه الذاتي، مما يوفر رؤية أعمق لسماته، ويساعد في تحديد نقاط القوة والضعف لديه بشكل أكثر دقة. 
                                 </p>
                             </CardBody>
-                        </Card>
+                        {/* </Card> */}
 
                         {/* About This Survey */}
-                        <Card className='a4'>
+                        {/* <Card className='a4'> */}
                             <CardBody>
                                 {
                                     Array.isArray(surveyObject) && surveyObject.map(surveyItem => {
@@ -662,21 +650,34 @@ const SurveyResultUser = () => {
                                 <h4>General Observation</h4>
                             </CardHeader>
                             <CardBody>
-                                {
-                                    generalObservationToggle ?
-                                    <>
-                                    <form onSubmit={handleSubmit(onSubmit)}>
-                                        <label className="form-label mt-2">General Observation</label>
-                                        <TextareaAutosize  {...register("observation")} className="form-control" placeholder="Enter General Observation" minRows={3} maxRows={5}></TextareaAutosize>
-                                        {errors.traitDescription && <p className='form-error'>General Observation is Required!</p>}
-                                        <Button color="primary" className='px-5 my-2' type="submit" disabled={!observation.trim()}> Submit </Button>
-                                    </form>
-                                    </>:<>
-                                        <pre>{generalObservation}</pre>
-                                    </>
-                                }
+                                <pre>{generalObservation}</pre>
                             </CardBody>
                         </Card>
+
+                        {/* Copyright and Disclaimer */}
+                                                    <Card className='a4'>
+                                                        <CardBody>
+                                                            {/* <h3>Copyright</h3> */}
+                                                            <h3>حقوق النشر: © [2025] شركة دعم القرارات للاستشارات التعليمية والتربوية. جميع الحقوق محفوظة.</h3>
+                                                            {/* <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore corrupti quisquam eaque culpa voluptates natus similique sit. Dicta natus, sapiente eaque obcaecati molestiae sequi dolorum facere reiciendis pariatur ut deleniti.</p> */}
+                                                            <p dir='rtl'>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر
+                                                                توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل
+                                                                أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات
+                                                                للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا
+                                                                التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
+                        
+                                                            {/* <h3>Disclaimer</h3> */}
+                                                            <h3>إخلاء المسؤولية:</h3>
+                                                            <p dir='rtl'>تم إعداد هذا التقرير بناءً على المعلومات المتاحة خلال العملية
+                                                                التقييمية باستخدام أسلوب تقييم 360 درجة. إن استخدام
+                                                                المعلومات الواردة في هذا التقرير هو مسؤولية العميل فقط
+                                                                حيث أن الغرض من هذا التقرير هو تقديم خدمة استرشادية
+                                                                للعميل و لا تتحمل شركة دعم القرارات للاستشارات التعليمية
+                                                                والتربوية أو أي من موظفيها أي مسؤولية عن أي خسائر أو
+                                                                أضرار مباشرة أو غير مباشرة قد تنشأ عن الاعتماد على هذه
+                                                                المعلومات أو استخدام التقرير.</p>
+                                                        </CardBody>
+                                                    </Card> 
                     </Col>
                 </Row>
                 <Row className='download-pdf-button'>

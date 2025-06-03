@@ -75,7 +75,7 @@ const SurveyDetailsArabic = () => {
         <>
             <Header />
             {/* Page content */}
-            <Container className="mt--7" fluid>
+            <Container className="mt--7" fluid dir="rtl">
                 {/* Table */}
 
                 <Row className="mt--3">
@@ -84,7 +84,7 @@ const SurveyDetailsArabic = () => {
                             {Array.isArray(surveyDe) && surveyDe?.map((survey) => {
                                 return (
                                     <>
-                                        <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
+                                        <CardHeader className="bg-transparent d-flex flex-row-reverse justify-content-between align-items-center">
                                             <h3 className="mb-0">{survey.surveyName}</h3>
                                             <div className='d-flex flex-row '>
                                                 <div className='mx-3'>

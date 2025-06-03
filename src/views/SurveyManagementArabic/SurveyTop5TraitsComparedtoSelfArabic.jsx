@@ -89,7 +89,7 @@ const SurveyTop5TraitsComparedToSelfArabic = ({ traitSelfOthersData, traitCatego
         const topTraits = getTopTraits();
 
         setProcessedData(topTraits);
-        // console.log("Final Data = ", topTraits);
+        console.log("Final Data Hidden Traits = ", topTraits);
 
     }, [traitCategoryData, traitData, traitQuestionData, surveyCategoryObject, categoriesRolesObject]);
 
