@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import LikertScale from '../LikertScale/LikertScale';
-import { Card, CardBody, CardHeader, Container, Row, Table } from 'reactstrap';
+import { Card, CardBody, CardFooter, CardHeader, Container, Row, Table } from 'reactstrap';
 
 
 const SurveyUserDashboard = () => {
@@ -15,6 +15,7 @@ const SurveyUserDashboard = () => {
     const [surveyList, setSurveyList] = useState([]);
     const [surveys, setSurveys] = useState([]);
     const [userSurveys, setUserSurveys] = useState([]);
+    const [next, setNext] = useState(true);
 
     useEffect(() => {
         setUserId(localStorage.getItem('userId'));          // or pull from parsed user object
@@ -65,7 +66,9 @@ const SurveyUserDashboard = () => {
 
                 <Row className="mt--3">
                     <div className="col">
-                        <Card className="shadow">
+                        {
+                            next ? <>
+                                <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
                                 {/* <h3 className="mb-0">Welcome To Decisions Support</h3> */}
                                 <h3 className="mb-0 d-flex">مرحبًا بك في صفحة التقييم</h3>
@@ -85,8 +88,8 @@ const SurveyUserDashboard = () => {
                                     <li>
                                         <p className='d-flex' dir='rtl'>عبر الرسائل النصية (SMS):</p>
                                         <p className='d-flex' dir='rtl'>من خلال الضغط على زر &quot;مشاركة عبر الرسائل النصية&quot;، ثم إدخال بياناتكم وبيانات
-المقيمين الآخرين، مع ملاحظة أن رقم الجوال يُدخل بالصيغة التالية:
-(5XXXXXXXX).</p>
+                                            المقيمين الآخرين، مع ملاحظة أن رقم الجوال يُدخل بالصيغة التالية:
+                                            (5XXXXXXXX).</p>
                                     </li>
                                     <li>
                                         <p className='d-flex' dir='rtl'>عبر البريد الإلكتروني:</p>
@@ -109,53 +112,72 @@ const SurveyUserDashboard = () => {
                                 <p className='d-flex' dir='rtl'>بعد إتمام جميع المقيمين للمقياس بنجاح، يمكنكم الاطلاع على النتائج والتقرير من خلال الضغط على زر "نتيجة المقياس" في حسابكم الشخصي.</p>
                                 <h3 className='text-center my-3 d-flex' dir='rtl'>نتمنى لك تجربة تقييم موفقة وثرية.</h3>
                             </CardBody>
+                            <CardFooter className='text-center'>
+                                <button type="button" className='btn btn-primary' onClick={()=> setNext(false)} dir='rtl'>التالي</button>
+                            </CardFooter>
                         </Card>
+                            </> :<>
+                                <Card className="shadow">
+                                    <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
+                                        {/* <h3 className="mb-0">All Surveys ({userSurveys.length})</h3> */}
+                                        <h3 className="mb-0">جميع الاستبيانات {userSurveys.length > 0 ? <>({userSurveys.length})</>:<></>}</h3>
+                                    </CardHeader>
+                                    <CardBody>
+                                        {userSurveys.length > 0 ? <>
+                                            <Table className="table-hover header-dash w-100">
+                                                <thead>
+                                                    <tr className=''>
+                                                        <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>#</th>
+                                                        {/* <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Survey Name</th>
+                                                        <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Preview</th>
+                                                        <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Actions</th> */}
+                                                        <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>اسم الاستطلاع</th>
+                                                        <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>معاينة</th>
+                                                        <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>الإجراءات</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className=''>
+                                                    {Array.isArray(userSurveys) && userSurveys.map((el, index) => {
+                                                        return (
+                                                            <>
+                                                                <tr key={el._id}>
+                                                                    <td className='text-center ps-1 align-middle' style={{ width: '8rem' }}>{index + 1}</td>
+                                                                    <td className='text-start ps-1 align-middle'><Link to={`/website/survey-preview/${el._id}`}>{el.surveyName}</Link></td>
+                                                                    <td className='text-center ps-1 '>
+                                                                        <Link to={`/website/survey-preview/${el._id}`}><i class="fa-solid fa-eye"></i></Link>
+                                                                    </td>
+                                                                    <td className='text-center ps-1 '>
+                                                                        {/* <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4 me-2">Share By Email</Link> */}
+                                                                        <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link>
+                                                                        {/* <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4">Share By SMS</Link> */}
+                                                                        <Link to={`/website/survey-user-share-sms/${el._id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link>
+                                                                        {/* <Link to={`/website/survey-result-user/${el._id}`}><i class="fa-solid fa-square-poll-vertical"></i> Result</Link> */}
+                                                                        <Link to={`/website/survey-result-user/${el._id}`} className='btn btn-outline-dark'><i class="fa-solid fa-square-poll-vertical mx-2"></i>نتيجة</Link>
+                                                                        {/* <Link to={`/admin/survey/analysis/${el._id}`}><i class="fa-solid fa-square-poll-vertical"></i> Analysis</Link> */}
+                                                                    </td>
+                                                                </tr>
+                                                            </>
+                                                        )
+                                                    })
+                                                    }
+                                                </tbody>
+                                            </Table>
+                                        </> : <>
+                                                    <p dir='rtl' className='text-right'>لم يتم شراء أي استطلاعات!</p>
+                                        </>
+                                        }
+                                    </CardBody>
+                                    <CardFooter>
+                                        <CardFooter className='text-center'>
+                                            <button type="button" className='btn btn-primary' onClick={()=> setNext(true)} dir='rtl'>خلف</button>
+                                        </CardFooter>
+                                    </CardFooter>
+                                </Card> 
+                            : <></>
 
-                        <Card className="shadow">
-                            <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                {/* <h3 className="mb-0">All Surveys ({userSurveys.length})</h3> */}
-                                <h3 className="mb-0">جميع الاستبيانات ({userSurveys.length})</h3>
-                            </CardHeader>
-                            <CardBody>
-                                {userSurveys.length > 0 ? <>
-                                    <Table className="table-hover header-dash w-100">
-                                        <thead>
-                                            <tr className=''>
-                                                <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
-                                                <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Survey Name</th>
-                                                <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Preview</th>
-                                                <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className=''>
-                                            {Array.isArray(userSurveys) && userSurveys.map((el, index) => {
-                                                return (
-                                                    <>
-                                                        <tr key={el._id}>
-                                                            <td className='text-center ps-1 align-middle' style={{ width: '8rem' }}>{index + 1}</td>
-                                                            <td className='text-start ps-1 align-middle'><Link to={`/website/survey-preview/${el._id}`}>{el.surveyName}</Link></td>
-                                                            <td className='text-center ps-1 '>
-                                                                <Link to={`/website/survey-preview/${el._id}`}><i class="fa-solid fa-eye"></i></Link>
-                                                            </td>
-                                                            <td className='text-center ps-1 '>
-                                                                {/* <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4 me-2">Share By Email</Link> */}
-                                                                <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link>
-                                                                {/* <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4">Share By SMS</Link> */}
-                                                                <Link to={`/website/survey-user-share-email/${el._id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link>
-                                                                <Link to={`/website/survey-result-user/${el._id}`}><i class="fa-solid fa-square-poll-vertical"></i> Result</Link>
-                                                                {/* <Link to={`/admin/survey/analysis/${el._id}`}><i class="fa-solid fa-square-poll-vertical"></i> Analysis</Link> */}
-                                                            </td>
-                                                        </tr>
-                                                    </>
-                                                )
-                                            })
-                                            }
-                                        </tbody>
-                                    </Table>
-                                </> : <></>
-                                }
-                            </CardBody>
-                        </Card>
+                        
+                        </>
+                        }
                     </div>
                 </Row>
             </Container>

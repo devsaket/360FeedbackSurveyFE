@@ -407,7 +407,7 @@ const SurveyUserShareEmail = () => {
         <>
             <Header />
             {/* Page content */}
-            <Container className="mt--7" fluid>
+            <Container className="mt--7" fluid dir="rtl">
                 <Row className="mt--3">
                     <div className="col">
                         <Card className="shadow">
@@ -424,19 +424,19 @@ const SurveyUserShareEmail = () => {
                                         <h3 className="" dir="rtl">للفرد المُقيَّم</h3>
                                     </CardHeader>
                                     <CardBody>
-                                        <form onSubmit={handleSendEmail}>
+                                        <form onSubmit={handleSendEmail} dir="rtl">
                                             {/* <label className='form-label'>Subject Name</label> */}
-                                            <label className='form-label' dir="rtl">اسم  الفرد المُقيَّم</label>
+                                            <label className='form-label d-block text-right' dir="rtl">اسم  الفرد المُقيَّم</label>
                                             <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder='Enter Name' className='form-control' />
 
                                             {/* <label className='form-label'>Subject's Email Address</label> */}
-                                            <label className='form-label' dir="rtl">ايميل الفرد المُقيَّم</label>
+                                            <label className='form-label d-block text-right' dir="rtl">ايميل الفرد المُقيَّم</label>
                                             <input type="email" value={recipientEmail} onChange={e => setRecipientEmail(e.target.value)} placeholder='Enter Recipient Email Address' className='form-control' />
 
                                             <div className="row">
                                                 <div className="col-12">
                                                     {/* <label className='form-label'>Choose an Email Template</label> */}
-                                                    <label className='form-label' dir="rtl">اختر قالب الايميل</label>
+                                                    <label className='form-label  d-block text-right' dir="rtl">اختر قالب الايميل</label>
                                                     <Select
                                                         value={subjectEmailTemplateOptions.find(option => option.value === chooseEmailTemplate)}
                                                         onChange={e => {
@@ -448,9 +448,10 @@ const SurveyUserShareEmail = () => {
                                                             }
                                                         }}
                                                         options={subjectEmailTemplateOptions}
-                                                        placeholder="Select Email Template"
+                                                        placeholder="حدد قالب البريد الإلكتروني"
                                                         isClearable
                                                         isSearchable
+                                                        dir="rtl"
                                                     />
                                                 </div>
                                                 {
@@ -469,8 +470,10 @@ const SurveyUserShareEmail = () => {
                                                 }
                                             </div>
 
-                                            {/* <button onClick={handleSendEmail} className='btn btn-primary my-2' disabled={isDisabled}>Send Invitation</button> */}
+                                            <div className="text-center">
+                                                {/* <button onClick={handleSendEmail} className='btn btn-primary my-2' disabled={isDisabled}>Send Invitation</button> */}
                                             <button onClick={handleSendEmail} className='btn btn-primary my-2' disabled={isDisabled}>أرسل الدعوة</button>
+                                            </div>
                                         </form>
                                     </CardBody>
                                 </Card> : <></>
@@ -490,22 +493,22 @@ const SurveyUserShareEmail = () => {
                                                 <form onSubmit={handleSubmit}>
                                                     {Array.isArray(surveyDe) && surveyDe[0]?.categories?.map((category, index) => (
                                                         <div key={index} className="mt-4">
-                                                            <h5>{Array.isArray(Categories) && Categories.find(cat => cat._id === category.category)?.categoryName} (Max: {category.maxRespondents})</h5>
+                                                            <h5 className="text-right" dir="rtl">{Array.isArray(Categories) && Categories.find(cat => cat._id === category.category)?.categoryName} (Max: {category.maxRespondents})</h5>
                                                             {respondentsData[category.category]?.map((respondent, index) => (
                                                                 <div key={index}>
                                                                     {/* <label>Respondent Name</label> */}
-                                                                    <label dir="rtl">اسم المستجيب</label>
-                                                                    <input type="text" className="form-control" value={respondent.respondentName} onChange={e => handleInputChange(category.category, index, 'respondentName', e.target.value)} required />
+                                                                    <label dir="rtl" className="d-block text-right">اسم المستجيب</label>
+                                                                    <input type="text" className="form-control" value={respondent.respondentName} onChange={e => handleInputChange(category.category, index, 'respondentName', e.target.value)} required placeholder="Enter Respondent Name" />
                                                                     {/* <label>Respondent Email</label> */}
-                                                                    <label dir="rtl">ايميل المستجيب</label>
-                                                                    <input type="email" className="form-control" value={respondent.respondentEmail} onChange={e => handleInputChange(category.category, index, 'respondentEmail', e.target.value)} required />
+                                                                    <label dir="rtl"  className="d-block text-right">ايميل المستجيب</label>
+                                                                    <input type="email" className="form-control" value={respondent.respondentEmail} onChange={e => handleInputChange(category.category, index, 'respondentEmail', e.target.value)} required placeholder="Enter Respondent Email" />
                                                                 </div>
                                                             ))}
                                                             {/* <Button color="success" onClick={() => handleAddUser(category.category)}>Add Respondent</Button> */}
                                                         </div>
                                                     ))}
                                                     {/* <label className='form-label mt-2'>Choose Email Template</label> */}
-                                                    <label className='form-label mt-2'>اختر قالب الايميل</label>
+                                                    <label className="form-label mt-2 d-block text-right">اختر قالب الايميل</label>
                                                     <Select
                                                         value={respondentEmailTemplateOptions.find(option => option.value === respondentChooseEmailTemplate)}
                                                         onChange={e => {
@@ -520,21 +523,22 @@ const SurveyUserShareEmail = () => {
                                                         placeholder="Select Email Template"
                                                         isClearable
                                                         isSearchable
+                                                        dir="rtl"
                                                     />
                                                     {/* <label className='form-label mt-2'>Email Subject</label> */}
-                                                    <label className='form-label mt-2' dir="rtl">موضوع الإيميل</label>
+                                                    <label className='form-label mt-2 d-block text-right' dir="rtl">موضوع الإيميل</label>
                                                     <TextareaAutosize className="form-control" minRows={3} value={respondentSubject} onChange={e => setRespondentSubject(e.target.value)} placeholder='Enter Email Subject' required />
                                                     {/* <label className='form-label mt-2'>Email Message</label> */}
-                                                    <label className='form-label mt-2' dir="rtl">رسالة الايميل</label>
+                                                    <label className='form-label mt-2 d-block text-right' dir="rtl">رسالة الايميل</label>
                                                     <TextareaAutosize className="form-control" minRows={5} value={respondentMessage} onChange={e => setRespondentMessage(e.target.value)} placeholder='Enter Email Message' required />
                                                     {/* <Button type='submit' color="primary" className="mt-4">Send Email</Button> */}
                                                     <Button type='submit' color="primary" className="mt-4" dir="rtl">إرسال</Button>
                                                 </form>
                                             </CardBody></> : <></>
-                                    }
+                                    }   
                                 </Card>
 
-                                <Card className="mt-3">
+                                <Card className="mt-3" dir="rtl">
                                     {btnActive ?
                                         <>
                                             <CardHeader className="d-flex justify-content-between align-items-center">
@@ -549,8 +553,8 @@ const SurveyUserShareEmail = () => {
                                                     <></>}
                                             </CardHeader>
                                             <CardBody>
-                                                <form onSubmit={handleFileRespondentSubmit}>
-                                                    <input type="file" onChange={handleFileRespondentUpload} />
+                                                <form onSubmit={handleFileRespondentSubmit} dir="rtl">
+                                                    <input type="file" onChange={handleFileRespondentUpload} className="d-block text-right" />
                                                     {/* <button type='submit'>Upload Fetched Data</button> */}
 
                                                     {/* {data && (
@@ -584,21 +588,21 @@ const SurveyUserShareEmail = () => {
 
                                                     {btnActive ? <>
                                                         <div className="row mt-4">
-                                                            <div className="col-9">
+                                                            <div className="col-12">
                                                                 {/* <label className='form-label'>Choose an Email Template</label> */}
-                                                                <label className='form-label' dir="rtl">اختر قالب البريد الإلكتروني</label>
-                                                                <Select options={respondentEmailTemplateOptions} value={respondentChooseEmailTemplate} onChange={(option) => { handleRespondentSelectedEmailTemplate(option) }} />
+                                                                <label className='form-label d-block text-right' dir="rtl">اختر قالب البريد الإلكتروني</label>
+                                                                <Select options={respondentEmailTemplateOptions} value={respondentChooseEmailTemplate} onChange={(option) => { handleRespondentSelectedEmailTemplate(option) }} className=" mb-3" />
                                                             </div>
                                                             {
                                                                 respondentChooseEmailTemplate !== "" ? <>
-                                                                    <div className="col-9">
+                                                                    <div className="col-12">
                                                                         {/* <label className='form-label'>Email's Subject of Respondent</label> */}
-                                                                        <label className='form-label' dir="rtl">موضوع الإيميل</label>
+                                                                        <label className='form-label d-block text-right' dir="rtl">موضوع الإيميل</label>
                                                                         <input className='form-control' type="text" name="subject" placeholder="Respondent Email's Subject" value={respondentSubject} onChange={(e) => setRespondentSubject(e.target.value)} />
                                                                     </div>
-                                                                    <div className="col-9">
+                                                                    <div className="col-12">
                                                                         {/* <label className='form-label'>Message for Respondent</label> */}
-                                                                        <label className='form-label' dir="rtl">رسالة الايميل</label>
+                                                                        <label className='form-label d-block text-right' dir="rtl">رسالة الايميل</label>
                                                                         <TextareaAutosize className='form-control' minRows="5" maxRows="10" name="message" placeholder="Message for Respondent" value={respondentMessage} onChange={(e) => setRespondentMessage(e.target.value)}></TextareaAutosize>
                                                                     </div>
                                                                 </> : <></>

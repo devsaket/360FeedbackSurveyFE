@@ -33,6 +33,7 @@ import {
   Container,
   Media,
 } from "reactstrap";
+import DecisionsSupportLogo from '../../assets/img/brand/decision-support-logo.png'
 
 const WebsiteNavbar = (props) => {
   return (
@@ -44,6 +45,11 @@ const WebsiteNavbar = (props) => {
             to="/" dir="rtl"
           >
             {/* Decisions Support */}
+            <img
+              alt="Desicions Support Logo"
+              className="navbar-brand-img w-100 h-100"
+              src={DecisionsSupportLogo}
+            />
             شركة دعم القرارات
           </Link>
           {/* <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">

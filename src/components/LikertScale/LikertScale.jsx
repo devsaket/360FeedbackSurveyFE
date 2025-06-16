@@ -58,7 +58,7 @@ const LikertScale = ({ questionId, onResponseChange }) => {
             <div className="unable-to-rate text-right">
                 <input type="checkbox" checked={unableToRate} onChange={handleCheckboxChange} className='form-check-input' />
                 {/* <label className='form-check-label'>Unable to Rate</label> */}
-                <label className='form-check-label'>غير قادر على التقييم</label>
+                <label className='form-check-label mx-4'>غير قادر على التقييم</label>
             </div>
         </div>
     );
