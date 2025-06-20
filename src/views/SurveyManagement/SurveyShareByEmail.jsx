@@ -322,38 +322,38 @@ const SurveyShareByEmail = () => {
     // };
 
     const handleFileRespondentUpload = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
+        const file = e.target.files[0];
+        const reader = new FileReader();
 
-    reader.onload = (event) => {
-        const workbook = XLSX.read(event.target.result, { type: 'binary' });
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-        const sheetData = XLSX.utils.sheet_to_json(sheet);
+        reader.onload = (event) => {
+            const workbook = XLSX.read(event.target.result, { type: 'binary' });
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+            const sheetData = XLSX.utils.sheet_to_json(sheet);
 
-        const mappedRespondents = sheetData.map((respondent, idx) => {
-            const excelCategory = (respondent.category || "").trim().toLowerCase();
-            const foundCategory = options.find(
-                (opt) => opt.label.trim().toLowerCase() === excelCategory.toLowerCase()
-            );
-            if (!foundCategory) {
-                toast.warn(`Row ${idx + 2}: Unknown category "${respondent.category}"`);
-            }
-            return {
-                // ...respondent,
-                respondentName: respondent.respondentName || "",
-                    respondentEmail: respondent.respondentEmail || "",
-                category: foundCategory ? foundCategory.value : "", 
-            };
-        });
+            const mappedRespondents = sheetData.map((respondent, idx) => {
+                const excelCategory = (respondent.category || "").trim().toLowerCase();
+                const foundCategory = options.find(
+                    (opt) => opt.label.trim().toLowerCase() === excelCategory.toLowerCase()
+                );
+                if (!foundCategory) {
+                    toast.warn(`Row ${idx + 2}: Unknown category "${respondent.category}"`);
+                }
+                return {
+                    // ...respondent,
+                    respondentName: respondent.respondentName || "",
+                        respondentEmail: respondent.respondentEmail || "",
+                    category: foundCategory ? foundCategory.value : "", 
+                };
+            });
 
-        setFileJsonData(mappedRespondents);
-        setUsers(mappedRespondents);
-        setBtnActive(true);
+            setFileJsonData(mappedRespondents);
+            setUsers(mappedRespondents);
+            setBtnActive(true);
+        };
+
+        reader.readAsBinaryString(file);
     };
-
-    reader.readAsBinaryString(file);
-};
 
     // Step 1: Create a mapping of trait names to their respective _id values
     const categoryMapping = Array.isArray(filteredCategories) && filteredCategories.reduce((map, category) => {
@@ -453,30 +453,7 @@ const SurveyShareByEmail = () => {
                 toast.warn('Failed to Store Respondents Data!');
             });
 
-        // for (const respondent of fileJsonData) {
-        //     // Validate fields
-        //     if (!respondent.respondentName || !respondent.respondentEmail || !respondent.category) {
-        //         toast.warn(`Missing data for respondent ${respondent.respondentName || ''}`);
-        //         continue;
-        //     }
-        //     const payload = {
-        //         surveyId: id,
-        //         subjectId: subjectId,
-        //         respondent: {
-        //             ...respondent,
-        //             responses: questions.map(q => ({ questionId: q, answer: "" }))
-        //         }
-        //     };
-        //     try {
-        //         await axios.post(process.env.REACT_APP_BACKEND_URL + '/survey-responses/add-respondent', payload);
-        //         toast.success(`Respondent ${respondent.respondentName} stored!`);
-        //     } catch {
-        //         toast.warn(`Failed to store respondent ${respondent.respondentName}`);
-        //     }
-        // }
-        // setFileJsonData([]);
-        // setBtnActive(false);
-        setShareStep("1");
+        // setShareStep("1");
     };
 
 

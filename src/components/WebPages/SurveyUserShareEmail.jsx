@@ -319,10 +319,25 @@ const SurveyUserShareEmail = () => {
             const sheet = workbook.Sheets[sheetName];
             const sheetData = XLSX.utils.sheet_to_json(sheet);
 
-            setData(sheetData);
-            setFileJsonData(sheetData)
-            setUsers(sheetData)
-            setBtnActive(true)
+            const mappedRespondents = sheetData.map((respondent, idx) => {
+                const excelCategory = (respondent.category || "").trim().toLowerCase();
+                const foundCategory = options.find(
+                    (opt) => opt.label.trim().toLowerCase() === excelCategory.toLowerCase()
+                );
+                if (!foundCategory) {
+                    toast.warn(`Row ${idx + 2}: Unknown category "${respondent.category}"`);
+                }
+                return {
+                    // ...respondent,
+                    respondentName: respondent.respondentName || "",
+                        respondentEmail: respondent.respondentEmail || "",
+                    category: foundCategory ? foundCategory.value : "", 
+                };
+            });
+
+            setFileJsonData(mappedRespondents);
+            setUsers(mappedRespondents);
+            setBtnActive(true);
         };
 
         reader.readAsBinaryString(file);
@@ -336,48 +351,60 @@ const SurveyUserShareEmail = () => {
     }, {});
 
     // Step 2: Replace the trait value in each question object with the corresponding _id and add a question code
-    const updatedUsers = Array.isArray(fileJsonData) && fileJsonData.map((respondent, index) => {
-        const trimmedCategory = respondent.category.trim();
-        return {
-            ...respondent,
-            category: categoryMapping[trimmedCategory],
-        };
-    });
+    // const updatedUsers = Array.isArray(fileJsonData) && fileJsonData.map((respondent, index) => {
+    //     const trimmedCategory = respondent.category.trim();
+    //     return {
+    //         ...respondent,
+    //         category: categoryMapping[trimmedCategory],
+    //     };
+    // });
 
+    const updatedUsers = fileJsonData;
 
-    const handleFileRespondentSubmit = (e) => {
+    const handleFileRespondentSubmit = async (e) => {
         e.preventDefault();
-        Array.isArray(surveyDe) && surveyDe.map(el => {
-            Array.isArray(el.questions) && el.questions.map(item => {
-                let questionIdData = { questionId: item, answer: "" }
-                surveyRespondentQuestionData.push(questionIdData)
-            })
-        })
 
-        const updatedUsers = Array.isArray(fileJsonData) && fileJsonData.map((respondent, index) => {
-            return {
-                ...respondent,
-                responses: surveyRespondentQuestionData
-            };
-        });
+        if (!fileJsonData.length) {
+            toast.warn('No respondents to upload!');
+            return;
+        }
+        // Add blank responses array for each respondent (for compatibility)
+        const questions = surveyDe?.[0]?.questions || [];
+        const respondentsWithResponses = fileJsonData.map(r => ({
+            ...r,
+            responses: questions.map(q => ({ questionId: q, answer: "" })),
+        }));
 
-        const addRespondentsData = { surveyId: id, respondents: updatedUsers };
+        const addRespondentsData = { surveyId: id, subjectId:subjectId, respondent: respondentsWithResponses };
 
-        axios.put(process.env.REACT_APP_BACKEND_URL + '/survey-responses/respondents', addRespondentsData)
+        axios.post(process.env.REACT_APP_BACKEND_URL + '/survey-responses/add-respondent', addRespondentsData)
             .then(res => {
                 toast.success('Respondents Data Stored successfully!');
-                Array.isArray(res.data.respondent) && res.data.respondent.map(respondentItem => {
-                    const surveyShareData = { surveyId: id, respondentId: respondentItem._id, name: respondentItem.respondentName, email: respondentItem.respondentEmail, subject: respondentSubject, message: respondentMessage };
+                // Send email to each respondent (optional: you can do this backend-side instead)
+                (res.data.respondent || []).forEach(respondentItem => {
+                    const surveyShareData = {
+                        surveyId: id,
+                        respondentId: respondentItem._id,
+                        name: respondentItem.respondentName,
+                        email: respondentItem.respondentEmail,
+                        subject: respondentSubject,
+                        message: respondentMessage
+                    };
                     axios.post(process.env.REACT_APP_BACKEND_URL + '/share-survey-respondent-by-email', surveyShareData)
-                        .then(res => {
+                        .then(() => {
                             toast.success('Email sent successfully to ' + respondentItem.respondentName + '!');
-                        }).catch(error => {
+                        }).catch(() => {
                             toast.warn('Failed to send email');
-                        })
-                })
-            }).catch(error => {
+                        });
+                });
+                setShareStep('1');
+                setBtnActive(false);
+                setFileJsonData([]);
+            }).catch(() => {
                 toast.warn('Failed to Store Respondents Data!');
-            })
+            });
+
+        // setShareStep("1");
     };
 
 
