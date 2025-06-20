@@ -74,17 +74,19 @@ const SurveyPreviewProduct = () => {
                                 <div className="col-12 d-flex flex-row justify-content-between align-items-center mt-3 border-bottom border-3 bg-white">
                                     <h1 className="text-dark">{survey.surveyName}</h1>
 
-                                    <div>
+                                    <div className='d-flex flex-row'>
                                     <div className='mx-3'>
                                                     {/* <button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</button> */}
                                                     <button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>الفرد المُقيَّم</button>
                                                     {/* <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</button> */}
                                                     <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>االمقيمون الآخرون</button>
                                                 </div>
+                                    {/* <Link to={`/website/survey-user-instructions/${survey._id}`} className="btn btn-info px-4 me-2">Share Instructions</Link> */}
+                                    <Link to={`/website/survey-user-instructions/${survey._id}`} className="btn btn-info px-4 me-2">مشاركة الاستطلاع</Link>
                                     {/* <Link to={`/website/survey-user-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link> */}
-                                    <Link to={`/website/survey-user-share-email/${survey._id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link>
+                                    {/* <Link to={`/website/survey-user-share-email/${survey._id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link> */}
                                     {/* <Link to={`/website/survey-user-share-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link> */}
-                                    <Link to={`/website/survey-user-share-sms/${survey._id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link>
+                                    {/* <Link to={`/website/survey-user-share-sms/${survey._id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link> */}
                                     {/* <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">Survey Result</Link> */}
                                     {/* <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">Survey Result</Link> */}
                                     <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">نتيجة المقياس</Link>

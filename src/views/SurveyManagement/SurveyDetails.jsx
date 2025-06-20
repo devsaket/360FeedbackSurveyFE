@@ -79,8 +79,11 @@ const SurveyDetails = () => {
 
                                                 {/* <Link to={`/admin/survey-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
                                                 <Link to={`/admin/survey-share-by-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link> */}
-                                                <Link to={`/admin/survey-share-email/${survey._id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link>
-                                                <Link to={`/admin/survey-share-by-sms/${survey._id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link>
+                                                {/* <Link to={`/admin/survey-share-email/${survey._id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link>
+                                                <Link to={`/admin/survey-share-by-sms/${survey._id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link> */}
+
+                                                {/* <Link to={`/admin/survey-share-instructions/${survey._id}`} className="btn btn-info px-4 me-2">Share Instructions</Link> */}
+                                                <Link to={`/admin/survey-share-instructions/${id}`} className="btn btn-info px-4 me-2">مشاركة الاستطلاع</Link>
                                             </div>
                                         </CardHeader>
                                         <CardBody key={survey._id}>
@@ -133,8 +136,11 @@ const SurveyDetails = () => {
                                 {/* <Link to={`/survey-respondent/${id}`} target="_blank" className="btn btn-success px-4 me-2">Preview for Respondent</Link> */}
                                 {/* <Link to={`/admin/survey-share-email/${id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
                                 <Link to={`/admin/share-by-sms/${id}`} className="btn btn-info px-4">Share By SMS</Link> */}
-                                <Link to={`/admin/survey-share-email/${id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link>
-                                <Link to={`/admin/share-by-sms/${id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link>
+                                {/* <Link to={`/admin/survey-share-email/${id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link>
+                                <Link to={`/admin/share-by-sms/${id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link> */}
+
+                                {/* <Link to={`/admin/survey-share-instructions/${survey._id}`} className="btn btn-info px-4 me-2">Share Instructions</Link> */}
+                                <Link to={`/admin/survey-share-instructions/${id}`} className="btn btn-info px-4 me-2">مشاركة الاستطلاع</Link>
                         </Card>
                     </div>
                 </Row>
