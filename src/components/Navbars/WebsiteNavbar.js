@@ -39,7 +39,7 @@ const WebsiteNavbar = (props) => {
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
-        <Container fluid>
+        <Container fluid className="d-flex justify-content-end">
           <Link
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
             to="/" dir="rtl"
@@ -47,7 +47,7 @@ const WebsiteNavbar = (props) => {
             {/* Decisions Support */}
             <img
               alt="Desicions Support Logo"
-              className="navbar-brand-img w-100 h-100"
+              className="navbar-brand-img" height="100"
               src={DecisionsSupportLogo}
             />
             شركة دعم القرارات
