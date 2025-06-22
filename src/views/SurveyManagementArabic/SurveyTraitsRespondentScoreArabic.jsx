@@ -64,7 +64,7 @@ const SurveyTraitsRespondentScoreArabic = ({ traitRespondentsData, traitCategory
       }, 0);
 
       // const averageOfOthers = (totalWeightedScore / sumWeights).toFixed(2);
-      const averageOfOthers = totalWeightedScore.toFixed(1);
+      const averageOfOthers = totalWeightedScore;
 
       return { ...data, averageOfOthers: parseFloat(averageOfOthers) };
     });

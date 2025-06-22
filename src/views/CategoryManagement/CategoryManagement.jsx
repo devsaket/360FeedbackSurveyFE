@@ -23,7 +23,7 @@ import axios from 'axios';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { toast, ToastContainer } from 'react-toastify';
-import { useForm } from "react-hook-form";
+import { register, useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "@hapi/joi";
 import 'react-toastify/dist/ReactToastify.css';
@@ -45,7 +45,7 @@ import Header from "components/Headers/Header.js";
 
 const CategorySchema = Joi.object({
     categoryName: Joi.string().required(),
-    categoryLabel: Joi.string().required(),
+    categoryLabel: Joi.string().default("default"),
 });
 
 
@@ -55,10 +55,25 @@ const CategoryManagement = () => {
     const [Categories, setCategories] = useState([]);
     const [updateMode, setUpdateMode] = useState(false);
     const [updateCategory, setSelectedCategory] = useState({});
+    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
+        resolver: joiResolver(CategorySchema),
+        defaultValues: { categoryName: "", categoryLabel: "" }
+    });
 
     const toggle = () => setModal(!modal);
 
-    // Fetch Category Data
+    const watchedCategoryName = watch('categoryName');
+
+    useEffect(() => {
+        if (modal) {
+            reset((formValues) => ({
+                ...formValues,
+                categoryLabel: watchedCategoryName || "",
+            }));
+        }
+        getCategory()
+    }, [watchedCategoryName, modal]);
+    
     useEffect(() => {
         getCategory()
     }, []);
@@ -71,10 +86,7 @@ const CategoryManagement = () => {
         .catch(err => console.log(err));
     }
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({
-        resolver: joiResolver(CategorySchema),
-        defaultValues: { categoryName: "", categoryLabel: "" }
-    });
+    
 
     const onSubmit = (data) => {
         if(updateMode){
@@ -138,7 +150,7 @@ const CategoryManagement = () => {
                 <Row className="mt--3">
                     <div className="col">
                         <Card className="shadow">
-                            <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
+                            <CardHeader className="bg-transparent d-flex flex-row-reverse justify-content-between align-items-center">
                                 {/* <h3 className="mb-0">All Categories</h3> */}
                                 <h3 className="mb-0">جميع الفئات</h3>
                                 <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> إضافة فئة</Button>
@@ -152,9 +164,12 @@ const CategoryManagement = () => {
                                             <input {...register("categoryName")} className="form-control" type="text" placeholder="Enter Category Name" />
                                             {errors.categoryName && <p className='form-error'>Category Name is Required!</p>}
 
-                                            <label className="form-label">Category Label</label>
+                                            <input type="hidden" {...register("categoryLabel")} value={watchedCategoryName} />
+
+
+                                            {/* <label className="form-label">Category Label</label>
                                             <input  {...register("categoryLabel")} className="form-control" placeholder="Enter Category Label" />
-                                            {errors.categoryLabel && <p className='form-error'>Category Label is Required!</p>}
+                                            {errors.categoryLabel && <p className='form-error'>Category Label is Required!</p>} */}
                                         </ModalBody>
                                         <ModalFooter>
                                             <Button color="primary" className='px-5 my-2' type="submit"> Submit </Button>
@@ -164,7 +179,7 @@ const CategoryManagement = () => {
                                 </Modal>
                             </CardHeader>
                             <CardBody>
-                                <table className="table table-hover header-dash">
+                                <table className="table table-hover header-dash" dir="rtl">
                                     <thead className='position-relative'>
                                         <tr className=''>
                                             {/* <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
@@ -174,7 +189,7 @@ const CategoryManagement = () => {
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th> */}
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>الرقم التسلسلي</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>اسم الفئة</th>
-                                            <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>تصنيف الفئة</th>
+                                            {/* <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>تصنيف الفئة</th> */}
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>تاريخ الإنشاء</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
                                         </tr>
@@ -186,7 +201,7 @@ const CategoryManagement = () => {
                                                 <tr key={el._id}>
                                                     <td className='text-center ps-1 align-middle' style={{ width: '8rem' }}>{index + 1}</td>
                                                     <td className='text-start ps-3 align-middle'>{el.categoryName}</td>
-                                                    <td className='text-start ps-3 align-middle'>{el.categoryLabel}</td>
+                                                    {/* <td className='text-start ps-3 align-middle'>{el.categoryLabel}</td> */}
                                                     <td className='text-center ps-1 align-middle'>{new Date(el.createdOn).toLocaleDateString()}</td>
                                                     <td className='text-center ps-1 '>
                                                         <button className='btn p-2 text-success fs-4' type='button' onClick={() => { selectedCategory(el); toggle(); }} > <i className="fa-solid fa-pencil"></i></button>
