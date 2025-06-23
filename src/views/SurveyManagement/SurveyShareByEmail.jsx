@@ -178,6 +178,13 @@ const SurveyShareByEmail = () => {
                                 toast.warn('Failed to send email');
                             })
                     })
+                    setRespondentsData({});
+                    setUsers([]);
+                    setRespondentSubject("");
+                    setRespondentMessage("");
+                    setchooseRespondentEmailTemplate("");
+                    setSingleEmailTemplates([]);
+                    setIsDisabled(false);
                 })
                 .catch(error => {
                     toast.warn('Failed to store Respondent Data');
@@ -236,6 +243,12 @@ const SurveyShareByEmail = () => {
                 axios.post(process.env.REACT_APP_BACKEND_URL + '/share-survey-by-email', emailData)
                     .then(res => {
                         toast.success('Email sent successfully!');
+                        setName("");
+                        setRecipientEmail("");
+                        setSubject("");
+                        setMessage("");
+                        setchooseEmailTemplate("");
+                        setSingleEmailTemplates([]);
                     }).catch(error => {
                         toast.warn('Failed to send email');
                     })
@@ -342,8 +355,8 @@ const SurveyShareByEmail = () => {
                 return {
                     // ...respondent,
                     respondentName: respondent.respondentName || "",
-                        respondentEmail: respondent.respondentEmail || "",
-                    category: foundCategory ? foundCategory.value : "", 
+                    respondentEmail: respondent.respondentEmail || "",
+                    category: foundCategory ? foundCategory.value : "",
                 };
             });
 
@@ -424,15 +437,18 @@ const SurveyShareByEmail = () => {
             responses: questions.map(q => ({ questionId: q, answer: "" })),
         }));
 
-        const addRespondentsData = { surveyId: id, subjectId:subjectId, respondent: respondentsWithResponses };
+        const addRespondentsData = { surveyId: id, subjectId: subjectId, respondent: respondentsWithResponses };
 
         axios.post(process.env.REACT_APP_BACKEND_URL + '/survey-responses/add-respondent', addRespondentsData)
             .then(res => {
                 toast.success('Respondents Data Stored successfully!');
                 // Send email to each respondent (optional: you can do this backend-side instead)
-                (res.data.respondent || []).forEach(respondentItem => {
+                const respondentsList = Array.isArray(res.data.subject?.respondent) ? res.data.subject.respondent : [];
+                respondentsList.forEach(respondentItem => {
+                    console.log("Respondent Item  = ", respondentItem);
                     const surveyShareData = {
                         surveyId: id,
+                        subjectId: subjectId,
                         respondentId: respondentItem._id,
                         name: respondentItem.respondentName,
                         email: respondentItem.respondentEmail,
@@ -443,17 +459,22 @@ const SurveyShareByEmail = () => {
                         .then(() => {
                             toast.success('Email sent successfully to ' + respondentItem.respondentName + '!');
                         }).catch(() => {
-                            toast.warn('Failed to send email');
+                            toast.warn('Failed to send email to ' + respondentItem.respondentName);
                         });
                 });
                 setShareStep('1');
                 setBtnActive(false);
                 setFileJsonData([]);
+                setRespondentsData({});
+                setUsers([]);
+                setRespondentSubject("");
+                setRespondentMessage("");
+                setchooseRespondentEmailTemplate("");
+                setSingleEmailTemplates([]);
+                setIsDisabled(false);
             }).catch(() => {
                 toast.warn('Failed to Store Respondents Data!');
             });
-
-        // setShareStep("1");
     };
 
 
@@ -646,15 +667,15 @@ const SurveyShareByEmail = () => {
                                                             <div className="row">
                                                                 <div className="col-3">
                                                                     {/* <label className='form-label'>Name</label> */}
-                                                                    <input className='form-control' type="text" name="name" placeholder="Respondent Name" value={user.respondentName} onChange={(e) => handleInputChange(index, e.target.value)} />
+                                                                    <input className='form-control' type="text" name="name" placeholder="Respondent Name" value={user.respondentName} onChange={(e) => handleInputChange(index, e.target.value)} readOnly />
                                                                 </div>
                                                                 <div className="col-3">
                                                                     {/* <label className='form-label'>Email Address</label> */}
-                                                                    <input className='form-control' type="email" name="email" placeholder="Respondent Email Address" value={user.respondentEmail} onChange={(e) => handleInputChange(index, e.target.value)} />
+                                                                    <input className='form-control' type="email" name="email" placeholder="Respondent Email Address" value={user.respondentEmail} onChange={(e) => handleInputChange(index, e.target.value)} readOnly />
                                                                 </div>
                                                                 <div className="col-3">
                                                                     {/* <label className='form-label'>Category</label> */}
-                                                                    <Select options={options} value={options.find(option => option.value === user.category) || null} onChange={(option) => handleInputChange(index, { target: { name: 'category', value: option.value } })} />
+                                                                    <Select options={options} value={options.find(option => option.value === user.category) || null} onChange={(option) => handleInputChange(index, { target: { name: 'category', value: option.value } })} isDisabled={true} />
                                                                 </div>
                                                             </div>
 
