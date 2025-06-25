@@ -88,7 +88,7 @@ const SurveyTraitsSelfScoreArabic = ({ traitSelfData, traitCategoryData, traitDa
                 <h3 className=''>{item.trait}</h3>
                 {/* <p>{item.selfRating}</p> */}
                 <div className='w-25'>
-                  <ProgressBar bgcolor="#6a1b9a" completed={Math.round(parseFloat(item.Self)).toFixed(1)} max={7} />
+                  <ProgressBar bgcolor="#6a1b9a" completed={parseFloat(item.Self).toFixed(1)} max={7} />
                 </div>
               </div>
             </>
