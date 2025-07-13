@@ -107,8 +107,7 @@ const Login = () => {
           </CardHeader> */}
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              {/* <small> Sign In</small> */}
-              <h2 dir="rtl">تسجيل الدخول</h2>
+              <small> Sign In</small>
             </div>
             <form onSubmit={handleSubmit}>
               <FormGroup className="mb-3">
@@ -119,7 +118,7 @@ const Login = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="اسم المستخدم"
+                    placeholder="Username"
                     type="text"
                     id="username"
                 name="username"
@@ -136,7 +135,7 @@ const Login = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="كلمة المرور"
+                    placeholder="Password"
                     type="password"
                     autoComplete="new-password"
                 id="password"
@@ -162,30 +161,22 @@ const Login = () => {
               </div> */}
               <div className="text-center">
                 <Button className="my-4" color="primary" type="submit">
-                  <span dir="rtl">تسجيل الدخول</span>
+                  <span  >Login </span>
                 </Button>
               </div>
             </form>
           </CardBody>
         </Card>
         <Row className="mt-3">
-          <Col xs="6">
+          
+          <Col className="text-right" xs="6">
             <a
               className="text-light"
               href="#pablo"
               onClick={(e) => e.preventDefault()}
             >
-              <small dir="rtl">نسيت كلمة المرور؟</small>
-            </a>
-          </Col>
-          <Col className="text-right" xs="6">
-            {/* <a
-              className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
-            >
               <small>Create new account</small>
-            </a> */}
+            </a>
           </Col>
         </Row>
       </Col>

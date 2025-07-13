@@ -130,22 +130,17 @@ const SurveyResultSubjectList = () => {
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
                                 {/* <h3 className="mb-0">Survey Result: Subjects List</h3> */}
-                                <h3 className="mb-0" dir="rtl">نتيجة الاستطلاع: قائمة الموضوعات</h3>
+                                <h3 className="mb-0"  >نتيجة الاستطلاع: قائمة الموضوعات</h3>
                             </CardHeader>
                             <CardBody>
-                                <Table className="table-hover header-dash w-100" dir="rtl">
+                                <Table className="table-hover header-dash w-100"  >
                                     <thead>
                                         <tr className=''>
-                                            {/* <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Subject Name</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Email</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Status</th>
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Actions</th> */}
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>رقم سري</th>
-                                            <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>اسم الموضوع</th>
-                                            <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>بريد إلكتروني</th>
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>حالة</th>
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>الإجراءات</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className=''>
@@ -155,10 +150,9 @@ const SurveyResultSubjectList = () => {
                                                     <td className='text-center ps-1 align-middle' style={{ width: '8rem' }}>{m + 1}</td>
                                                     <td>{subject.subjectName}</td>
                                                     <td>{subject.subjectEmail}</td>
-                                                    <td>{subject.isFilled ? 'تم التقييم' : 'لم يتم التقييم'}</td>
+                                                    <td>{subject.isFilled ? 'Filled' : 'Not Filled'}</td>
                                                     <td>
-                                                        {/* <Link to={`/website/survey-result-user/${surveyId}/${subject._id}`}>See Results</Link> */}
-                                                        <Link to={`/website/survey-result-user/${surveyId}/${subject._id}`} dir="rtl">مشاهدة النتائج</Link>
+                                                        <Link to={`/website/survey-result-user/${surveyId}/${subject._id}`}>See Results</Link>
                                                     </td>
                                                 </tr>
                                             ))

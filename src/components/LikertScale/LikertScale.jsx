@@ -23,15 +23,14 @@ const LikertScale = ({ questionId, onResponseChange }) => {
 
 
     return (
-        <div className="likert-scale" dir='rtl'>
-            {/* <p className='ps-2 fw-bold'>Your Rating</p> */}
-            <p className='ps-2 fw-bold'>تقييمك</p>
+        <div className="likert-scale" >
+            <p className='ps-2 fw-bold'>Your Rating</p>
             <div className='d-flex justify-content-around'>
                 <div className="likert-buttons">
                     {Array.isArray([1, 2, 3, 4, 5, 6, 7])&&[1, 2, 3, 4, 5, 6, 7].map((rating) => (
                         <Button key={rating} className={`likert-button ${selectedRating === rating ? 'selected' : ''} `} onClick={() => handleRatingSelect(rating)} disabled={unableToRate}>
                             {rating}
-                            {/* <span className="likert-label">
+                            <span className="likert-label">
                                 {rating === 1 ? 'Very Poor' :
                                     rating === 2 ? 'Poor' :
                                         rating === 3 ? 'Fair' :
@@ -39,26 +38,15 @@ const LikertScale = ({ questionId, onResponseChange }) => {
                                                 rating === 5 ? 'Good' :
                                                     rating === 6 ? 'Very Good' :
                                                         'Excellent'}
-                            </span> */}
-                            <span className="likert-label" dir='rtl'>
-                                {rating === 1 ? 'معارض بشدة' :
-                                    rating === 2 ? 'معارض ' :
-                                        rating === 3 ? 'معارض إلى حد ما' :
-                                            rating === 4 ? 'محايد' :
-                                                rating === 5 ? 'موافق إلى حد ما' :
-                                                    rating === 6 ? 'موافق' :
-                                                        'موافق بشدة'}
                             </span>
                         </Button>
                     ))}
                 </div>
             </div>
-            {/* <p className='ps-5'>You selected: {selectedRating}</p> */}
-            <p className='ps-5'>اختيارك: {selectedRating}</p>
+            <p className='ps-5'>You selected: {selectedRating}</p>
             <div className="unable-to-rate text-right">
                 <input type="checkbox" checked={unableToRate} onChange={handleCheckboxChange} className='form-check-input' />
-                {/* <label className='form-check-label'>Unable to Rate</label> */}
-                <label className='form-check-label mx-4'>غير قادر على التقييم</label>
+                <label className='form-check-label mx-4'>Unable to Rate</label>
             </div>
         </div>
     );

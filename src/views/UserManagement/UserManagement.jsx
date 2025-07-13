@@ -168,15 +168,12 @@ const UserManagement = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                {/* <h3 className="mb-0">All Users</h3> */}
-                                <h3 className="mb-0">جميع المستخدمين</h3>
-                                {/* <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add New User</Button> */}
-                                <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> إضافة مستخدم</Button>
+                                <h3 className="mb-0">All Users</h3>
+                                <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add New User</Button>
                                 <Modal isOpen={modal} toggle={toggle}   >
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <ModalHeader toggle={toggle}>
-                                            {/* <h3 className="mb-0">{updateMode ? 'Update User' : 'Add User'}</h3> */}
-                                            <h3 className="mb-0">{updateMode ? 'Update User' : 'إضافة مستخدم'}</h3>
+                                            <h3 className="mb-0">{updateMode ? 'Update User' : 'Add User'}</h3>
                                         </ModalHeader>
                                         <ModalBody>
                                             <div className="row">
@@ -225,15 +222,10 @@ const UserManagement = () => {
                                 <table className="table table-hover header-dash">
                                     <thead className='position-relative'>
                                         <tr className=''>
-                                            {/* <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Name</th>
                                             <th scope="col" className='text-start align-text-top ps-2 w-50 bg-dark text-white' style={{ maxWidth: '15rem' }}>Username</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Created At</th>
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th> */}
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>الرقم التسلسلي</th>
-                                            <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>الاسم</th>
-                                            <th scope="col" className='text-start align-text-top ps-2 w-50 bg-dark text-white' style={{ maxWidth: '15rem' }}>اسم المستخدم</th>
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>تاريخ الإنشاء</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
                                         </tr>
                                     </thead>

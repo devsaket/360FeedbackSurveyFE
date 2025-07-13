@@ -9,14 +9,13 @@ export const SurveyTraitsDataArabic = ({ surveyDetails, traitData }) => {
 
     return (
         <div>
-            {/* <h1>Traits for Survey: {surveyDetails[0]?.surveyName}</h1> */}
-            <h1>السمات (جدارات، مهارات، صفات) المستهدفة بعملية التقييم: {surveyDetails[0]?.surveyName}</h1>
+            <h1>Traits for Survey: {surveyDetails[0]?.surveyName}</h1>
             <table className='table table-bordered'>
                 <thead className='thead-dark'>
                     <tr>
-                        <th className='text-wrap align-top text-start'><b className='text-white'>الرقم التسلسلي</b></th>
-                        <th className='text-wrap align-top text-start'><b className='text-white'>اسم السمة</b></th>
-                        <th className='text-wrap align-top text-start'><b className='text-white'>تعريف السمة</b></th>
+                        <th className='text-wrap align-top text-start'><b className='text-white'>#</b></th>
+                        <th className='text-wrap align-top text-start'><b className='text-white'>Trait Name</b></th>
+                        <th className='text-wrap align-top text-start'><b className='text-white'>Trait Description</b></th>
                     </tr>
                 </thead>
                 <tbody>

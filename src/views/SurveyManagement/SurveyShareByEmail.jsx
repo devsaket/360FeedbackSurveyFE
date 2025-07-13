@@ -509,33 +509,26 @@ const SurveyShareByEmail = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                {/* <h3 className="mb-0 fw-bold">Share Survey By Email</h3> */}
-                                <h3 className="mb-0 fw-bold" dir="rtl">مشاركة المقياس عبر اللإيميل</h3>
+                                <h3 className="mb-0 fw-bold">Share Survey By Email</h3>
                             </CardHeader>
                         </Card>
                         {
                             shareStep === "1" ? <>
                                 <Card className="mt-3 shadow">
                                     <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                        {/* <h3 className="">For Subject</h3> */}
-                                        <h3 className="" dir="rtl">للفرد المُقيَّم</h3>
+                                        <h3 className="">For Subject</h3>
                                     </CardHeader>
                                     <CardBody>
                                         <form onSubmit={handleSendEmail}>
-                                            {/* <label className='form-label'>Subject Name</label>
-                                    <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder='Enter Name' className='form-control' /> */}
-                                            <label className='form-label' dir="rtl">اسم  الفرد المُقيَّم</label>
-                                            <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder='Enter Name' className='form-control' />
+                                            <label className='form-label'>Subject Name</label>
+                                    <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder='Enter Name' className='form-control' />
 
-                                            {/* <label className='form-label'>Subject's Email Address</label>
-                                    <input type="email" value={recipientEmail} onChange={e => setRecipientEmail(e.target.value)} placeholder='Enter Recipient Email Address' className='form-control' /> */}
-                                            <label className='form-label' dir="rtl">ايميل الفرد المُقيَّم</label>
-                                            <input type="email" value={recipientEmail} onChange={e => setRecipientEmail(e.target.value)} placeholder='Enter Recipient Email Address' className='form-control' />
+                                            <label className='form-label'>Subject's Email Address</label>
+                                    <input type="email" value={recipientEmail} onChange={e => setRecipientEmail(e.target.value)} placeholder='Enter Recipient Email Address' className='form-control' />
 
                                             <div className="row">
                                                 <div className="col-12">
-                                                    {/* <label className='form-label'>Choose an Email Template</label> */}
-                                                    <label className='form-label' dir="rtl">اختر قالب الايميل</label>
+                                                    <label className='form-label'>Choose an Email Template</label>
                                                     <Select
                                                         value={subjectEmailTemplateOptions.find(option => option.value === chooseEmailTemplate)}
                                                         onChange={e => {
@@ -555,21 +548,18 @@ const SurveyShareByEmail = () => {
                                                 {
                                                     chooseEmailTemplate !== "" ? <>
                                                         <div className="col-12">
-                                                            {/* <label className='form-label'>Email's Subject</label> */}
-                                                            <label className='form-label' dir="rtl">موضوع البريد الإلكتروني</label>
+                                                            <label className='form-label'>Email's Subject</label>
                                                             <input className='form-control' type="text" name="subject" placeholder="Email's Subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
                                                         </div>
                                                         <div className="col-12">
-                                                            {/* <label className='form-label'>Message</label> */}
-                                                            <label className='form-label' dir="rtl">رسالة</label>
+                                                            <label className='form-label'>Message</label>
                                                             <TextareaAutosize className='form-control' minRows="5" maxRows="10" name="message" placeholder="Email Message" value={message} onChange={(e) => setMessage(e.target.value)}></TextareaAutosize>
                                                         </div>
                                                     </> : <></>
                                                 }
                                             </div>
 
-                                            {/* <button onClick={handleSendEmail} className='btn btn-primary my-2' disabled={isDisabled}>Send Invitation</button> */}
-                                            <button onClick={handleSendEmail} className='btn btn-primary my-2' disabled={isDisabled}>أرسل الدعوة</button>
+                                            <button onClick={handleSendEmail} className='btn btn-primary my-2' disabled={isDisabled}>Send Invitation</button>
                                         </form>
                                     </CardBody>
                                 </Card>
@@ -582,10 +572,8 @@ const SurveyShareByEmail = () => {
                                     {!btnActive ?
                                         <>
                                             <CardHeader className="d-flex justify-content-between align-items-center">
-                                                {/* <h3 className="">For Respondents</h3> */}
-                                                <h3 className="" dir="rtl">للمستجيبين</h3>
-                                                {/* {!btnActive ? <button className="btn btn-primary" onClick={() => setBtnActive(true)}>Upload Respondents</button> : <></>} */}
-                                                {!btnActive ? <button className="btn btn-primary" onClick={() => setBtnActive(true)} dir="rtl">تحميل المستجيبين</button> : <></>}
+                                                <h3 className="">For Respondents</h3>
+                                                {!btnActive ? <button className="btn btn-primary" onClick={() => setBtnActive(true)}>Upload Respondents</button> : <></>}
                                             </CardHeader>
                                             <CardBody>
                                                 <form onSubmit={handleSubmit}>
@@ -594,19 +582,17 @@ const SurveyShareByEmail = () => {
                                                             <h5>{Array.isArray(Categories) && Categories.find(cat => cat._id === category.category)?.categoryName} (Max: {category.maxRespondents})</h5>
                                                             {respondentsData[category.category]?.map((respondent, index) => (
                                                                 <div key={index}>
-                                                                    {/* <label>Respondent Name</label> */}
-                                                                    <label dir="rtl">اسم المستجيب</label>
+                                                                    <label>Respondent Name</label>
                                                                     <input type="text" className="form-control" value={respondent.respondentName} onChange={e => handleInputChange(category.category, index, 'respondentName', e.target.value)} required />
 
-                                                                    {/* <label>Respondent Email</label> */}
-                                                                    <label dir="rtl">ايميل المستجيب</label>
+                                                                    <label>Respondent Email</label>
                                                                     <input type="email" className="form-control" value={respondent.respondentEmail} onChange={e => handleInputChange(category.category, index, 'respondentEmail', e.target.value)} required />
                                                                 </div>
                                                             ))}
                                                             {/* <Button color="success" onClick={() => handleAddUser(category.category)}>Add Respondent</Button> */}
                                                         </div>
                                                     ))}
-                                                    <label className='form-label mt-2'>اختر قالب الايميل</label>
+                                                    <label className='form-label mt-2'>Select Email Template</label>
                                                     <Select
                                                         value={respondentEmailTemplateOptions.find(option => option.value === respondentChooseEmailTemplate)}
                                                         onChange={e => {
@@ -622,14 +608,11 @@ const SurveyShareByEmail = () => {
                                                         isClearable
                                                         isSearchable
                                                     />
-                                                    {/* <label className='form-label mt-2'>Email Subject</label> */}
-                                                    <label className='form-label mt-2' dir="rtl">موضوع الإيميل</label>
+                                                    <label className='form-label mt-2'>Email Subject</label>
                                                     <TextareaAutosize className="form-control" minRows={3} value={respondentSubject} onChange={e => setRespondentSubject(e.target.value)} placeholder='Enter Email Subject' required />
-                                                    {/* <label className='form-label mt-2'>Email Message</label> */}
-                                                    <label className='form-label mt-2' dir="rtl">رسالة الايميل</label>
+                                                    <label className='form-label mt-2'>Email Message</label>
                                                     <TextareaAutosize className="form-control" minRows={5} value={respondentMessage} onChange={e => setRespondentMessage(e.target.value)} placeholder='Enter Email Message' required />
-                                                    {/* <Button type='submit' color="primary" className="mt-4">Send Email</Button> */}
-                                                    <Button type='submit' color="primary" className="mt-4" dir="rtl">إرسال</Button>
+                                                    <Button type='submit' color="primary" className="mt-4">Send Email</Button>
                                                 </form>
                                             </CardBody></> : <></>
                                     }
@@ -639,15 +622,9 @@ const SurveyShareByEmail = () => {
                                     {btnActive ?
                                         <>
                                             <CardHeader className="d-flex justify-content-between align-items-center">
-                                                {/* <h3 className="" >Upload Respondents</h3> */}
-                                                <h3 className="" dir="rtl">تحميل المستجيبين</h3>
-                                                {/* {btnActive ? <div><Button className="btn btn-primary" onClick={downloadTemplate}>Download Upload Respondent Template</Button> <Button className="btn btn-primary" onClick={() => setBtnActive(false)}>Go Back to Respondents</Button> </div>: <></>} */}
-                                                {btnActive ? <div>
-                                                    <Button className="btn btn-primary" onClick={downloadTemplate} dir="rtl">تحميل قالب بيانات المستجيبين</Button>
-                                                    <Button className="btn btn-primary" onClick={() => setBtnActive(false)} dir="rtl">العودة إلى المستجيبين</Button>
-                                                </div>
-                                                    :
-                                                    <></>}
+                                                <h3 className="" >Upload Respondents</h3>
+                                                {btnActive ? <div><Button className="btn btn-primary" onClick={downloadTemplate}>Download Upload Respondent Template</Button> <Button className="btn btn-primary" onClick={() => setBtnActive(false)}>Go Back to Respondents</Button> </div>: <></>}
+                                                
                                             </CardHeader>
                                             <CardBody>
                                                 <form onSubmit={handleFileRespondentSubmit}>
@@ -662,8 +639,7 @@ const SurveyShareByEmail = () => {
                                             )} */}
                                                     {btnActive ? Array.isArray(updatedUsers) && updatedUsers.map((user, index) => (
                                                         <div key={index} className='col-12'>
-                                                            {/* <h4 className='mt-3'>Respondent {index + 1}</h4> */}
-                                                            <h4 className='mt-3' dir="rtl">المدعى عليه {index + 1}</h4>
+                                                            <h4 className='mt-3'>Respondent {index + 1}</h4>
                                                             <div className="row">
                                                                 <div className="col-3">
                                                                     {/* <label className='form-label'>Name</label> */}
@@ -686,20 +662,17 @@ const SurveyShareByEmail = () => {
                                                     {btnActive ? <>
                                                         <div className="row mt-4">
                                                             <div className="col-9">
-                                                                {/* <label className='form-label'>Choose an Email Template</label> */}
-                                                                <label className='form-label' dir="rtl">اختر قالب البريد الإلكتروني</label>
+                                                                <label className='form-label'>Choose an Email Template</label>
                                                                 <Select options={respondentEmailTemplateOptions} value={respondentChooseEmailTemplate} onChange={(option) => { handleRespondentSelectedEmailTemplate(option) }} />
                                                             </div>
                                                             {
                                                                 respondentChooseEmailTemplate !== "" ? <>
                                                                     <div className="col-9">
-                                                                        {/* <label className='form-label'>Email's Subject of Respondent</label> */}
-                                                                        <label className='form-label' dir="rtl">موضوع الإيميل</label>
+                                                                        <label className='form-label'>Email's Subject of Respondent</label>
                                                                         <input className='form-control' type="text" name="subject" placeholder="Respondent Email's Subject" value={respondentSubject} onChange={(e) => setRespondentSubject(e.target.value)} />
                                                                     </div>
                                                                     <div className="col-9">
-                                                                        {/* <label className='form-label'>Message for Respondent</label> */}
-                                                                        <label className='form-label' dir="rtl">رسالة الايميل</label>
+                                                                        <label className='form-label'>Message for Respondent</label>
                                                                         <TextareaAutosize className='form-control' minRows="5" maxRows="10" name="message" placeholder="Message for Respondent" value={respondentMessage} onChange={(e) => setRespondentMessage(e.target.value)}></TextareaAutosize>
                                                                     </div>
                                                                 </> : <></>
@@ -708,8 +681,7 @@ const SurveyShareByEmail = () => {
 
                                                         <div className="row">
                                                             <div className="col-9 text-center">
-                                                                {/* <button className='btn btn-primary my-2 px-5' type="submit">Send Email to Respondents</button> */}
-                                                                <button className='btn btn-primary my-2 px-5' type="submit">إرسال البريد الإلكتروني إلى المستجيبين</button>
+                                                                <button className='btn btn-primary my-2 px-5' type="submit">Send Email to Respondents</button>
                                                             </div>
                                                         </div>
                                                     </> : <></>}

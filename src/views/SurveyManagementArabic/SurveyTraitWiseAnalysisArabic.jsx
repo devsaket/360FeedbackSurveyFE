@@ -97,7 +97,8 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
     );
 
     const CustomYAxisTick = ({ x, y, payload }) => (
-        <g transform={`translate(${x - 10},${y})`}>
+        // <g transform={`translate(${x - 10},${y})`}>
+        <g>
             {/* flip the text back, then right-align it */}
             <text
                 transform="scale(-1,1)"
@@ -192,8 +193,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
 
     return (
         <>
-            {/* <h2>Detailed Trait Analysis</h2> */}
-            <h2>تحليل تفصيلي للسمات (الجدارات، المهارات، الصفات)</h2>
+            <h2>Detailed Trait Analysis</h2>
             {/* {renderTraitTable()} */}
             <div className="my-4">
                 {processedData.map((traitData, index) => {
@@ -205,12 +205,12 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
 
                     // build & filter out zeros
                     const chartData = [
-                        { category: 'تقييم ذاتي', value: Number(traitData.Self.toFixed(1)) },
+                        { category: 'Self', value: Number(traitData.Self.toFixed(1)) },
                         ...surveyCategoryObject.map((role) => {
                             const name = categoriesRolesObject.find((c) => c._id === role.category)?.categoryName;
                             return { category: name, value: Number(traitData[name].toFixed(1)) }
                         }),
-                        { category: 'متوسط تقييم الآخرين', value: Number(traitData.averageOfOthers.toFixed(1)) }
+                        { category: 'Avg of Others', value: Number(traitData.averageOfOthers.toFixed(1)) }
                     ].filter((d) => d.value > 0)
 
                     if (chartData.length === 0) {
@@ -222,28 +222,31 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
                         <Card key={index} className="mb-4 shadow">
                             <CardHeader><h4>{traitData.trait}</h4></CardHeader>
                             <CardBody>
-                                <div style={{ transform: "scaleX(-1)" }}>
+                                <div>
                                     <ResponsiveContainer width="100%" height={300}>
-                                        {/* <div dir="rtl"> */}
-                                        {/* <BarChart
+                                        {/* <div  > */}
+                                        <BarChart
                                         data={[
                                             { category: 'Self', value: traitData.Self.toFixed(1) },
                                             ...updatedSurveyCategory.map((category) => ({ category: category.categoryName, value: traitData[category.categoryName].toFixed(1) })), { category: 'Avg of Others', value: traitData.averageOfOthers }
                                         ]}
                                         layout="vertical"
                                         margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-                                    > */}
-                                        <BarChart
+                                    >
+                                        {/* <BarChart
                                             data={[
                                                 { category: 'تقييم ذاتي', value: parseFloat(traitData.Self).toFixed(1) },
                                                 ...updatedSurveyCategory.map((category) => ({ category: category.categoryName, value: traitData[category.categoryName].toFixed(1) })), { category: 'متوسط تقييم الآخرين', value: traitData.averageOfOthers }
                                             ]}
                                             layout="vertical"
                                             margin={{ top: 20, right: 30, left: 180, bottom: 20 }}
-                                        >
-                                            <XAxis type="number" domain={[0, 7]} tickCount={7} ticks={[0, 1, 2, 3, 4, 5, 6, 7]} interval={0} orientation='bottom' tick={<CustomXAxisTick />} />
-                                            <YAxis type="category" dataKey="category" width={150} mirror={true} tick={<CustomYAxisTick />} />
-                                            <Tooltip wrapperStyle={{ transform: 'scaleX(-1)' }} />
+                                        > */}
+                                            {/* <XAxis type="number" domain={[0, 7]} tickCount={7} ticks={[0, 1, 2, 3, 4, 5, 6, 7]} interval={0} orientation='bottom' tick={<CustomXAxisTick />} />
+                                            <YAxis type="category" dataKey="category" width={150} mirror={true} tick={<CustomYAxisTick />} /> */}
+                                            <XAxis type="number" domain={[0, 7]} tickCount={7} ticks={[0, 1, 2, 3, 4, 5, 6, 7]} interval={0} orientation='bottom' />
+                                            <YAxis type="category" dataKey="category" width={150} />
+                                            {/* <Tooltip wrapperStyle={{ transform: 'scaleX(-1)' }} /> */}
+                                            <Tooltip />
                                             <Bar dataKey="value">
                                                 {/* <Cell key={`cell-0`} fill={colors['Self']} /> */}
                                                 {/* {
@@ -252,7 +255,7 @@ const SurveyTraitWiseAnalysisArabic = ({ traitCategoryData, traitData, traitQues
                                             ))
                                         } */}
                                                 {dynamicColors.map((item, idx) => (
-                                                    <Cell key={`cell-${idx}`} fill={item.category === 'متوسط تقييم الآخرين' ? '#FFA07A' : item.color} />
+                                                    <Cell key={`cell-${idx}`} fill={item.category === 'Avg of Others' ? '#FFA07A' : item.color} />
                                                 ))}
                                                 <LabelList dataKey="value" content={<ValueLabel />} />
                                             </Bar>

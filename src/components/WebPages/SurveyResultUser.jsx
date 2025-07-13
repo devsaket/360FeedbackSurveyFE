@@ -431,7 +431,7 @@ const SurveyResultUser = () => {
         <>
             {/* <Header /> */}
             <Container className="mt--7" fluid>
-                <article dir="rtl" className='arabic-report'>
+                <article   className='arabic-report'>
                 <Row className="mt--3">
                     <Col>
                         <Card className="shadow report-page-header">
@@ -454,19 +454,16 @@ const SurveyResultUser = () => {
                                 }
 
                                 <div className='my-5 py-5'>
-                                    {/* <h2 className='display-2'>Company Name</h2> */}
-                                    <h2 className='display-2'>"دعم القرارات للاستشارات التعليمية والتربوية"</h2>
-                                    {/* <img src={CompanyLogo} alt="Company Logo" className='rounded-circle border border-dark border-3' width={200} /> */}
+                                    <h2 className='display-2'>Company Name</h2>
+                                    <img src={CompanyLogo} alt="Company Logo" className='rounded-circle border border-dark border-3' width={200} />
                                 </div>
 
                                 <div className='my-5 py-5'>
                                     {
                                         Array.isArray(subjectObject) && subjectObject.map(subjectItem => {
                                             return <>
-                                                {/* <h3 className='display-2 fw-bold py-3'>Report Generated for <br /> "{subjectItem.subjectName}"</h3> */}
-                                                <h3 className='display-2 fw-bold py-3'>تقرير مُعدّ لصالح: <br /> "{subjectItem.subjectName}"</h3>
-                                                {/* <p>Date - {getCurrentDate()}</p> */}
-                                                <p>التاريخ: - {getCurrentDate()}</p>
+                                                <h3 className='display-2 fw-bold py-3'>Report Generated for <br /> "{subjectItem.subjectName}"</h3>
+                                                <p>Date - {getCurrentDate()}</p>
                                             </>
                                         })
                                     }
@@ -503,10 +500,8 @@ const SurveyResultUser = () => {
                         {/* 360-Degree Assessment: An Introduction */}
                         <Card className='a4'>
                             <CardBody>
-                                {/* <h3 className='display-4 fw-bold py-3'>360-Degree Assessment: An Introduction</h3> */}
-                                <h3 className='display-4 fw-bold py-3'>تقييم 360 درجة: مقدمة
-                                </h3>
-                                <p>أسلوب تقييم 360 درجة هو أداة تقييم شاملة تهدف إلى جمع تغذية راجعة متعددة الجوانب حول السمات (الجدارات، المهارات، الصفات) الشخصية والاجتماعية والسلوكية للفرد. يستند هذا المقياس إلى آراء الأشخاص المعنيين المحيطين به، بالإضافة إلى تقييمه الذاتي، مما يوفر رؤية أعمق لسماته، ويساعد في تحديد نقاط القوة والضعف لديه بشكل أكثر دقة. 
+                                <h3 className='display-4 fw-bold py-3'>360-Degree Assessment: An Introduction</h3>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam autem laboriosam sit voluptatum rerum. Tenetur tempore libero saepe provident, maxime, cumque quidem sapiente perferendis itaque sed nesciunt iure aperiam? Hic. Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, ipsam? Ab, possimus. Totam exercitationem explicabo maxime consectetur soluta, numquam aliquid dolores quod qui impedit a aspernatur architecto suscipit itaque iure.
                                 </p>
                             </CardBody>
                         {/* </Card> */}
@@ -517,8 +512,7 @@ const SurveyResultUser = () => {
                                 {
                                     Array.isArray(surveyObject) && surveyObject.map(surveyItem => {
                                         return <>
-                                            {/* <h3 className='display-4 fw-bold py-3'>About this: {surveyItem.surveyName}"</h3> */}
-                                            <h3 className='display-4 fw-bold py-3'>"نظرة عامة حول  {surveyItem.surveyName}"</h3>
+                                            <h3 className='display-4 fw-bold py-3'>About this: {surveyItem.surveyName}"</h3>
                                             <p>{surveyItem.surveyDescription}</p>
                                         </>
                                     })
@@ -657,25 +651,12 @@ const SurveyResultUser = () => {
                         {/* Copyright and Disclaimer */}
                                                     <Card className='a4'>
                                                         <CardBody>
-                                                            {/* <h3>Copyright</h3> */}
-                                                            <h3>حقوق النشر: © [2025] شركة دعم القرارات للاستشارات التعليمية والتربوية. جميع الحقوق محفوظة.</h3>
-                                                            {/* <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore corrupti quisquam eaque culpa voluptates natus similique sit. Dicta natus, sapiente eaque obcaecati molestiae sequi dolorum facere reiciendis pariatur ut deleniti.</p> */}
-                                                            <p dir='rtl'>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر
-                                                                توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل
-                                                                أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات
-                                                                للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا
-                                                                التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
+                                                            <h3>Copyright</h3>
+                                                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore corrupti quisquam eaque culpa voluptates natus similique sit. Dicta natus, sapiente eaque obcaecati molestiae sequi dolorum facere reiciendis pariatur ut deleniti.</p>
+                                                            
                         
-                                                            {/* <h3>Disclaimer</h3> */}
-                                                            <h3>إخلاء المسؤولية:</h3>
-                                                            <p dir='rtl'>تم إعداد هذا التقرير بناءً على المعلومات المتاحة خلال العملية
-                                                                التقييمية باستخدام أسلوب تقييم 360 درجة. إن استخدام
-                                                                المعلومات الواردة في هذا التقرير هو مسؤولية العميل فقط
-                                                                حيث أن الغرض من هذا التقرير هو تقديم خدمة استرشادية
-                                                                للعميل و لا تتحمل شركة دعم القرارات للاستشارات التعليمية
-                                                                والتربوية أو أي من موظفيها أي مسؤولية عن أي خسائر أو
-                                                                أضرار مباشرة أو غير مباشرة قد تنشأ عن الاعتماد على هذه
-                                                                المعلومات أو استخدام التقرير.</p>
+                                                            <h3>Disclaimer</h3>
+                                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores consectetur, ipsa temporibus incidunt, asperiores voluptatum similique, hic facere consequuntur eligendi maxime laborum. Delectus iusto dolor veritatis fugiat magni aut, commodi nobis odio, voluptate doloribus vel deleniti atque repellendus cumque. Tenetur voluptas, quaerat ducimus cupiditate quasi ut praesentium, sapiente tempora rem harum consectetur modi? Nisi hic iusto maiores debitis, perspiciatis placeat ea sed nesciunt nihil facere numquam cum, iure, porro aliquam. Nobis dolorem, amet dolor praesentium dolore consequatur animi consectetur temporibus. Repellendus, praesentium est eveniet voluptatibus ea odit cumque quidem libero voluptas fuga consequatur. Sint eligendi sunt distinctio eum, natus inventore.</p>
                                                         </CardBody>
                                                     </Card> 
                     </Col>

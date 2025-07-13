@@ -270,35 +270,26 @@ const QuestionManagement = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                {/* <h3 className="mb-0">All Questions</h3> */}
-                                <h3 className="mb-0">جميع الأسئلة</h3>
+                                <h3 className="mb-0">All Questions</h3>
                                 <div>
-                                    {/* <Button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</Button>
-                                    <Button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</Button> */}
-                                    <Button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>الفرد المُقيَّم</Button>
-                                    <Button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>االمقيمون الآخرون </Button>
+                                    <Button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</Button>
+                                    <Button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</Button>
 
-                                    {/* <Button onClick={uploadToggle}><i className="fa-solid fa-upload"></i> Upload Questions</Button>
-                                    <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Question</Button> */}
-                                    <Button onClick={uploadToggle} dir="rtl"><i className="fa-solid fa-upload"></i>تحميل الأسئلة</Button>
-                                    <Button onClick={toggle} dir="rtl"><i className="fa-solid fa-plus me-2"></i> إضافة سؤال</Button>
+                                    <Button onClick={uploadToggle}><i className="fa-solid fa-upload"></i> Upload Questions</Button>
+                                    <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Question</Button>
                                 </div>
                                 <Modal isOpen={uploadModal} toggle={uploadToggle} >
                                     <form onSubmit={handleFileSubmit}>
                                         <ModalHeader toggle={uploadToggle}>
-                                            {/* <h3 className="mb-0"> Upload Questions</h3> */}
-                                            <h3 className="mb-0"> تحميل الأسئلة</h3>
+                                            <h3 className="mb-0"> Upload Questions</h3>
                                         </ModalHeader>
                                         <ModalBody>
                                             <input type="file" onChange={handleFileUpload} />
-                                            {/* <Button className="btn btn-link mt-2" onClick={downloadTemplate}> Download Question Template </Button> */}
-                                            <Button className="btn btn-link mt-2" onClick={downloadTemplate} dir="rtl"> تحميل نموذج الأسئلة </Button>
+                                            <Button className="btn btn-link mt-2" onClick={downloadTemplate}> Download Question Template </Button>
                                         </ModalBody>
                                         <ModalFooter>
-                                            {/* <Button color="primary" className='px-5 my-2' type="submit"> Upload </Button>
-                                            <Button color="secondary" onClick={uploadToggle}> Cancel </Button> */}
-                                            <Button color="primary" className='px-5 my-2' type="submit" dir="rtl">رفع </Button>
-                                            <Button color="secondary" onClick={uploadToggle} dir="rtl"> إلغاء</Button>
+                                            <Button color="primary" className='px-5 my-2' type="submit"> Upload </Button>
+                                            <Button color="secondary" onClick={uploadToggle}> Cancel </Button>
                                         </ModalFooter>
                                     </form>
                                 </Modal>
@@ -306,44 +297,35 @@ const QuestionManagement = () => {
                                 <Modal isOpen={modal} toggle={toggle} >
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <ModalHeader toggle={toggle}>
-                                            {/* <h3 className="mb-0">{updateMode ? 'Update Question' : 'Add Question'}</h3> */}
-                                            <h3 className="mb-0" dir="rtl">{updateMode ? 'تحديث السؤال' : 'إضافة سؤال'}</h3>
+                                            <h3 className="mb-0">{updateMode ? 'Update Question' : 'Add Question'}</h3>
                                         </ModalHeader>
                                         <ModalBody>
                                             <div className="col-12 py-lg-2">
-                                                {/* <label htmlFor="" className="form-label">Enter Question for Subject</label> */}
-                                                <label htmlFor="" className="form-label" dir="rtl">أضف سؤال الفرد المُقيَّم</label>
-                                                <input {...register("question")} className="form-control" type="text" placeholder='أضف سؤال الفرد المُقيَّم' />
-                                                {/* {errors.question && <p className='form-error'>Question for Subject is Required!</p>} */}
-                                                {errors.question && <p className='form-error'>السؤال للموضوع مطلوب!</p>}
+                                                <label htmlFor="" className="form-label">Enter Question for Subject</label>
+                                                <input {...register("question")} className="form-control" type="text" placeholder='Enter Question for Subject' />
+                                                {errors.question && <p className='form-error'>Question for Subject is Required!</p>}
                                             </div>
                                             <div className="col-12 py-lg-2">
-                                                {/* <label htmlFor="" className="form-label">Enter Question for Respondents</label> */}
-                                                <label htmlFor="" className="form-label" dir="rtl">أضف سؤال المستجيبين</label>
-                                                <input {...register("questionOthers")} className="form-control" type="text" placeholder='أضف سؤال المستجيبين' />
-                                                {/* {errors.questionOthers && <p className='form-error'>Question for Respondents is Required!</p>} */}
-                                                {errors.questionOthers && <p className='form-error' dir="rtl">السؤال المطلوب من المستجيبين!</p>}
+                                                <label htmlFor="" className="form-label">Enter Question for Respondents</label>
+                                                <input {...register("questionOthers")} className="form-control" type="text" placeholder='Enter Question for Respondents' />
+                                                {errors.questionOthers && <p className='form-error'>Question for Respondents is Required!</p>}
                                             </div>
                                             <div className="col-12 py-lg-2">
-                                                {/* <label htmlFor="" className="form-label">Select A Trait</label> */}
-                                                <label htmlFor="" className="form-label" dir="rtl">اختر السمة</label>
-                                                <select  {...register("trait")} className="form-control" placeholder="اختر السمة">
-                                                    {/* <option selected={true}>Select a Trait</option> */}
-                                                    <option selected={true}>اختر السمة</option>
+                                                <label htmlFor="" className="form-label">Select A Trait</label>
+                                                <select  {...register("trait")} className="form-control" placeholder="Select A Trait">
+                                                    <option selected={true}>Select a Trait</option>
                                                     {Array.isArray(Trait) &&
                                                         Trait.length >= 1 ? Trait.map((el, index) => {
                                                             return (<>
                                                                 <option value={el._id} className='text-dark'>{el.traitName}</option>
                                                             </>)
                                                         }) : <>
-                                                        {/* No Trait Available */}
-                                                        <span dir="rtl">لا توجد سمة متاحة</span>
+                                                        No Trait Available
                                                         </>
                                                     }
 
                                                 </select>
-                                                {/* {errors.trait && <p className='form-error'>Trait is Required!</p>} */}
-                                                {errors.trait && <p className='form-error' dir="rtl">السمة مطلوبة!</p>}
+                                                {errors.trait && <p className='form-error'>Trait is Required!</p>}
                                             </div>
                                             {/* <div className="col-12 py-lg-2">
                                                 <label htmlFor="" className="form-label">Enter Question Code</label>
@@ -352,10 +334,8 @@ const QuestionManagement = () => {
                                             </div> */}
                                         </ModalBody>
                                         <ModalFooter>
-                                            {/* <Button color="primary" className='px-5 my-2' type="submit"> Submit </Button>
-                                            <Button color="secondary" onClick={toggle}> Cancel </Button> */}
-                                            <Button color="primary" className='px-5 my-2' type="submit" dir="rtl">إرسال</Button>
-                                            <Button color="secondary" onClick={toggle} dir="rtl">إلغاء</Button>
+                                            <Button color="primary" className='px-5 my-2' type="submit"> Submit </Button>
+                                            <Button color="secondary" onClick={toggle}> Cancel </Button>
                                         </ModalFooter>
                                     </form>
                                 </Modal>
@@ -364,17 +344,11 @@ const QuestionManagement = () => {
                                 <table className="table table-hover header-dash">
                                     <thead className='position-relative'>
                                         <tr className=''>
-                                            {/* <th scope="col" className='text-center align-text-top ps-1 bg-dark text-white' style={{ width: '6rem' }}>S.No</th>
+                                            <th scope="col" className='text-center align-text-top ps-1 bg-dark text-white' style={{ width: '6rem' }}>S.No</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Code</th>
                                             <th scope="col-6" className='text-start align-text-top ps-2 bg-dark text-white'>Question</th>
                                             <th scope="col-2" className='text-start align-text-top ps-2 bg-dark text-white'>Trait</th>
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Created At</th> */}
-
-                                            <th scope="col" className='text-center align-text-top ps-1 bg-dark text-white' style={{ width: '6rem' }}>الرقم التسلسلي</th>
-                                            <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>الرمز</th>
-                                            <th scope="col-6" className='text-start align-text-top ps-2 bg-dark text-white'>السؤال</th>
-                                            <th scope="col-2" className='text-start align-text-top ps-2 bg-dark text-white'>السمة</th>
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>تاريخ الإنشاء</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Created At</th>
                                             {/* <th scope="col" className='text-center align-text-top ps-2'>Updated At</th> */}
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
                                         </tr>
@@ -397,10 +371,8 @@ const QuestionManagement = () => {
                                                         <button className='btn p-2 text-success fs-4' type='button' onClick={() => { selectedQuestion(el); toggle(); }} > <i className="fa-solid fa-pencil"></i></button>
 
                                                         <Popup trigger={<button className=' p-2 bg-transparent border border-0'><i className="fa-solid fa-trash text-danger"></i></button>} position="top right">
-                                                            {/* <div className='py-1 p-2'>Are you sure you want to delete <span className='text-danger fs-5 fw-bold'>{el.question}</span>?</div>
-                                                            <button className='btn btn-danger my-3 py-1 mx-2' onClick={() => deleteQuestion(el._id)}>Delete</button> */}
-                                                            <div className='py-1 p-2' dir="rtl">هل أنت متأكد أنك تريد الحذف <span className='text-danger fs-5 fw-bold'>{el.question}</span>?</div>
-                                                            <button className='btn btn-danger my-3 py-1 mx-2' onClick={() => deleteQuestion(el._id)} dir="rtl">يمسح</button>
+                                                            <div className='py-1 p-2'>Are you sure you want to delete <span className='text-danger fs-5 fw-bold'>{el.question}</span>?</div>
+                                                            <button className='btn btn-danger my-3 py-1 mx-2' onClick={() => deleteQuestion(el._id)}>Delete</button>
                                                         </Popup>
                                                     </td>
                                                 </tr>

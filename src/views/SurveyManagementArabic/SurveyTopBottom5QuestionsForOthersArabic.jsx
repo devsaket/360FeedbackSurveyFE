@@ -46,13 +46,11 @@ const SurveyTopBottom5QuestionsForOthersArabic = ({ traitQuestionData }) => {
     return (
         <>
             <div className='my-3'>
-            {/* <h2>Top Rated Statements by Others</h2> */}
-            <h2>أعلى الفقرات تقييمًا من قبل الآخرين</h2>
+            <h2>Top Rated Statements by Others</h2>
             {topOtherQuestions.map((question, idx) => (
                 <div key={idx} className={`d-flex statement-main-box ${idx === 1 ? 'flex-row-reverse' : 'flex-row'}`}>
                     <div className='statement-box bg-primary'>
-                        {/* <h6 className='statement-head'>Statement</h6> */}
-                        <h6 className='statement-head'>فقرة</h6>
+                        <h6 className='statement-head'>Statement</h6>
                         <p className='statement-text'>{idx + 1}</p>
                     </div>
                     <div className='question-box'>
@@ -66,13 +64,11 @@ const SurveyTopBottom5QuestionsForOthersArabic = ({ traitQuestionData }) => {
             </div>
 
             <div className='mt-5 my-3'>
-            {/* <h2>Bottom Rated Statements by Others</h2> */}
-            <h2>أقل الفقرات تقييمًا من قبل الآخرين</h2>
+            <h2>Bottom Rated Statements by Others</h2>
             {bottomOtherQuestions.map((question, idx) => (
                 <div key={idx} className={`d-flex statement-main-box ${idx === 1 ? 'flex-row-reverse' : 'flex-row'}`}>
                     <div className='statement-box bg-danger'>
-                        {/* <h6 className='statement-head'>Statement</h6> */}
-                        <h6 className='statement-head'>فقرة</h6>
+                        <h6 className='statement-head'>Statement</h6>
                         <p className='statement-text'>{idx + 1}</p>
                     </div>
                     <div className='question-box'>

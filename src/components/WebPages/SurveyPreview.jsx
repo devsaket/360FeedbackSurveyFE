@@ -95,7 +95,7 @@ const SurveyPreview = () => {
     return (
         <>
             <ToastContainer />
-            <div className="container my-3 justify-content-end bg-light-50" dir='rtl'>
+            <div className="container my-3 justify-content-end bg-light-50" >
                 {!isSubmitted ? Array.isArray(surveyDe) && surveyDe?.map((survey) => {
                     return (
                         <>
@@ -109,7 +109,7 @@ const SurveyPreview = () => {
                                 </div>
 
                                 <form onSubmit={handleSubjectResponseSubmit}>
-                                    <div className="col-12" dir='rtl'>
+                                    <div className="col-12" >
                                         {Array.isArray(survey.traits) && survey.traits.map(traitId => {
                                             const trait = Trait.find(t => t._id === traitId);
                                             if (trait) {
@@ -125,9 +125,8 @@ const SurveyPreview = () => {
                                                                 return (
                                                                     <>
                                                                         <div className='bg-body-secondary my-3 py-3 px-5' key={question._id}>
-                                                                            {/* <h3 className='fw-semibold'>Question {count}</h3> */}
-                                                                            <h3 className='fw-semibold d-flex' dir='rtl'>السؤال {count}</h3>
-                                                                            <p className='ps-5 d-flex' dir='rtl'>{question.question}</p>
+                                                                            <h3 className='fw-semibold'>Question {count}</h3>
+                                                                            <p className='ps-5 d-flex' >{question.question}</p>
                                                                             <LikertScale questionId={question._id} onResponseChange={handleResponseChange} />
                                                                         </div>
                                                                     </>
@@ -140,8 +139,7 @@ const SurveyPreview = () => {
                                         })}
                                     </div>
                                     <div className="col-12 text-center">
-                                        {/* <button type="submit" className='btn btn-primary' disabled={!canSubmit}>Submit</button> */}
-                                        <button type="submit" className='btn btn-primary' dir='rtl'>إرسال</button>
+                                        <button type="submit" className='btn btn-primary' disabled={!canSubmit}>Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -150,8 +148,7 @@ const SurveyPreview = () => {
                 })
                     : <>
                         <div className='d-flex justify-content-center'>
-                            {/* <p className='display-4 text-center w-50'>Submission is Successful and THank you for Participation</p> */}
-                            <p className='display-4 text-center w-50' dir='rtl' style={{marginTop: "350px"}}>شكراً لكم على التقييم</p>
+                            <p className='display-4 text-center w-50'>Submission is Successful and THank you for Participation</p>
                         </div>
                     </>
                 }

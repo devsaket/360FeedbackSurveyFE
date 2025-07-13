@@ -78,8 +78,7 @@ const SurveyTraitsRespondentScoreArabic = ({ traitRespondentsData, traitCategory
 
   return (
     <>
-      {/* <h2>Ranking of Traits Based on the Average of Multi-Raters’ Feedback Scoring</h2> */}
-      <h2>ترتيب السمات (الجدارات، المهارات، الصفات) بناءً على متوسط تقييم الآخرين</h2>
+      <h2>Ranking of Traits Based on the Average of Multi-Raters’ Feedback Scoring</h2>
       {
         traitOthersRating.map((item, index) => {
           return (

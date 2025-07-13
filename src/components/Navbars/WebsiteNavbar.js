@@ -42,15 +42,15 @@ const WebsiteNavbar = (props) => {
         <Container fluid className="d-flex justify-content-end">
           <Link
             className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-            to="/" dir="rtl"
+            to="/"
           >
             {/* Decisions Support */}
-            <img
+            {/* <img
               alt="Desicions Support Logo"
               className="navbar-brand-img" height="100"
               src={DecisionsSupportLogo}
-            />
-            شركة دعم القرارات
+            /> */}
+            Admin Dashboard
           </Link>
           {/* <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
             <FormGroup className="mb-0">

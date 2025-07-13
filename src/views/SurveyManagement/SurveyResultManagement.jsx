@@ -119,34 +119,24 @@ const SurveyResultManagement = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                {/* <h3 className="mb-0">Survey Result</h3> */}
-                                <h3 className="mb-0" dir="rtl">نتيجة الاستطلاع</h3>
+                                <h3 className="mb-0">Survey Result</h3>
                                 {/* <Button onClick={handleDownload}>Download Excel</Button> */}
                             </CardHeader>
                             <CardBody>
 
                                 {Array.isArray(surveyResult) && surveyResult.map((survey, index) => (
                                     <div key={survey._id}>
-                                        {/* <h2>Survey Name: {survey.surveyId} {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyName}</h2> */}
-                                        <h2 dir="rtl">
-                                            <span>اسم المقياس {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyName}</span> 
-                                        </h2>
-                                        {/* <p>{survey.surveyId} {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyDescription}</p> */}
-                                        <p dir="rtl">
-                                            {/* {survey.surveyId}  */}
-                                            {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyDescription}
-                                        </p>
+                                        <h2>Survey Name: {survey.surveyId} {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyName}</h2>
+                                        
+                                        <p>{survey.surveyId} {Array.isArray(surveys) && surveys.find(s=> s._id===survey.surveyId)?.surveyDescription}</p>
+                                        
                                         {Array.isArray(survey.subject) && survey.subject.map((subject,m) => (
                                             <Card key={subject._id} style={{ marginBottom: '20px' }}>
-                                                {/* <h3>
+                                                <h3>
                                                     Subject {m+1}: {subject.subjectName} ({subject.subjectEmail})  {subject.isFilled? 'Filled': 'Not Filled'}  
                                                     <Link to={`/admin/survey-result-by-subject/${surveyId}/${subject._id}`}>See Results</Link>
-                                                </h3> */}
-                                                <h3 dir="rtl">
-                                                    الفرد المُقيَّم {m+1}: {subject.subjectName} ({subject.subjectEmail}) - {subject.isFilled? 'تم التقييم': 'لم يتم التقييم'}
-                                                    <Link to={`/admin/survey-result-by-subject/${surveyId}/${subject._id}`}>مشاهدة النتائج</Link>
-                                                    {/* <Button>See Results</Button> */}
                                                 </h3>
+                                                
                                                 {/* <h4>Responses:</h4>
                                                 <ul>
                                                     {subject.responses.map(response => (

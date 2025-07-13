@@ -58,7 +58,7 @@ const SurveyDetails = () => {
         <>
             <Header />
             {/* Page content */}
-            <Container className="mt--7" fluid dir="rtl">
+            <Container className="mt--7" fluid  >
                 {/* Table */}
 
                 <Row className="mt--3">
@@ -71,10 +71,10 @@ const SurveyDetails = () => {
                                             <h3 className="mb-0">{survey.surveyName}</h3>
                                             <div className='d-flex flex-row '>
                                                 <div className='mx-3'>
-                                                    {/* <button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</button>
-                                                    <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</button> */}
-                                                    <button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>الفرد المُقيَّم</button>
-                                                    <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>االمقيمون الآخرون</button>
+                                                    <button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</button>
+                                                    <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</button>
+                                                    {/* <button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>الفرد المُقيَّم</button>
+                                                    <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>االمقيمون الآخرون</button> */}
                                                 </div>
 
                                                 {/* <Link to={`/admin/survey-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
@@ -82,14 +82,14 @@ const SurveyDetails = () => {
                                                 {/* <Link to={`/admin/survey-share-email/${survey._id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link>
                                                 <Link to={`/admin/survey-share-by-sms/${survey._id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link> */}
 
-                                                {/* <Link to={`/admin/survey-share-instructions/${survey._id}`} className="btn btn-info px-4 me-2">Share Instructions</Link> */}
-                                                <Link to={`/admin/survey-share-instructions/${id}`} className="btn btn-info px-4 me-2">مشاركة الاستطلاع</Link>
+                                                <Link to={`/admin/survey-share-instructions/${survey._id}`} className="btn btn-info px-4 me-2">Share Instructions</Link>
+                                                {/* <Link to={`/admin/survey-share-instructions/${id}`} className="btn btn-info px-4 me-2">مشاركة الاستطلاع</Link> */}
                                             </div>
                                         </CardHeader>
                                         <CardBody key={survey._id}>
 
                                                 <div className="col-12 mt-4">
-                                                    <p className='ps-3 d-flex' dir="rtl">{survey.surveyDescription}</p>
+                                                    <p className='ps-3 d-flex'  >{survey.surveyDescription}</p>
                                                 </div>
 
                                                 <div className="col-12">
@@ -110,8 +110,8 @@ const SurveyDetails = () => {
                                                                                     <>
                                                                                         <div className='bg-secondary my-3 py-3 px-5' key={question._id}>
                                                                                             {/* <h3 className='fw-semibold'>Question {count}</h3> */}
-                                                                                            <h3 className='fw-semibold d-flex' dir="rtl">سؤال {count}</h3>
-                                                                                            <p className='ps-5 d-flex' dir="rtl">{btnActive ? question.question : question.questionOthers}</p>
+                                                                                            <h3 className='fw-semibold d-flex'  >سؤال {count}</h3>
+                                                                                            <p className='ps-5 d-flex'  >{btnActive ? question.question : question.questionOthers}</p>
                                                                                             <LikertScale />
                                                                                         </div>
                                                                                     </>
@@ -131,16 +131,12 @@ const SurveyDetails = () => {
                             })}
                         </Card>
                         <Card className="d-flex flex-row justify-content-center py-3">
-                                {/* <Link to={`/website/survey-preview/${id}`} target="_blank" className="btn btn-success px-4 me-2">Survey Preview</Link> */}
-                                <Link to={`/website/survey-preview/${id}`} target="_blank" className="btn btn-success px-4 me-2">معاينة المسح</Link>
+                                <Link to={`/website/survey-preview/${id}`} target="_blank" className="btn btn-success px-4 me-2">Survey Preview</Link>
                                 {/* <Link to={`/survey-respondent/${id}`} target="_blank" className="btn btn-success px-4 me-2">Preview for Respondent</Link> */}
-                                {/* <Link to={`/admin/survey-share-email/${id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
-                                <Link to={`/admin/share-by-sms/${id}`} className="btn btn-info px-4">Share By SMS</Link> */}
-                                {/* <Link to={`/admin/survey-share-email/${id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link>
-                                <Link to={`/admin/share-by-sms/${id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link> */}
+                                <Link to={`/admin/survey-share-email/${id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
+                                <Link to={`/admin/share-by-sms/${id}`} className="btn btn-info px-4">Share By SMS</Link>
 
-                                {/* <Link to={`/admin/survey-share-instructions/${survey._id}`} className="btn btn-info px-4 me-2">Share Instructions</Link> */}
-                                <Link to={`/admin/survey-share-instructions/${id}`} className="btn btn-info px-4 me-2">مشاركة الاستطلاع</Link>
+                                <Link to={`/admin/survey-share-instructions/${id}`} className="btn btn-info px-4 me-2">Share Instructions</Link>
                         </Card>
                     </div>
                 </Row>

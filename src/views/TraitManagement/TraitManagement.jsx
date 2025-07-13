@@ -147,40 +147,31 @@ const TraitManagement = () => {
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                {/* <h3 className="mb-0">All Traits</h3> */}
-                                <h3 className="mb-0">جميع السمات</h3>
-                                {/* <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Trait</Button> */}
-                                <Button onClick={toggle} dir="rtl"><i className="fa-solid fa-plus me-2"></i> إضافة سمة</Button>
+                                <h3 className="mb-0">All Traits</h3>
+                                <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Trait</Button>
                                 <Modal isOpen={modal} toggle={toggle}   >
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <ModalHeader toggle={toggle}>
-                                            {/* <h3 className="mb-0">{updateMode ? 'Update Trait' : 'Add Trait'}</h3> */}
-                                            <h3 className="mb-0" dir="rtl">{updateMode ? 'إضافة سمة' : 'إضافة سمة'}</h3>
+                                            <h3 className="mb-0">{updateMode ? 'Update Trait' : 'Add Trait'}</h3>
                                         </ModalHeader>
                                         <ModalBody>
 
                                             <div className="row">
                                                 <div className="col-12">
-                                                    {/* <label className="form-label">Trait Name</label> */}
-                                                    <label className="form-label" dir="rtl">اسم السمة</label>
+                                                    <label className="form-label">Trait Name</label>
                                                     <input {...register("traitName")} className="form-control" type="text" placeholder="Enter Trait Name" />
-                                                    {/* {errors.traitName && <p className='form-error'>Trait Name is Required!</p>} */}
-                                                    {errors.traitName && <p className='form-error' dir="rtl">اسم السمة مطلوب!</p>}
+                                                    {errors.traitName && <p className='form-error'>Trait Name is Required!</p>}
 
-                                                    {/* <label className="form-label mt-2">Trait Description</label> */}
-                                                    <label className="form-label mt-2" dir="rtl">تعريف السمة</label>
+                                                    <label className="form-label mt-2">Trait Description</label>
                                                     <TextareaAutosize  {...register("traitDescription")} className="form-control" placeholder="Enter Trait Description" minRows={3} maxRows={5}></TextareaAutosize>
-                                                    {/* {errors.traitDescription && <p className='form-error'>Trait Description is Required!</p>} */}
-                                                    {errors.traitDescription && <p className='form-error' dir="rtl">وصف السمة مطلوب!</p>}
+                                                    {errors.traitDescription && <p className='form-error'>Trait Description is Required!</p>}
                                                 </div>
                                             </div>
 
                                         </ModalBody>
                                         <ModalFooter>
-                                            {/* <Button color="primary" className='px-5 my-2' type="submit"> Submit </Button>
-                                            <Button color="secondary" onClick={toggle}>Cancel</Button> */}
-                                            <Button color="primary" className='px-5 my-2' type="submit" dir="rtl">إرسال</Button>
-                                            <Button color="secondary" onClick={toggle} dir="rtl">إلغاء</Button>
+                                            <Button color="primary" className='px-5 my-2' type="submit"> Submit </Button>
+                                            <Button color="secondary" onClick={toggle}>Cancel</Button>
                                         </ModalFooter>
                                     </form>
                                 </Modal>
@@ -189,16 +180,10 @@ const TraitManagement = () => {
                                 <table className="table table-hover header-dash">
                                     <thead className='position-relative'>
                                         <tr className=''>
-                                            {/* <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
+                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>S.No</th>
                                             <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>Trait Name</th>
                                             <th scope="col" className='text-start align-text-top ps-2 w-50 bg-dark text-white' style={{ maxWidth: '15rem' }}>Trait Description</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>Created At</th>
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th> */}
-
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white' style={{ width: '8rem' }}>الرقم التسلسلي</th>
-                                            <th scope="col" className='text-start align-text-top ps-2 bg-dark text-white'>اسم السمة</th>
-                                            <th scope="col" className='text-start align-text-top ps-2 w-50 bg-dark text-white' style={{ maxWidth: '15rem' }}>تعريف السمة</th>
-                                            <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'>تاريخ الإنشاء</th>
                                             <th scope="col" className='text-center align-text-top ps-2 bg-dark text-white'></th>
                                         </tr>
                                     </thead>

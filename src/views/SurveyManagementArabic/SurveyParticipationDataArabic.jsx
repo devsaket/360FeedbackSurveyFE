@@ -26,30 +26,24 @@ const SurveyParticipationDataArabic = ({ summaryData, surveyCategoryObject, cate
     return (
         <>
             <CardHeader>
-                {/* <h3>Survey Participation Data</h3> */}
-                <h3>تفاصيل بيانات المشاركة في عملية التقييم:</h3>
+                <h3>Survey Participation Data</h3>
             </CardHeader>
             <CardBody>
-                <p>فيما يلي ملخصًا للفئات المستجيبة على المقياس يتضمن الوزن النسبي لكل فئة وعدد المقيمين، ومعدل الاستجابة لكل فئة</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, temporibus id, earum incidunt repellendus assumenda placeat aliquid exercitationem dignissimos alias est vero sunt similique optio deleniti distinctio fugit illo repellat?</p>
                 <table className='table table-bordered'>
                     <thead className='thead-dark'>
                         <tr>
-                            {/* <th className='text-wrap align-top text-start'><b className='text-white'>Relationship</b></th> */}
-                            <th className='text-wrap align-top text-start'><b className='text-white'>الفئة</b></th>
-                            {/* <th className='text-wrap align-top text-center'><b className='text-white'>Score Weightage</b></th> */}
-                            <th className='text-wrap align-top text-center'><b className='text-white'>الوزن النسبي </b></th>
-                            {/* <th className='text-wrap align-top text-center'><b className='text-white'>Nominated</b></th> */}
-                            <th className='text-wrap align-top text-center'><b className='text-white'>عدد المدعوين</b></th>
-                            {/* <th className='text-wrap align-top text-center'><b className='text-white'>Completed</b></th> */}
-                            <th className='text-wrap align-top text-center'><b className='text-white'>عدد المستجيبين</b></th>
-                            {/* <th className='text-wrap align-top text-center'><b className='text-white'>Completion Rate</b></th> */}
-                            <th className='text-wrap align-top text-center'><b className='text-white'>معدل الاستجابة</b></th>
+                            <th className='text-wrap align-top text-start'><b className='text-white'>Relationship</b></th>
+                            <th className='text-wrap align-top text-center'><b className='text-white'>Score Weightage</b></th>
+                            <th className='text-wrap align-top text-center'><b className='text-white'>Nominated</b></th>
+                            <th className='text-wrap align-top text-center'><b className='text-white'>Completed</b></th>
+                            <th className='text-wrap align-top text-center'><b className='text-white'>Completion Rate</b></th>
                         </tr>
                     </thead>
                     <tbody>
                         {Array.isArray(mergedData) && mergedData.map((row, index) => (
                             <tr key={index}>
-                                <td className='font-weight-bold'>{row.category === "Self" ? 'تقييم ذاتي' : row.category}</td>
+                                <td className='font-weight-bold'>{row.category === "Self" ? 'Self' : row.category}</td>
                                 <td className='text-wrap align-top text-center align-middle'>{row.scoreWeightage} %</td>
                                 <td className='text-wrap align-top text-center align-middle'>{row.nominated}</td>
                                 <td className='text-wrap align-top text-center align-middle'>{row.completed}</td>

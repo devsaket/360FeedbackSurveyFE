@@ -114,21 +114,19 @@ const SurveySubjectResultManagement = () => {
         <>
             <Header />
             {/* Page content */}
-            <Container className="mt--7" fluid dir="rtl">
+            <Container className="mt--7" fluid  >
                 {/* Table */}
 
                 <Row className="mt--3">
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                {/* <h3 className="mb-0">Survey Result</h3> */}
-                                <h3 className="mb-0" dir="rtl">نتائج المقياس</h3>
+                                <h3 className="mb-0">Survey Result</h3>
                                 <div>
-                                    {/* <Button onClick={handleDownload}>Download Excel</Button>
-                                    <Link to={`/website/survey-analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Result Analysis </Link> */}
-                                    <Button onClick={handleDownload} dir="rtl">تحميل اكسل</Button>
-                                    {/* <Link to={`/website/survey-analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary" dir="rtl"><i className="fa-solid fa-square-poll-vertical"></i> تحليل النتيجة </Link> */}
-                                    <Link to={`/admin/survey/analysis-ar/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary" dir="rtl"><i className="fa-solid fa-square-poll-vertical"></i> تحليل النتيجة </Link>
+                                    <Button onClick={handleDownload}>Download Excel</Button>
+                                    {/* <Link to={`/website/survey-analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Result Analysis </Link> */}
+                                    {/* <Link to={`/website/survey-analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"  ><i className="fa-solid fa-square-poll-vertical"></i> تحليل النتيجة </Link> */}
+                                    <Link to={`/admin/survey/analysis-ar/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"  ><i className="fa-solid fa-square-poll-vertical"></i> Result Analysis</Link>
                                 </div>
                             </CardHeader>
                             <CardBody>
@@ -140,18 +138,13 @@ const SurveySubjectResultManagement = () => {
 
                                         {Array.isArray(survey.subject) && survey.subject.filter(sub => sub._id === subjectId)?.map(subject => (
                                             <Card key={subject._id} style={{ marginBottom: '20px' }} className="p-3">
-                                                {/* <h3>Subject: {subject.subjectName} ({subject.subjectEmail})</h3>
-                                                <h4>Responses:</h4> */}
-                                                <h3 dir="rtl">موضوع: {subject.subjectName} ({subject.subjectEmail})</h3>
-                                                <h4 dir="rtl">الردود:</h4>
-                                                <Table className="table table-bordered table-hover header-dash w-100" dir="rtl">
+                                                <h3>Subject: {subject.subjectName} ({subject.subjectEmail})</h3>
+                                                <h4>Responses:</h4>
+                                                <Table className="table table-bordered table-hover header-dash w-100"  >
                                                     <thead className="thead-dark">
-                                                        {/* <th className="text-light font-weight-bolder h1">#</th>
-                                                        <th className="text-light font-weight-bolder h1">Question</th>
-                                                        <th className="text-light font-weight-bolder h1 text-center">Answer</th> */}
                                                         <th className="text-light font-weight-bolder h1">#</th>
-                                                        <th className="text-light font-weight-bolder h1">سؤال</th>
-                                                        <th className="text-light font-weight-bolder h1 text-center">إجابة</th>
+                                                        <th className="text-light font-weight-bolder h1">Question</th>
+                                                        <th className="text-light font-weight-bolder h1 text-center">Answer</th>
                                                     </thead>
                                                     <tbody>
                                                         {Array.isArray(subject.responses) && subject.responses.map((response, idx) => (
@@ -171,22 +164,16 @@ const SurveySubjectResultManagement = () => {
                                                         </li>
                                                     ))}
                                                 </ul> */}
-                                                {/* <h4 className="mt-5">Respondents:</h4> */}
-                                                <h4 className="mt-5" dir="rtl">المستجيبون:</h4>
+                                                <h4 className="mt-5">Respondents:</h4>
                                                 {Array.isArray(subject.respondent) && subject.respondent.map(respondent => (
                                                     <div key={respondent._id} style={{ marginLeft: '20px', marginBottom: '10px' }} className="my-4">
-                                                        {/* <h5>Respondent: {respondent.respondentName} ({respondent.respondentEmail})</h5>
-                                                        <p>Category ID: {respondent.category} - {Categories.find(s => s._id === respondent.category)?.categoryName}</p> */}
-                                                        <h5 dir="rtl">المُستَجِيب: {respondent.respondentName} ({respondent.respondentEmail})</h5>
-                                                        <p dir="rtl">فئة: {Categories.find(s => s._id === respondent.category)?.categoryName}</p>
-                                                        <Table className="table table-bordered table-hover header-dash w-100" dir="rtl">
+                                                        <h5>Respondent: {respondent.respondentName} ({respondent.respondentEmail})</h5>
+                                                        <p>Category ID: {Categories.find(s => s._id === respondent.category)?.categoryName}</p>
+                                                        <Table className="table table-bordered table-hover header-dash w-100"  >
                                                             <thead className="thead-dark">
-                                                                {/* <th className="text-light font-weight-bolder h1">#</th>
-                                                                <th className="text-light font-weight-bolder h1">Question</th>
-                                                                <th className="text-light font-weight-bolder h1 text-center">Answer</th> */}
                                                                 <th className="text-light font-weight-bolder h1">#</th>
-                                                                <th className="text-light font-weight-bolder h1">سؤال</th>
-                                                                <th className="text-light font-weight-bolder h1 text-center">إجابة</th>
+                                                                <th className="text-light font-weight-bolder h1">Question</th>
+                                                                <th className="text-light font-weight-bolder h1 text-center">Answer</th>
                                                             </thead>
                                                             <tbody>
                                                                 {Array.isArray(respondent.responses) && respondent.responses.map((response, idx) => (
@@ -219,8 +206,8 @@ const SurveySubjectResultManagement = () => {
                 <Row>
                     <Col className="text-center mb-5">
                         {/* <Link to={`/admin/survey/analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Old Analysis</Link> */}
-                        <Link to={`/admin/survey/analysis-ar/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary" dir="rtl"><i className="fa-solid fa-square-poll-vertical"></i>  تحليل النتيجة </Link>
-                        {/* <Link to={`/website/survey-analysis/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Result Analysis</Link> */}
+                        {/* <Link to={`/admin/survey/analysis-ar/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"  ><i className="fa-solid fa-square-poll-vertical"></i>  تحليل النتيجة </Link> */}
+                        <Link to={`/website/survey-analysis-ar/${surveyId}/${subjectId}`} className="btn btn-lg btn-primary"><i className="fa-solid fa-square-poll-vertical"></i> Result Analysis</Link>
                     </Col>
                 </Row>
 

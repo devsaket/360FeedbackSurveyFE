@@ -408,34 +408,29 @@ const SurveyUserShareSMS = () => {
         <>
             <Header />
             {/* Page content */}
-            <Container className="mt--7" fluid dir="rtl">
+            <Container className="mt--7" fluid  >
                 <Row className="mt--3">
                     <div className="col">
                         <Card className="shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                {/* <h3 className="mb-0 fw-bold">Share Survey By SMS</h3> */}
-                                <h3 className="mb-0 fw-bold">مشاركة الاستطلاع عن طريق الرسائل القصيرة</h3>
+                                <h3 className="mb-0 fw-bold">Share Survey By SMS</h3>
                             </CardHeader>
                         </Card>
                         <Card className="mt-3 shadow">
                             <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                {/* <h3 className="">For Subject</h3> */}
-                                <h3 className="">للموضوع</h3>
+                                <h3 className="">For Subject</h3>
                             </CardHeader>
                             <CardBody>
                                 <form onSubmit={handleSendSMS}>
-                                    {/* <label className='form-label d-block text-right'>Subject Name</label> */}
-                                    <label className='form-label d-block text-right'>اسم الموضوع</label>
+                                    <label className='form-label d-block text-right'>Subject Name</label>
                                     <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder='Enter Name' className='form-control' />
 
-                                    {/* <label className='form-label d-block text-right'>Subject's Phone Number</label> */}
-                                    <label className='form-label d-block text-right'>رقم هاتف الموضوع</label>
+                                    <label className='form-label d-block text-right'>Subject's Phone Number</label>
                                     <input type="text" value={recipientEmail} onChange={e => setRecipientEmail(e.target.value)} placeholder='Enter Recipient Phone Number' className='form-control' />
 
                                     <div className="row">
                                         <div className="col-12">
-                                            {/* <label className='form-label d-block text-right'>Choose an SMS Template</label> */}
-                                            <label className='form-label d-block text-right'>اختر قالب الرسائل القصيرة</label>
+                                            <label className='form-label d-block text-right'>Choose an SMS Template</label>
                                             <Select
                                         value={subjectEmailTemplateOptions.find(option => option.value === chooseEmailTemplate)}
                                         onChange={e => {
@@ -455,21 +450,18 @@ const SurveyUserShareSMS = () => {
                                         {
                                             chooseEmailTemplate !== "" ? <>
                                                 <div className="col-12">
-                                                    {/* <label className='form-label d-block text-right'>SMS's Subject of Respondent</label> */}
-                                                    <label className='form-label d-block text-right'>موضوع رسالة SMS للمستجيب</label>
+                                                    <label className='form-label d-block text-right'>SMS's Subject of Respondent</label>
                                                     <input className='form-control' type="text" name="subject" placeholder="Respondent SMS's Subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
                                                 </div>
                                                 <div className="col-12">
-                                                    {/* <label className='form-label d-block text-right'>Message for Respondent</label> */}
-                                                    <label className='form-label d-block text-right'>رسالة للمستجيب</label>
+                                                    <label className='form-label d-block text-right'>Message for Respondent</label>
                                                     <TextareaAutosize className='form-control' minRows="5" maxRows="10" name="message" placeholder="Message for Respondent" value={message} onChange={(e) => setMessage(e.target.value)}></TextareaAutosize>
                                                 </div>
                                             </> : <></>
                                         }
                                     </div>
 
-                                    {/* <button onClick={handleSendSMS} className='btn btn-primary my-2' disabled={isDisabled}>Send Invitation</button> */}
-                                    <button onClick={handleSendSMS} className='btn btn-primary my-2' disabled={isDisabled}>أرسل الدعوة</button>
+                                    <button onClick={handleSendSMS} className='btn btn-primary my-2' disabled={isDisabled}>Send Invitation</button>
                                 </form>
                             </CardBody>
                         </Card>
@@ -477,30 +469,26 @@ const SurveyUserShareSMS = () => {
                             {!btnActive ?
                                 <>
                                     <CardHeader className="d-flex justify-content-between align-items-center">
-                                        {/* <h3 className="">For Respondents</h3> */}
-                                        <h3 className="">للمستجيبين</h3>
+                                        <h3 className="">For Respondents</h3>
                                         {/* {!btnActive ? <button className="btn btn-primary" onClick={() => setBtnActive(true)}>Upload Respondents</button> : <></>} */}
                                     </CardHeader>
                                     <CardBody>
                                         <form onSubmit={handleSubmit}>
                                         {Array.isArray(surveyDe) && surveyDe[0]?.categories?.map((category, index) => (
                                         <div key={index} className="mt-4">
-                                            <h5 className="text-right" dir="rtl">{Array.isArray(Categories) && Categories.find(cat=> cat._id===category.category)?.categoryName} (Max: {category.maxRespondents})</h5>
+                                            <h5 className="text-right"  >{Array.isArray(Categories) && Categories.find(cat=> cat._id===category.category)?.categoryName} (Max: {category.maxRespondents})</h5>
                                             {respondentsData[category.category]?.map((respondent, index) => (
                                                 <div key={index}>
-                                                    {/* <label className="form-label d-block text-right">Respondent Name</label> */}
-                                                    <label className="form-label d-block text-right">اسم المستجيب</label>
+                                                    <label className="form-label d-block text-right">Respondent Name</label>
                                                     <input type="text" className="form-control" value={respondent.respondentName} onChange={e => handleInputChange(category.category, index, 'respondentName', e.target.value)} required />
-                                                    {/* <label className="form-label d-block text-right">Respondent Phone No.</label> */}
-                                                    <label className="form-label d-block text-right">رقم هاتف المستجيب</label>
+                                                    <label className="form-label d-block text-right">Respondent Phone No.</label>
                                                     <input type="text" className="form-control" value={respondent.respondentEmail} onChange={e => handleInputChange(category.category, index, 'respondentEmail', e.target.value)} required />
                                                 </div>
                                             ))}
                                             {/* <Button color="success" onClick={() => handleAddUser(category.category)}>Add Respondent</Button> */}
                                         </div>
                                     ))}
-                                    {/* <label className='form-label d-block text-right mt-2'>Choose SMS Template</label> */}
-                                    <label className='form-label d-block text-right mt-2'>اختر قالب الرسائل القصيرة</label>
+                                    <label className='form-label d-block text-right mt-2'>Choose SMS Template</label>
                                     <Select
                                         value={respondentEmailTemplateOptions.find(option => option.value === respondentChooseEmailTemplate)}
                                         onChange={e => {
@@ -516,14 +504,11 @@ const SurveyUserShareSMS = () => {
                                         isClearable
                                         isSearchable
                                     />
-                                    {/* <label className='form-label d-block text-right mt-2'>SMS Subject</label> */}
-                                    <label className='form-label d-block text-right mt-2'>موضوع الرسائل القصيرة</label>
+                                    <label className='form-label d-block text-right mt-2'>SMS Subject</label>
                                     <TextareaAutosize className="form-control" minRows={3} value={respondentSubject} onChange={e => setRespondentSubject(e.target.value)} placeholder='Enter SMS Subject' required />
-                                    {/* <label className='form-label d-block text-right mt-2'>SMS Message</label> */}
-                                    <label className='form-label d-block text-right mt-2'>رسالة قصيرة</label>
+                                    <label className='form-label d-block text-right mt-2'>SMS Message</label>
                                     <TextareaAutosize className="form-control" minRows={5} value={respondentMessage} onChange={e => setRespondentMessage(e.target.value)} placeholder='Enter SMS Message' required />
-                                    {/* <Button type='submit' color="primary" className="mt-4">Send SMS</Button> */}
-                                    <Button type='submit' color="primary" className="mt-4">إرسال الرسائل القصيرة</Button>
+                                    <Button type='submit' color="primary" className="mt-4">Send SMS</Button>
                                 </form>
                                     </CardBody></> : <></>
                             }

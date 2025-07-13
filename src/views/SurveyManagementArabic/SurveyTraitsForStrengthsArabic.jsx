@@ -89,8 +89,7 @@ const SurveyTraitsForStrengthsArabic = ({ traitSelfOthersData, traitCategoryData
     return (
         <>
             {/* <h4>Traits denoting your strengths</h4> */}
-            {/* <h4>Traits of Strength</h4> */}
-            <h4>سمات (جدارات، مهارات، صفات) تمثل نقاط قوة لديك</h4>
+            <h4>Traits of Strength</h4>
             {processedData.length > 0 ?
                 <>
                     {/* <ul>
@@ -104,12 +103,9 @@ const SurveyTraitsForStrengthsArabic = ({ traitSelfOthersData, traitCategoryData
                     <table className='table table-bordered'>
                         <thead className='thead-white'>
                             <tr>
-                                {/* <th className='text-wrap align-top text-start w-25'><b className='text-muted'>Areas</b></th>
+                                <th className='text-wrap align-top text-start w-25'><b className='text-muted'>Areas</b></th>
                                 <th className='text-wrap align-top text-center'><b className='text-muted'>Your Rating</b></th>
-                                <th className='text-wrap align-top text-center'><b className='text-muted'>Others Rating</b></th> */}
-                                <th className='text-wrap align-top text-start w-25'><b className='text-muted'>السمات(الجدارات، المهارات، الصفات)</b></th>
-                                <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الفرد " تقييم ذاتي "</b></th>
-                                <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الآخرين</b></th>
+                                <th className='text-wrap align-top text-center'><b className='text-muted'>Others Rating</b></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -138,8 +134,7 @@ const SurveyTraitsForStrengthsArabic = ({ traitSelfOthersData, traitCategoryData
                         </BarChart>
                     </ResponsiveContainer> */}
                 </> : <>
-                    {/* <p className='ml-4'>No such Traits are Found</p> */}
-                    <p className='ml-4'>لا توجد سمات(جدارات، مهارات، صفات)  من هذا النوع</p>
+                    <p className='ml-4'>No such Traits are Found</p>
                 </>
             }
 

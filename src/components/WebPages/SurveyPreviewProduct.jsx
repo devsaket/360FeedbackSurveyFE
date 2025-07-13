@@ -66,7 +66,7 @@ const SurveyPreviewProduct = () => {
 
     return (
         <>
-            <div className="container my-3 justify-content-end bg-light-50" dir='rtl'>
+            <div className="container my-3 justify-content-end bg-light-50" >
                 {!isSubmitted ? Array.isArray(surveyDe) && surveyDe?.map((survey) => {
                     return (
                         <>
@@ -76,20 +76,13 @@ const SurveyPreviewProduct = () => {
 
                                     <div className='d-flex flex-row'>
                                     <div className='mx-3'>
-                                                    {/* <button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</button> */}
-                                                    <button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>الفرد المُقيَّم</button>
-                                                    {/* <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</button> */}
-                                                    <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>االمقيمون الآخرون</button>
+                                                    <button className='btn btn-primary' onClick={() => setBtnActive(true)} disabled={btnActive}>Subject</button>
+                                                    <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>Respondents</button>
                                                 </div>
-                                    {/* <Link to={`/website/survey-user-instructions/${survey._id}`} className="btn btn-info px-4 me-2">Share Instructions</Link> */}
-                                    <Link to={`/website/survey-user-instructions/${survey._id}`} className="btn btn-info px-4 me-2">مشاركة الاستطلاع</Link>
-                                    {/* <Link to={`/website/survey-user-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link> */}
-                                    {/* <Link to={`/website/survey-user-share-email/${survey._id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link> */}
-                                    {/* <Link to={`/website/survey-user-share-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link> */}
-                                    {/* <Link to={`/website/survey-user-share-sms/${survey._id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link> */}
-                                    {/* <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">Survey Result</Link> */}
-                                    {/* <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">Survey Result</Link> */}
-                                    <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">نتيجة المقياس</Link>
+                                    <Link to={`/website/survey-user-instructions/${survey._id}`} className="btn btn-info px-4 me-2">Share Instructions</Link>
+                                    <Link to={`/website/survey-user-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
+                                    <Link to={`/website/survey-user-share-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link>
+                                    <Link to={`/website/survey-result-user/${survey._id}`} className="btn btn-primary px-4">Survey Result</Link>
                                     </div>
                                 </div>
 
@@ -114,8 +107,7 @@ const SurveyPreviewProduct = () => {
                                                                 return (
                                                                     <>
                                                                         <div className='bg-body-secondary my-3 py-3 px-5' key={question._id}>
-                                                                            {/* <h3 className='fw-semibold'>Question {count}</h3> */}
-                                                                            <h3 className='fw-semibold d-flex'>السؤال {count}</h3>
+                                                                            <h3 className='fw-semibold'>Question {count}</h3>
                                                                             <p className='ps-5 d-flex'>{btnActive ? question.question : question.questionOthers}</p>
                                                                             <LikertScale questionId={question._id} onResponseChange={() => { }} />
                                                                         </div>
@@ -138,8 +130,7 @@ const SurveyPreviewProduct = () => {
                 })
                     : <>
                         <div className='d-flex justify-content-center'>
-                            {/* <p className='display-4 text-center w-50'>Submission is Successful and THank you for Participation</p> */}
-                            <p className='display-4 text-center w-50' dir='rtl' style={{marginTop: "350px"}}>شكراً لكم على التقييم</p>
+                            <p className='display-4 text-center w-50'>Submission is Successful and THank you for Participation</p>
                         </div>
                     </>
                 }

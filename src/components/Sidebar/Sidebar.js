@@ -129,11 +129,12 @@ const Sidebar = (props) => {
         {/* Brand */}
         {logo ? (
           <NavbarBrand className="pt-0" {...navbarBrandProps}>
-            <img
+            Dashboard
+            {/* <img
               alt="Desicions Support Logo"
               className="navbar-brand-img w-100 h-100"
               src={DecisionsSupportLogo}
-            />
+            /> */}
           </NavbarBrand>
         ) : null}
         {/* User */}
@@ -243,36 +244,31 @@ const Sidebar = (props) => {
           {/* Divider */}
           <hr className="my-3" />
           {/* Heading */}
-          {/* <h6 className="navbar-heading text-muted">Settings</h6> */}
-          <h6 className="navbar-heading text-muted">الإعدادات</h6>
+          <h6 className="navbar-heading text-muted">Settings</h6>
           {/* Navigation */}
           <Nav className="mb-md-3" navbar>
             <NavItem>
               <NavLink href="/admin/users">
                 <i className="ni ni-archive-2" />
-                {/* Users */}
-                المستخدمون
+                Users
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/admin/category">
                 <i className="ni ni-archive-2" />
-                {/* Category Roles */}
-                إدارة فئات المستجيبين
+                Category Roles
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/admin/email-templates">
                 <i className="fa-solid fa-envelope" />
-                {/* Email Templates */}
-                قوالب البريد الإلكتروني
+                Email Templates
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="https://decisionssupport.org" target="_blank">
                 <i className="fa-solid fa-home text-dark" />
-                {/* FrontEnd Website */}
-                الواجهة الأمامية للموقع
+                FrontEnd Website
               </NavLink>
             </NavItem>
           </Nav>
@@ -280,8 +276,7 @@ const Sidebar = (props) => {
             <NavItem className="active-pro active">
               <NavLink onClick={handleLogout}>
                 <i className="ni ni-spaceship" />
-                {/* Logout */}
-                تسجيل الخروج
+                Logout
               </NavLink>
             </NavItem>
           </Nav>

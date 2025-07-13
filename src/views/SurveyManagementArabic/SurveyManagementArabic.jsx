@@ -293,15 +293,12 @@
                         <div className="col">
                             <Card className="shadow">
                                 <CardHeader className="bg-transparent d-flex justify-content-between align-items-center">
-                                    {/* <h3 className="mb-0">All Surveys</h3> */}
-                                    <h3 className="mb-0">جميع الاستبيانات</h3>
-                                    {/* <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Survey</Button> */}
-                                    <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> إضافة استبيان</Button>
+                                    <h3 className="mb-0">All Surveys</h3>
+                                    <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i> Add Survey</Button>
                                     <Modal isOpen={modal} toggle={toggle}   >
                                         <form onSubmit={handleSubmit}>
                                             <ModalHeader toggle={toggle} className="border border-bottom">
-                                                {/* <h3 className="mb-0">Add Survey</h3> */}
-                                                <h3 className="mb-0">إضافة استبيان</h3>
+                                                <h3 className="mb-0">Add Survey</h3>
                                             </ModalHeader>
                                             <ModalBody>
                                                 <label htmlFor="surveyName" className='form-label'>Survey Name</label>

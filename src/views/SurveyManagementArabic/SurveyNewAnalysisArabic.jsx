@@ -431,7 +431,7 @@ const SurveyAnalysisArabic = () => {
         <>
             <Header />
             <Container className="mt--7" fluid>
-                <article dir="rtl" className='arabic-report'>
+                <article>
                     <Row className="mt--3">
                         <Col>
                             <Card className="shadow report-page-header">
@@ -454,19 +454,16 @@ const SurveyAnalysisArabic = () => {
                                     }
 
                                     <div className='my-5 py-5'>
-                                        {/* <h2 className='display-2'>Company Name</h2> */}
-                                        <h2 className='display-2'>"دعم القرارات للاستشارات التعليمية والتربوية"</h2>
-                                        {/* <img src={CompanyLogo} alt="Company Logo" className='rounded-circle border border-dark border-3' width={200} /> */}
+                                        <h2 className='display-2'>Company Name</h2>
+                                        <img src={CompanyLogo} alt="Company Logo" className='rounded-circle border border-dark border-3' width={200} />
                                     </div>
 
                                     <div className='my-5 py-5'>
                                         {
                                             Array.isArray(subjectObject) && subjectObject.map(subjectItem => {
                                                 return <>
-                                                    {/* <h3 className='display-2 fw-bold py-3'>Report Generated for <br /> "{subjectItem.subjectName}"</h3> */}
-                                                    <h3 className='display-2 fw-bold py-3'>تقرير مُعدّ لصالح: <br /> "{subjectItem.subjectName}"</h3>
-                                                    {/* <p>Date - {getCurrentDate()}</p> */}
-                                                    <p>التاريخ: {getCurrentDate()}</p>
+                                                    <h3 className='display-2 fw-bold py-3'>Report Generated for <br /> "{subjectItem.subjectName}"</h3>
+                                                    <p>Date - {getCurrentDate()}</p>
                                                 </>
                                             })
                                         }
@@ -503,10 +500,8 @@ const SurveyAnalysisArabic = () => {
                             {/* 360-Degree Assessment: An Introduction */}
                             <Card className='a4'>
                                 <CardBody>
-                                    {/* <h3 className='display-4 fw-bold py-3'>360-Degree Assessment: An Introduction</h3> */}
-                                    <h3 className='display-4 fw-bold py-3'>تقييم 360 درجة: مقدمة
-                                    </h3>
-                                    <p>أسلوب تقييم 360 درجة هو أداة تقييم شاملة تهدف إلى جمع تغذية راجعة متعددة الجوانب حول السمات (الجدارات، المهارات، الصفات) الشخصية والاجتماعية والسلوكية للفرد. يستند هذا المقياس إلى آراء الأشخاص المعنيين المحيطين به، بالإضافة إلى تقييمه الذاتي، مما يوفر رؤية أعمق لسماته، ويساعد في تحديد نقاط القوة والضعف لديه بشكل أكثر دقة.
+                                    <h3 className='display-4 fw-bold py-3'>360-Degree Assessment: An Introduction</h3>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi sequi natus odio a sed ratione voluptatem deleniti, hic facere nihil, esse impedit! Possimus consequuntur tenetur rem? Accusantium cumque unde tenetur, eligendi quas doloremque vero fuga consequuntur tempore reprehenderit at asperiores, cupiditate minus quaerat provident tempora. Officia quisquam labore aspernatur, quasi temporibus ipsum suscipit commodi maxime id praesentium itaque? Cumque iste optio ipsum, mollitia in necessitatibus dolore aspernatur ipsa cupiditate quia molestias quasi dignissimos sed distinctio unde delectus porro? Pariatur amet commodi officia incidunt, totam aut laboriosam blanditiis molestias perferendis, tempora quo deserunt quam reprehenderit voluptatem fugit quos aliquid quis consectetur?
                                     </p>
                                 </CardBody>
                                 {/* </Card> */}
@@ -517,8 +512,7 @@ const SurveyAnalysisArabic = () => {
                                     {
                                         Array.isArray(surveyObject) && surveyObject.map(surveyItem => {
                                             return <>
-                                                {/* <h3 className='display-4 fw-bold py-3'>About this: {surveyItem.surveyName}"</h3> */}
-                                                <h3 className='display-4 fw-bold py-3'>"نظرة عامة حول  {surveyItem.surveyName}"</h3>
+                                                <h3 className='display-4 fw-bold py-3'>About this: {surveyItem.surveyName}"</h3>
                                                 <p>{surveyItem.surveyDescription}</p>
                                             </>
                                         })
@@ -669,25 +663,11 @@ const SurveyAnalysisArabic = () => {
                             {/* Copyright and Disclaimer */}
                             <Card className='a4'>
                                 <CardBody>
-                                    {/* <h3>Copyright</h3> */}
-                                    <h3>حقوق النشر: © [2025] شركة دعم القرارات للاستشارات التعليمية والتربوية. جميع الحقوق محفوظة.</h3>
-                                    {/* <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore corrupti quisquam eaque culpa voluptates natus similique sit. Dicta natus, sapiente eaque obcaecati molestiae sequi dolorum facere reiciendis pariatur ut deleniti.</p> */}
-                                    <p dir='rtl'>هذا التقرير سري ومخصص للاستخدام الداخلي فقط. يحظر
-                                        توزيع أو نسخ أو إعادة نشر أي جزء من هذا التقرير بأي شكل
-                                        أو وسيلة دون إذن خطي مسبق من شركة دعم القرارات
-                                        للاستشارات التعليمية والتربوية. المعلومات الواردة في هذا
-                                        التقرير محمية بموجب حقوق النشر والقوانين ذات الصلة.</p>
+                                    <h3>Copyright</h3>
+                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore corrupti quisquam eaque culpa voluptates natus similique sit. Dicta natus, sapiente eaque obcaecati molestiae sequi dolorum facere reiciendis pariatur ut deleniti.</p>
 
-                                    {/* <h3>Disclaimer</h3> */}
-                                    <h3>إخلاء المسؤولية:</h3>
-                                    <p dir='rtl'>تم إعداد هذا التقرير بناءً على المعلومات المتاحة خلال العملية
-                                        التقييمية باستخدام أسلوب تقييم 360 درجة. إن استخدام
-                                        المعلومات الواردة في هذا التقرير هو مسؤولية العميل فقط
-                                        حيث أن الغرض من هذا التقرير هو تقديم خدمة استرشادية
-                                        للعميل و لا تتحمل شركة دعم القرارات للاستشارات التعليمية
-                                        والتربوية أو أي من موظفيها أي مسؤولية عن أي خسائر أو
-                                        أضرار مباشرة أو غير مباشرة قد تنشأ عن الاعتماد على هذه
-                                        المعلومات أو استخدام التقرير.</p>
+                                    <h3>Disclaimer</h3>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum molestiae sed sit vero doloribus quos corrupti, vel accusamus necessitatibus, molestias, quaerat commodi. Non facilis repudiandae, nemo officiis error possimus nulla debitis culpa, maiores voluptatem esse ducimus a alias hic aspernatur distinctio sapiente cum eligendi dolor. Eveniet voluptate molestiae veritatis beatae ea, quaerat sunt? Earum est porro eius iure, omnis ducimus cumque eos similique nobis atque iusto pariatur, itaque dolorem nesciunt numquam ea ipsa vero officiis. Ducimus, cumque voluptatum ratione similique obcaecati minus, itaque blanditiis illo perspiciatis dolorum tempora vero iste, quod sapiente modi! Vel ut quo perferendis harum. Ratione, provident.</p>
                                 </CardBody>
                             </Card>
                         </Col>

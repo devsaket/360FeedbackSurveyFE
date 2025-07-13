@@ -95,8 +95,8 @@ const SurveyTop5TraitsComparedToSelfArabic = ({ traitSelfOthersData, traitCatego
 
     return (
         <>
-            {/* <h4>Hidden Traits with Developmental Needs</h4> */}
-            <h4>سمات (جدارات، مهارات، صفات) خفية تحتاج إلى تطوير </h4>
+            <h4>Hidden Traits with Developmental Needs</h4>
+            {/* <h4>سمات (جدارات، مهارات، صفات) خفية تحتاج إلى تطوير </h4> */}
             {/* <ul>
                 {processedData.map((trait, idx) => (
                     <li key={idx}>
@@ -108,12 +108,9 @@ const SurveyTop5TraitsComparedToSelfArabic = ({ traitSelfOthersData, traitCatego
             <table className='table table-bordered'>
                 <thead className='thead-white'>
                     <tr>
-                        {/* <th className='text-wrap align-top text-start w-25'><b className='text-muted'>Areas</b></th>
+                        <th className='text-wrap align-top text-start w-25'><b className='text-muted'>Areas</b></th>
                         <th className='text-wrap align-top text-center'><b className='text-muted'>Your Rating</b></th>
-                        <th className='text-wrap align-top text-center'><b className='text-muted'>Others Rating</b></th> */}
-                        <th className='text-wrap align-top text-start w-25'><b className='text-muted'>السمات(الجدارات، المهارات، الصفات)</b></th>
-                        <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الفرد " تقييم ذاتي "</b></th>
-                        <th className='text-wrap align-top text-center'><b className='text-muted'>تقييم الآخرين</b></th>
+                        <th className='text-wrap align-top text-center'><b className='text-muted'>Others Rating</b></th>
                     </tr>
                 </thead>
                 <tbody>
