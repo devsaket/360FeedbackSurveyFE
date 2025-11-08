@@ -328,12 +328,12 @@ const SurveyManagement = () => {
                                             {Array.isArray(selectedCategories) && selectedCategories.map(category => (
                                                 <div key={category.value} className="mb-3">
                                                     <h5>{category.label}</h5>
-                                                    {/* <label htmlFor={`scoreWeightage-${category.value}`}>Score Weightage:</label> */}
-                                                    <label htmlFor={`scoreWeightage-${category.value}`}  >الوزن النسبي:</label>
+                                                    <label htmlFor={`scoreWeightage-${category.value}`}>Score Weightage:</label>
+                                                    {/* <label htmlFor={`scoreWeightage-${category.value}`}  >الوزن النسبي:</label> */}
                                                     <input type="number" id={`scoreWeightage-${category.value}`} value={categoryDetails[category.value]?.scoreWeightage || 0} onChange={(e) => handleCategoryDetailChange(category.value, 'scoreWeightage', parseInt(e.target.value))} className='form-control' required />
 
-                                                    {/* <label htmlFor={`maxRespondents-${category.value}`}>Maximum Respondents:</label> */}
-                                                    <label htmlFor={`maxRespondents-${category.value}`}  >عدد المستجيبين</label>
+                                                    <label htmlFor={`maxRespondents-${category.value}`}>Maximum Respondents:</label>
+                                                    {/* <label htmlFor={`maxRespondents-${category.value}`}  >عدد المستجيبين</label> */}
                                                     <input type="number" id={`maxRespondents-${category.value}`} value={categoryDetails[category.value]?.maxRespondents || 0} onChange={(e) => handleCategoryDetailChange(category.value, 'maxRespondents', parseInt(e.target.value))} className='form-control' required />
                                                 </div>
                                             ))}

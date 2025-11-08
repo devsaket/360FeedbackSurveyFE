@@ -77,12 +77,12 @@ const SurveyDetails = () => {
                                                     <button className='btn btn-primary' onClick={() => setBtnActive(false)} disabled={!btnActive}>االمقيمون الآخرون</button> */}
                                                 </div>
 
-                                                {/* <Link to={`/admin/survey-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
-                                                <Link to={`/admin/survey-share-by-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link> */}
+                                                <Link to={`/admin/survey-share-email/${survey._id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
+                                                {/* <Link to={`/admin/survey-share-by-sms/${survey._id}`} className="btn btn-info px-4">Share By SMS</Link> */}
                                                 {/* <Link to={`/admin/survey-share-email/${survey._id}`} className="btn btn-info px-4 me-2">مشاركة عبر البريد الإلكتروني</Link>
                                                 <Link to={`/admin/survey-share-by-sms/${survey._id}`} className="btn btn-info px-4">مشاركة عبر الرسائل النصية</Link> */}
 
-                                                <Link to={`/admin/survey-share-instructions/${survey._id}`} className="btn btn-info px-4 me-2">Share Instructions</Link>
+                                                {/* <Link to={`/admin/survey-share-instructions/${survey._id}`} className="btn btn-info px-4 me-2">Share Instructions</Link> */}
                                                 {/* <Link to={`/admin/survey-share-instructions/${id}`} className="btn btn-info px-4 me-2">مشاركة الاستطلاع</Link> */}
                                             </div>
                                         </CardHeader>
@@ -109,8 +109,8 @@ const SurveyDetails = () => {
                                                                                 return (
                                                                                     <>
                                                                                         <div className='bg-secondary my-3 py-3 px-5' key={question._id}>
-                                                                                            {/* <h3 className='fw-semibold'>Question {count}</h3> */}
-                                                                                            <h3 className='fw-semibold d-flex'  >سؤال {count}</h3>
+                                                                                            <h3 className='fw-semibold'>Question {count}</h3>
+                                                                                            {/* <h3 className='fw-semibold d-flex'  >سؤال {count}</h3> */}
                                                                                             <p className='ps-5 d-flex'  >{btnActive ? question.question : question.questionOthers}</p>
                                                                                             <LikertScale />
                                                                                         </div>
@@ -134,9 +134,9 @@ const SurveyDetails = () => {
                                 <Link to={`/website/survey-preview/${id}`} target="_blank" className="btn btn-success px-4 me-2">Survey Preview</Link>
                                 {/* <Link to={`/survey-respondent/${id}`} target="_blank" className="btn btn-success px-4 me-2">Preview for Respondent</Link> */}
                                 <Link to={`/admin/survey-share-email/${id}`} className="btn btn-info px-4 me-2">Share By Email</Link>
-                                <Link to={`/admin/share-by-sms/${id}`} className="btn btn-info px-4">Share By SMS</Link>
+                                {/* <Link to={`/admin/share-by-sms/${id}`} className="btn btn-info px-4">Share By SMS</Link> */}
 
-                                <Link to={`/admin/survey-share-instructions/${id}`} className="btn btn-info px-4 me-2">Share Instructions</Link>
+                                {/* <Link to={`/admin/survey-share-instructions/${id}`} className="btn btn-info px-4 me-2">Share Instructions</Link> */}
                         </Card>
                     </div>
                 </Row>

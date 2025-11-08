@@ -150,7 +150,7 @@ const CategoryManagement = () => {
                 <Row className="mt--3">
                     <div className="col">
                         <Card className="shadow">
-                            <CardHeader className="bg-transparent d-flex flex-row-reverse justify-content-between align-items-center">
+                            <CardHeader className="bg-transparent d-flex flex-row justify-content-between align-items-center">
                                 <h3 className="mb-0">All Categories</h3>
                                 <Button onClick={toggle}><i className="fa-solid fa-plus me-2"></i>Add Category</Button>
                                 <Modal isOpen={modal} toggle={toggle}   >
