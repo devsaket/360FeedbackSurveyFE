@@ -27,8 +27,7 @@ const SurveyResponseRespondentListArabic = ({ surveyResponses }) => {
         const zeroPercentage = (zeroResponses / totalResponses) * 100;
 
         return {
-            // name: respondent.respondentName,
-            name: "Respondent " + index,
+            name: respondent.respondentName,
             zeroPercentage: zeroPercentage.toFixed(1) // Fixed to 2 decimal places
         };
     }); 
