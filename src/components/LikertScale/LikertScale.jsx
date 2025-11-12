@@ -31,13 +31,13 @@ const LikertScale = ({ questionId, onResponseChange }) => {
                         <Button key={rating} className={`likert-button ${selectedRating === rating ? 'selected' : ''} `} onClick={() => handleRatingSelect(rating)} disabled={unableToRate}>
                             {rating}
                             <span className="likert-label">
-                                {rating === 1 ? 'Very Poor' :
-                                    rating === 2 ? 'Poor' :
-                                        rating === 3 ? 'Fair' :
-                                            rating === 4 ? 'Average' :
-                                                rating === 5 ? 'Good' :
-                                                    rating === 6 ? 'Very Good' :
-                                                        'Excellent'}
+                                {rating === 1 ? 'Very Rarely' :
+                                    rating === 2 ? 'Rarely' :
+                                        rating === 3 ? 'Occasionally' :
+                                            rating === 4 ? 'Sometimes' :
+                                                rating === 5 ? 'Often' :
+                                                    rating === 6 ? 'Very often' :
+                                                        'Almost Always'}
                             </span>
                         </Button>
                     ))}

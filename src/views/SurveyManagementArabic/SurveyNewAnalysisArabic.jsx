@@ -448,14 +448,14 @@ const SurveyAnalysisArabic = () => {
                                         Array.isArray(surveyObject) && surveyObject.map(surveyItem => {
                                             return <>
                                                 <h1 className='display-2 py-3'>{surveyItem.surveyName}</h1>
-                                                <img src={CompanyLogo} alt="Company Logo" className='border border-dark border-3' width={200} />
+                                                {/* <img src={CompanyLogo} alt="Company Logo" className='border border-dark border-3' width={200} /> */}
                                             </>
                                         })
                                     }
 
                                     <div className='my-5 py-5'>
-                                        <h2 className='display-2'>Company Name</h2>
-                                        <img src={CompanyLogo} alt="Company Logo" className='rounded-circle border border-dark border-3' width={200} />
+                                        <h2 className='display-2'>KNOWIMA Report for Educational and Training Purpose</h2>
+                                        {/* <img src={CompanyLogo} alt="Company Logo" className='rounded-circle border border-dark border-3' width={200} /> */}
                                     </div>
 
                                     <div className='my-5 py-5'>
@@ -501,8 +501,20 @@ const SurveyAnalysisArabic = () => {
                             <Card className='a4'>
                                 <CardBody>
                                     <h3 className='display-4 fw-bold py-3'>360-Degree Assessment: An Introduction</h3>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi sequi natus odio a sed ratione voluptatem deleniti, hic facere nihil, esse impedit! Possimus consequuntur tenetur rem? Accusantium cumque unde tenetur, eligendi quas doloremque vero fuga consequuntur tempore reprehenderit at asperiores, cupiditate minus quaerat provident tempora. Officia quisquam labore aspernatur, quasi temporibus ipsum suscipit commodi maxime id praesentium itaque? Cumque iste optio ipsum, mollitia in necessitatibus dolore aspernatur ipsa cupiditate quia molestias quasi dignissimos sed distinctio unde delectus porro? Pariatur amet commodi officia incidunt, totam aut laboriosam blanditiis molestias perferendis, tempora quo deserunt quam reprehenderit voluptatem fugit quos aliquid quis consectetur?
-                                    </p>
+                                <p>360-degree feedback, also known as multi-rater feedback, is a comprehensive competency
+                                    evaluation method that gathers input about an individual’s behavior and skills from multiple
+                                    sources. These sources typically include super, peers, subordinates, and sometimes
+                                    customers or other stakeholders—along with the individual’s self-assessment. The purpose
+                                    is to provide a well-rounded view of a person’s strengths, development areas, and overall
+                                    effectiveness in their role.</p>
+                                <p className='my-2'><b>Usages of 360-Degree Feedback</b></p>
+                                <p><b>Personal and Professional Development:</b> Helps individuals understand how others perceive their performance and behaviors, guiding personal and professional growth.</p>
+                                <p><b>Leadership Development:</b> Commonly used in leadership training to identify leadership competencies and areas for improvement.</p>
+                                <p><b>Performance Management:</b> Complements traditional performance reviews by incorporating diverse perspectives for a fairer evaluation.</p>
+                                <p><b>Team Building:</b> Encourages open communication and mutual understanding within teams by highlighting interpersonal dynamics.</p>
+                                <p><b>Succession Planning:</b> Aids organizations in identifying and developing high-potential employees for future leadership roles.</p>
+                                <p><b>Organizational Culture Improvement:</b> Promotes a culture of transparency, accountability, and continuous feedback.</p>
+                                <p><b>Change Management Support:</b> Measures how effectively leaders and teams are <b>adapting to organizational change</b></p>
                                 </CardBody>
                                 {/* </Card> */}
 
@@ -663,11 +675,27 @@ const SurveyAnalysisArabic = () => {
                             {/* Copyright and Disclaimer */}
                             <Card className='a4'>
                                 <CardBody>
-                                    <h3>Copyright</h3>
-                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore corrupti quisquam eaque culpa voluptates natus similique sit. Dicta natus, sapiente eaque obcaecati molestiae sequi dolorum facere reiciendis pariatur ut deleniti.</p>
-
-                                    <h3>Disclaimer</h3>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum molestiae sed sit vero doloribus quos corrupti, vel accusamus necessitatibus, molestias, quaerat commodi. Non facilis repudiandae, nemo officiis error possimus nulla debitis culpa, maiores voluptatem esse ducimus a alias hic aspernatur distinctio sapiente cum eligendi dolor. Eveniet voluptate molestiae veritatis beatae ea, quaerat sunt? Earum est porro eius iure, omnis ducimus cumque eos similique nobis atque iusto pariatur, itaque dolorem nesciunt numquam ea ipsa vero officiis. Ducimus, cumque voluptatum ratione similique obcaecati minus, itaque blanditiis illo perspiciatis dolorum tempora vero iste, quod sapiente modi! Vel ut quo perferendis harum. Ratione, provident.</p>
+                                    <Card className='a4'>
+                                                                <CardBody>
+                                                                    <h3>Copyright</h3>
+                                                                    <p>© [2025] Knowima. All rights reserved.
+                                                                        No part of this publication, content, or material may be reproduced, distributed, or transmitted in any form or by any
+                                                                        means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission
+                                                                        of Knowima, except in the case of brief quotations embodied in critical reviews and certain other noncommercial uses
+                                                                        permitted by copyright law. Knowima and its logo are trademarks of Knowima. All other trademarks and copyrights are the
+                                                                        property of their respective owners.</p>
+                                    
+                                                                    <h3>Disclaimer</h3>
+                                                                    <p>The information, content, and materials provided by Knowima in this report are for general informational and
+                                                                        educational/training purposes only. While every effort is made to ensure the accuracy and reliability of the information,
+                                                                        Knowima makes no representations or warranties of any kind, express or implied, about the completeness, accuracy,
+                                                                        reliability, suitability, or availability of the information contained herein. Any reliance you place on such information is
+                                                                        therefore strictly at your own risk. Knowima shall not be liable for any loss or damage arising from the use of, or reliance on,
+                                                                        the materials provided. All programs, workshops, and learning experiences designed based on this report to support
+                                                                        personal and professional development and are not a substitute for professional advice, including but not limited to
+                                                                        psychological, legal, or financial consultation.</p>
+                                                                </CardBody>
+                                                            </Card>
                                 </CardBody>
                             </Card>
                         </Col>

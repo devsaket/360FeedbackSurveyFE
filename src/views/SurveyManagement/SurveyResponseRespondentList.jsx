@@ -9,7 +9,7 @@ const SurveyResponseRespondentList = ({ surveyResponses }) => {
         .flat(); // Flatten the nested array
 
     // Calculate the zero response percentage for each respondent
-    const respondentsWithZeroPercent = filledRespondents.map(respondent => {
+    const respondentsWithZeroPercent = filledRespondents.map((respondent, index) => {
         const totalResponses = respondent.responses.length;
         const zeroResponses = respondent.responses.filter(r => r.answer === '0').length;
         const zeroPercentage = (zeroResponses / totalResponses) * 100;

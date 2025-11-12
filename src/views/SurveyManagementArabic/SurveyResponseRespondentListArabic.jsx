@@ -20,18 +20,20 @@ const SurveyResponseRespondentListArabic = ({ surveyResponses }) => {
         .flat(); // Flatten the nested array
 
     // Calculate the zero response percentage for each respondent
-    const respondentsWithZeroPercent = filledRespondents.map(respondent => {
+    const respondentsWithZeroPercent = filledRespondents.map((respondent, index) => {
         const totalResponses = respondent.responses.length;
-        const zeroResponses = respondent.responses.filter(r => r.answer === '0').length;
+        const zeroResponses = respondent.responses;
+        // .filter(r => r.answer === '0').length;
         const zeroPercentage = (zeroResponses / totalResponses) * 100;
 
         return {
-            name: respondent.respondentName,
+            // name: respondent.respondentName,
+            name: "Respondent " + index,
             zeroPercentage: zeroPercentage.toFixed(1) // Fixed to 2 decimal places
         };
     }); 
 
-    // console.log("Respondents Data Zero Percent = ", respondentsWithZeroPercent);
+    console.log("Respondents Data Zero Percent = ", respondentsWithZeroPercent);
 
     return (
         <div>
