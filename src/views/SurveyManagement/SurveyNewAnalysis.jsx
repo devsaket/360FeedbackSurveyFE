@@ -587,11 +587,11 @@ const SurveyAnalysis = (props) => {
                         </Card>
 
                         {/* Overview of Respondents & Unable to Rate Weightage */}
-                        <Card className='a4'>
+                        {/* <Card className='a4'>
                             <CardBody>
                                 <SurveyResponseRespondentList surveyResponses={subjectObject} />
                             </CardBody>
-                        </Card>
+                        </Card> */}
 
                         {/* Rank Traits based on average of Self rating */}
                         <Card className='a4'>

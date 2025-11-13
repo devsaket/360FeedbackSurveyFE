@@ -560,11 +560,11 @@ const SurveyAnalysisArabic = () => {
                             </Card>
 
                             {/* Overview of Respondents & Unable to Rate Weightage */}
-                            <Card className=''>
+                            {/* <Card className=''>
                                 <CardBody>
                                     <SurveyResponseRespondentListArabic surveyResponses={subjectObject} />
                                 </CardBody>
-                            </Card>
+                            </Card> */}
 
                             {/* Rank Traits based on average of Self rating */}
                             <Card className='a4'>
